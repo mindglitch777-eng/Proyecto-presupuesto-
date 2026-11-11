@@ -30,6 +30,20 @@ cobro solo por Mercado Pago.
 
 Si un video rompe una de estas reglas, no está terminado.
 
+## Cómo producir un video (y ahorrar tokens)
+
+Cuando te pidan "producí el video NN":
+
+1. Leé **solo**: secciones 0, 4, 6 y 11 de `videos/referencia/CREATIVE_BRIEF.md`, y en `videos/guiones/IDEAS_V3.md` la regla del cuadro 0, la sección 3D y el guion NN. Nada más.
+2. Reutilizá los componentes que ya existen en `videos/src/components`. Creá solo los que falten.
+3. Plan de 10 líneas como máximo y arrancás sin esperar aprobación.
+4. Escribí cada archivo completo de una vez. No releas lo que acabás de escribir. Nada de búsquedas amplias en el repo.
+5. Dependencias nuevas: un solo `npm install` al principio.
+6. Verificá con `npx tsc --noEmit` y 3 imágenes de control (`npx remotion still`: cuadro 0, el del gancho y el del giro). El MP4 lo renderiza GitHub Actions.
+7. Commit, push y un resumen de 3 líneas: qué hiciste y si hay algo que hacer desde el celular.
+
+Criterio creativo: si algo del guion puede ser más loco, más impactante o más claro en el primer segundo, hacelo. 3D con `@remotion/three` y modelos hechos en código, todo determinista.
+
 ## Estado
 
 - [ ] Videos: aviso "La persiana" en Remotion con voz `es-AR-TomasNeural` (ver sección 11 del brief).
