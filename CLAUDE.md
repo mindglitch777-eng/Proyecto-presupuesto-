@@ -46,5 +46,6 @@ Criterio creativo: si algo del guion puede ser más loco, más impactante o más
 
 ## Estado
 
-- [ ] Videos: aviso "La persiana" en Remotion con voz `es-AR-TomasNeural` (ver sección 11 del brief).
+- [x] Videos: aviso "La persiana" renderizado.
+- [ ] Videos: guiones 01 a 08 de `videos/guiones/IDEAS_V3.md`.
 - [ ] App: MVP de En Claro (brief pendiente de subir a `app/BRIEF.md`).
