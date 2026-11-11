@@ -1,0 +1,572 @@
+{
+ "id": "01-la-persiana",
+ "titulo": "La persiana",
+ "duracionSeg": 32,
+ "voz": {
+  "nombre": "es-AR-TomasNeural",
+  "gancho": {
+   "rate": "+25%",
+   "pitch": "+3Hz",
+   "volume": "+20%"
+  },
+  "resto": {
+   "rate": "+15%"
+  }
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "EL PRÓXIMO",
+    "KIOSCO QUE CIERRA",
+    "ES EL TUYO."
+   ],
+   "voz": "¡El próximo kiosco que cierra… es el tuyo!"
+  },
+  {
+   "lineas": [
+    "KIOSQUERO:",
+    "TU KIOSCO",
+    "SE ESTÁ MURIENDO."
+   ],
+   "voz": "¡Kiosquero! Tu kiosco se está muriendo."
+  },
+  {
+   "lineas": [
+    "ALMACENERO:",
+    "MIRÁ ESTO",
+    "ANTES DE CERRAR."
+   ],
+   "voz": "¡Almacenero! Mirá esto antes de cerrar."
+  },
+  {
+   "lineas": [
+    "VENDÉS UN MONTÓN",
+    "Y NO TE QUEDA",
+    "NI PARA REPONER."
+   ],
+   "voz": "Vendés un montón… ¡y no te queda ni para reponer!"
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0,
+   "hasta": 2.4,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 2.7,
+   "hasta": 4.9,
+   "texto": "Cierran hasta setenta kioscos por día. ¿El tuyo es el próximo?",
+   "subtitulo": "Cierran hasta 70 kioscos por día. ¿El tuyo es el próximo?"
+  },
+  {
+   "desde": 5.1,
+   "hasta": 9.3,
+   "texto": "Vendés tres millones. Mercadería, alquiler, luz… te quedan trescientos cincuenta mil.",
+   "subtitulo": "Vendés 3 millones. Mercadería, alquiler, luz… te quedan $350.000."
+  },
+  {
+   "desde": 9.6,
+   "hasta": 11.8,
+   "texto": "Catorce horas por día. Ochocientos treinta y tres pesos la hora.",
+   "subtitulo": "14 horas por día. $833 la hora."
+  },
+  {
+   "desde": 12.1,
+   "hasta": 13.8,
+   "texto": "Y tu cuaderno nunca te lo dijo.",
+   "gigante": true
+  },
+  {
+   "desde": 14.2,
+   "hasta": 15.3,
+   "texto": "Esto sí.",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 16.0,
+   "hasta": 19.2,
+   "texto": "Le hablás… y te hace la cuenta."
+  },
+  {
+   "desde": 19.6,
+   "hasta": 22.8,
+   "texto": "Te dice a quién cobrarle, a cuánto vender y qué no reponer."
+  },
+  {
+   "desde": 23.2,
+   "hasta": 25.9,
+   "texto": "Una foto a la factura, y los carteles listos."
+  },
+  {
+   "desde": 26.4,
+   "hasta": 29.2,
+   "texto": "Cuatrocientos treinta pesos por día. Menos que un alfajor.",
+   "subtitulo": "$430 por día. Menos que un alfajor."
+  },
+  {
+   "desde": 29.8,
+   "hasta": 31.6,
+   "texto": "En Claro. Dejá de adivinar.",
+   "gigante": true,
+   "gancho": true
+  }
+ ],
+ "cuenta": {
+  "vendes": 3000000,
+  "gastos": [
+   [
+    6.0,
+    2100000,
+    "Mercadería",
+    "caja"
+   ],
+   [
+    6.7,
+    400000,
+    "Alquiler",
+    "llave"
+   ],
+   [
+    7.4,
+    90000,
+    "Luz",
+    "foco"
+   ],
+   [
+    8.1,
+    60000,
+    "Otros",
+    "ticket"
+   ]
+  ],
+  "te_quedan": 350000,
+  "por_hora": 833
+ },
+ "fuente": "Fuente: UKRA, vía Cadena 3 · marzo 2026",
+ "sonidos": [
+  {
+   "en": 0.0,
+   "sfx": "slam"
+  },
+  {
+   "en": 0.4,
+   "sfx": "slam"
+  },
+  {
+   "en": 0.75,
+   "sfx": "slam"
+  },
+  {
+   "en": 1.15,
+   "sfx": "thump"
+  },
+  {
+   "en": 1.16,
+   "sfx": "glitch"
+  },
+  {
+   "en": 1.2,
+   "sfx": "lock"
+  },
+  {
+   "en": 1.55,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 1.65,
+   "sfx": "heart"
+  },
+  {
+   "en": 2.1,
+   "sfx": "heart"
+  },
+  {
+   "en": 2.62,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 3.0,
+   "sfx": "click"
+  },
+  {
+   "en": 3.08,
+   "sfx": "click"
+  },
+  {
+   "en": 3.16,
+   "sfx": "click"
+  },
+  {
+   "en": 3.24,
+   "sfx": "click"
+  },
+  {
+   "en": 3.32,
+   "sfx": "click"
+  },
+  {
+   "en": 3.4,
+   "sfx": "click"
+  },
+  {
+   "en": 3.48,
+   "sfx": "click"
+  },
+  {
+   "en": 3.56,
+   "sfx": "click"
+  },
+  {
+   "en": 3.64,
+   "sfx": "click"
+  },
+  {
+   "en": 3.72,
+   "sfx": "click"
+  },
+  {
+   "en": 3.8,
+   "sfx": "click"
+  },
+  {
+   "en": 3.88,
+   "sfx": "click"
+  },
+  {
+   "en": 3.96,
+   "sfx": "click"
+  },
+  {
+   "en": 4.04,
+   "sfx": "click"
+  },
+  {
+   "en": 4.1,
+   "sfx": "thump"
+  },
+  {
+   "en": 4.12,
+   "sfx": "click"
+  },
+  {
+   "en": 4.2,
+   "sfx": "click"
+  },
+  {
+   "en": 4.28,
+   "sfx": "click"
+  },
+  {
+   "en": 4.36,
+   "sfx": "click"
+  },
+  {
+   "en": 4.44,
+   "sfx": "click"
+  },
+  {
+   "en": 4.52,
+   "sfx": "click"
+  },
+  {
+   "en": 5,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 5.05,
+   "sfx": "tic"
+  },
+  {
+   "en": 5.12,
+   "sfx": "tic"
+  },
+  {
+   "en": 5.19,
+   "sfx": "tic"
+  },
+  {
+   "en": 5.26,
+   "sfx": "tic"
+  },
+  {
+   "en": 5.33,
+   "sfx": "tic"
+  },
+  {
+   "en": 5.4,
+   "sfx": "tic"
+  },
+  {
+   "en": 5.47,
+   "sfx": "tic"
+  },
+  {
+   "en": 5.54,
+   "sfx": "tic"
+  },
+  {
+   "en": 5.61,
+   "sfx": "tic"
+  },
+  {
+   "en": 5.68,
+   "sfx": "tic"
+  },
+  {
+   "en": 5.7,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 6,
+   "sfx": "metal"
+  },
+  {
+   "en": 6.4,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 6.7,
+   "sfx": "metal"
+  },
+  {
+   "en": 6.95,
+   "sfx": "buzz"
+  },
+  {
+   "en": 7.1,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 7.4,
+   "sfx": "metal"
+  },
+  {
+   "en": 7.8,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 8.1,
+   "sfx": "metal"
+  },
+  {
+   "en": 8.6,
+   "sfx": "coins"
+  },
+  {
+   "en": 8.95,
+   "sfx": "buzz"
+  },
+  {
+   "en": 9.6,
+   "sfx": "metal"
+  },
+  {
+   "en": 9.9,
+   "sfx": "spray"
+  },
+  {
+   "en": 9.9,
+   "sfx": "glitch"
+  },
+  {
+   "en": 10.2,
+   "sfx": "heart"
+  },
+  {
+   "en": 10.9,
+   "sfx": "heart"
+  },
+  {
+   "en": 11.1,
+   "sfx": "buzz"
+  },
+  {
+   "en": 11.6,
+   "sfx": "heart"
+  },
+  {
+   "en": 12,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 12.55,
+   "sfx": "buzz"
+  },
+  {
+   "en": 13.2,
+   "sfx": "thump"
+  },
+  {
+   "en": 13.3,
+   "sfx": "riser"
+  },
+  {
+   "en": 14.2,
+   "sfx": "thump"
+  },
+  {
+   "en": 14.25,
+   "sfx": "caja"
+  },
+  {
+   "en": 16,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 18.0,
+   "sfx": "tic"
+  },
+  {
+   "en": 18.08,
+   "sfx": "tic"
+  },
+  {
+   "en": 18.16,
+   "sfx": "tic"
+  },
+  {
+   "en": 18.24,
+   "sfx": "tic"
+  },
+  {
+   "en": 18.32,
+   "sfx": "tic"
+  },
+  {
+   "en": 18.4,
+   "sfx": "tic"
+  },
+  {
+   "en": 18.48,
+   "sfx": "tic"
+  },
+  {
+   "en": 18.56,
+   "sfx": "tic"
+  },
+  {
+   "en": 18.64,
+   "sfx": "tic"
+  },
+  {
+   "en": 18.72,
+   "sfx": "tic"
+  },
+  {
+   "en": 18.8,
+   "sfx": "coins"
+  },
+  {
+   "en": 19.8,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 20.4,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 21,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 23.3,
+   "sfx": "riser"
+  },
+  {
+   "en": 24.3,
+   "sfx": "tic"
+  },
+  {
+   "en": 24.52,
+   "sfx": "tic"
+  },
+  {
+   "en": 24.74,
+   "sfx": "tic"
+  },
+  {
+   "en": 24.9,
+   "sfx": "coins"
+  },
+  {
+   "en": 25,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 26.35,
+   "sfx": "thump"
+  },
+  {
+   "en": 26.35,
+   "sfx": "glitch"
+  },
+  {
+   "en": 26.4,
+   "sfx": "tic"
+  },
+  {
+   "en": 26.49,
+   "sfx": "tic"
+  },
+  {
+   "en": 26.58,
+   "sfx": "tic"
+  },
+  {
+   "en": 26.67,
+   "sfx": "tic"
+  },
+  {
+   "en": 26.76,
+   "sfx": "tic"
+  },
+  {
+   "en": 26.8,
+   "sfx": "riser"
+  },
+  {
+   "en": 26.85,
+   "sfx": "tic"
+  },
+  {
+   "en": 26.94,
+   "sfx": "tic"
+  },
+  {
+   "en": 27.03,
+   "sfx": "tic"
+  },
+  {
+   "en": 27.2,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 28,
+   "sfx": "caja"
+  },
+  {
+   "en": 28.5,
+   "sfx": "thump"
+  },
+  {
+   "en": 29.5,
+   "sfx": "riser"
+  },
+  {
+   "en": 29.8,
+   "sfx": "rattle"
+  },
+  {
+   "en": 30.2,
+   "sfx": "caja"
+  },
+  {
+   "en": 30.6,
+   "sfx": "thump"
+  }
+ ]
+}
