@@ -20,6 +20,11 @@ cobro solo por Mercado Pago.
     cada elemento desde el tiempo, igual que `useCurrentFrame()`: portalo a Remotion sin adivinar.
 - `app/` — (todavía no existe) el MVP de En Claro en Next.js + Supabase + Mercado Pago + Netlify.
 
+## Voz de los videos (decisión del dueño)
+
+Todos los videos usan la voz argentina **es-AR-TomasNeural** (Tomás), generada con `videos/scripts/voz.py`
+en GitHub Actions. Reemplaza a la voz del creador que menciona la sección 1 del brief.
+
 ## Reglas de oro de los videos (no negociables)
 
 1. Cuadro 0 = kiosco + amenaza: se reconoce al instante que es para dueños de kiosco o almacén.
