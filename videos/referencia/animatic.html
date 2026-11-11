@@ -1,0 +1,624 @@
+<title>En Claro Animatic</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;700;800;900&family=Permanent+Marker&display=swap">
+<style>
+/* Layout: el aviso vertical manda; al lado (o debajo en celular) las escenas; abajo la biblia creativa */
+:root{
+  --bg:#06140D; --bg2:#0E2A1C; --card:#143723; --line:#24503A;
+  --fg:#F2F7F3; --mut:#9DB8A8; --y:#FFB703; --r:#FF4D5A; --g:#5FD39A;
+  --disp:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5;margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 56px}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:28px}
+h1,h2,h3{font-family:var(--disp);margin:0;text-wrap:balance}
+h1{font-size:clamp(26px,6vw,40px);line-height:1.05}
+h2{font-size:22px}
+h3{font-size:16px}
+p{margin:0}
+.mut{color:var(--mut)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--y);font-weight:700}
+header{display:grid;gap:8px}
+.lead{color:var(--mut);max-width:64ch}
+.player{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:760px){.player{grid-template-columns:1fr}}
+.frame{width:100%;max-width:380px;margin:0 auto;aspect-ratio:9/16;border-radius:22px;overflow:hidden;position:relative;background:#000;box-shadow:0 30px 60px #000a,0 0 0 1px var(--line)}
+.stage{position:absolute;left:0;top:0;width:360px;height:640px;transform-origin:0 0;overflow:hidden;font-family:var(--body);color:#fff}
+.stage *{position:absolute}
+.ctrls{display:grid;gap:10px;margin-top:12px}
+.row1{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{background:var(--y);color:#1A1200;border:0;border-radius:999px;padding:9px 16px;font:800 14px var(--body);cursor:pointer;white-space:nowrap}
+.btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.btn:focus-visible,input:focus-visible,.sc:focus-visible,.hk:focus-visible{outline:2px solid var(--y);outline-offset:2px}
+input[type=range]{width:100%;accent-color:#FFB703}
+.time{font-variant-numeric:tabular-nums;font-size:12px;color:var(--mut);margin-left:auto}
+.hooks{display:flex;gap:6px;flex-wrap:wrap}
+.hk{background:var(--bg2);border:1px solid var(--line);color:var(--fg);border-radius:10px;padding:7px 10px;font:600 12px var(--body);cursor:pointer;text-align:left}
+.hk[aria-pressed="true"]{border-color:var(--y);color:var(--y)}
+.side{display:grid;gap:12px}
+.scenes{display:grid;gap:6px}
+.sc{display:grid;grid-template-columns:30px 66px 1fr;gap:8px;align-items:start;text-align:left;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:9px 10px;color:var(--fg);font:inherit;cursor:pointer}
+.sc.on{border-color:var(--y);background:var(--card)}
+.sc .n{font-family:var(--disp);font-weight:700;color:var(--y)}
+.sc .t{font-size:12px;color:var(--mut);font-variant-numeric:tabular-nums}
+.sc b{display:block;font-size:14px}
+.sc span.d{display:block;font-size:12px;color:var(--mut)}
+.sc .bar{grid-column:1/-1;height:3px;background:#ffffff14;border-radius:3px;overflow:hidden;position:relative}
+.sc .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--y)}
+section{display:grid;gap:14px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:6px;align-content:start;min-width:0}
+.card .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--y);font-weight:700}
+.big{font-family:var(--disp);font-size:20px;font-weight:700}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:#000;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--y)}
+.spec{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.spec div{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px}
+.spec b{display:block;font-family:var(--disp);font-size:19px}
+.spec span{font-size:12px;color:var(--mut)}
+.check{display:grid;gap:6px}
+.check label{display:flex;gap:10px;align-items:flex-start;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;font-size:14px}
+.check input{accent-color:#FFB703;width:18px;height:18px;margin-top:2px;flex:0 0 auto}
+.note{border-left:3px solid var(--y);background:var(--bg2);border-radius:8px;padding:12px 14px;font-size:14px}
+.arc{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.arc div{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;gap:6px}
+.arc .meter{height:54px;border-radius:6px;background:#2a1d10;position:relative;overflow:hidden;border:1px solid var(--line)}
+.arc .meter i{position:absolute;left:0;right:0;top:0;background:repeating-linear-gradient(#8d949a 0 5px,#5d6469 5px 7px)}
+.arc span{font-size:12px;color:var(--mut)}
+.arc b{font-size:13px}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">En Claro · Aviso principal · 32 s · versión 3</span>
+  <h1>La persiana</h1>
+  <p class="lead">Arranca con tres persianas que caen de golpe y una mira que apunta a la tuya. Desde el primer cuadro se ve un kiosco y se le habla al kiosquero. La persiana cuenta la historia: baja con cada dolor y sube con la solución. Tocá reproducir con el sonido activado, probá los cuatro ganchos o saltá a cualquier escena.</p>
+</header>
+
+<div class="player">
+  <div>
+    <div class="frame" id="frame"><div class="stage" id="stage">
+      <div id="bg" style="inset:0"></div>
+
+      <!-- ===== CALLE: 4 kioscos, tres cierran de golpe, el cuarto es el tuyo ===== -->
+      <div id="street" style="left:0;top:200px;width:720px;height:880px;transform-origin:0 0"></div>
+      <!-- ===== KIOSCO (se usa en casi todo el aviso) ===== -->
+      <div id="k" style="left:0;top:200px;width:360px;height:440px;transform-origin:90px 370px">
+        <div id="sign" class="signE" style="left:40px;right:40px;top:0;height:34px;background:#1a1a1a;border-radius:6px 6px 0 0;display:grid;place-items:center;font:900 17px var(--disp);letter-spacing:.14em">KIOSCO · ALMACÉN</div>
+        <div style="left:0;right:0;top:34px;height:40px;background:repeating-linear-gradient(90deg,#1B7A43 0 26px,#F2F2EA 26px 52px);box-shadow:0 6px 10px #0006"></div>
+        <div style="left:0;right:0;top:72px;height:12px;background:radial-gradient(circle at 13px 0,#1B7A43 12px,transparent 13px) 0 0/52px 12px,radial-gradient(circle at 39px 0,#F2F2EA 12px,transparent 13px) 0 0/52px 12px"></div>
+        <div style="left:0;right:0;top:84px;height:356px;background:#B9A586;background-image:repeating-linear-gradient(#B9A586 0 18px,#A8937A 18px 19px)"></div>
+        <div id="tube" class="tubeE" style="left:70px;right:70px;top:86px;height:5px;border-radius:3px;background:#fff;box-shadow:0 0 16px #fff,0 0 4px #fff"></div>
+        <!-- vidriera -->
+        <div id="win" style="left:22px;top:96px;width:316px;height:250px;background:#120f0c;border:5px solid #3b3b3b;border-radius:3px;overflow:hidden">
+          <div id="warm" class="warmE" style="inset:0;background:radial-gradient(circle at 40% 20%,#ffcf7a55,transparent 70%)"></div>
+          <div id="motes" style="inset:0"></div>
+          <div id="shelves" style="left:8px;top:0;width:200px;height:240px"></div>
+          <div id="fridge" style="left:216px;top:10px;width:86px;height:226px;border-radius:6px;background:#B5121B;box-shadow:0 0 0 3px #7d0b12">
+            <div style="left:6px;right:6px;top:6px;height:22px;display:grid;place-items:center;font:900 13px var(--disp);color:#fff;font-style:italic">Bebidas</div>
+            <div id="fglass" style="left:6px;right:6px;top:32px;bottom:8px;border-radius:4px;background:#bfe9ff;overflow:hidden"></div>
+          </div>
+          <div id="pers" class="persE" style="left:0;right:0;top:0;height:0;background:repeating-linear-gradient(#9aa1a6 0 9px,#6c7378 9px 12px);box-shadow:0 6px 12px #000a">
+            <div style="left:0;right:0;bottom:0;height:10px;background:#555"></div>
+            <div id="cerrado" class="cerrE" style="left:108px;bottom:-56px;width:90px;height:44px;background:#fff;color:#C1121F;border:3px solid #C1121F;border-radius:4px;display:grid;place-items:center;font:900 15px var(--disp);transform-origin:50% -12px"><span style="position:static">CERRADO</span><i style="left:42px;top:-14px;width:2px;height:14px;background:#333"></i></div>
+            <div id="spray" class="sprayE" style="left:0;right:0;top:38%;text-align:center;font:400 62px/1 'Permanent Marker',cursive;color:#FF2D3B;transform:rotate(-6deg)">$833<span style="position:static;font-size:28px;color:#fff">/hora</span></div>
+          </div>
+        </div>
+        <!-- mostrador -->
+        <div style="left:8px;right:8px;top:346px;height:52px;background:linear-gradient(#8a5a33,#6b4325);border-radius:4px;box-shadow:0 -3px 0 #a87347 inset"></div>
+        <div id="kb" style="left:60px;top:334px;width:62px;height:22px;background:#2C4A8C;border-radius:3px;transform:rotate(-6deg)"><span style="position:static;display:block;font:700 7px/22px var(--body);text-align:center;color:#fff">FIADOS</span></div>
+        <div style="left:240px;top:316px;width:76px;height:40px;background:#3a3a3a;border-radius:6px 6px 2px 2px"><div style="left:8px;right:8px;top:6px;height:12px;background:#8fd18f;border-radius:2px"></div></div>
+        <div style="left:0;right:0;top:398px;height:42px;background:repeating-linear-gradient(90deg,#8d8d8d 0 40px,#777 40px 41px)"></div>
+      </div>
+
+      <!-- oscurecido superior para textos -->
+      <div id="topfade" style="left:0;right:0;top:0;height:250px;background:linear-gradient(#000e,#000a 60%,transparent)"></div>
+
+      <!-- ===== S1 gancho ===== -->
+      <div id="hookL" style="left:16px;right:16px;top:56px;height:150px"></div>
+      <div id="ret" style="left:200px;top:460px;width:140px;height:140px">
+        <div id="retRing" style="inset:0;border-radius:50%;border:3px dashed #FF2D3B"></div>
+        <div style="inset:18px;border-radius:50%;border:3px solid #FF2D3B;box-shadow:0 0 18px #FF2D3B"></div>
+        <div style="left:68px;top:-14px;width:4px;height:40px;background:#FF2D3B"></div><div style="left:68px;bottom:-14px;width:4px;height:40px;background:#FF2D3B"></div>
+        <div style="top:68px;left:-14px;height:4px;width:40px;background:#FF2D3B"></div><div style="top:68px;right:-14px;height:4px;width:40px;background:#FF2D3B"></div>
+        <div style="left:34px;top:146px;padding:3px 10px;border-radius:6px;background:#FF2D3B;font:900 13px var(--disp);letter-spacing:.1em">EL TUYO</div>
+      </div>
+
+      <!-- ===== S2 cierres ===== -->
+      <div id="grid" style="left:0;top:0;width:360px;height:640px;background:#07110c"></div>
+      <div id="gHead" style="left:20px;right:20px;top:66px;font:900 30px/1.05 var(--disp)">Cierran hasta <span style="position:static;color:#FF4D5A" id="gN">70</span> kioscos por día</div>
+      <div id="gSrc" style="left:20px;bottom:120px;font:600 11px var(--body);color:#ffffffaa">Fuente: UKRA, vía Cadena 3 · marzo 2026</div>
+      <div id="gQ" style="left:20px;right:20px;top:470px;text-align:center;font:900 34px var(--disp);color:#FFB703">¿El tuyo es el próximo?</div>
+
+      <!-- ===== S3 cuenta ===== -->
+      <div id="vLbl" style="left:20px;top:66px;font:800 12px var(--body);letter-spacing:.1em;color:#ffffffaa">VENDÉS POR MES</div>
+      <div id="num" style="left:16px;top:86px;font:900 54px/1 var(--disp);letter-spacing:-.02em;font-variant-numeric:tabular-nums">$0</div>
+      <div id="qLbl" style="left:20px;top:150px;font:800 14px var(--body);color:#FFB703">te quedan</div>
+      <div id="chips" style="left:0;top:0;width:360px;height:640px"></div>
+      <div id="ej" style="right:16px;top:70px;font:600 10px var(--body);letter-spacing:.1em;text-transform:uppercase;color:#ffffff88;border:1px solid #ffffff44;border-radius:5px;padding:2px 6px">ejemplo</div>
+
+      <!-- ===== S4 herida ===== -->
+      <div id="hTop" style="left:20px;right:20px;top:70px;font:900 30px/1.05 var(--disp)">14 horas por día.<br><span style="position:static;color:#FF4D5A">Para esto.</span></div>
+
+      <!-- ===== S5 cuaderno ===== -->
+      <div id="t4" style="left:20px;right:20px;top:70px;font:900 32px/1.05 var(--disp)"></div>
+      <div id="nb" style="left:70px;top:250px;width:220px;height:170px">
+        <div style="left:0;top:0;width:110px;height:170px;background:#F4EBD3;border-radius:6px 0 0 6px;background-image:repeating-linear-gradient(#F4EBD3 0 17px,#9FB6D6 17px 18px);box-shadow:0 20px 40px #000a">
+          <div style="left:8px;top:6px;font:400 13px/18px 'Permanent Marker',cursive;color:#2C3E70;white-space:pre">FIADOS
+Marta   18.000
+Juan     7.500
+Rosa    12.300
+Gaseos  ¿?
+Luz     ...</div></div>
+        <div id="nbR" style="left:110px;top:0;width:110px;height:170px;border-radius:0 6px 6px 0;transform-origin:0 50%"></div>
+        <div style="left:105px;top:6px;width:10px;height:158px;background:repeating-linear-gradient(#444 0 4px,transparent 4px 10px)"></div>
+      </div>
+
+      <!-- ===== S6+ solución ===== -->
+      <div id="kick" style="left:20px;top:66px;font:800 12px var(--body);letter-spacing:.12em;color:#FFB703">EN CLARO</div>
+      <div id="sTitle" style="left:20px;right:20px;top:84px;font:900 30px/1.05 var(--disp)"></div>
+      <div id="t5" style="left:0;right:0;top:110px;text-align:center;font:900 96px/1 var(--disp);color:#FFB703">Esto sí.</div>
+      <div id="cards" style="left:0;top:0;width:360px;height:640px;perspective:800px"></div>
+      <div id="phoneWrap" style="left:85px;top:170px;width:190px;height:390px;perspective:900px">
+        <div id="phone" style="inset:0;border-radius:30px;background:#0b0b0b;box-shadow:0 30px 60px #000c,inset 0 0 0 2px #2a2a2a;transform-style:preserve-3d">
+          <div style="left:8px;top:8px;right:8px;bottom:8px;border-radius:23px;overflow:hidden;background:#0E2A1C">
+            <div style="left:60px;right:60px;top:6px;height:16px;border-radius:9px;background:#000;z-index:3"></div>
+            <div id="scr1" style="inset:0"></div>
+            <div id="scr2" style="inset:0"></div>
+            <div id="scr3" style="inset:0"></div>
+          </div>
+        </div>
+      </div>
+      <div id="cartel" style="left:60px;top:150px;width:200px;padding:14px;background:#fff;color:#111;border-radius:6px;box-shadow:0 20px 40px #0009;text-align:center">
+        <div style="position:static;font:800 14px var(--disp);letter-spacing:.06em">COCA-COLA 500 ML</div>
+        <div style="position:static;font:900 54px/1 var(--disp);color:#C1121F">$2.160</div>
+        <div style="position:static;font:600 10px var(--body);color:#555">precio actualizado · hecho con En Claro</div>
+      </div>
+
+      <!-- ===== precio ===== -->
+      <div id="loss" style="left:20px;right:20px;top:70px">
+        <div style="position:static;font:800 12px var(--body);color:#ffffffaa;letter-spacing:.1em">LO QUE PERDÉS POR MES SIN SABERLO</div>
+        <div id="lossN" style="position:static;font:900 58px/1.05 var(--disp);color:#FF4D5A;font-variant-numeric:tabular-nums">−$45.000</div>
+      </div>
+      <div id="price" style="left:30px;right:30px;top:260px;padding:20px 16px;border-radius:22px;background:linear-gradient(160deg,#ffffff2a,#ffffff0a);border:1px solid #ffffff44;box-shadow:0 20px 50px #000a,inset 0 1px 0 #ffffff55;backdrop-filter:blur(12px)">
+        <div style="position:static;font:800 12px var(--body);color:#ffffffbb;letter-spacing:.1em">EN CLARO CUESTA</div>
+        <div style="position:static;display:flex;align-items:flex-end;gap:8px"><span id="priceN" style="position:static;font:900 76px/1 var(--disp);color:#FFB703;font-variant-numeric:tabular-nums">$430</span><span style="position:static;font:800 18px var(--body);padding-bottom:10px">por día</span></div>
+        <div id="alfajor" style="position:static;display:flex;align-items:center;gap:10px;margin-top:10px;font:800 16px var(--body)">
+          <span style="position:relative;width:54px;height:30px;border-radius:15px;background:#5a3216;display:inline-block;box-shadow:inset 0 -4px 0 #3d200c"><i style="left:4px;right:4px;top:12px;height:5px;background:#f4e3c3;border-radius:3px"></i></span>
+          Menos que un alfajor
+        </div>
+      </div>
+      <div id="badge" style="left:60px;right:60px;top:470px;padding:11px;border-radius:999px;background:#FFB703;color:#1A1200;text-align:center;font:900 15px var(--body)">14 días gratis · sin tarjeta</div>
+
+      <!-- ===== firma ===== -->
+      <div id="logo" style="left:20px;top:64px;display:flex;align-items:center;gap:10px">
+        <div style="position:relative;width:44px;height:44px;border-radius:12px;background:#FFB703">
+          <div style="left:10px;right:10px;top:15px;height:4px;border-radius:3px;background:#06140D"></div>
+          <div style="left:10px;right:17px;top:24px;height:4px;border-radius:3px;background:#06140D"></div>
+        </div>
+        <div style="position:static;font:900 38px/1 var(--disp);letter-spacing:-.02em">En Claro</div>
+      </div>
+      <div id="tag" style="left:20px;right:20px;top:122px;font:900 30px var(--disp)"></div>
+      <div id="cta" style="left:40px;right:40px;top:560px;padding:12px;border-radius:999px;background:#FFB703;text-align:center;font:900 15px var(--body);color:#1A1200;overflow:hidden;box-shadow:0 10px 30px #FFB70355">Probalo gratis · link en el perfil<i id="shine" style="top:0;bottom:0;width:40px;background:linear-gradient(90deg,transparent,#ffffffaa,transparent);font-style:normal"></i></div>
+
+      <!-- capas globales -->
+      <canvas id="grain" width="180" height="320" style="inset:0;width:360px;height:640px;opacity:.1;mix-blend-mode:overlay;pointer-events:none"></canvas>
+      <div style="inset:0;background:radial-gradient(circle at 50% 45%,transparent 50%,#0009 100%);pointer-events:none"></div>
+      <div id="leak" style="inset:-40px;pointer-events:none;mix-blend-mode:screen"></div>
+      <div id="flash" style="inset:0;background:#FF4D5A;pointer-events:none"></div>
+      <div id="wflash" style="inset:0;background:#fff;pointer-events:none"></div>
+      <div id="dust" style="inset:0;pointer-events:none"></div>
+      <div id="caps" style="left:16px;right:16px;top:486px;text-align:center"></div>
+      <div id="black" style="inset:0;background:#000;pointer-events:none"></div>
+    </div></div>
+    <div class="ctrls">
+      <div class="row1">
+        <button class="btn" id="play">▶ Reproducir</button>
+        <button class="btn ghost" id="snd" aria-pressed="false">🔇 Sonido</button>
+        <span class="time" id="time">0,0 s · cuadro 0</span>
+      </div>
+      <input type="range" id="scrub" min="0" max="32" step="0.01" value="0" aria-label="Posición del video">
+    </div>
+  </div>
+  <div class="side">
+    <div><h3 style="margin-bottom:6px">Probá el gancho</h3><div class="hooks" id="hooks"></div></div>
+    <div class="scenes" id="scenes"></div>
+  </div>
+</div>
+
+<section>
+  <h2>Reglas de oro</h2>
+  <p class="lead">Valen para todo video de En Claro, de ahora en adelante.</p>
+  <div class="cards">
+    <div class="card"><span class="k">1 · Cuadro 0</span><p class="big">Kiosco + amenaza, al instante</p><p class="mut">En el primer cuadro se ve un kiosco o almacén y una amenaza directa. El dueño se reconoce antes de leer: "esto es para mí".</p></div>
+    <div class="card"><span class="k">2 · Los primeros 0,3 s</span><p class="big">Entra con toda la polenta</p><p class="mut">Voz a todo pulmón, golpe de sonido, temblor, destello y palabras que caen gigantes. La animación tiene la misma fuerza que la voz.</p></div>
+    <div class="card"><span class="k">3 · Nunca quieto</span><p class="big">Algo pasa cada 0,7 s</p><p class="mut">Siempre hay movimiento: una persiana, un tubo que parpadea, polvo en la luz, un número que rueda, la cámara que empuja. Ni un segundo de pantalla muerta.</p></div>
+    <div class="card"><span class="k">4 · Todo suena</span><p class="big">Cada cosa que se ve, se escucha</p><p class="mut">Persiana: golpe metálico. Kiosquito que se apaga: clic. Tensión: latido. Tubo: zumbido. Plata: caja registradora y monedas. Mira: bip de fijación.</p></div>
+    <div class="card"><span class="k">5 · Comparaciones que pegan</span><p class="big">Mostrar, no explicar</p><p class="mut">Tres persianas que caen y la cuarta es la tuya. Cada gasto que baja tu persiana. $833 la hora pintado con aerosol. $430 al lado de un alfajor.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>El arco de la persiana</h2>
+  <p class="lead">La persiana es el hilo visual de la serie entera: cualquier video de En Claro la puede usar.</p>
+  <div class="arc" id="arc"></div>
+</section>
+
+<section>
+  <h2>Reglas de movimiento</h2>
+  <div class="cards">
+    <div class="card"><span class="k">Nicho</span><h3>Kiosco visible desde el cuadro 0</h3><p class="mut">Objetos del rubro siempre en pantalla: toldo, heladera, góndola, cuaderno, persiana. Más un llamado directo: "Kiosquero:", "Almacenero:".</p></div>
+    <div class="card"><span class="k">Densidad</span><h3>60% de la pantalla con contenido</h3><p class="mut">Mensaje en el tercio de arriba, escena en el resto. Nunca un número solo sobre un fondo.</p></div>
+    <div class="card"><span class="k">Rebote</span><h3>Todo entra con resorte</h3><p class="mut"><code>spring</code> con damping 12 y stiffness 180. Nada aparece en línea recta.</p></div>
+    <div class="card"><span class="k">Golpe</span><h3>Cada pérdida pega</h3><p class="mut">Temblor de 10 px, destello rojo, golpe de bajo y la persiana que cae con rebote metálico.</p></div>
+    <div class="card"><span class="k">Ritmo</span><h3>Algo cambia cada 1,5 s</h3><p class="mut">La cámara siempre se mueve: empuje lento, zoom al mostrador, desenfoque detrás del celular.</p></div>
+    <div class="card"><span class="k">Color</span><h3>Amarillo es plata, rojo es pérdida</h3><p class="mut">Y la luz cálida del kiosco se apaga con el dolor y se prende con la solución.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Ficha técnica</h2>
+  <div class="spec">
+    <div><b>1080 × 1920</b><span>vertical 9:16</span></div>
+    <div><b>30 fps</b><span>960 cuadros en 32 s</span></div>
+    <div><b>H.264</b><span>MP4, calidad alta</span></div>
+    <div><b>−14 LUFS</b><span>volumen normalizado</span></div>
+    <div><b>Zona segura</b><span>10% arriba · 18% abajo</span></div>
+    <div><b>Space Grotesk</b><span>títulos y números</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>Listo cuando</h2>
+  <p class="lead">Para revisar el primer render. Las marcas quedan guardadas solo en este navegador.</p>
+  <div class="check" id="check"></div>
+</section>
+
+<section>
+  <h2>Para el repositorio</h2>
+  <div class="note">En el chat están <b>CREATIVE_BRIEF.md</b> y <b>animatic.html</b> actualizados a esta versión. Reemplazá los de <code>videos/referencia/</code> y arrancá con: "Leé videos/referencia/CREATIVE_BRIEF.md y el animatic, y entrá en modo plan."</div>
+</section>
+</div>
+
+<script>
+const clamp=(x,a,b)=>Math.min(b,Math.max(a,x));
+const eOut=p=>1-Math.pow(1-p,3), eIn=p=>p*p*p, eIO=p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+const bounce=p=>{const n=7.5625,d=2.75;if(p<1/d)return n*p*p;if(p<2/d)return n*(p-=1.5/d)*p+.75;if(p<2.5/d)return n*(p-=2.25/d)*p+.9375;return n*(p-=2.625/d)*p+.984375;};
+function I(t,a,b,c,d,e=eOut){const p=clamp((t-a)/(b-a),0,1);return c+(d-c)*e(p);}
+function spring(dt,w=14,z=.45){if(dt<=0)return 0;const wd=w*Math.sqrt(1-z*z);return 1-Math.exp(-z*w*dt)*(Math.cos(wd*dt)+(z*w/wd)*Math.sin(wd*dt));}
+function win(t,a,b,fi=.2,fo=.2){return Math.min(I(t,a,a+fi,0,1,x=>x),I(t,b-fo,b,1,0,x=>x));}
+const ars=n=>"$"+Math.round(n).toLocaleString("es-AR");
+const $=id=>document.getElementById(id);
+const st=(id,o)=>{const e=typeof id==="string"?$(id):id;for(const k in o)e.style[k]=o[k];};
+const D=32;
+
+/* ===== ganchos ===== */
+const HOOKS=[
+ [["EL PRÓXIMO","KIOSCO QUE CIERRA","ES EL TUYO."],"¡El próximo kiosco que cierra… es el tuyo!"],
+ [["KIOSQUERO:","TU KIOSCO","SE ESTÁ MURIENDO."],"¡Kiosquero! Tu kiosco se está muriendo."],
+ [["ALMACENERO:","MIRÁ ESTO","ANTES DE CERRAR."],"¡Almacenero! Mirá esto antes de cerrar."],
+ [["VENDÉS UN MONTÓN","Y NO TE QUEDA","NI PARA REPONER."],"Vendés un montón… ¡y no te queda ni para reponer!"]];
+const SLAM=[.05,.4,.75,1.15];
+let hookI=0;
+$("hooks").innerHTML=HOOKS.map((h,i)=>`<button class="hk" data-i="${i}" aria-pressed="${i===0}">${h[0].join(" ")}</button>`).join("");
+document.querySelectorAll(".hk").forEach(b=>b.onclick=()=>{hookI=+b.dataset.i;document.querySelectorAll(".hk").forEach(x=>x.setAttribute("aria-pressed",x===b));buildHook();VO[0][2]=HOOKS[hookI][1];pause();seek(0);play();});
+function buildHook(){const L=HOOKS[hookI][0];$("hookL").innerHTML=L.map((l,i)=>`<div class="hl" style="left:0;right:0;top:${i===2?82:i*40}px;font:900 ${Math.min(i===2?50:36,Math.floor(328/(l.length*.62)))}px/1 var(--disp);letter-spacing:-.02em;color:${i===2?"#FF2D3B":"#fff"};text-shadow:0 4px 0 #000,0 0 30px #000;transform-origin:0 50%;white-space:nowrap">${l}</div>`).join("");}
+
+/* ===== escenas y voz ===== */
+const SC=[
+ [0,2.6,"El gancho","Tres persianas caen de golpe; la mira apunta a la tuya","Calle · Persiana · Mira · Golpe"],
+ [2.6,5,"La amenaza","70 kiosquitos que se apagan uno por uno","GrillaDeCierres · Fuente"],
+ [5,9.5,"La cuenta","Cada gasto baja la persiana y vacía la góndola","Kiosco · RestaEnCascada · Persiana"],
+ [9.5,12,"La herida","$833/hora pintado en la persiana; cartel de CERRADO","Persiana · Glitch"],
+ [12,14,"El cuaderno","Zoom al mostrador; el cuaderno de fiados se cierra","ObjetoIlustrado · Cámara"],
+ [14,16,"Esto sí","Destello y el celular entra delante del kiosco","Transiciones · Celular3D"],
+ [16,19.5,"Le hablás","La voz arma el cierre del día","PantallaApp (voz)"],
+ [19.5,23,"Te avisa","Tres tarjetas de vidrio salen del celular","InterfazExplotada"],
+ [23,26.3,"La foto","Factura escaneada, precios que giran, cartel","PantallaApp (foto) · Cartel"],
+ [26.3,29.5,"El precio","Pérdida en rojo, $430 junto a un alfajor","TarjetaPrecio"],
+ [29.5,32,"La persiana sube","Luces, góndola llena, logo y llamado","Kiosco · Cierre"]];
+const VO=[
+ [0,2.4,HOOKS[0][1],1],
+ [2.7,4.9,"Cierran hasta setenta kioscos por día. ¿El tuyo es el próximo?"],
+ [5.1,9.3,"Vendés tres millones. Mercadería, alquiler, luz… te quedan trescientos cincuenta mil."],
+ [9.6,11.8,"Catorce horas por día. Ochocientos treinta y tres pesos la hora."],
+ [12.1,13.8,"Y tu cuaderno nunca te lo dijo.",1],
+ [14.2,15.3,"Esto sí.",1],
+ [16.0,19.2,"Le hablás… y te hace la cuenta."],
+ [19.6,22.8,"Te dice a quién cobrarle, a cuánto vender y qué no reponer."],
+ [23.2,25.9,"Una foto a la factura, y los carteles listos."],
+ [26.4,29.2,"Cuatrocientos treinta pesos por día. Menos que un alfajor."],
+ [29.8,31.6,"En Claro. Dejá de adivinar.",1]];
+
+$("scenes").innerHTML=SC.map((s,i)=>`<button class="sc" data-i="${i}"><span class="n">${i+1}</span><span class="t">${s[0].toFixed(1).replace(".",",")}–${s[1].toFixed(1).replace(".",",")} s</span><span><b>${s[2]}</b><span class="d">${s[3]}</span><span class="d" style="color:var(--g)">${s[4]}</span></span><span class="bar"><i></i></span></button>`).join("");
+document.querySelectorAll(".sc").forEach(b=>b.onclick=()=>seek(SC[+b.dataset.i][0]+.6));
+
+/* ===== kiosco: góndola y heladera ===== */
+const COLS=["#E63946","#FFB703","#2A9D8F","#F4A261","#8E44AD","#3A86FF","#FB5607","#06D6A0","#C1121F","#FFD166"];
+let items=[];
+(function(){let html="";for(let s=0;s<3;s++){const y=70+s*76;html+=`<div style="left:0;right:0;top:${y}px;height:6px;background:#6b4325"></div>`;
+  for(let i=0;i<7;i++){const h=26+((i*7+s*3)%4)*8,w=22,c=COLS[(i+s*3)%COLS.length];html+=`<div class="it" style="left:${4+i*28}px;top:${y-h}px;width:${w}px;height:${h}px;background:${c};border-radius:3px 3px 1px 1px;box-shadow:inset -4px 0 0 #0003"></div>`;}}
+  $("shelves").innerHTML=html;items=[...document.querySelectorAll("#shelves .it")];
+  let f="";for(let r=0;r<4;r++)for(let c=0;c<4;c++)f+=`<div style="left:${4+c*18}px;top:${6+r*46}px;width:12px;height:38px;border-radius:5px 5px 2px 2px;background:${(r+c)%2?'#1a1a1a':'#7a1010'}"></div>`;
+  $("fglass").innerHTML=f;})();
+const order=[20,6,13,2,17,9,15,0,11,4,19,7,14,1,18,10,5,12,3,16,8];
+
+/* ===== grilla de cierres ===== */
+(function(){let g="";for(let r=0;r<9;r++)for(let c=0;c<8;c++){if(r*8+c>=70)break;const x=14+c*42,y=150+r*36;
+  g+=`<div class="ki" style="left:${x}px;top:${y}px;width:36px;height:30px"><div style="left:0;right:0;top:0;height:9px;background:repeating-linear-gradient(90deg,#1B7A43 0 6px,#F2F2EA 6px 12px)"></div><div class="kw" style="left:4px;right:4px;top:11px;bottom:0;border-radius:2px"></div></div>`;}
+  $("grid").innerHTML=g;})();
+const kis=[...document.querySelectorAll(".ki .kw")];
+const kc=[];for(let i=0;i<4;i++){const c=$("k").cloneNode(true);c.removeAttribute("id");c.querySelectorAll("[id]").forEach(e=>e.removeAttribute("id"));c.style.left=(i%2)*360+"px";c.style.top=(i>1?440:0)+"px";c.style.transform="none";c.style.opacity=1;c.style.filter="none";$("street").appendChild(c);kc.push(c);}
+// motas de polvo en la luz de la vidriera
+$("motes").innerHTML=Array.from({length:14},()=>'<i style="width:3px;height:3px;border-radius:50%;background:#ffe8b0"></i>').join("");
+const motes=[...document.querySelectorAll("#motes i")];
+$("dust").innerHTML=Array.from({length:26},()=>'<i style="width:6px;height:6px;border-radius:50%;background:#cfc4b0"></i>').join("");
+const dust=[...document.querySelectorAll("#dust i")];
+const kOff=kis.map((_,i)=>3.0+((i*37)%70)/70*1.6);
+
+/* ===== chips de gastos ===== */
+const hits=[[6.0,2100000,"📦","Mercadería"],[6.7,400000,"🔑","Alquiler"],[7.4,90000,"💡","Luz"],[8.1,60000,"🧾","Otros"]];
+$("chips").innerHTML=hits.map(h=>`<div class="ch" style="left:0;top:0;padding:7px 11px;border-radius:12px;background:#1a0b0d;border:1.5px solid #FF4D5A;font:800 14px var(--body);white-space:nowrap;box-shadow:0 10px 20px #000a">${h[2]} ${h[3]} <span style="position:static;color:#FF4D5A">−${ars(h[1])}</span></div>`).join("");
+const chips=[...document.querySelectorAll(".ch")];
+
+/* ===== texto cinético ===== */
+const kin=(id,txt,yellowIdx=[])=>{$(id).innerHTML=txt.split(" ").map((w,i)=>`<span style="position:relative;display:inline-block;margin-right:8px;${yellowIdx.includes(i)?'color:#FFB703':''}">${w}</span>`).join("");};
+kin("t4","Y tu cuaderno nunca te lo dijo.",[2]);
+kin("tag","Dejá de adivinar.",[2]);
+const TITLES=[[16,19.5,"Le hablás y te hace la cuenta."],[19.5,23,"Te dice qué hacer."],[23,26.3,"Una foto y listo."]];
+
+/* ===== pantallas del celular ===== */
+$("scr1").innerHTML=`
+ <div style="left:14px;top:30px;font:800 13px var(--disp);color:#fff">Cierre de hoy</div>
+ <div id="mic" style="left:57px;top:62px;width:46px;height:46px;border-radius:50%;background:#FFB703;display:grid;place-items:center;font-size:20px">🎙️</div>
+ <div id="wave" style="left:14px;right:14px;top:120px;height:34px;display:flex;gap:3px;align-items:center;justify-content:center">${Array.from({length:22},()=>'<i style="position:relative;width:3px;border-radius:2px;background:#FFB703;height:4px"></i>').join("")}</div>
+ <div id="trans" style="left:14px;right:14px;top:160px;font:500 11px/1.4 var(--body);color:#ffffffcc"></div>
+ <div id="res" style="left:10px;right:10px;top:222px;padding:12px;border-radius:14px;background:#143723;border:1px solid #2f6a4b">
+   <div style="position:static;font:600 10px var(--body);color:#9DB8A8;text-transform:uppercase;letter-spacing:.08em">Hoy te quedaron</div>
+   <div id="resN" style="position:static;font:900 32px/1.1 var(--disp);color:#FFB703;font-variant-numeric:tabular-nums">$0</div>
+   <div id="resV" style="position:static;font:600 10px var(--body);color:#5FD39A">▲ 8% vs. la semana pasada</div>
+ </div>`;
+$("scr2").innerHTML=`
+ <div style="left:14px;top:30px;font:800 13px var(--disp)">Tu resumen</div>
+ ${["🔴 Marta debe hace 41 días","🟡 Coca subió 8%","📦 3 productos dormidos"].map((r,i)=>`<div style="left:10px;right:10px;top:${58+i*52}px;height:44px;border-radius:12px;background:#143723;border:1px solid #2f6a4b;font:600 10.5px var(--body);display:flex;align-items:center;padding:0 10px">${r}</div>`).join("")}
+ <div style="left:10px;right:10px;top:220px;height:90px;border-radius:12px;background:#143723;border:1px solid #2f6a4b;display:flex;align-items:flex-end;gap:5px;padding:10px">${[40,55,35,70,60,80,65].map((h,i)=>`<i style="position:relative;flex:1;height:${h}%;border-radius:3px;background:${i===5?'#FFB703':'#2f6a4b'}"></i>`).join("")}</div>`;
+$("scr3").innerHTML=`
+ <div style="inset:0;background:#111"></div>
+ <div id="fac" style="left:22px;right:22px;top:46px;height:150px;background:#f5f5f0;border-radius:4px;padding:10px;color:#333;font:600 8px/1.7 ui-monospace,monospace">
+  <div style="position:static;font-weight:800">DISTRIBUIDORA NORTE · FACTURA B</div>
+  <div style="position:static">Coca-Cola 500 x12 ...... 18.000</div>
+  <div style="position:static">Alfajor triple x24 ..... 21.600</div>
+  <div style="position:static">Galletitas x10 ......... 9.400</div>
+  <div style="position:static">Agua 1,5 L x6 ........... 7.800</div>
+ </div>
+ <div id="scan" style="left:18px;right:18px;height:3px;background:#FFB703;box-shadow:0 0 14px #FFB703"></div>
+ <div style="left:16px;right:16px;top:40px;height:162px;border:2px solid #ffffff55;border-radius:8px"></div>
+ <div id="tags" style="left:10px;right:10px;top:212px;height:150px">${[["Coca 500","$2.000","$2.160"],["Alfajor triple","$1.200","$1.300"],["Agua 1,5 L","$1.800","$1.950"]].map((r,i)=>`
+   <div style="left:0;right:0;top:${i*44}px;height:38px;border-radius:10px;background:#143723;border:1px solid #2f6a4b;display:flex;align-items:center;justify-content:space-between;padding:0 10px;font:600 10.5px var(--body)">
+    <span style="position:static">${r[0]}</span>
+    <span class="flip" style="position:relative;width:62px;height:24px;perspective:200px">
+      <b class="old" style="inset:0;display:grid;place-items:center;background:#24503A;border-radius:6px;backface-visibility:hidden;color:#ffffffaa;text-decoration:line-through">${r[1]}</b>
+      <b class="new" style="inset:0;display:grid;place-items:center;background:#FFB703;color:#1A1200;border-radius:6px;backface-visibility:hidden;transform:rotateX(180deg)">${r[2]}</b>
+    </span></div>`).join("")}</div>`;
+const CARDS=[
+ [19.8,-104,-150,`<div style="position:static;font:700 10px var(--body);color:#ffffffaa">🔴 FIADO · 41 días</div><div style="position:static;font:800 16px var(--disp)">Marta · $18.000</div><div style="position:static;margin-top:6px;display:inline-block;background:#25D366;color:#062;font:800 10px var(--body);border-radius:999px;padding:4px 10px">Recordar por WhatsApp</div>`],
+ [20.4,104,-10,`<div style="position:static;font:700 10px var(--body);color:#ffffffaa">🟡 SUBIÓ 8%</div><div style="position:static;font:800 15px var(--disp)">Coca 500</div><div style="position:static;font:900 22px var(--disp);color:#FFB703">Vendela a $2.160</div>`],
+ [21.0,-96,150,`<div style="position:static;font:700 10px var(--body);color:#ffffffaa">📦 NO ROTAN</div><div style="position:static;font:800 15px var(--disp)">3 productos</div><div style="position:static;font:900 22px var(--disp);color:#FFB703">$37.800 dormidos</div>`]];
+$("cards").innerHTML=CARDS.map((c,i)=>`<div id="gc${i}" style="left:95px;top:300px;width:170px;padding:12px;border-radius:16px;background:linear-gradient(160deg,#ffffff2e,#ffffff10);border:1px solid #ffffff44;box-shadow:0 18px 40px #000a,inset 0 1px 0 #ffffff55;backdrop-filter:blur(8px)">${c[3]}</div>`).join("");
+
+(function(){const c=$("grain"),x=c.getContext("2d"),d=x.createImageData(180,320);for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255;}x.putImageData(d,0,0);})();
+
+/* ===== arco de la persiana (sección de abajo) ===== */
+function persAt(t){let p=I(t,1.6,2.4,0,.14,bounce);hits.forEach(h=>{p+=I(t,h[0],h[0]+.45,0,.17,bounce);});p+=I(t,9.6,10,0,.08,bounce);p-=I(t,16,28,0,.38,eIO);p-=I(t,29.6,30.6,0,p,eOut);return clamp(p,0,1);}
+$("arc").innerHTML=[[1,"Gancho"],[4.8,"Cierres"],[9,"La cuenta"],[11,"La herida"],[22,"La solución"],[31,"Final"]].map(a=>`<div><div class="meter"><i style="height:${persAt(a[0])*100}%"></i></div><b>${a[1]}</b><span>Persiana ${Math.round(persAt(a[0])*100)}%</span></div>`).join("");
+
+/* ===== render(t) ===== */
+function render(t){
+  // --- fondo y luz ---
+  const bx=50+Math.sin(t*.5)*20,by=30+Math.cos(t*.4)*15;
+  let red=0;hits.forEach(h=>{if(t>=h[0])red+=Math.max(0,1-(t-h[0])/.35);});if(t>=9.6&&t<10)red+=.6;
+  st("bg",{background:`radial-gradient(circle at ${bx}% ${by}%, #1c4a31, #050f0a 72%)`});
+  st("flash",{opacity:Math.min(.28,red*.25)});
+  st("grain",{transform:`translate(${(t*997%7)-3}px,${(t*613%7)-3}px)`});
+
+  // --- kiosco ---
+  const p=persAt(t);
+  const kVis=Math.max(win(t,2.05,2.9,.01,.25),win(t,4.9,32,.2,.01));
+  let shake=0;hits.forEach(h=>{const d=t-h[0];if(d>0)shake+=10*Math.exp(-12*d)*Math.sin(60*d);});
+  {const d=t-9.6;if(d>0)shake+=8*Math.exp(-10*d)*Math.sin(55*d);}
+  const zoom=I(t,12,12.6,0,1,eIO)*(1-I(t,13.7,14.2,0,1,eIO));
+  const push=1+I(t,0,2.2,0,.05,x=>x)+I(t,5,9.5,0,.04,x=>x);
+  const blurAmt=I(t,13.9,14.4,0,1)*(1-I(t,29.4,29.9,0,1));
+  const bright=t<29.5?1-.45*blurAmt-.2*I(t,5,9.5,0,1):1;
+  st("k",{opacity:kVis,transform:`translateX(${shake}px) scale(${push*(1+1.3*zoom)})`,filter:`blur(${blurAmt*7}px) brightness(${bright})`});
+  st("pers",{height:p*250+"px"});
+  const lights=1-.65*I(t,5,10,0,1)+.65*I(t,29.7,30.2,0,1);
+  st("warm",{opacity:lights});
+  st("sign",{color:lights>.6?"#FFB703":"#5a4a20",textShadow:lights>.6?"0 0 12px #FFB703, 0 0 24px #FFB70399":"none"});
+  st("fridge",{filter:`brightness(${.5+.5*lights})`});
+  const FL=[[6.95,7.3],[8.95,9.45],[11.1,11.4],[12.55,12.85],[27,27.2]];
+  const fl=FL.some(w=>t>w[0]&&t<w[1])?(Math.sin(t*90)>0?1:.05):1;
+  st("tube",{opacity:(t<5||t>29.7?1:.35+.65*lights)*fl,boxShadow:fl>.5?"0 0 16px #fff,0 0 4px #fff":"none"});
+  motes.forEach((e,i)=>{const x=(i*47)%300,y=(240-((t*12+i*31)%240));st(e,{opacity:lights*.7,transform:`translate(${x+Math.sin(t+i)*8}px,${y}px)`});});
+  const gone=Math.round(hits.reduce((a,h,i)=>a+(t>h[0]?[6,4,3,3][i]:0),0)*(1-I(t,29.7,30.4,0,1)));
+  items.forEach((e,i)=>{const k=order.indexOf(i);e.style.opacity=k<gone?0:1;});
+  const sw=t>9.6?Math.exp(-1.2*(t-9.6))*Math.sin((t-9.6)*7)*22:0;
+  st("cerrado",{opacity:win(t,9.6,30,.05,.3),transform:`rotate(${sw}deg)`});
+  const sp9=spring(t-9.9,15,.4);
+  st("spray",{opacity:win(t,9.9,13.9,.02,.3),transform:`rotate(-6deg) scale(${sp9})`,textShadow:t>9.9&&t<10.3?`${Math.sin(t*80)*5}px 0 #00E5FF`:"none"});
+  st("topfade",{opacity:t<29.5?1:1-.5*I(t,29.5,30.2,0,1)});
+
+  // --- S1 gancho: dominó de persianas ---
+  let hs=0,wf=0;SLAM.forEach((a,i)=>{const d=t-a;if(d>0){hs+=(i===3?14:18)*Math.exp(-14*d)*Math.sin(70*d);wf+=Math.max(0,1-d/.15)*(i===3?.3:.55);}});
+  const zk=I(t,1.55,2.05,0,1,eIO);
+  st("street",{opacity:t<2.08?1:0,transform:`translate(${-360*zk+hs}px,${-440*zk+hs*.6}px) scale(${.5+.5*zk})`,filter:`blur(${Math.sin(Math.PI*zk)*5}px)`});
+  kc.forEach((c,i)=>{const pe=c.querySelector(".persE"),ce=c.querySelector(".cerrE"),wa=c.querySelector(".warmE"),sg=c.querySelector(".signE"),sp=c.querySelector(".sprayE"),tb=c.querySelector(".tubeE");
+    sp.style.opacity=0;
+    if(i<3){const a=SLAM[i];pe.style.height=I(t,a,a+.22,0,250,bounce)+"px";const off=t>a+.1;wa.style.opacity=off?.15:1;tb.style.opacity=off?.1:1;sg.style.color=off?"#5a4a20":"#FFB703";sg.style.textShadow=off?"none":"0 0 12px #FFB703";
+      ce.style.opacity=t>a+.15?1:0;ce.style.transform=`rotate(${t>a+.15?Math.exp(-2*(t-a))*Math.sin((t-a)*8)*25:0}deg)`;}
+    else{pe.style.height=persAt(t)*250+Math.max(0,Math.sin(t*40))*(t>1.15?3:0)+"px";ce.style.opacity=0;sg.style.color="#FFB703";sg.style.textShadow="0 0 12px #FFB703";}});
+  document.querySelectorAll(".hl").forEach((e,i)=>{const a=SLAM[i<2?i:2]+(i===2?.4:0);const q=I(t,a,a+.13,0,1,eOut);const g=i===2&&t>a&&t<a+.35;
+    st(e,{opacity:(t>a?1:0)*win(t,0,2.55,.01,.25),transform:`translate(${hs*.5}px,0) scale(${2.8-1.8*q}) skewX(${g?Math.sin(t*90)*12:0}deg)`,filter:`blur(${(1-q)*6}px)`,textShadow:g?`${Math.sin(t*70)*6}px 0 #00E5FF,0 4px 0 #000`:"0 4px 0 #000,0 0 30px #000"});});
+  const sr2=I(t,1.15,1.35,0,1,eOut);
+  st("ret",{opacity:win(t,1.15,1.6,.02,.12),transform:`scale(${2.4-1.4*sr2})`});
+  st("retRing",{transform:`rotate(${t*200}deg)`});
+  st("wflash",{opacity:Math.min(.6,wf)});
+  dust.forEach((e,i)=>{const a=SLAM[i%3],d=t-a;const vis=d>0&&d<.7;const col=i%3,x=(col%2)*180+20+((i*53)%150),y=200+(col>1?440:220)*.5+200-10;
+    st(e,{opacity:vis?(1-d/.7)*.8:0,transform:`translate(${x+Math.cos(i)*d*120}px,${(col>1?420:200)+190-d*(60+i%5*20)+d*d*160}px) scale(${1+d*2})`});});
+
+  // --- S2 grilla ---
+  st("grid",{opacity:win(t,2.6,5.05,.12,.2),transform:`scale(${1.08-.08*I(t,2.6,5,0,1,x=>x)})`});
+  kis.forEach((e,i)=>{const off=t>kOff[i];e.style.background=off?"#2a2a2a":"#ffcf7a";e.style.boxShadow=off?"none":"0 0 8px #ffcf7a88";});
+  const offN=kis.filter((_,i)=>t>kOff[i]).length;
+
+  const sg=spring(t-2.7);
+  st("gHead",{opacity:win(t,2.6,5.05,.05,.2),transform:`translateY(${(1-sg)*20}px)`});
+  st("gSrc",{opacity:win(t,2.8,5.05,.2,.2)});
+  const sq=spring(t-4.1,15,.4);
+  st("gQ",{opacity:win(t,4.1,5.05,.01,.2),transform:`scale(${sq})`});
+
+  // --- S3 cuenta ---
+  let v=I(t,5,5.8,0,3000000);hits.forEach(h=>{v-=I(t,h[0]+.25,h[0]+.55,0,h[1]);});
+  const s3=spring(t-4.95);
+  $("num").textContent=ars(v);
+  st("num",{opacity:win(t,4.95,9.6,.05,.25),transform:`translateX(${shake*.6}px) scale(${.5+.5*s3})`,transformOrigin:"0 50%",color:t>8.6?"#FFB703":"#fff"});
+  st("vLbl",{opacity:win(t,4.95,8.6,.1,.2)});
+  st("qLbl",{opacity:win(t,8.6,9.6,.1,.2)});
+  st("ej",{opacity:Math.max(win(t,4.95,13.9),win(t,26.3,29.5))});
+  chips.forEach((e,i)=>{const h=hits[i],a=h[0];const fly=I(t,a,a+.45,0,1,eIn);
+    const x=I(t,a-.35,a,-180,24,eOut)+fly*60,y=I(t,a-.35,a,200,170+i*4,eOut)+fly*(260+p*80);
+    st(e,{opacity:win(t,a-.35,a+.5,.1,.15),transform:`translate(${x}px,${y}px) rotate(${-6+fly*20}deg) scale(${1-.4*fly})`});});
+
+  // --- S4 herida ---
+  const sh=spring(t-9.55,15,.4);
+  st("hTop",{opacity:win(t,9.5,12.05,.02,.25),transform:`translateY(${(1-sh)*24}px)`});
+
+  // --- S5 cuaderno ---
+  $("t4").querySelectorAll("span").forEach((e,i)=>{const s=spring(t-12.1-i*.1);st(e,{opacity:Math.min(1,s),transform:`translateY(${(1-s)*28}px)`});});
+  st("t4",{opacity:win(t,12,14.1,.01,.25)});
+  const sn=spring(t-12.2);const close=I(t,13.2,13.55,0,1,eIn);
+  st("nb",{opacity:win(t,12.1,14.1,.05,.25),transform:`scale(${(.5+.5*sn)*I(t,13.7,14.1,1,.6)}) rotate(${-5+close*5}deg)`});
+  const sx=1-2*close;
+  st("nbR",{transform:`scaleX(${sx})`,background:sx>0?"#F4EBD3":"#2C4A8C",backgroundImage:sx>0?"repeating-linear-gradient(#F4EBD3 0 17px,#9FB6D6 17px 18px)":"none"});
+
+  // --- destello ---
+  const lk=Math.max(win(t,13.85,14.6,.3,.45),win(t,26.9,27.6,.3,.4)*.8,win(t,29.4,30.3,.3,.5));
+  st("leak",{opacity:lk,background:`radial-gradient(circle at ${40+t*3%30}% 40%, #FFB703ee, #FF7A00aa 30%, transparent 65%)`});
+
+  // --- S6 esto sí ---
+  const s5=spring(t-14.3,12,.5);
+  st("t5",{opacity:win(t,14.25,16.1,.05,.4),transform:`scale(${1.5-.5*s5})`,filter:`blur(${(1-Math.min(1,s5))*8}px)`});
+
+  // --- títulos de solución ---
+  let ttl="";TITLES.forEach(x=>{if(t>=x[0]&&t<x[1])ttl=x;});
+  if($("sTitle").dataset.k!==String(ttl&&ttl[0])){$("sTitle").dataset.k=String(ttl&&ttl[0]);kin("sTitle",ttl?ttl[2]:"",[0]);}
+  if(ttl){$("sTitle").querySelectorAll("span").forEach((e,i)=>{const s=spring(t-ttl[0]-.05-i*.07);st(e,{opacity:Math.min(1,s),transform:`translateY(${(1-s)*22}px)`});});}
+  st("sTitle",{opacity:ttl?win(t,ttl[0],ttl[1],.01,.2):0});
+  st("kick",{opacity:win(t,16,26.3,.2,.2)});
+
+  // --- celular ---
+  const sp=spring(t-14.15,11,.55);
+  const pull=I(t,19.5,20,0,1,eIO)*(1-I(t,22.8,23.2,0,1,eIO));
+  const exit=I(t,25.9,26.5,0,1,eIn);
+  const ry=(1-sp)*70-14+Math.sin(t*.8)*5+I(t,23,23.5,0,14,eIO);
+  st("phoneWrap",{opacity:win(t,14.1,26.6,.05,.1),transform:`translateY(${(1-sp)*520+Math.sin(t*1.5)*4+exit*620}px) scale(${(.7+.3*sp)*(1-.18*pull)}) rotate(${exit*18}deg)`});
+  st("phone",{transform:`rotateY(${ry}deg) rotateX(${6+Math.cos(t*.7)*2}deg)`});
+  st("scr1",{opacity:win(t,14,19.7,.01,.25)});
+  st("scr2",{opacity:win(t,19.5,23.2,.25,.25)});
+  st("scr3",{opacity:win(t,23,26.6,.25,.1)});
+  const talk=t>15.6&&t<17.8;
+  st("mic",{transform:`scale(${talk?1+.12*Math.sin(t*12):1})`,boxShadow:talk?`0 0 0 ${8+6*Math.sin(t*12)}px #FFB70333`:"none"});
+  document.querySelectorAll("#wave i").forEach((e,i)=>{e.style.height=(t>15.8&&t<17.8?Math.abs(Math.sin(t*9+i*.7)*Math.sin(t*3.1+i))*30+4:4)+"px";});
+  const txt="“Hoy vendí 280 lucas, le pagué 150 al de las gaseosas y 8 de flete.”";
+  $("trans").textContent=txt.slice(0,Math.floor(I(t,16,17.8,0,txt.length,x=>x)));
+  const sr=spring(t-17.9);
+  st("res",{opacity:Math.min(1,sr),transform:`translateY(${(1-sr)*30}px) scale(${.9+.1*sr})`});
+  $("resN").textContent=ars(I(t,18,18.8,0,85667));
+  st("resV",{opacity:I(t,18.9,19.1,0,1)});
+  CARDS.forEach((c,i)=>{const s=spring(t-c[0],12,.5);const back=I(t,22.7,23.15,0,1,eIn);const k=Math.min(1,s)*(1-back);
+    st("gc"+i,{opacity:win(t,c[0],23.2,.05,.4),transform:`translate(${c[1]*k+Math.sin(t*1.2+i)*3}px,${c[2]*k+Math.cos(t*1.1+i)*4}px) rotateY(${(1-k)*40+Math.sin(t+i)*6}deg) scale(${.3+.7*k})`});});
+  st("scan",{top:I(t,23.3,24.1,44,196,eIO)+"px",opacity:win(t,23.25,24.2,.05,.1)});
+  st("fac",{opacity:1-I(t,24.1,24.3,0,.6),transform:`scale(${1-I(t,24.1,24.4,0,.08)})`});
+  document.querySelectorAll(".flip").forEach((e,i)=>{const a=I(t,24.3+i*.22,24.6+i*.22,0,180,eIO);e.querySelector(".old").style.transform=`rotateX(${a}deg)`;e.querySelector(".new").style.transform=`rotateX(${a-180}deg)`;});
+  st("tags",{opacity:I(t,24.1,24.3,0,1)});
+  const sct=spring(t-25,10,.5);
+  st("cartel",{opacity:win(t,25,26.5,.05,.3),transform:`translate(${(1-sct)*20}px,${(1-sct)*180}px) scale(${.3+.75*sct}) rotate(${-8+(1-sct)*30}deg)`});
+
+  // --- precio ---
+  const sl=spring(t-26.35,15,.35);
+  st("loss",{opacity:win(t,26.3,29.6,.05,.25),transform:`scale(${.5+.5*sl})`,transformOrigin:"0 0"});
+  $("lossN").textContent="−"+ars(I(t,26.4,27.1,0,45000));
+  const spc=spring(t-27.2,12,.5);
+  st("price",{opacity:win(t,27.15,29.6,.05,.25),transform:`translateY(${(1-spc)*120}px) scale(${.85+.15*spc}) rotateX(${(1-spc)*30}deg)`});
+  $("priceN").textContent=ars(I(t,27.3,27.9,0,430));
+  const sa=spring(t-28);
+  st("alfajor",{opacity:Math.min(1,sa),transform:`translateX(${(1-sa)*-30}px)`});
+  const sb=spring(t-28.5,16,.4);
+  st("badge",{opacity:win(t,28.5,29.6,.01,.25),transform:`scale(${sb})`});
+
+  // --- firma ---
+  const sgl=spring(t-29.6,12,.45);
+  st("logo",{opacity:win(t,29.55,32,.05,.01),transform:`scale(${.5+.5*sgl})`,transformOrigin:"0 50%"});
+  $("tag").querySelectorAll("span").forEach((e,i)=>{const s=spring(t-30.1-i*.14);st(e,{opacity:Math.min(1,s),transform:`translateY(${(1-s)*24}px)`});});
+  st("tag",{opacity:win(t,30,32,.01,.01)});
+  const sct2=spring(t-30.6);
+  st("cta",{opacity:win(t,30.5,32,.05,.01),transform:`scale(${.8+.2*sct2})`});
+  st("shine",{left:I(t,31,31.8,-50,300,eIO)+"px"});
+  st("black",{opacity:Math.max(I(t,31.75,32,0,1,x=>x),I(t,0,.12,1,0,x=>x))});
+
+  // --- subtítulos ---
+  let html="";
+  for(const seg of VO){if(t<seg[0]||t>seg[1]+.15||seg[3])continue;
+    const w=seg[2].split(" "),per=(seg[1]-seg[0])/w.length,idx=Math.min(w.length-1,Math.floor((t-seg[0])/per)),p0=Math.floor(idx/3)*3;
+    html=`<span style="position:relative;display:inline-block;padding:6px 12px;border-radius:10px;background:#000c;font:900 23px/1.15 var(--body)">`+w.slice(p0,p0+3).map((x,j)=>`<span style="position:relative;display:inline-block;margin:0 3px;${p0+j===idx?"color:#FFB703;transform:scale(1.1)":""}">${x}</span>`).join("")+`</span>`;}
+  $("caps").innerHTML=html;
+
+  // --- UI ---
+  $("time").textContent=t.toFixed(1).replace(".",",")+" s · cuadro "+Math.round(t*30);
+  $("scrub").value=t;
+  document.querySelectorAll(".sc").forEach((b,i)=>{const s=SC[i],on=t>=s[0]&&t<s[1];b.classList.toggle("on",on);b.querySelector(".bar i").style.width=clamp((t-s[0])/(s[1]-s[0]),0,1)*100+"%";});
+}
+
+function fit(){$("stage").style.transform=`scale(${$("frame").clientWidth/360})`;}
+addEventListener("resize",fit);fit();
+
+/* ===== sonido sintetizado ===== */
+let AC=null,soundOn=false;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}return AC;}
+function noise(dur){const a=AC,b=a.createBuffer(1,a.sampleRate*dur,a.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;const s=a.createBufferSource();s.buffer=b;return s;}
+const SFX={
+ whoosh(){const a=AC,s=noise(.35),f=a.createBiquadFilter(),g=a.createGain();f.type="bandpass";f.frequency.setValueAtTime(300,a.currentTime);f.frequency.exponentialRampToValueAtTime(3000,a.currentTime+.3);g.gain.setValueAtTime(.0001,a.currentTime);g.gain.exponentialRampToValueAtTime(.35,a.currentTime+.08);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.34);s.connect(f).connect(g).connect(a.destination);s.start();},
+ tic(){const a=AC,o=a.createOscillator(),g=a.createGain();o.frequency.value=1800;g.gain.setValueAtTime(.08,a.currentTime);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.03);o.connect(g).connect(a.destination);o.start();o.stop(a.currentTime+.04);},
+ thump(){const a=AC,o=a.createOscillator(),g=a.createGain();o.frequency.setValueAtTime(150,a.currentTime);o.frequency.exponentialRampToValueAtTime(40,a.currentTime+.25);g.gain.setValueAtTime(.7,a.currentTime);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.35);o.connect(g).connect(a.destination);o.start();o.stop(a.currentTime+.4);},
+ metal(){const a=AC,s=noise(.5),f=a.createBiquadFilter(),g=a.createGain();f.type="bandpass";f.frequency.value=900;f.Q.value=8;g.gain.setValueAtTime(.4,a.currentTime);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.45);s.connect(f).connect(g).connect(a.destination);s.start();SFX.thump();},
+ rattle(){const a=AC;for(let i=0;i<10;i++){const s=noise(.04),f=a.createBiquadFilter(),g=a.createGain();f.type="bandpass";f.frequency.value=1200;f.Q.value=5;const t0=a.currentTime+i*.06;g.gain.setValueAtTime(.18,t0);g.gain.exponentialRampToValueAtTime(.0001,t0+.04);s.connect(f).connect(g).connect(a.destination);s.start(t0);}},
+ glitch(){const a=AC,s=noise(.3),f=a.createBiquadFilter(),g=a.createGain();f.type="highpass";f.frequency.value=2000;g.gain.value=.15;s.connect(f).connect(g).connect(a.destination);s.start();},
+ riser(){const a=AC,s=noise(.7),f=a.createBiquadFilter(),g=a.createGain();f.type="bandpass";f.Q.value=4;f.frequency.setValueAtTime(200,a.currentTime);f.frequency.exponentialRampToValueAtTime(5000,a.currentTime+.65);g.gain.setValueAtTime(.02,a.currentTime);g.gain.exponentialRampToValueAtTime(.3,a.currentTime+.6);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.7);s.connect(f).connect(g).connect(a.destination);s.start();},
+ slam(){SFX.metal();SFX.thump();const a=AC,s=noise(.25),f=a.createBiquadFilter(),g=a.createGain();f.type="lowpass";f.frequency.value=600;g.gain.setValueAtTime(.5,a.currentTime);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.25);s.connect(f).connect(g).connect(a.destination);s.start();},
+ lock(){const a=AC;[0,.09].forEach(d=>{const o=a.createOscillator(),g=a.createGain();o.type="square";o.frequency.value=1500;const t0=a.currentTime+d;g.gain.setValueAtTime(.1,t0);g.gain.exponentialRampToValueAtTime(.0001,t0+.07);o.connect(g).connect(a.destination);o.start(t0);o.stop(t0+.08);});},
+ heart(){const a=AC;[0,.18].forEach((d,i)=>{const o=a.createOscillator(),g=a.createGain(),t0=a.currentTime+d;o.frequency.setValueAtTime(70,t0);o.frequency.exponentialRampToValueAtTime(35,t0+.15);g.gain.setValueAtTime(i?.5:.8,t0);g.gain.exponentialRampToValueAtTime(.0001,t0+.2);o.connect(g).connect(a.destination);o.start(t0);o.stop(t0+.22);});},
+ buzz(){const a=AC,o=a.createOscillator(),g=a.createGain();o.type="sawtooth";o.frequency.value=100;g.gain.setValueAtTime(.06,a.currentTime);g.gain.setValueAtTime(0,a.currentTime+.05);g.gain.setValueAtTime(.06,a.currentTime+.1);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.3);o.connect(g).connect(a.destination);o.start();o.stop(a.currentTime+.32);},
+ coins(){const a=AC;for(let i=0;i<6;i++){const o=a.createOscillator(),g=a.createGain(),t0=a.currentTime+i*.05;o.type="triangle";o.frequency.value=2200+Math.random()*1200;g.gain.setValueAtTime(.07,t0);g.gain.exponentialRampToValueAtTime(.0001,t0+.12);o.connect(g).connect(a.destination);o.start(t0);o.stop(t0+.13);}},
+ click(){const a=AC,o=a.createOscillator(),g=a.createGain();o.type="square";o.frequency.value=90;g.gain.setValueAtTime(.12,a.currentTime);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.05);o.connect(g).connect(a.destination);o.start();o.stop(a.currentTime+.06);},
+ caja(){const a=AC;[1318,1760,2637].forEach((fr,i)=>{const o=a.createOscillator(),g=a.createGain();o.type="triangle";o.frequency.value=fr;const t0=a.currentTime+i*.06;g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(.18,t0+.01);g.gain.exponentialRampToValueAtTime(.0001,t0+.6);o.connect(g).connect(a.destination);o.start(t0);o.stop(t0+.65);});}};
+const EV=[[.05,"slam"],[.4,"slam"],[.75,"slam"],[1.15,"thump"],[1.16,"glitch"],[1.2,"lock"],[1.55,"whoosh"],[1.65,"heart"],[2.1,"heart"],[2.62,"whoosh"],...Array.from({length:20},(_,i)=>[3.0+i*.08,"click"]),[4.1,"thump"],[6.95,"buzz"],[8.95,"buzz"],[10.2,"heart"],[10.9,"heart"],[11.1,"buzz"],[11.6,"heart"],[12.55,"buzz"],[18.8,"coins"],[24.9,"coins"],[5,"whoosh"],...Array.from({length:10},(_,i)=>[5.05+i*.07,"tic"]),[5.7,"whoosh"],[6,"metal"],[6.4,"whoosh"],[6.7,"metal"],[7.1,"whoosh"],[7.4,"metal"],[7.8,"whoosh"],[8.1,"metal"],[9.6,"metal"],[9.9,"glitch"],[12,"whoosh"],[13.2,"thump"],[13.3,"riser"],[14.2,"thump"],[14.25,"caja"],[16,"whoosh"],...Array.from({length:10},(_,i)=>[18+i*.08,"tic"]),[19.8,"whoosh"],[20.4,"whoosh"],[21,"whoosh"],[23.3,"riser"],[24.3,"tic"],[24.52,"tic"],[24.74,"tic"],[25,"whoosh"],[26.35,"thump"],...Array.from({length:8},(_,i)=>[26.4+i*.09,"tic"]),[26.8,"riser"],[27.2,"whoosh"],[28,"caja"],[28.5,"thump"],[29.5,"riser"],[29.8,"rattle"],[30.2,"caja"],[30.6,"thump"]];
+function fire(a,b){if(!soundOn||!AC)return;EV.forEach(e=>{if(e[0]>a&&e[0]<=b)SFX[e[1]]();});}
+$("snd").onclick=()=>{soundOn=!soundOn;if(soundOn){ac();AC&&AC.resume&&AC.resume();}$("snd").textContent=soundOn?"🔊 Sonido":"🔇 Sonido";$("snd").setAttribute("aria-pressed",soundOn);};
+
+let t=0,raf=null,last=0;
+function loop(n){const nt=t+(n-last)/1000;last=n;fire(t,nt);t=nt>=D?0:nt;render(t);raf=requestAnimationFrame(loop);}
+function play(){if(raf){pause();return;}if(soundOn)ac();last=performance.now();raf=requestAnimationFrame(loop);$("play").textContent="❚❚ Pausa";}
+function pause(){cancelAnimationFrame(raf);raf=null;$("play").textContent="▶ Reproducir";}
+function seek(x){t=clamp(x,0,D-.001);render(t);}
+$("play").onclick=play;
+$("scrub").oninput=e=>{pause();seek(+e.target.value);};
+
+const CK=["En el primer cuadro se ve un kiosco y una amenaza directa","Los primeros 0,3 s tienen golpe, temblor, destello y sonido","Nunca pasan más de 0,7 s sin que algo se mueva","Cada cosa que se ve tiene su sonido","En 1,5 s se entiende el dolor","Al menos 60% de la pantalla tiene contenido en todo momento","Nunca hay más de 1,5 s con la pantalla quieta","Cada gasto baja la persiana, tiembla y suena","Los subtítulos marcan la palabra y no tapan el número","Todo lo importante está en la zona segura","El celular muestra pantallas reales de En Claro","Los montos de ejemplo dicen “ejemplo” y los datos reales, su fuente","El precio aparece después de la pérdida","El final muestra la persiana subiendo con las luces prendidas","Se entiende entero sin sonido"];
+let saved={};try{saved=JSON.parse(localStorage.getItem("ck2")||"{}");}catch(e){}
+$("check").innerHTML=CK.map((c,i)=>`<label><input type="checkbox" id="ck${i}" ${saved[i]?"checked":""}><span>${c}</span></label>`).join("");
+$("check").onchange=e=>{saved[e.target.id.slice(2)]=e.target.checked;try{localStorage.setItem("ck2",JSON.stringify(saved));}catch(err){}};
+
+buildHook();
+seek(1.6);
+</script>
