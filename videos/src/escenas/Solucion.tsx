@@ -190,7 +190,7 @@ export const CartelImpreso: React.FC<{ t: number }> = ({ t }) => {
   if (o <= 0) return null;
   const sct = spring(t - 25, 10, 0.5);
   return (
-    <div style={{ left: 60, top: 150, width: 200, padding: 14, background: "#fff", color: "#111", borderRadius: 6, boxShadow: "0 20px 40px #0009", textAlign: "center", opacity: o, transform: `translate(${(1 - sct) * 20}px,${(1 - sct) * 180}px) scale(${0.3 + 0.75 * sct}) rotate(${-8 + (1 - sct) * 30}deg)` }}>
+    <div style={{ left: 60, top: 196, width: 200, padding: 14, background: "#fff", color: "#111", borderRadius: 6, boxShadow: "0 20px 40px #0009", textAlign: "center", opacity: o, transform: `translate(${(1 - sct) * 20}px,${(1 - sct) * 180}px) scale(${0.3 + 0.75 * sct}) rotate(${-8 + (1 - sct) * 30}deg)` }}>
       <div style={{ position: "static", font: `700 14px ${DISP}`, letterSpacing: ".06em" }}>GASEOSA 500 ML</div>
       <div style={{ position: "static", font: `700 54px/1 ${DISP}`, color: "#C1121F" }}>$2.160</div>
       <div style={{ position: "static", font: `600 10px ${BODY}`, color: "#555" }}>precio actualizado · hecho con En Claro</div>

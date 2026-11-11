@@ -1,0 +1,112 @@
+name: Videos
+
+# Arma los avisos de En Claro: genera la voz argentina (es-AR-TomasNeural), saca 3 imágenes de control
+# y renderiza un MP4 por cada gancho. Todo queda para descargar en la pestaña Actions → la corrida → Artifacts.
+
+on:
+  push:
+    paths:
+      - "videos/**"
+      - ".github/workflows/videos.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: videos-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: videos
+
+jobs:
+  voz:
+    name: Voz de Tomás
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar ffmpeg y edge-tts
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install edge-tts==7.3.1
+      - name: Generar la voz (solo lo que cambió)
+        run: python scripts/voz.py guiones/01-la-persiana.json --si-cambio
+      - name: Guardar la voz en el repositorio
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/voces
+          if git diff --cached --quiet; then
+            echo "La voz no cambió."
+          else
+            git commit -m "Videos: voz generada con es-AR-TomasNeural"
+            git push || echo "No se pudo guardar la voz en el repo (igual se usa en este render)."
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: voces
+          path: videos/public/voces
+          if-no-files-found: ignore
+
+  video:
+    name: Video gancho ${{ matrix.letra }}
+    needs: voz
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - letra: A
+            id: LaPersiana
+          - letra: B
+            id: LaPersiana-ganchoB
+          - letra: C
+            id: LaPersiana-ganchoC
+          - letra: D
+            id: LaPersiana-ganchoD
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: videos/package-lock.json
+      - uses: actions/download-artifact@v4
+        with:
+          name: voces
+          path: videos/public/voces
+        continue-on-error: true
+      - name: Instalar
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          npm ci
+          npx remotion browser ensure
+      - name: Imágenes de control (gancho, giro y precio)
+        if: matrix.letra == 'A'
+        run: |
+          mkdir -p out
+          npx remotion still src/index.ts ${{ matrix.id }} out/control-1-gancho.png --frame=36
+          npx remotion still src/index.ts ${{ matrix.id }} out/control-2-giro.png --frame=440
+          npx remotion still src/index.ts ${{ matrix.id }} out/control-3-precio.png --frame=850
+      - uses: actions/upload-artifact@v4
+        if: matrix.letra == 'A'
+        with:
+          name: imagenes-de-control
+          path: videos/out/control-*.png
+      - name: Renderizar el video
+        run: npx remotion render src/index.ts ${{ matrix.id }} out/crudo.mp4 --codec=h264 --crf=18 --audio-codec=aac --concurrency=100%
+      - name: Volumen parejo (−14 LUFS)
+        run: |
+          ffmpeg -y -v error -i out/crudo.mp4 -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=11 -ar 48000 -c:a aac -b:a 192k -movflags +faststart "out/en-claro-la-persiana-gancho-${{ matrix.letra }}.mp4"
+          ffprobe -v error -show_entries stream=codec_name,width,height,nb_frames -of compact out/en-claro-la-persiana-gancho-${{ matrix.letra }}.mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: video-gancho-${{ matrix.letra }}
+          path: videos/out/en-claro-la-persiana-gancho-${{ matrix.letra }}.mp4

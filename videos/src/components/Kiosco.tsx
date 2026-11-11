@@ -167,7 +167,7 @@ export const Kiosco: React.FC<KioscoProps> = ({ persiana, luz, productosQueFalta
           {cartelCerrado && cartelCerrado.opacidad > 0 ? (
             <div
               style={{
-                left: 108, bottom: 6, width: 90, height: 44, background: "#fff", color: "#C1121F", border: "3px solid #C1121F", borderRadius: 4,
+                left: 206, top: Math.min(10, Math.max(0, pH - 54)), width: 90, height: 44, background: "#fff", color: "#C1121F", border: "3px solid #C1121F", borderRadius: 4,
                 display: "grid", placeItems: "center", font: `700 15px ${DISP}`, transformOrigin: "50% -12px",
                 opacity: cartelCerrado.opacidad, transform: `rotate(${cartelCerrado.giro}deg)`, boxShadow: "0 6px 10px #0008",
               }}

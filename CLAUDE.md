@@ -32,5 +32,5 @@ Si un video rompe una de estas reglas, no está terminado.
 
 ## Estado
 
-- [ ] Videos: aviso "La persiana" en Remotion con voz `es-AR-TomasNeural` (ver sección 11 del brief).
+- [x] Videos: aviso "La persiana" en Remotion con voz `es-AR-TomasNeural` (detalle y pendientes en `videos/CLAUDE.md`).
 - [ ] App: MVP de En Claro (brief pendiente de subir a `app/BRIEF.md`).

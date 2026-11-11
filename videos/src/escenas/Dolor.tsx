@@ -86,7 +86,7 @@ export const GrillaDeCierres: React.FC<{ t: number; g: Guion }> = ({ t, g }) => 
       <div style={{ left: 20, top: 134, font: `800 11px ${BODY}`, letterSpacing: ".1em", color: "#FF4D5A", opacity: win(t, 2.95, 5.05, 0.1, 0.2), fontVariantNumeric: "tabular-nums" }}>
         CERRADOS HOY: {off}
       </div>
-      <div style={{ right: 20, top: 135, font: `600 9px ${BODY}`, color: "#ffffffaa", opacity: win(t, 2.8, 5.05, 0.2, 0.2) }}>{g.fuente}</div>
+      <div style={{ left: 20, top: 472, font: `600 9px ${BODY}`, color: "#ffffffaa", opacity: win(t, 2.8, 5.05, 0.2, 0.2) }}>{g.fuente}</div>
       <div style={{ left: 20, right: 20, top: 470, textAlign: "center", font: `700 34px ${DISP}`, color: "#FFB703", opacity: win(t, 4.1, 5.05, 0.01, 0.2), transform: `scale(${sq})`, textShadow: "0 4px 0 #000, 0 0 24px #000" }}>
         ¿El tuyo es el próximo?
       </div>
