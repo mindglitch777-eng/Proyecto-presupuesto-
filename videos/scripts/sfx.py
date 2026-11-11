@@ -181,6 +181,38 @@ def main():
     sp = bp(noise(0.5), 5000, 1.2) * np.clip(t(0.5) / 0.03, 0, 1) * np.exp(-t(0.5) * 3)
     save("spray", sp, -8, 0.002)
 
+
+    # podio que sube: motor de ascensor (zumbido que sube de tono)
+    asc = sweep(70, 140, 0.8, "tri") * 0.6 + bp(noise(0.8), 400, 2) * 0.25
+    asc = asc * np.clip(t(0.8) / 0.05, 0, 1) * np.clip((0.8 - t(0.8)) / 0.1, 0, 1)
+    save("ascensor", asc, -10)
+
+    # llegada del ascensor
+    ding = tone(1568, 1.0) * env(1.0, 0.002, 4) + 0.5 * tone(3136, 1.0) * env(1.0, 0.002, 6)
+    save("ding", reverb(ding, 0.25), -9, 0.004)
+
+    # ukelele "vida de rico": Karplus-Strong, rasgueo de C – Am – F – G en corcheas (≈ 4,6 s)
+    def pluck(f, d=0.9, bright=0.5):
+        n = int(SR / f)
+        buf = rng.uniform(-1, 1, n) * 0.5
+        out = np.zeros(int(SR * d))
+        for i in range(len(out)):
+            v = buf[i % n]
+            out[i] = v
+            buf[i % n] = 0.996 * (bright * v + (1 - bright) * buf[(i + 1) % n])
+        return out
+
+    acordes = [[392.0, 523.3, 659.3, 784.0], [440.0, 523.3, 659.3, 880.0], [440.0, 523.3, 698.5, 880.0], [392.0, 493.9, 587.3, 784.0]]
+    partes = []
+    corchea = 0.28
+    for c, ac in enumerate(acordes):
+        for k in range(4):
+            off = (c * 4 + k) * corchea
+            rasgueo = [(off + j * 0.012, pluck(f, 0.6, 0.55) * (0.8 if k % 2 else 1.0)) for j, f in enumerate(ac if k % 2 == 0 else ac[::-1])]
+            partes += rasgueo
+    uke = mix(*partes)
+    save("ukelele", reverb(uke, 0.15), -6, 0.006)
+
     print("sonidos listos en", OUT)
 
 

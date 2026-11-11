@@ -15,6 +15,15 @@
 - Subtítulos `@remotion/captions` (máx. 3 palabras, activa amarilla ×1,12), ocultos en líneas gigantes.
 - `.github/workflows/videos.yml`: voz → 3 imágenes de control → 4 MP4 (uno por gancho) con loudnorm −14 LUFS → artifacts.
 
+## Video 01 de IDEAS_V3: "El dueño del local gana más que vos" (28 s, 3D)
+- Composición `Video01-ElDueno` (`src/v3/ElDueno.tsx`), guion `guiones/v3-01-el-dueno.json`.
+- 3D con `@remotion/three` 4.0.538 + `three` 0.186.1 + `@react-three/fiber` 9.8.2. Modelos hechos en código en
+  `src/v3/Modelos3D.tsx`: `Kiosco3D`, `Podio`, `Muneco` (dueño con traje y llave / kiosquero con delantal),
+  `Reposera`, `Billete`, `Cajones`, `Piso`. Carteles con texturas de canvas.
+- `camara(t)` maneja la cámara 3D y `proyectar()` ubica las etiquetas 2D sobre las cabezas con la misma cuenta.
+- WebGL: `swangle` en `remotion.config.ts` (angle no levanta sin GPU).
+- Sonidos nuevos: `ascensor`, `ding`, `ukelele` (Karplus-Strong). Los efectos duran hasta 5 s en esta composición.
+
 ## Cambios respecto del animatic / brief
 - **Duración 36,2 s en vez de 32 s.** La voz real de Tomás no entraba en los tiempos del animatic (líneas 2 y 4 daban
   más de 1,25×). Las escenas se siguen escribiendo en segundos del animatic y `tramos` del guion estira solo

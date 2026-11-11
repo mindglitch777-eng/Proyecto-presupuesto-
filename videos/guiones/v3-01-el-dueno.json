@@ -1,0 +1,308 @@
+{
+ "id": "v3-01-el-dueno",
+ "titulo": "El dueño del local gana más que vos",
+ "duracionSeg": 28,
+ "tramos": [],
+ "voz": {
+  "nombre": "es-AR-TomasNeural",
+  "gancho": {
+   "rate": "+25%",
+   "pitch": "+3Hz",
+   "volume": "+20%"
+  },
+  "resto": {
+   "rate": "+15%"
+  }
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "EL DUEÑO GANA",
+    "MÁS QUE VOS",
+    "CON TU KIOSCO."
+   ],
+   "voz": "¡El dueño del local gana más que vos… con tu kiosco!"
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 2.8,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 3.0,
+   "hasta": 7.9,
+   "texto": "Vendés tres millones. Alquiler: cuatrocientos mil. A vos te quedan trescientos cincuenta mil.",
+   "subtitulo": "Vendés $3.000.000. Alquiler: $400.000. A vos te quedan $350.000."
+  },
+  {
+   "desde": 8.2,
+   "hasta": 12.6,
+   "texto": "Él no abre a las ocho. No atiende. No fía.",
+   "subtitulo": "Él no abre a las 8. No atiende. No fía."
+  },
+  {
+   "desde": 13.2,
+   "hasta": 15.6,
+   "texto": "Y vos ni sabías esta cuenta.",
+   "gigante": true
+  },
+  {
+   "desde": 17.2,
+   "hasta": 23.6,
+   "texto": "En Claro te la hace todos los días y te dice dónde se va tu plata."
+  },
+  {
+   "desde": 24.6,
+   "hasta": 27.4,
+   "texto": "Probalo gratis.",
+   "gigante": true,
+   "gancho": true
+  }
+ ],
+ "sonidos": [
+  {
+   "en": 0.0,
+   "sfx": "slam"
+  },
+  {
+   "en": 0.35,
+   "sfx": "slam"
+  },
+  {
+   "en": 0.9,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 1.75,
+   "sfx": "thump"
+  },
+  {
+   "en": 1.75,
+   "sfx": "glitch"
+  },
+  {
+   "en": 2.2,
+   "sfx": "heart"
+  },
+  {
+   "en": 2.85,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 3.1,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 3.15,
+   "sfx": "tic"
+  },
+  {
+   "en": 3.22,
+   "sfx": "tic"
+  },
+  {
+   "en": 3.29,
+   "sfx": "tic"
+  },
+  {
+   "en": 3.36,
+   "sfx": "tic"
+  },
+  {
+   "en": 3.43,
+   "sfx": "tic"
+  },
+  {
+   "en": 3.5,
+   "sfx": "tic"
+  },
+  {
+   "en": 3.57,
+   "sfx": "tic"
+  },
+  {
+   "en": 3.64,
+   "sfx": "tic"
+  },
+  {
+   "en": 3.71,
+   "sfx": "tic"
+  },
+  {
+   "en": 3.78,
+   "sfx": "tic"
+  },
+  {
+   "en": 4.9,
+   "sfx": "ascensor"
+  },
+  {
+   "en": 5.75,
+   "sfx": "ding"
+  },
+  {
+   "en": 5.8,
+   "sfx": "thump"
+  },
+  {
+   "en": 6.6,
+   "sfx": "ascensor"
+  },
+  {
+   "en": 7.35,
+   "sfx": "ding"
+  },
+  {
+   "en": 7.4,
+   "sfx": "thump"
+  },
+  {
+   "en": 7.5,
+   "sfx": "glitch"
+  },
+  {
+   "en": 8.2,
+   "sfx": "ukelele"
+  },
+  {
+   "en": 8.35,
+   "sfx": "thump"
+  },
+  {
+   "en": 8.6,
+   "sfx": "click"
+  },
+  {
+   "en": 9.1,
+   "sfx": "click"
+  },
+  {
+   "en": 9.6,
+   "sfx": "click"
+  },
+  {
+   "en": 9.65,
+   "sfx": "thump"
+  },
+  {
+   "en": 10.1,
+   "sfx": "click"
+  },
+  {
+   "en": 10.6,
+   "sfx": "click"
+  },
+  {
+   "en": 11.0,
+   "sfx": "thump"
+  },
+  {
+   "en": 11.1,
+   "sfx": "click"
+  },
+  {
+   "en": 11.6,
+   "sfx": "click"
+  },
+  {
+   "en": 12.1,
+   "sfx": "click"
+  },
+  {
+   "en": 12.9,
+   "sfx": "thump"
+  },
+  {
+   "en": 15.9,
+   "sfx": "heart"
+  },
+  {
+   "en": 16.4,
+   "sfx": "riser"
+  },
+  {
+   "en": 17.0,
+   "sfx": "thump"
+  },
+  {
+   "en": 17.05,
+   "sfx": "caja"
+  },
+  {
+   "en": 17.3,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 18.6,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 19.3,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 19.75,
+   "sfx": "coins"
+  },
+  {
+   "en": 19.8,
+   "sfx": "ascensor"
+  },
+  {
+   "en": 20.5,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 20.95,
+   "sfx": "coins"
+  },
+  {
+   "en": 21.0,
+   "sfx": "ascensor"
+  },
+  {
+   "en": 21.7,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 22.15,
+   "sfx": "coins"
+  },
+  {
+   "en": 22.2,
+   "sfx": "ascensor"
+  },
+  {
+   "en": 22.3,
+   "sfx": "caja"
+  },
+  {
+   "en": 24.4,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 24.6,
+   "sfx": "rattle"
+  },
+  {
+   "en": 25.0,
+   "sfx": "thump"
+  },
+  {
+   "en": 25.3,
+   "sfx": "riser"
+  },
+  {
+   "en": 25.9,
+   "sfx": "caja"
+  },
+  {
+   "en": 26.4,
+   "sfx": "thump"
+  }
+ ]
+}

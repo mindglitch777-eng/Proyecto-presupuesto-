@@ -1,7 +1,8 @@
 import React from "react";
 import { Composition, staticFile, type CalculateMetadataFunction } from "remotion";
 import { Video, videoSchema, type VideoProps } from "./Video";
-import { GUIONES, duracionVideo } from "./lib/guion";
+import { GUIONES, GUION_V3_01, duracionVideo } from "./lib/guion";
+import { ElDueno } from "./v3/ElDueno";
 
 const FPS = 30;
 const LETRAS = ["A", "B", "C", "D"];
@@ -38,5 +39,16 @@ export const Root: React.FC = () => (
         />
       )),
     )}
+    <Composition
+      id="Video01-ElDueno"
+      component={ElDueno}
+      schema={videoSchema}
+      durationInFrames={Math.round(GUION_V3_01.duracionSeg * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: GUION_V3_01.id, gancho: 0, voz: null, palabras: null }}
+      calculateMetadata={calcular}
+    />
   </>
 );

@@ -6,7 +6,7 @@ export const SLAM = [0.05, 0.4, 0.75, 1.15];
 /** Altura de la persiana del kiosco principal (0 a 1) en el segundo t. Arco de toda la serie. */
 export function persAt(t: number, g: Guion) {
   let p = I(t, 1.6, 2.4, 0, 0.14, bounce);
-  g.cuenta.gastos.forEach((h) => (p += I(t, h[0], h[0] + 0.45, 0, 0.17, bounce)));
+  g.cuenta!.gastos.forEach((h) => (p += I(t, h[0], h[0] + 0.45, 0, 0.17, bounce)));
   p += I(t, 9.6, 10, 0, 0.08, bounce);
   p -= I(t, 16, 28, 0, 0.38, eIO);
   p -= I(t, 29.6, 30.6, 0, p, eOut);
@@ -15,7 +15,7 @@ export function persAt(t: number, g: Guion) {
 
 /** Todo lo que comparten varias capas en un cuadro. */
 export function estado(t: number, g: Guion) {
-  const hits = g.cuenta.gastos;
+  const hits = g.cuenta!.gastos;
   let red = 0;
   hits.forEach((h) => { if (t >= h[0]) red += Math.max(0, 1 - (t - h[0]) / 0.35); });
   if (t >= 9.6 && t < 10) red += 0.6;

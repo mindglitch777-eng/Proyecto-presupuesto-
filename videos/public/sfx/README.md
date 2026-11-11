@@ -20,5 +20,8 @@ ni muestras de terceros, así que no tienen restricciones de licencia: se pueden
 | `coins.wav` | plata que aparece |
 | `caja.wav` | caja registradora |
 | `spray.wav` | aerosol |
+| `ascensor.wav` | podio que sube |
+| `ding.wav` | llega el ascensor (el podio frena) |
+| `ukelele.wav` | música irónica de "vida de rico" (rasgueo C–Am–F–G) |
 
 Para reemplazar alguno por un archivo con licencia comercial, dejalo con el mismo nombre y anotá acá su origen.

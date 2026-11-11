@@ -32,9 +32,9 @@ export function armarPaginas(g: Guion, palabras: Palabra[]): TikTokPage[] {
   return pages;
 }
 
-export const Subtitulos: React.FC<{ t: number; tv: number; g: Guion; palabras: Palabra[] }> = ({ t, tv, g, palabras }) => {
+export const Subtitulos: React.FC<{ t: number; tv: number; g: Guion; palabras: Palabra[]; ocultos?: [number, number][] }> = ({ t, tv, g, palabras, ocultos = OCULTOS }) => {
   const pages = useMemo(() => armarPaginas(g, palabras), [g, palabras]);
-  if (OCULTOS.some(([a, b]) => t > a && t < b)) return null;
+  if (ocultos.some(([a, b]) => t > a && t < b)) return null;
   const ms = tv * 1000;
   const page = pages.find((p) => ms >= p.startMs && ms < p.startMs + p.durationMs + 150);
   if (!page) return null;

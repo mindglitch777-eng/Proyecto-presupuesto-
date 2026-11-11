@@ -21,7 +21,7 @@ export const KioscoPrincipal: React.FC<{ t: number; g: Guion; p: number; shake: 
   const fl = FL.some((w) => t > w[0] && t < w[1]) ? (Math.sin(t * 90) > 0 ? 1 : 0.05) : 1;
   const tubo = (t < 5 || t > 29.7 ? 1 : 0.35 + 0.65 * lights) * fl;
   const pesos = [6, 4, 3, 3];
-  const gone = Math.round(g.cuenta.gastos.reduce((a, h, i) => a + (t > h[0] ? pesos[i] ?? 3 : 0), 0) * (1 - I(t, 29.7, 30.4, 0, 1)));
+  const gone = Math.round(g.cuenta!.gastos.reduce((a, h, i) => a + (t > h[0] ? pesos[i] ?? 3 : 0), 0) * (1 - I(t, 29.7, 30.4, 0, 1)));
   const sw = t > 9.6 ? Math.exp(-1.2 * (t - 9.6)) * Math.sin((t - 9.6) * 7) * 22 : 0;
   const sp9 = spring(t - 9.9, 15, 0.4);
   return (
@@ -41,7 +41,7 @@ export const KioscoPrincipal: React.FC<{ t: number; g: Guion; p: number; shake: 
         cartelCerrado={{ opacidad: win(t, 9.6, 30, 0.05, 0.3), giro: sw }}
         aerosol={{
           opacidad: win(t, 9.9, 13.9, 0.02, 0.3), escala: sp9, glitch: t > 9.9 && t < 10.3 ? Math.sin(t * 80) * 5 : 0,
-          texto: ars(g.cuenta.por_hora), sufijo: "/hora",
+          texto: ars(g.cuenta!.por_hora), sufijo: "/hora",
         }}
         neon={t > 29.7 ? Math.min(1, (t - 29.7) * 4) * (t < 30.1 ? (Math.sin(t * 70) > 0 ? 1 : 0.2) : 1) : lights > 0.6 ? 1 : 0}
         abierto={t > 30.15 ? (t < 30.5 ? (Math.sin(t * 60) > 0 ? 1 : 0.15) : 1) : 0}
@@ -97,8 +97,8 @@ export const GrillaDeCierres: React.FC<{ t: number; g: Guion }> = ({ t, g }) => 
 // ---------- Escena 3: la cuenta ----------
 export const RestaEnCascada: React.FC<{ t: number; g: Guion; p: number; shake: number }> = ({ t, g, p, shake }) => {
   if (t < 4.6 || t > 9.7) return null;
-  const hits = g.cuenta.gastos;
-  let v = I(t, 5, 5.8, 0, g.cuenta.vendes);
+  const hits = g.cuenta!.gastos;
+  let v = I(t, 5, 5.8, 0, g.cuenta!.vendes);
   hits.forEach((h) => (v -= I(t, h[0] + 0.25, h[0] + 0.55, 0, h[1])));
   const s3 = spring(t - 4.95);
   // el número tiembla y se pone rojo cada vez que muerde un gasto
