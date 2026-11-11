@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill, Html5Audio, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { z } from "zod";
 import { estado } from "./lib/estado";
-import { GUIONES, palabrasDeRespaldo, type Palabra } from "./lib/guion";
+import { GUIONES, aAnimatic, aVideo, palabrasDeRespaldo, type Palabra } from "./lib/guion";
 import { BODY } from "./lib/fuentes";
 import { Fondo, Grano, LuzDestello, Vineta } from "./components/Capas";
 import { Subtitulos } from "./components/Subtitulos";
@@ -26,7 +26,8 @@ export const Video: React.FC<VideoProps> = ({ guion, gancho, voz, palabras }) =>
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const g = GUIONES.find((x) => x.id === guion)!;
-  const t = frame / fps;
+  const tv = frame / fps; // segundos del video
+  const t = aAnimatic(g, tv); // segundos del animatic: con esto se dibuja todo
   const e = estado(t, g);
   const pal: Palabra[] = palabras ?? palabrasDeRespaldo(g, gancho);
 
@@ -57,12 +58,12 @@ export const Video: React.FC<VideoProps> = ({ guion, gancho, voz, palabras }) =>
         <Vineta />
         <LuzDestello t={t} red={e.red} wf={e.wf} />
         <Polvo t={t} />
-        <Subtitulos t={t} g={g} palabras={pal} />
+        <Subtitulos t={t} tv={tv} g={g} palabras={pal} />
       </div>
 
       {voz ? <Html5Audio src={staticFile(voz)} /> : null}
       {g.sonidos.map((s, i) => (
-        <Sequence key={i} from={Math.max(0, Math.round(s.en * fps))} durationInFrames={Math.round(1.5 * fps)} layout="none">
+        <Sequence key={i} from={Math.max(0, Math.round(aVideo(g, s.en) * fps))} durationInFrames={Math.round(1.5 * fps)} layout="none">
           <Html5Audio src={staticFile(`sfx/${s.sfx}.wav`)} volume={SFX_VOL} />
         </Sequence>
       ))}

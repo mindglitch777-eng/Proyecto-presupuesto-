@@ -2,6 +2,33 @@
  "id": "01-la-persiana",
  "titulo": "La persiana",
  "duracionSeg": 32,
+ "tramos": [
+  [
+   2.6,
+   5.0,
+   1.6
+  ],
+  [
+   5.0,
+   9.5,
+   1.12
+  ],
+  [
+   9.5,
+   12.0,
+   1.5
+  ],
+  [
+   26.3,
+   29.5,
+   1.15
+  ],
+  [
+   29.5,
+   32.0,
+   1.2
+  ]
+ ],
  "voz": {
   "nombre": "es-AR-TomasNeural",
   "gancho": {

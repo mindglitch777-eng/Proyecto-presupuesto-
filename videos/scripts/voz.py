@@ -39,6 +39,14 @@ def sh(*args):
     return r.stdout
 
 
+def a_video(guion, a):
+    """Segundos del animatic → segundos del video (mismos tramos estirados que src/lib/guion.ts)."""
+    v = a
+    for d, h, f in guion.get("tramos", []):
+        v += (min(max(a, d), h) - d) * (f - 1)
+    return v
+
+
 def duracion(path):
     return float(sh("ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(path)).strip())
 
@@ -82,12 +90,14 @@ def palabras_de_subtitulo(texto, habladas):
 async def generar(guion, n, tmp):
     voz = guion["voz"]
     pistas, palabras, problemas = [], [], []
-    for i, l in enumerate(guion["lineas"]):
+    total = a_video(guion, guion["duracionSeg"])
+    lineas = [dict(l, desde=round(a_video(guion, l["desde"]), 3), hasta=round(a_video(guion, l["hasta"]), 3)) for l in guion["lineas"]]
+    for i, l in enumerate(lineas):
         texto = guion["ganchos"][n]["voz"] if l["texto"] == "GANCHO" else l["texto"]
         estilo = voz["gancho"] if l.get("gancho") else voz["resto"]
         crudo = tmp / f"l{i}.mp3"
         # lugar disponible: hasta que empieza la línea siguiente (o el final del video)
-        fin = guion["lineas"][i + 1]["desde"] - 0.05 if i + 1 < len(guion["lineas"]) else guion["duracionSeg"] - 0.1
+        fin = lineas[i + 1]["desde"] - 0.05 if i + 1 < len(lineas) else total - 0.1
         lugar = max(l["hasta"] - l["desde"] + HOLGURA, fin - l["desde"])
         # si no entra, primero le pide a la voz que hable más rápido (suena más natural que acelerar el audio)
         base_rate = int(estilo.get("rate", "+0%").strip("%"))
@@ -123,15 +133,15 @@ async def generar(guion, n, tmp):
     destino.mkdir(parents=True, exist_ok=True)
     base = destino / f"{guion['id']}.gancho-{n}"
     entradas = sum((["-i", str(p)] for p in pistas), [])
-    mezcla = f"amix=inputs={len(pistas)}:normalize=0,apad=whole_dur={guion['duracionSeg']},loudnorm=I=-14:TP=-1.5:LRA=11,aresample={SR}"
-    sh("ffmpeg", "-y", "-v", "error", *entradas, "-filter_complex", mezcla, "-t", str(guion["duracionSeg"]), "-c:a", "libmp3lame", "-b:a", "192k", f"{base}.mp3")
+    mezcla = f"amix=inputs={len(pistas)}:normalize=0,apad=whole_dur={total},loudnorm=I=-14:TP=-1.5:LRA=11,aresample={SR}"
+    sh("ffmpeg", "-y", "-v", "error", *entradas, "-filter_complex", mezcla, "-t", str(total), "-c:a", "libmp3lame", "-b:a", "192k", f"{base}.mp3")
     Path(f"{base}.json").write_text(json.dumps({"voz": voz["nombre"], "firma": firma(guion, n), "palabras": palabras}, ensure_ascii=False, indent=1))
     print(f"  listo: {base}.mp3")
 
 
 def firma(guion, n):
     """Huella del texto y la configuración: si no cambió, no hace falta regenerar la voz."""
-    datos = json.dumps([guion["voz"], guion["lineas"], guion["ganchos"][n], guion["duracionSeg"]], ensure_ascii=False, sort_keys=True)
+    datos = json.dumps([guion["voz"], guion["lineas"], guion["ganchos"][n], guion["duracionSeg"], guion.get("tramos")], ensure_ascii=False, sort_keys=True)
     codigo = Path(__file__).read_bytes()
     return hashlib.sha256(datos.encode() + codigo).hexdigest()[:16]
 

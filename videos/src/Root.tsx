@@ -1,7 +1,7 @@
 import React from "react";
 import { Composition, staticFile, type CalculateMetadataFunction } from "remotion";
 import { Video, videoSchema, type VideoProps } from "./Video";
-import { GUIONES } from "./lib/guion";
+import { GUIONES, duracionVideo } from "./lib/guion";
 
 const FPS = 30;
 const LETRAS = ["A", "B", "C", "D"];
@@ -29,7 +29,7 @@ export const Root: React.FC = () => (
           id={i === 0 ? "LaPersiana" : `LaPersiana-gancho${LETRAS[i]}`}
           component={Video}
           schema={videoSchema}
-          durationInFrames={Math.round(g.duracionSeg * FPS)}
+          durationInFrames={Math.round(duracionVideo(g) * FPS)}
           fps={FPS}
           width={1080}
           height={1920}
