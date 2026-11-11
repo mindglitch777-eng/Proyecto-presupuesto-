@@ -1,0 +1,510 @@
+{
+ "voz": "es-AR-TomasNeural",
+ "firma": "9b2cbf59c9199b16",
+ "palabras": [
+  {
+   "texto": "¡El",
+   "desde": 0.085,
+   "hasta": 0.198,
+   "linea": 0
+  },
+  {
+   "texto": "próximo",
+   "desde": 0.254,
+   "hasta": 0.546,
+   "linea": 0
+  },
+  {
+   "texto": "kiosco",
+   "desde": 0.602,
+   "hasta": 0.809,
+   "linea": 0
+  },
+  {
+   "texto": "que",
+   "desde": 0.856,
+   "hasta": 0.922,
+   "linea": 0
+  },
+  {
+   "texto": "cierra…",
+   "desde": 0.941,
+   "hasta": 1.289,
+   "linea": 0
+  },
+  {
+   "texto": "es",
+   "desde": 1.477,
+   "hasta": 1.6,
+   "linea": 0
+  },
+  {
+   "texto": "el",
+   "desde": 1.6,
+   "hasta": 1.675,
+   "linea": 0
+  },
+  {
+   "texto": "tuyo!",
+   "desde": 1.731,
+   "hasta": 1.985,
+   "linea": 0
+  },
+  {
+   "texto": "Cierran",
+   "desde": 2.839,
+   "hasta": 3.23,
+   "linea": 1
+  },
+  {
+   "texto": "hasta",
+   "desde": 3.23,
+   "hasta": 3.535,
+   "linea": 1
+  },
+  {
+   "texto": "70",
+   "desde": 3.535,
+   "hasta": 3.708,
+   "linea": 1
+  },
+  {
+   "texto": "kioscos",
+   "desde": 3.708,
+   "hasta": 4.099,
+   "linea": 1
+  },
+  {
+   "texto": "por",
+   "desde": 4.099,
+   "hasta": 4.317,
+   "linea": 1
+  },
+  {
+   "texto": "día.",
+   "desde": 4.317,
+   "hasta": 4.577,
+   "linea": 1
+  },
+  {
+   "texto": "¿El",
+   "desde": 4.577,
+   "hasta": 4.795,
+   "linea": 1
+  },
+  {
+   "texto": "tuyo",
+   "desde": 4.795,
+   "hasta": 5.055,
+   "linea": 1
+  },
+  {
+   "texto": "es",
+   "desde": 5.055,
+   "hasta": 5.229,
+   "linea": 1
+  },
+  {
+   "texto": "el",
+   "desde": 5.229,
+   "hasta": 5.403,
+   "linea": 1
+  },
+  {
+   "texto": "próximo?",
+   "desde": 5.403,
+   "hasta": 5.837,
+   "linea": 1
+  },
+  {
+   "texto": "Vendés",
+   "desde": 6.628,
+   "hasta": 7.087,
+   "linea": 2
+  },
+  {
+   "texto": "3",
+   "desde": 7.087,
+   "hasta": 7.259,
+   "linea": 2
+  },
+  {
+   "texto": "millones.",
+   "desde": 7.259,
+   "hasta": 7.89,
+   "linea": 2
+  },
+  {
+   "texto": "Mercadería,",
+   "desde": 7.89,
+   "hasta": 8.635,
+   "linea": 2
+  },
+  {
+   "texto": "alquiler,",
+   "desde": 8.635,
+   "hasta": 9.266,
+   "linea": 2
+  },
+  {
+   "texto": "luz…",
+   "desde": 9.266,
+   "hasta": 9.61,
+   "linea": 2
+  },
+  {
+   "texto": "te",
+   "desde": 9.61,
+   "hasta": 9.839,
+   "linea": 2
+  },
+  {
+   "texto": "quedan",
+   "desde": 9.839,
+   "hasta": 10.298,
+   "linea": 2
+  },
+  {
+   "texto": "$350.000.",
+   "desde": 10.298,
+   "hasta": 10.928,
+   "linea": 2
+  },
+  {
+   "texto": "14",
+   "desde": 11.708,
+   "hasta": 12.005,
+   "linea": 3
+  },
+  {
+   "texto": "horas",
+   "desde": 12.005,
+   "hasta": 12.526,
+   "linea": 3
+  },
+  {
+   "texto": "por",
+   "desde": 12.526,
+   "hasta": 12.898,
+   "linea": 3
+  },
+  {
+   "texto": "día.",
+   "desde": 12.898,
+   "hasta": 13.344,
+   "linea": 3
+  },
+  {
+   "texto": "$833",
+   "desde": 13.344,
+   "hasta": 13.79,
+   "linea": 3
+  },
+  {
+   "texto": "la",
+   "desde": 13.79,
+   "hasta": 14.088,
+   "linea": 3
+  },
+  {
+   "texto": "hora.",
+   "desde": 14.088,
+   "hasta": 14.609,
+   "linea": 3
+  },
+  {
+   "texto": "Y",
+   "desde": 15.417,
+   "hasta": 15.476,
+   "linea": 4
+  },
+  {
+   "texto": "tu",
+   "desde": 15.524,
+   "hasta": 15.573,
+   "linea": 4
+  },
+  {
+   "texto": "cuaderno",
+   "desde": 15.622,
+   "hasta": 15.945,
+   "linea": 4
+  },
+  {
+   "texto": "nunca",
+   "desde": 15.974,
+   "hasta": 16.189,
+   "linea": 4
+  },
+  {
+   "texto": "te",
+   "desde": 16.238,
+   "hasta": 16.287,
+   "linea": 4
+  },
+  {
+   "texto": "lo",
+   "desde": 16.306,
+   "hasta": 16.365,
+   "linea": 4
+  },
+  {
+   "texto": "dijo.",
+   "desde": 16.394,
+   "hasta": 16.648,
+   "linea": 4
+  },
+  {
+   "texto": "Esto",
+   "desde": 17.519,
+   "hasta": 17.706,
+   "linea": 5
+  },
+  {
+   "texto": "sí.",
+   "desde": 17.715,
+   "hasta": 17.855,
+   "linea": 5
+  },
+  {
+   "texto": "Le",
+   "desde": 19.323,
+   "hasta": 19.486,
+   "linea": 6
+  },
+  {
+   "texto": "hablás…",
+   "desde": 19.487,
+   "hasta": 19.954,
+   "linea": 6
+  },
+  {
+   "texto": "y",
+   "desde": 20.095,
+   "hasta": 20.15,
+   "linea": 6
+  },
+  {
+   "texto": "te",
+   "desde": 20.215,
+   "hasta": 20.302,
+   "linea": 6
+  },
+  {
+   "texto": "hace",
+   "desde": 20.313,
+   "hasta": 20.497,
+   "linea": 6
+  },
+  {
+   "texto": "la",
+   "desde": 20.519,
+   "hasta": 20.584,
+   "linea": 6
+  },
+  {
+   "texto": "cuenta.",
+   "desde": 20.639,
+   "hasta": 20.954,
+   "linea": 6
+  },
+  {
+   "texto": "Te",
+   "desde": 22.923,
+   "hasta": 23.031,
+   "linea": 7
+  },
+  {
+   "texto": "dice",
+   "desde": 23.052,
+   "hasta": 23.29,
+   "linea": 7
+  },
+  {
+   "texto": "a",
+   "desde": 23.29,
+   "hasta": 23.333,
+   "linea": 7
+  },
+  {
+   "texto": "quién",
+   "desde": 23.387,
+   "hasta": 23.527,
+   "linea": 7
+  },
+  {
+   "texto": "cobrarle,",
+   "desde": 23.57,
+   "hasta": 24.002,
+   "linea": 7
+  },
+  {
+   "texto": "a",
+   "desde": 24.153,
+   "hasta": 24.218,
+   "linea": 7
+  },
+  {
+   "texto": "cuánto",
+   "desde": 24.272,
+   "hasta": 24.509,
+   "linea": 7
+  },
+  {
+   "texto": "vender",
+   "desde": 24.531,
+   "hasta": 24.811,
+   "linea": 7
+  },
+  {
+   "texto": "y",
+   "desde": 24.876,
+   "hasta": 24.941,
+   "linea": 7
+  },
+  {
+   "texto": "qué",
+   "desde": 24.995,
+   "hasta": 25.059,
+   "linea": 7
+  },
+  {
+   "texto": "no",
+   "desde": 25.092,
+   "hasta": 25.156,
+   "linea": 7
+  },
+  {
+   "texto": "reponer.",
+   "desde": 25.178,
+   "hasta": 25.545,
+   "linea": 7
+  },
+  {
+   "texto": "Una",
+   "desde": 26.522,
+   "hasta": 26.736,
+   "linea": 8
+  },
+  {
+   "texto": "foto",
+   "desde": 26.757,
+   "hasta": 26.982,
+   "linea": 8
+  },
+  {
+   "texto": "a",
+   "desde": 26.982,
+   "hasta": 27.003,
+   "linea": 8
+  },
+  {
+   "texto": "la",
+   "desde": 27.025,
+   "hasta": 27.089,
+   "linea": 8
+  },
+  {
+   "texto": "factura,",
+   "desde": 27.11,
+   "hasta": 27.538,
+   "linea": 8
+  },
+  {
+   "texto": "y",
+   "desde": 27.688,
+   "hasta": 27.741,
+   "linea": 8
+  },
+  {
+   "texto": "los",
+   "desde": 27.774,
+   "hasta": 27.881,
+   "linea": 8
+  },
+  {
+   "texto": "carteles",
+   "desde": 27.923,
+   "hasta": 28.287,
+   "linea": 8
+  },
+  {
+   "texto": "listos.",
+   "desde": 28.319,
+   "hasta": 28.811,
+   "linea": 8
+  },
+  {
+   "texto": "$430",
+   "desde": 29.727,
+   "hasta": 30.155,
+   "linea": 9
+  },
+  {
+   "texto": "por",
+   "desde": 30.155,
+   "hasta": 30.511,
+   "linea": 9
+  },
+  {
+   "texto": "día.",
+   "desde": 30.511,
+   "hasta": 30.938,
+   "linea": 9
+  },
+  {
+   "texto": "Menos",
+   "desde": 30.938,
+   "hasta": 31.437,
+   "linea": 9
+  },
+  {
+   "texto": "que",
+   "desde": 31.437,
+   "hasta": 31.793,
+   "linea": 9
+  },
+  {
+   "texto": "un",
+   "desde": 31.793,
+   "hasta": 32.078,
+   "linea": 9
+  },
+  {
+   "texto": "alfajor.",
+   "desde": 32.078,
+   "hasta": 32.791,
+   "linea": 9
+  },
+  {
+   "texto": "En",
+   "desde": 33.657,
+   "hasta": 33.74,
+   "linea": 10
+  },
+  {
+   "texto": "Claro.",
+   "desde": 33.786,
+   "hasta": 34.035,
+   "linea": 10
+  },
+  {
+   "texto": "Dejá",
+   "desde": 34.711,
+   "hasta": 34.932,
+   "linea": 10
+  },
+  {
+   "texto": "de",
+   "desde": 34.96,
+   "hasta": 35.024,
+   "linea": 10
+  },
+  {
+   "texto": "adivinar.",
+   "desde": 35.024,
+   "hasta": 35.383,
+   "linea": 10
+  }
+ ]
+}
