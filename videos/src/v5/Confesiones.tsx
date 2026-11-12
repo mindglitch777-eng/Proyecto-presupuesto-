@@ -355,7 +355,7 @@ const Cierre: React.FC<{ t: number; T_: T; dur: number }> = ({ t, T_, dur }) => 
       <TextoCinetico t={t} desde={T_.cuantos} paso={0.09} texto="¿Cuántos años tiene" amarillas={[]} style={{ left: 18, right: 10, top: 108, font: `700 29px/1.05 ${DISP}`, color: "#fff" }} />
       <TextoCinetico t={t} desde={T_.cuantos + 0.7} paso={0.09} texto="tu cuaderno?" amarillas={[1]} style={{ left: 18, right: 10, top: 144, font: `700 36px/1.05 ${DISP}`, color: "#fff" }} />
       {/* cuaderno cerrado con su etiqueta */}
-      <div style={{ left: 110, top: 250 + entra * 190, width: 140, height: 190, transform: `scale(${sc * (1 - 0.32 * entra)}) rotate(${-4 + entra * 4}deg)`, transformOrigin: "50% 0" }}>
+      <div style={{ left: 110, top: 250 + entra * 190, width: 140, height: 190, opacity: 1 - I(t, T_.cuantos + 0.85, T_.cuantos + 1.15, 0, 1, lin), transform: `scale(${sc * (1 - 0.32 * entra)}) rotate(${-4 + entra * 4}deg)`, transformOrigin: "50% 0" }}>
         <div style={{ inset: 0, background: "#2C4A8C", borderRadius: "6px 12px 12px 6px", boxShadow: "0 22px 34px #000a" }} />
         <div style={{ left: 14, right: 12, top: 26, height: 42, background: "#F4EBD3", borderRadius: 3, display: "grid", placeItems: "center", font: `700 14px ${DISP}`, color: "#2C4A8C", letterSpacing: ".08em" }}>FIADOS</div>
         <div style={{ left: 12, right: 10, top: 92, padding: "8px 6px", background: "#F4EBD3", borderRadius: 3, transform: `rotate(-3deg) scale(${etiqueta})`, opacity: etiqueta, boxShadow: "0 3px 6px #0006" }}>
