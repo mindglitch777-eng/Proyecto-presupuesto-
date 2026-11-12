@@ -1,19 +1,19 @@
 {
  "id": "v5-01-confesiones-cuaderno",
- "titulo": "Confesiones de un cuaderno de fiados",
- "duracionSeg": 46,
+ "titulo": "Confesiones de un cuaderno de fiados (rápido)",
+ "duracionSeg": 35,
  "tramos": [],
  "encadenar": true,
  "voz": {
   "nombre": "es-AR-TomasNeural",
   "gancho": {
-   "rate": "+15%",
+   "rate": "+35%",
    "pitch": "-3Hz",
    "volume": "+20%"
   },
   "resto": {
-   "rate": "+8%",
-   "pitch": "-6Hz"
+   "rate": "+30%",
+   "pitch": "-5Hz"
   }
  },
  "ganchos": [
@@ -29,82 +29,78 @@
  "lineas": [
   {
    "desde": 0.0,
-   "hasta": 3.2,
+   "hasta": 2.6,
    "texto": "GANCHO",
    "gigante": true,
    "gancho": true
   },
   {
-   "desde": 3.6,
-   "hasta": 9.5,
-   "texto": "Hace once años que vivo en este mostrador. Y hoy te voy a decir quién fundió a mi dueño.",
-   "antes": 0.45
+   "desde": 2.9,
+   "hasta": 6.2,
+   "texto": "Hace once años vivo acá. Hoy te digo quién fundió a mi dueño.",
+   "antes": 0.3
   },
   {
-   "desde": 10.0,
-   "hasta": 15.5,
-   "texto": "Doña Marta: dieciocho mil. Juan: siete quinientos. El de la moto: nunca supe el nombre.",
-   "antes": 0.5
+   "desde": 6.5,
+   "hasta": 10.4,
+   "texto": "Doña Marta: dieciocho mil. Juan: siete quinientos. El de la moto: sin nombre.",
+   "antes": 0.3
   },
   {
-   "desde": 16.0,
-   "hasta": 20.0,
-   "texto": "Ciento ochenta mil pesos… que él cree que va a cobrar.",
-   "antes": 0.5
+   "desde": 10.7,
+   "hasta": 13.6,
+   "texto": "Ciento ochenta mil… que él cree que va a cobrar.",
+   "antes": 0.3
   },
   {
-   "desde": 20.5,
-   "hasta": 22.5,
+   "desde": 13.9,
+   "hasta": 15.3,
    "texto": "Pero eso no es lo peor.",
-   "antes": 0.6,
+   "antes": 0.3,
    "estilo": {
-    "rate": "+0%",
+    "rate": "+15%",
     "pitch": "-7Hz"
    }
   },
   {
-   "desde": 23.5,
-   "hasta": 33.5,
-   "texto": "Lo peor es lo que no anoto. No anoto cuánto le aumentó el proveedor. No anoto lo que se vence. No anoto cuánto le queda al final del día.",
-   "antes": 1.1
+   "desde": 15.7,
+   "hasta": 20.0,
+   "texto": "Lo peor es lo que no anoto: el aumento, lo vencido, la ganancia.",
+   "antes": 0.35
   },
   {
-   "desde": 34.0,
-   "hasta": 36.0,
+   "desde": 20.4,
+   "hasta": 22.0,
    "texto": "¿Querés saber quién lo fundió?",
-   "antes": 0.6,
+   "antes": 0.3,
    "estilo": {
-    "rate": "+0%",
+    "rate": "+15%",
     "pitch": "-7Hz"
    }
   },
   {
-   "desde": 37.0,
-   "hasta": 38.0,
+   "desde": 22.6,
+   "hasta": 23.3,
    "texto": "Fui yo.",
    "gigante": true,
-   "antes": 0.9,
+   "antes": 0.6,
    "estilo": {
-    "rate": "-8%",
+    "rate": "+0%",
     "pitch": "-9Hz",
     "volume": "+10%"
    }
   },
   {
-   "desde": 38.5,
-   "hasta": 44.0,
-   "texto": "Ahora le habla al celular, y en cinco minutos sabe todo lo que yo le escondí.",
-   "antes": 0.8
+   "desde": 23.8,
+   "hasta": 27.5,
+   "texto": "Ahora le habla al celular y en cinco minutos sabe todo.",
+   "antes": 0.4
   },
   {
-   "desde": 44.5,
-   "hasta": 50.0,
-   "texto": "Me jubiló. Y la verdad… me lo merecía. ¿Cuántos años tiene tu cuaderno? Comentalo.",
-   "antes": 0.6,
-   "estilo": {
-    "rate": "+3%",
-    "pitch": "-6Hz"
-   }
+   "desde": 27.9,
+   "hasta": 32.5,
+   "texto": "Me jubiló, y me lo merecía. ¿Cuántos años tiene tu cuaderno? Comentalo.",
+   "antes": 0.3
   }
  ],
  "sonidos": []

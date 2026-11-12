@@ -62,7 +62,11 @@
 - **Voz en modo encadenado** (`"encadenar": true` en el guion): `voz.py` pone cada línea cuando termina la anterior (+`antes` s de pausa) y cada línea puede
   traer su `estilo` (rate/pitch/volume). Voz grave y lenta (−6 Hz, +8%), "Fui yo." más grave con 0,9 s de silencio antes. El video dura lo que dura la voz:
   `voces/<id>.json` trae `duracionSeg` y `Root.tsx` lo usa en `calculateMetadata`.
-- El texto aprobado en el guion no entra en 35 s con ese ritmo: el video dura ~45 s. Si se quiere más corto, recortar texto (no acelerar la voz).
+- **Versión rápida (la vigente)**: pedido del dueño "mucho más rápido, cambios de cámara más intensos, más corto, que no pase tiempo sin que pase nada".
+  Texto recortado a ~96 palabras, voz +30% (−5 Hz), pausas de 0,3 s (0,6 s de silencio antes de "Fui yo."): ~36 s en vez de 58.
+  `camara2d` (en `Confesiones.tsx`) da un golpe de zoom/giro en cada palabra clave y un barrido con desenfoque en cada corte; el 3D recorre el pasillo a 6,5 m/s con
+  inclinación (`ControlCamaraRoll`) y entra al abanico con dolly + snap en "Fui yo". Subtítulos, grano y destellos quedan fuera de la cámara.
+  La versión lenta de 58 s quedó en `videos/salida/en-claro-v5-01-confesiones-de-un-cuaderno.mp4`.
 - Sonidos nuevos: `birome`, `hoja`, `papel_arrancado`, `reloj`, `tinta`, `cajon`.
 - Montos de ejemplo marcados ("$180.000 ejemplo", "$41.200 ejemplo"). Último cuadro = cuadro 0 (loop).
 

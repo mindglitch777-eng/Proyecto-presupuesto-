@@ -64,25 +64,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Todos los videos entregados + el nuevo. Cada uno deja su MP4 en videos/salida/ de esta rama.
-          # Cuando ya estén entregados, dejá solo el video en producción para que arme más rápido.
-          - nombre: la-persiana-gancho-A
-            id: LaPersiana
-          - nombre: la-persiana-gancho-B
-            id: LaPersiana-ganchoB
-          - nombre: la-persiana-gancho-C
-            id: LaPersiana-ganchoC
-          - nombre: la-persiana-gancho-D
-            id: LaPersiana-ganchoD
-          - nombre: 01-el-duenio-del-local
-            id: Video01-ElDueno
-          - nombre: 02-el-banco-del-barrio
-            id: Video02-Banco
-          - nombre: 03-tu-kiosco-se-hunde
-            id: Video03-SeHunde
-          - nombre: v4-01-el-numero-tapado
-            id: Video-v4-01-NumeroTapado
-          - nombre: v5-01-confesiones-de-un-cuaderno
+          # Solo el video en producción. Los entregados ya están en videos/salida/ y en la página de descargas.
+          # Para volver a armar uno, copiá su bloque acá (ids: LaPersiana, LaPersiana-ganchoB/C/D, Video01-ElDueno,
+          # Video02-Banco, Video03-SeHunde, Video-v4-01-NumeroTapado, Video-v5-01-Confesiones).
+          - nombre: v5-01-confesiones-rapido
             id: Video-v5-01-Confesiones
     steps:
       - uses: actions/checkout@v4
