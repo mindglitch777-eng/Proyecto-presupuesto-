@@ -8,193 +8,230 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Inter:wght@400;500;600;700;800&amp;family=Permanent+Marker&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap">
 <style>
-body{margin:0;background:#FBF7EC}
-a{color:#1B4332}a:hover{color:#0B2418}
+body{margin:0;background:#F7F8F5}
+a{color:#0E3B2A}a:hover{color:#16794A}
 button{font-family:Inter,system-ui,sans-serif;cursor:pointer}
-button:focus-visible{outline:3px solid #FFB703;outline-offset:2px}
+button:focus-visible{outline:3px solid #F5A524;outline-offset:2px}
+@keyframes pulso{0%{transform:scale(1);opacity:.55}100%{transform:scale(1.9);opacity:0}}
 </style>
 </helmet>
-<div style="width: 390px; height: 844px; display: flex; flex-direction: column; background: #FBF7EC; color: #10241A; font-family: Inter, system-ui, sans-serif; overflow: hidden">
+<div style="width: 390px; height: 844px; display: flex; flex-direction: column; background: #F7F8F5; color: #0F1F17; font-family: Inter, system-ui, sans-serif; overflow: hidden; font-variant-numeric: tabular-nums">
 
 <!-- Encabezado -->
-<div style="height: 64px; flex: none; background: #0B2418; color: #FFFFFF; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; box-sizing: border-box">
-<div style="display: flex; flex-direction: column; gap: 2px">
-<span style="font-family: 'Archivo Black', sans-serif; font-size: 19px">{{titulo}}</span>
-<span style="font-size: 12px; color: #C9D6CE">Kiosco Don Ramón · jueves 12</span>
+<div style="flex: none; padding: 18px 20px 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+<span style="font-size: 13px; color: #5B6B62; font-weight: 500">{{subtitulo}}</span>
+<span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.03em">{{titulo}}</span>
 </div>
-<span style="background: #FFB703; color: #10241A; font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 999px; letter-spacing: 0.5px">DATOS DE EJEMPLO</span>
+<div style="display: flex; align-items: center; gap: 8px">
+<span style="font-size: 11px; font-weight: 600; color: #5B6B62; background: #FFFFFF; border: 1px solid #E4E9E4; padding: 4px 9px; border-radius: 999px">Ejemplo</span>
+<span style="width: 40px; height: 40px; border-radius: 50%; background: #0E3B2A; display: flex; align-items: center; justify-content: center" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 34 34"><path d="M6 9h22v5H6z" fill="#FBF6EA"/><path d="M6 9h5.5v5H6zM17 9h5.5v5H17z" fill="#F5A524"/><path d="M10 25l5-5 3.5 3 6-6.5" stroke="#F5A524" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+</div>
 </div>
 
 <!-- Contenido -->
-<div style="flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 16px; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px">
+<div style="flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 4px 16px 20px; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px">
 
-<!-- TU DÍA -->
+<!-- ===== TU DÍA ===== -->
 <sc-if value="{{enDia}}" hint-placeholder-val="{{ true }}">
 <div style="display: flex; flex-direction: column; gap: 14px">
-<div style="background: #0B2418; color: #FFFFFF; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 10px">
-<span style="font-size: 14px; color: #C9D6CE">Tu número del día</span>
-<span style="font-family: 'Archivo Black', sans-serif; font-size: 44px; line-height: 1; color: #FFB703">$121.111</span>
-<span style="font-size: 13px; color: #C9D6CE">Lo que tenés que vender para no perder.</span>
-<div style="height: 14px; background: #2D6A4F; border-radius: 999px; overflow: hidden"><div style="{{barra}}"></div></div>
-<span style="font-size: 15px; font-weight: 700">{{barraTxt}}</span>
+
+<div style="background: #0E3B2A; color: #FFFFFF; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 16px; background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 16px 16px">
+<sc-if value="{{conCierre}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; color: #A9C7B5; font-weight: 500">Hoy te quedaron libres</span>
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap"><span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 42px; letter-spacing: -0.035em; line-height: 1">$40.667</span><span style="background: rgba(245,165,36,0.18); color: #F5C26B; font-size: 12px; font-weight: 700; padding: 4px 8px; border-radius: 999px">{{vsPromedio}}</span></div>
+<span style="font-size: 12px; color: #A9C7B5">Vendiste $186.000 · gastos $109.000 · fijos del día $36.333</span>
+</div>
+</sc-if>
+<sc-if value="{{sinCierre}}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; color: #A9C7B5; font-weight: 500">Tu número del día</span>
+<span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 42px; letter-spacing: -0.035em; line-height: 1; color: #F5A524">$121.111</span>
+<span style="font-size: 12px; color: #A9C7B5">Lo que tenés que vender hoy para no perder.</span>
+</div>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="height: 8px; background: rgba(255,255,255,0.14); border-radius: 999px; overflow: hidden"><div style="{{barra}}"></div></div>
+<div style="display: flex; justify-content: space-between; font-size: 12px; color: #D7E6DC"><span>{{barraIzq}}</span><span>{{barraDer}}</span></div>
+</div>
 </div>
 
 <sc-if value="{{sinCierre}}" hint-placeholder-val="{{ true }}">
-<button type="button" onClick="{{irCierre}}" style="background: #FFB703; color: #10241A; border: 0; border-radius: 20px; padding: 20px; display: flex; align-items: center; gap: 14px; box-shadow: 0 4px 0 #B37F00; text-align: left; min-height: 88px">
-<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10241A" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg>
-<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-family: 'Archivo Black', sans-serif; font-size: 20px">Hacé tu cierre</span><span style="font-size: 14px">Hablale al celular. Tarda 30 segundos.</span></span>
+<button type="button" onClick="{{irCierre}}" style="background: #FFFFFF; border: 1px solid #E4E9E4; border-radius: 20px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; text-align: left; box-shadow: 0 10px 30px -18px rgba(15,31,23,0.4); min-height: 72px">
+<span style="width: 48px; height: 48px; border-radius: 50%; background: #F5A524; display: flex; align-items: center; justify-content: center; flex: none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F1F17" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg></span>
+<span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 16px; color: #0F1F17">Hacé tu cierre de hoy</strong><span style="font-size: 13px; color: #5B6B62">Hablale al celular · 30 segundos</span></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A968F" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
 </button>
 </sc-if>
-<sc-if value="{{conCierre}}" hint-placeholder-val="{{ false }}">
-<div style="background: #FFFFFF; border: 2px solid #1B4332; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 6px">
-<span style="font-size: 14px; color: #4A5A50">Hoy te quedaron libres</span>
-<span style="font-family: 'Archivo Black', sans-serif; font-size: 44px; line-height: 1; color: #1B4332">$40.667</span>
-<span style="font-size: 13px; color: #4A5A50">Vendiste $186.000 · gastos $109.000 · fijos del día $36.333</span>
-<span style="font-size: 13px; color: #4A5A50">Promedio de la semana: $28.900 por día</span>
+
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px">
+<button type="button" onClick="{{irCierre}}" style="background: transparent; border: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #3D4D44; min-height: 44px"><span style="width: 52px; height: 52px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E4E9E4; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16794A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg></span>Cierre</button>
+<button type="button" onClick="{{irFiado}}" style="background: transparent; border: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #3D4D44; min-height: 44px"><span style="width: 52px; height: 52px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E4E9E4; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16794A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0M17 11h4M19 9v4"/></svg></span>Fiado</button>
+<button type="button" onClick="{{irPrecios}}" style="background: transparent; border: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #3D4D44; min-height: 44px"><span style="width: 52px; height: 52px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E4E9E4; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16794A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg></span>Factura</button>
+<button type="button" onClick="{{irDormida}}" style="background: transparent; border: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #3D4D44; min-height: 44px"><span style="width: 52px; height: 52px; border-radius: 16px; background: #FFFFFF; border: 1px solid #E4E9E4; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16794A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></span>Depósito</button>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #E4E9E4; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: baseline"><strong style="font-size: 15px">Últimos 7 días</strong><span style="font-size: 12px; color: #5B6B62">Promedio <strong style="color: #0F1F17">{{promedio}}</strong></span></div>
+<div style="display: flex; gap: 8px; height: 104px">
+<sc-for list="{{dias}}" as="d" hint-placeholder-count="7">
+<div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px">
+<div style="height: 70px; width: 100%; display: flex; align-items: flex-end"><div style="{{d.arriba}}"></div></div>
+<div style="height: 1px; width: 100%; background: #DCE3DD"></div>
+<div style="height: 10px; width: 100%; display: flex; align-items: flex-start"><div style="{{d.abajo}}"></div></div>
+<span style="{{d.etq}}">{{d.dia}}</span>
+</div>
+</sc-for>
+</div>
+<span style="font-size: 12px; color: #5B6B62; line-height: 1.4">El lunes te dio negativo porque le pagaste al proveedor. Mirá el promedio de la semana.</span>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<strong style="font-size: 15px; padding: 4px 2px 0">Para hoy</strong>
+<button type="button" onClick="{{irFiado}}" style="background: #FFFFFF; border: 1px solid #E4E9E4; border-radius: 16px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; text-align: left; min-height: 64px"><span style="width: 38px; height: 38px; border-radius: 12px; background: #E8F3EC; display: flex; align-items: center; justify-content: center; flex: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16794A" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0"/></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 1px; color: #0F1F17"><strong style="font-size: 14px">Hoy cobra Marta</strong><span style="font-size: 13px; color: #5B6B62">Recordale $18.000</span></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A968F" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+<button type="button" onClick="{{irPrecios}}" style="background: #FFFFFF; border: 1px solid #E4E9E4; border-radius: 16px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; text-align: left; min-height: 64px"><span style="width: 38px; height: 38px; border-radius: 12px; background: #FFF4DC; display: flex; align-items: center; justify-content: center; flex: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B26B00" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 1px; color: #0F1F17"><strong style="font-size: 14px">3 precios para actualizar</strong><span style="font-size: 13px; color: #5B6B62">Sin revisar hace más de 30 días</span></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A968F" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+<button type="button" onClick="{{irDormida}}" style="background: #FFFFFF; border: 1px solid #E4E9E4; border-radius: 16px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; text-align: left; min-height: 64px"><span style="width: 38px; height: 38px; border-radius: 12px; background: #F0F2EF; display: flex; align-items: center; justify-content: center; flex: none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4F6057" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/></svg></span><span style="flex: 1; display: flex; flex-direction: column; gap: 1px; color: #0F1F17"><strong style="font-size: 14px">$64.300 dormidos</strong><span style="font-size: 13px; color: #5B6B62">3 productos sin ventas en 30 días</span></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A968F" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+</div>
 </div>
 </sc-if>
 
-<div style="background: #FFFFFF; border-radius: 18px; padding: 16px; display: flex; align-items: center; gap: 12px; border: 1px solid #E3DCC7">
-<span style="width: 12px; height: 12px; border-radius: 50%; background: #2D6A4F; flex: none"></span>
-<span style="flex: 1; font-size: 15px; line-height: 1.4"><strong>Hoy cobra Marta.</strong> Recordale $18.000.</span>
-<button type="button" onClick="{{irFiado}}" style="background: #1B4332; color: #FFFFFF; border: 0; border-radius: 12px; padding: 10px 14px; font-weight: 700; font-size: 14px; min-height: 44px">Ver</button>
-</div>
-<div style="background: #FFFFFF; border-radius: 18px; padding: 16px; display: flex; align-items: center; gap: 12px; border: 1px solid #E3DCC7">
-<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B35C00" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg>
-<span style="flex: 1; font-size: 15px; line-height: 1.4"><strong>3 precios sin revisar</strong> hace más de 30 días.</span>
-<button type="button" onClick="{{irPrecios}}" style="background: #1B4332; color: #FFFFFF; border: 0; border-radius: 12px; padding: 10px 14px; font-weight: 700; font-size: 14px; min-height: 44px">Ver</button>
-</div>
-<div style="background: #FFFFFF; border-radius: 18px; padding: 16px; display: flex; align-items: center; gap: 12px; border: 1px solid #E3DCC7">
-<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A5A50" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>
-<span style="flex: 1; font-size: 15px; line-height: 1.4"><strong>$64.300 dormidos</strong> en 3 productos.</span>
-<button type="button" onClick="{{irDormida}}" style="background: #1B4332; color: #FFFFFF; border: 0; border-radius: 12px; padding: 10px 14px; font-weight: 700; font-size: 14px; min-height: 44px">Ver</button>
-</div>
-</div>
-</sc-if>
-
-<!-- CIERRE POR VOZ -->
+<!-- ===== CIERRE ===== -->
 <sc-if value="{{enCierre}}" hint-placeholder-val="{{ false }}">
-<div style="display: flex; flex-direction: column; gap: 16px; align-items: stretch">
+<div style="display: flex; flex-direction: column; gap: 14px">
 <sc-if value="{{paso01}}" hint-placeholder-val="{{ true }}">
-<div style="display: flex; flex-direction: column; align-items: center; gap: 18px; padding-top: 24px; text-align: center">
-<span style="font-family: 'Archivo Black', sans-serif; font-size: 24px; line-height: 1.15">{{micTitulo}}</span>
-<span style="font-size: 15px; color: #4A5A50; max-width: 300px; line-height: 1.5">Decí cuánto vendiste y qué pagaste. Como se lo contarías a alguien.</span>
-<button type="button" onClick="{{tocarMic}}" aria-label="Micrófono" style="{{micEstilo}}">
-<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10241A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 20px; padding-top: 28px; text-align: center">
+<div style="display: flex; flex-direction: column; gap: 8px; align-items: center">
+<span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 24px; letter-spacing: -0.02em">{{micTitulo}}</span>
+<span style="font-size: 15px; color: #5B6B62; max-width: 290px; line-height: 1.5">Decí cuánto vendiste y qué pagaste, como se lo contarías a alguien.</span>
+</div>
+<div style="position: relative; width: 168px; height: 168px; display: flex; align-items: center; justify-content: center">
+<sc-if value="{{escuchando}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position: absolute; inset: 20px; border-radius: 50%; background: #F5A524; animation: pulso 1.4s ease-out infinite"></span></sc-if>
+<button type="button" onClick="{{tocarMic}}" aria-label="Micrófono" style="position: relative; width: 128px; height: 128px; border-radius: 50%; border: 0; background: #F5A524; display: flex; align-items: center; justify-content: center; box-shadow: 0 18px 40px -12px rgba(178,107,0,0.6)">
+<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#0F1F17" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg>
 </button>
+</div>
 <sc-if value="{{escuchando}}" hint-placeholder-val="{{ false }}">
-<p style="margin: 0; font-family: 'Permanent Marker', cursive; font-size: 19px; line-height: 1.45; color: #1B4332">"Vendí ciento ochenta y seis mil. Le pagué noventa y dos al proveedor, ocho de flete y nueve de otras cosas."</p>
-<span style="font-size: 13px; color: #4A5A50">Tocá el micrófono cuando termines.</span>
+<div style="background: #FFFFFF; border: 1px solid #E4E9E4; border-radius: 18px 18px 18px 6px; padding: 14px 16px; font-size: 15px; line-height: 1.5; color: #3D4D44; text-align: left">"Vendí ciento ochenta y seis mil. Le pagué noventa y dos al proveedor, ocho de flete y nueve de otras cosas."</div>
+<span style="font-size: 13px; color: #5B6B62">Tocá el micrófono cuando termines.</span>
 </sc-if>
-<button type="button" onClick="{{irDia}}" style="background: transparent; border: 0; color: #1B4332; font-weight: 700; font-size: 15px; text-decoration: underline; min-height: 44px">Prefiero escribirlo</button>
+<button type="button" onClick="{{irDia}}" style="background: transparent; border: 0; color: #16794A; font-weight: 600; font-size: 15px; min-height: 44px">Prefiero escribirlo</button>
 </div>
 </sc-if>
 <sc-if value="{{paso2}}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-direction: column; gap: 14px">
-<span style="font-family: 'Archivo Black', sans-serif; font-size: 22px">¿Está bien así?</span>
-<div style="background: #FFFFFF; border-radius: 18px; border: 1px solid #E3DCC7; display: flex; flex-direction: column">
-<div style="display: flex; justify-content: space-between; padding: 16px; border-bottom: 1px solid #EFE8D4; font-size: 17px"><span>Vendiste</span><strong>$186.000</strong></div>
-<div style="display: flex; justify-content: space-between; padding: 16px; border-bottom: 1px solid #EFE8D4; font-size: 17px"><span>Proveedor</span><strong>$92.000</strong></div>
-<div style="display: flex; justify-content: space-between; padding: 16px; border-bottom: 1px solid #EFE8D4; font-size: 17px"><span>Flete</span><strong>$8.000</strong></div>
-<div style="display: flex; justify-content: space-between; padding: 16px; font-size: 17px"><span>Otros</span><strong>$9.000</strong></div>
+<span style="font-size: 15px; color: #5B6B62">Esto es lo que entendí. ¿Está bien?</span>
+<div style="background: #FFFFFF; border-radius: 20px; border: 1px solid #E4E9E4; display: flex; flex-direction: column; padding: 4px 16px">
+<div style="display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #EEF2EE; font-size: 16px"><span>Vendiste</span><strong style="color: #16794A">$186.000</strong></div>
+<div style="display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #EEF2EE; font-size: 16px"><span>Proveedor</span><strong>−$92.000</strong></div>
+<div style="display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #EEF2EE; font-size: 16px"><span>Flete</span><strong>−$8.000</strong></div>
+<div style="display: flex; justify-content: space-between; padding: 14px 0; font-size: 16px"><span>Otros</span><strong>−$9.000</strong></div>
 </div>
-<span style="font-size: 15px; font-weight: 700">¿Qué se movió hoy?</span>
+<strong style="font-size: 15px; padding-top: 4px">¿Qué se movió hoy?</strong>
 <div style="display: flex; flex-wrap: wrap; gap: 8px">
-<span style="background: #1B4332; color: #FFFFFF; padding: 8px 12px; border-radius: 999px; font-size: 14px">Gaseosa 2,25 L</span>
-<span style="background: #1B4332; color: #FFFFFF; padding: 8px 12px; border-radius: 999px; font-size: 14px">Alfajor triple</span>
-<span style="background: #1B4332; color: #FFFFFF; padding: 8px 12px; border-radius: 999px; font-size: 14px">Pan lactal</span>
-<span style="background: #FFFFFF; border: 1px solid #C9C2AC; padding: 8px 12px; border-radius: 999px; font-size: 14px">Yerba 1 kg</span>
-<span style="background: #FFFFFF; border: 1px solid #C9C2AC; padding: 8px 12px; border-radius: 999px; font-size: 14px">+ Buscar</span>
+<span style="background: #0E3B2A; color: #FFFFFF; padding: 8px 12px; border-radius: 999px; font-size: 13px; font-weight: 600">Gaseosa 2,25 L</span>
+<span style="background: #0E3B2A; color: #FFFFFF; padding: 8px 12px; border-radius: 999px; font-size: 13px; font-weight: 600">Alfajor triple</span>
+<span style="background: #0E3B2A; color: #FFFFFF; padding: 8px 12px; border-radius: 999px; font-size: 13px; font-weight: 600">Pan lactal</span>
+<span style="background: #FFFFFF; border: 1px solid #DCE3DD; padding: 8px 12px; border-radius: 999px; font-size: 13px; font-weight: 600">Yerba 1 kg</span>
+<span style="background: #FFFFFF; border: 1px dashed #B9C4BC; padding: 8px 12px; border-radius: 999px; font-size: 13px; font-weight: 600; color: #5B6B62">+ Buscar</span>
 </div>
-<button type="button" onClick="{{guardarCierre}}" style="background: #1B4332; color: #FFFFFF; border: 0; border-radius: 16px; padding: 18px; font-weight: 800; font-size: 18px; min-height: 56px">Guardar cierre</button>
+<button type="button" onClick="{{guardarCierre}}" style="margin-top: 6px; background: #0E3B2A; color: #FFFFFF; border: 0; border-radius: 14px; padding: 16px; font-weight: 700; font-size: 16px; min-height: 54px; box-shadow: 0 10px 24px -10px rgba(14,59,42,0.6)">Guardar cierre</button>
 </div>
 </sc-if>
 </div>
 </sc-if>
 
-<!-- FIADOS -->
+<!-- ===== FIADOS ===== -->
 <sc-if value="{{enFiado}}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-direction: column; gap: 12px">
-<div style="background: #0B2418; color: #FFFFFF; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 4px">
-<span style="font-size: 14px; color: #C9D6CE">Te deben en total</span>
-<span style="font-family: 'Archivo Black', sans-serif; font-size: 40px; line-height: 1; color: #FFB703">$112.500</span>
-<span style="font-size: 13px; color: #C9D6CE">La deuda más vieja es de hace 41 días.</span>
+<div style="background: #0E3B2A; color: #FFFFFF; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; color: #A9C7B5; font-weight: 500">Te deben en total</span>
+<span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 38px; letter-spacing: -0.035em; line-height: 1">$112.500</span>
+<span style="font-size: 12px; color: #A9C7B5">4 clientes · la deuda más vieja es de hace 41 días</span>
+</div>
+<div style="display: flex; gap: 8px">
+<span style="background: #0F1F17; color: #FFFFFF; padding: 7px 12px; border-radius: 999px; font-size: 13px; font-weight: 600">Todos</span>
+<span style="background: #FFFFFF; border: 1px solid #E4E9E4; padding: 7px 12px; border-radius: 999px; font-size: 13px; font-weight: 600">Cobran hoy</span>
+<span style="background: #FFFFFF; border: 1px solid #E4E9E4; padding: 7px 12px; border-radius: 999px; font-size: 13px; font-weight: 600">Atrasados</span>
 </div>
 <sc-for list="{{clientes}}" as="c" hint-placeholder-count="4">
-<div style="background: #FFFFFF; border-radius: 18px; padding: 14px; border: 1px solid #E3DCC7; display: flex; flex-direction: column; gap: 10px">
-<div style="display: flex; align-items: center; gap: 10px">
-<span style="{{c.punto}}" aria-hidden="true"></span>
-<span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 17px">{{c.nombre}}</strong><span style="font-size: 13px; color: #4A5A50">{{c.detalle}}</span></span>
-<strong style="font-size: 19px">{{c.saldo}}</strong>
+<div style="background: #FFFFFF; border-radius: 20px; padding: 14px; border: 1px solid #E4E9E4; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="{{c.avatar}}">{{c.inicial}}</span>
+<span style="flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0"><strong style="font-size: 15px">{{c.nombre}}</strong><span style="font-size: 12px; color: #5B6B62">{{c.detalle}}</span></span>
+<span style="display: flex; flex-direction: column; align-items: flex-end; gap: 3px"><strong style="font-size: 16px">{{c.saldo}}</strong><span style="{{c.chip}}">{{c.estado}}</span></span>
 </div>
-<sc-if value="{{c.alerta}}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; font-weight: 700; color: #A4161A">No le fíes más hasta que pague.</span></sc-if>
+<sc-if value="{{c.alerta}}" hint-placeholder-val="{{ false }}"><span style="background: #FDECEA; color: #A4161A; font-size: 12px; font-weight: 600; padding: 8px 10px; border-radius: 10px">No le fíes más hasta que pague.</span></sc-if>
 <button type="button" onClick="{{c.recordar}}" style="{{c.btn}}">{{c.btnTxt}}</button>
 </div>
 </sc-for>
 </div>
 </sc-if>
 
-<!-- PRECIOS -->
+<!-- ===== PRECIOS ===== -->
 <sc-if value="{{enPrecios}}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-direction: column; gap: 12px">
 <sc-if value="{{factura0}}" hint-placeholder-val="{{ true }}">
-<button type="button" onClick="{{leerFactura}}" style="background: #FFB703; color: #10241A; border: 0; border-radius: 18px; padding: 16px; display: flex; align-items: center; gap: 12px; text-align: left; box-shadow: 0 4px 0 #B37F00; min-height: 72px">
-<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#10241A" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
-<span style="display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 17px">Sacale foto a la factura</strong><span style="font-size: 13px">Te digo a cuánto vender lo que aumentó.</span></span>
+<button type="button" onClick="{{leerFactura}}" style="background: #0E3B2A; color: #FFFFFF; border: 0; border-radius: 22px; padding: 18px; display: flex; align-items: center; gap: 14px; text-align: left; min-height: 80px">
+<span style="width: 48px; height: 48px; border-radius: 14px; background: #F5A524; display: flex; align-items: center; justify-content: center; flex: none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0F1F17" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg></span>
+<span style="display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 16px">Sacale foto a la factura</strong><span style="font-size: 13px; color: #C5D9CC">Te digo a cuánto vender lo que aumentó</span></span>
 </button>
 </sc-if>
 <sc-if value="{{factura1}}" hint-placeholder-val="{{ false }}">
-<div style="background: #FFFFFF; border: 2px solid #B35C00; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
-<strong style="font-size: 17px">3 productos aumentaron.</strong>
-<span style="font-size: 14px; color: #4A5A50">Para seguir ganando 30%, vendelos a:</span>
+<div style="background: #FFFFFF; border: 1px solid #F3D9A4; border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 10px 30px -18px rgba(178,107,0,0.5)">
+<div style="display: flex; align-items: center; gap: 10px"><span style="width: 34px; height: 34px; border-radius: 10px; background: #FFF4DC; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B26B00" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg></span><span style="display: flex; flex-direction: column"><strong style="font-size: 15px">3 productos aumentaron</strong><span style="font-size: 12px; color: #5B6B62">Para seguir ganando 30%, vendelos a:</span></span></div>
+<div style="display: flex; flex-direction: column">
 <sc-for list="{{sugeridos}}" as="s" hint-placeholder-count="3">
-<div style="display: flex; justify-content: space-between; align-items: center; font-size: 15px; gap: 8px"><span style="flex: 1">{{s.nombre}}</span><span style="color: #4A5A50; text-decoration: line-through">{{s.viejo}}</span><strong style="font-size: 17px">{{s.nuevo}}</strong></div>
+<div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; gap: 8px; padding: 9px 0; border-top: 1px solid #EEF2EE"><span style="flex: 1">{{s.nombre}}</span><span style="color: #8A968F; text-decoration: line-through; font-size: 13px">{{s.viejo}}</span><strong style="font-size: 15px; color: #16794A">{{s.nuevo}}</strong></div>
 </sc-for>
-<button type="button" onClick="{{aplicar}}" style="background: #1B4332; color: #FFFFFF; border: 0; border-radius: 14px; padding: 14px; font-weight: 800; font-size: 16px; min-height: 52px">Aplicar los 3 precios</button>
+</div>
+<button type="button" onClick="{{aplicar}}" style="background: #0E3B2A; color: #FFFFFF; border: 0; border-radius: 12px; padding: 14px; font-weight: 700; font-size: 15px; min-height: 50px">Aplicar los 3 precios</button>
 </div>
 </sc-if>
 <sc-if value="{{factura2}}" hint-placeholder-val="{{ false }}">
-<div style="background: #FFFFFF; border: 2px solid #1B4332; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
-<strong style="font-size: 17px">Listo. Tus carteles nuevos:</strong>
+<div style="background: #FFFFFF; border: 1px solid #CFE3D6; border-radius: 22px; padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 10px"><span style="width: 34px; height: 34px; border-radius: 50%; background: #16794A; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></span><strong style="font-size: 15px">Precios actualizados. Tus carteles:</strong></div>
 <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
 <sc-for list="{{sugeridos}}" as="s" hint-placeholder-count="3">
-<div style="background: #FFB703; border-radius: 10px; padding: 10px 6px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center"><span style="font-size: 11px; font-weight: 700; line-height: 1.2">{{s.nombre}}</span><span style="font-family: 'Archivo Black', sans-serif; font-size: 17px">{{s.nuevo}}</span></div>
+<div style="background: #FFFBF0; border: 1px solid #F3D9A4; border-radius: 12px; padding: 10px 6px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center"><span style="font-size: 11px; font-weight: 600; line-height: 1.2; color: #3D4D44">{{s.nombre}}</span><span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 17px">{{s.nuevo}}</span></div>
 </sc-for>
 </div>
-<button type="button" style="background: #2D6A4F; color: #FFFFFF; border: 0; border-radius: 14px; padding: 14px; font-weight: 800; font-size: 16px; min-height: 52px">Mandar por WhatsApp</button>
+<button type="button" style="background: #16794A; color: #FFFFFF; border: 0; border-radius: 12px; padding: 14px; font-weight: 700; font-size: 15px; min-height: 50px">Mandar por WhatsApp</button>
 </div>
 </sc-if>
-<span style="font-size: 14px; font-weight: 700; color: #4A5A50; padding-top: 4px">LO QUE TE DEJA CADA PRODUCTO</span>
+<div style="display: flex; justify-content: space-between; align-items: baseline; padding: 6px 2px 0"><strong style="font-size: 15px">Lo que te deja cada producto</strong><span style="font-size: 12px; color: #5B6B62">Margen</span></div>
+<div style="background: #FFFFFF; border: 1px solid #E4E9E4; border-radius: 20px; padding: 4px 14px; display: flex; flex-direction: column">
 <sc-for list="{{productos}}" as="p" hint-placeholder-count="5">
-<div style="background: #FFFFFF; border-radius: 14px; padding: 12px 14px; border: 1px solid #E3DCC7; display: flex; align-items: center; gap: 10px">
-<span style="flex: 1; display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 15px">{{p.nombre}}</strong><span style="font-size: 12px; color: #4A5A50">{{p.detalle}}</span></span>
+<div style="display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid #EEF2EE">
+<span style="flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0"><strong style="font-size: 14px">{{p.nombre}}</strong><span style="font-size: 12px; color: #5B6B62">{{p.detalle}}</span></span>
 <span style="{{p.chip}}">{{p.margen}}</span>
 </div>
 </sc-for>
 </div>
+</div>
 </sc-if>
 
-<!-- PLATA DORMIDA -->
+<!-- ===== DORMIDA ===== -->
 <sc-if value="{{enDormida}}" hint-placeholder-val="{{ false }}">
 <div style="display: flex; flex-direction: column; gap: 12px">
-<div style="background: #0B2418; color: #FFFFFF; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 4px">
-<span style="font-size: 14px; color: #C9D6CE">Tenés inmovilizados</span>
-<span style="font-family: 'Archivo Black', sans-serif; font-size: 40px; line-height: 1; color: #FFB703">$64.300</span>
-<span style="font-size: 13px; color: #C9D6CE">En productos que no se venden hace más de 30 días.</span>
+<div style="background: #0E3B2A; color: #FFFFFF; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 13px; color: #A9C7B5; font-weight: 500">Plata inmovilizada en el depósito</span>
+<span style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 38px; letter-spacing: -0.035em; line-height: 1; color: #F5A524">$64.300</span>
+<span style="font-size: 12px; color: #A9C7B5">Productos sin ventas hace más de 30 días</span>
 </div>
 <sc-for list="{{dormidos}}" as="d" hint-placeholder-count="3">
-<div style="background: #FFFFFF; border-radius: 18px; padding: 14px; border: 1px solid #E3DCC7; display: flex; flex-direction: column; gap: 10px">
-<div style="display: flex; justify-content: space-between; gap: 8px"><span style="display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 16px">{{d.nombre}}</strong><span style="font-size: 13px; color: #4A5A50">{{d.detalle}}</span></span><strong style="font-size: 17px">{{d.monto}}</strong></div>
+<div style="background: #FFFFFF; border-radius: 20px; padding: 14px; border: 1px solid #E4E9E4; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; gap: 8px; align-items: flex-start"><span style="display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 15px">{{d.nombre}}</strong><span style="font-size: 12px; color: #5B6B62">{{d.detalle}}</span></span><strong style="font-size: 16px">{{d.monto}}</strong></div>
 <sc-if value="{{d.pendiente}}" hint-placeholder-val="{{ true }}">
-<div style="display: flex; gap: 6px">
-<button type="button" onClick="{{d.noReponer}}" style="flex: 1; background: #FBF7EC; border: 1px solid #C9C2AC; border-radius: 10px; padding: 10px 4px; font-size: 13px; font-weight: 700; color: #10241A; min-height: 44px">No reponer</button>
-<button type="button" onClick="{{d.liquidar}}" style="flex: 1; background: #FBF7EC; border: 1px solid #C9C2AC; border-radius: 10px; padding: 10px 4px; font-size: 13px; font-weight: 700; color: #10241A; min-height: 44px">Liquidar</button>
-<button type="button" onClick="{{d.bien}}" style="flex: 1; background: #FBF7EC; border: 1px solid #C9C2AC; border-radius: 10px; padding: 10px 4px; font-size: 13px; font-weight: 700; color: #10241A; min-height: 44px">Está bien</button>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+<button type="button" onClick="{{d.noReponer}}" style="background: #F7F8F5; border: 1px solid #E4E9E4; border-radius: 10px; padding: 10px 4px; font-size: 13px; font-weight: 600; color: #0F1F17; min-height: 44px">No reponer</button>
+<button type="button" onClick="{{d.liquidar}}" style="background: #FFF4DC; border: 1px solid #F3D9A4; border-radius: 10px; padding: 10px 4px; font-size: 13px; font-weight: 600; color: #6B4100; min-height: 44px">Liquidar</button>
+<button type="button" onClick="{{d.bien}}" style="background: #F7F8F5; border: 1px solid #E4E9E4; border-radius: 10px; padding: 10px 4px; font-size: 13px; font-weight: 600; color: #0F1F17; min-height: 44px">Está bien</button>
 </div>
 </sc-if>
-<sc-if value="{{d.hecho}}" hint-placeholder-val="{{ false }}"><span style="font-size: 14px; font-weight: 700; color: #1B4332">{{d.resultado}}</span></sc-if>
+<sc-if value="{{d.hecho}}" hint-placeholder-val="{{ false }}"><span style="background: #E8F3EC; color: #0E3B2A; font-size: 13px; font-weight: 600; padding: 10px 12px; border-radius: 10px">{{d.resultado}}</span></sc-if>
 </div>
 </sc-for>
 </div>
@@ -203,11 +240,12 @@ button:focus-visible{outline:3px solid #FFB703;outline-offset:2px}
 </div>
 
 <!-- Navegación -->
-<div style="height: 76px; flex: none; background: #FFFFFF; border-top: 1px solid #E3DCC7; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr))">
-<button type="button" onClick="{{irDia}}" style="{{nav.dia}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/><path d="M9 20v-6h6v6"/></svg>Tu día</button>
-<button type="button" onClick="{{irFiado}}" style="{{nav.fiado}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4h12a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M8 8h7M8 12h7"/></svg>Fiados</button>
-<button type="button" onClick="{{irPrecios}}" style="{{nav.precios}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>Precios</button>
-<button type="button" onClick="{{irDormida}}" style="{{nav.dormida}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Dormida</button>
+<div style="flex: none; height: 84px; background: #FFFFFF; border-top: 1px solid #E4E9E4; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: center; padding-bottom: 8px; box-sizing: border-box">
+<button type="button" onClick="{{irDia}}" style="{{nav.dia}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/><path d="M9 20v-6h6v6"/></svg>Tu día</button>
+<button type="button" onClick="{{irFiado}}" style="{{nav.fiado}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M3 20a6 6 0 0 1 12 0M17 11h4M19 9v4"/></svg>Fiados</button>
+<div style="display: flex; justify-content: center"><button type="button" onClick="{{irCierre}}" aria-label="Hacer el cierre" style="width: 60px; height: 60px; margin-top: -26px; border-radius: 50%; border: 4px solid #F7F8F5; background: #F5A524; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 24px -8px rgba(178,107,0,0.7)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0F1F17" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg></button></div>
+<button type="button" onClick="{{irPrecios}}" style="{{nav.precios}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg>Precios</button>
+<button type="button" onClick="{{irDormida}}" style="{{nav.dormida}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>Depósito</button>
 </div>
 
 </div>
@@ -220,28 +258,46 @@ class Component extends DCLogic {
   }
   renderVals() {
     const s = this.state;
-    const fmt = (n) => '$' + Math.round(n).toLocaleString('es-AR');
+    const fmt = (n) => (n < 0 ? '−$' : '$') + Math.abs(Math.round(n)).toLocaleString('es-AR');
     const ir = (p) => () => this.setState({ pant: p, paso: 0 });
-    const navBase = 'background: transparent; border: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 700; min-height: 44px; ';
-    const navSt = (p) => navBase + (s.pant === p || (p === 'dia' && s.pant === 'cierre') ? 'color: #1B4332; box-shadow: inset 0 3px 0 #FFB703' : 'color: #5E6B62');
-    const titulos = { dia: 'Tu día', cierre: 'Cierre de hoy', fiado: 'Fiados', precios: 'Precios', dormida: 'Plata dormida' };
+    const navBase = 'background: transparent; border: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 11px; font-weight: 600; min-height: 48px; ';
+    const navSt = (p) => navBase + (s.pant === p ? 'color: #0E3B2A' : 'color: #7A8780');
+    const titulos = { dia: 'Tu día', cierre: 'Cierre de hoy', fiado: 'Fiados', precios: 'Precios', dormida: 'Depósito' };
 
-    const ventas = 186000, numero = 121111;
-    const pct = s.cerrado ? 100 : 0;
+    const ventas = 186000, numero = 121111, hoy = 40667;
+    const previos = [['Vie', 32400], ['Sáb', 51200], ['Dom', 18900], ['Lun', -4300], ['Mar', 26800], ['Mié', 37500]];
+    const serie = previos.concat([['Hoy', s.cerrado ? hoy : null]]);
+    const vals = serie.filter((x) => x[1] !== null).map((x) => x[1]);
+    const prom = vals.reduce((a, b) => a + b, 0) / vals.length;
+    const promPrev = previos.reduce((a, b) => a + b[1], 0) / previos.length;
+    const max = 51200;
+    const dias = serie.map(([dia, v]) => {
+      const esHoy = dia === 'Hoy';
+      let arriba = 'width: 100%; border-radius: 6px 6px 2px 2px; ';
+      let abajo = 'width: 100%; border-radius: 2px 2px 6px 6px; height: 0';
+      if (v === null) arriba += 'height: 100%; border: 1.5px dashed #CFD8D1; box-sizing: border-box; background: transparent';
+      else if (v >= 0) arriba += 'height: ' + Math.max(6, (v / max) * 100) + '%; background: ' + (esHoy ? '#16794A' : '#CFE3D6');
+      else { arriba += 'height: 0'; abajo = 'width: 100%; border-radius: 2px 2px 6px 6px; height: 100%; background: #F4B9B2'; }
+      return { dia, arriba, abajo, etq: 'font-size: 11px; ' + (esHoy ? 'font-weight: 700; color: #0F1F17' : 'color: #7A8780') };
+    });
 
     const clientesBase = [
-      { id: 'marta', nombre: 'Marta', saldo: 18000, detalle: 'Hace 12 días · cobra el 12 (hoy)', color: '#2D6A4F', alerta: false },
-      { id: 'rosa', nombre: 'Rosa', saldo: 42000, detalle: 'Hace 9 días · cobra el 1', color: '#2D6A4F', alerta: false },
-      { id: 'juan', nombre: 'Juan', saldo: 7500, detalle: 'Hace 22 días', color: '#E9A400', alerta: false },
-      { id: 'moto', nombre: 'El de la moto', saldo: 45000, detalle: 'Hace 41 días · 2 recordatorios sin pago', color: '#C1121F', alerta: true }
+      { id: 'marta', nombre: 'Marta', saldo: 18000, detalle: 'Hace 12 días · cobra hoy', estado: 'Al día', tono: 'v' },
+      { id: 'rosa', nombre: 'Rosa', saldo: 42000, detalle: 'Hace 9 días · cobra el 1', estado: 'Al día', tono: 'v' },
+      { id: 'juan', nombre: 'Juan', saldo: 7500, detalle: 'Hace 22 días', estado: 'Atrasado', tono: 'a' },
+      { id: 'moto', nombre: 'El de la moto', saldo: 45000, detalle: 'Hace 41 días · 2 recordatorios', estado: 'Muy atrasado', tono: 'r', alerta: true }
     ];
+    const tonos = { v: ['#E8F3EC', '#16794A'], a: ['#FFF4DC', '#8A5300'], r: ['#FDECEA', '#A4161A'] };
     const clientes = clientesBase.map((c) => {
       const hecho = !!s.recordados[c.id];
+      const [bg, fg] = tonos[c.tono];
       return {
-        nombre: c.nombre, detalle: c.detalle, saldo: fmt(c.saldo), alerta: c.alerta,
-        punto: 'width: 14px; height: 14px; border-radius: 50%; flex: none; background: ' + c.color,
-        btnTxt: hecho ? 'Le recordaste recién ✓' : 'Recordarle por WhatsApp',
-        btn: 'border: 0; border-radius: 12px; padding: 12px; font-weight: 800; font-size: 15px; min-height: 48px; ' + (hecho ? 'background: #E7F0EA; color: #1B4332' : 'background: #25633F; color: #FFFFFF'),
+        nombre: c.nombre, detalle: c.detalle, saldo: fmt(c.saldo), alerta: !!c.alerta, estado: c.estado,
+        inicial: c.nombre.charAt(0),
+        avatar: 'width: 42px; height: 42px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; background: ' + bg + '; color: ' + fg,
+        chip: 'font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: ' + bg + '; color: ' + fg,
+        btnTxt: hecho ? 'Recordatorio enviado ✓' : 'Recordarle por WhatsApp',
+        btn: 'border-radius: 12px; padding: 12px; font-weight: 600; font-size: 14px; min-height: 46px; ' + (hecho ? 'background: #E8F3EC; color: #0E3B2A; border: 1px solid #CFE3D6' : 'background: #FFFFFF; color: #0E3B2A; border: 1px solid #0E3B2A'),
         recordar: () => this.setState({ recordados: { ...s.recordados, [c.id]: true } })
       };
     });
@@ -255,10 +311,7 @@ class Component extends DCLogic {
       { id: 'galle', nombre: 'Galletitas dulces', precio: 1500, costo: 1320 }
     ];
     const sugerido = (c) => Math.ceil(c / 0.7 / 50) * 50;
-    const prods = prodBase.map((p) => {
-      if (s.factura === 2 && sube[p.id]) return { ...p, costo: sube[p.id], precio: sugerido(sube[p.id]) };
-      return p;
-    });
+    const prods = prodBase.map((p) => (s.factura === 2 && sube[p.id]) ? { ...p, costo: sube[p.id], precio: sugerido(sube[p.id]) } : p);
     const productos = prods
       .map((p) => ({ ...p, m: (p.precio - p.costo) / p.precio }))
       .sort((a, b) => b.m - a.m)
@@ -268,7 +321,7 @@ class Component extends DCLogic {
           nombre: p.nombre,
           detalle: 'Vendés a ' + fmt(p.precio) + ' · te cuesta ' + fmt(p.costo),
           margen: Math.round(p.m * 100) + '%',
-          chip: 'font-family: Archivo Black, sans-serif; font-size: 16px; padding: 6px 10px; border-radius: 10px; ' + (bajo ? 'background: #FBE3E4; color: #A4161A' : 'background: #E7F0EA; color: #1B4332')
+          chip: 'font-weight: 700; font-size: 14px; padding: 5px 10px; border-radius: 999px; ' + (bajo ? 'background: #FDECEA; color: #A4161A' : 'background: #E8F3EC; color: #16794A')
         };
       });
     const sugeridos = prodBase.filter((p) => sube[p.id]).map((p) => ({ nombre: p.nombre, viejo: fmt(p.precio), nuevo: fmt(sugerido(sube[p.id])) }));
@@ -276,7 +329,7 @@ class Component extends DCLogic {
     const dormBase = [
       { id: 'pilas', nombre: 'Pilas AA x4', detalle: '4 unidades · sin ventas hace 62 días', monto: 17600, liq: 4620 },
       { id: 'aceite', nombre: 'Aceite de oliva 500 ml', detalle: '6 unidades · sin ventas hace 47 días', monto: 31200, liq: 5460 },
-      { id: 'shampoo', nombre: 'Shampoo 400 ml', detalle: '5 unidades · sin ventas hace 38 días', monto: 15500, liq: 3260 }
+      { id: 'shampoo', nombre: 'Shampoo 400 ml', detalle: '5 unidades · sin ventas hace 38 días', monto: 15500, liq: 3255 }
     ];
     const dormidos = dormBase.map((d) => {
       const a = s.dormAccion[d.id];
@@ -285,17 +338,22 @@ class Component extends DCLogic {
       return { nombre: d.nombre, detalle: d.detalle, monto: fmt(d.monto), pendiente: !a, hecho: !!a, resultado: a ? res[a] : '', noReponer: poner('no'), liquidar: poner('liq'), bien: poner('bien') };
     });
 
+    const pct = s.cerrado ? 100 : 0;
     return {
       titulo: titulos[s.pant],
+      subtitulo: s.pant === 'dia' ? 'Jueves 12 de noviembre' : 'Tu kiosco',
       enDia: s.pant === 'dia', enCierre: s.pant === 'cierre', enFiado: s.pant === 'fiado', enPrecios: s.pant === 'precios', enDormida: s.pant === 'dormida',
       irDia: ir('dia'), irFiado: ir('fiado'), irPrecios: ir('precios'), irDormida: ir('dormida'), irCierre: ir('cierre'),
       nav: { dia: navSt('dia'), fiado: navSt('fiado'), precios: navSt('precios'), dormida: navSt('dormida') },
       sinCierre: !s.cerrado, conCierre: s.cerrado,
-      barra: 'height: 100%; border-radius: 999px; background: #FFB703; transition: width .8s ease; width: ' + pct + '%',
-      barraTxt: s.cerrado ? 'Lo pasaste: vendiste ' + fmt(ventas) + ', ' + fmt(ventas - numero) + ' de más.' : 'Hacé tu cierre y te digo si lo pasaste.',
+      barra: 'height: 100%; border-radius: 999px; background: #F5A524; transition: width .9s ease; width: ' + pct + '%',
+      barraIzq: s.cerrado ? 'Vendiste ' + fmt(ventas) : 'Vendiste $0 todavía',
+      barraDer: s.cerrado ? '¡Lo pasaste por ' + fmt(ventas - numero) + '!' : 'Meta ' + fmt(numero),
+      vsPromedio: '+' + fmt(hoy - promPrev) + ' vs. promedio',
+      promedio: fmt(prom),
+      dias,
       paso01: s.paso < 2, paso2: s.paso === 2, escuchando: s.paso === 1,
       micTitulo: s.paso === 1 ? 'Te escucho…' : 'Tocá y hablale',
-      micEstilo: 'width: 132px; height: 132px; border-radius: 50%; border: 0; display: flex; align-items: center; justify-content: center; ' + (s.paso === 1 ? 'background: #FFB703; box-shadow: 0 0 0 14px rgba(255,183,3,.3), 0 0 0 28px rgba(255,183,3,.15)' : 'background: #FFB703; box-shadow: 0 6px 0 #B37F00'),
       tocarMic: () => this.setState({ paso: s.paso === 0 ? 1 : 2 }),
       guardarCierre: () => this.setState({ cerrado: true, pant: 'dia', paso: 0 }),
       clientes,
