@@ -32,6 +32,7 @@ en GitHub Actions. Reemplaza a la voz del creador que menciona la sección 1 del
 3. Nunca quieto: algo pasa como máximo cada 0,7 s.
 4. Todo lo que se ve, suena, según el contexto.
 5. Al menos una comparación visual fuerte por video.
+6. **Loop abierto:** el gancho promete algo que solo se revela al final, el misterio queda a la vista todo el video, hay un re-gancho a mitad y la app resuelve eso mismo como un truco. Ver la tabla de `videos/guiones/IDEAS_V4.md`.
 
 Si un video rompe una de estas reglas, no está terminado.
 
@@ -39,7 +40,7 @@ Si un video rompe una de estas reglas, no está terminado.
 
 Cuando te pidan "producí el video NN":
 
-1. Leé **solo**: secciones 0, 4, 6 y 11 de `videos/referencia/CREATIVE_BRIEF.md`, y en `videos/guiones/IDEAS_V3.md` la regla del cuadro 0, la sección 3D y el guion NN. Nada más.
+1. Leé **solo**: secciones 0, 4, 6 y 11 de `videos/referencia/CREATIVE_BRIEF.md`, y en `videos/guiones/IDEAS_V4.md` la estructura de loop abierto y el guion NN (los guiones 3D de `IDEAS_V3.md` ya hechos son referencia de código: `videos/CLAUDE.md`). Nada más.
 2. Reutilizá los componentes que ya existen en `videos/src/components`. Creá solo los que falten.
 3. Plan de 10 líneas como máximo y arrancás sin esperar aprobación.
 4. Escribí cada archivo completo de una vez. No releas lo que acabás de escribir. Nada de búsquedas amplias en el repo.
