@@ -23,5 +23,8 @@ ni muestras de terceros, así que no tienen restricciones de licencia: se pueden
 | `ascensor.wav` | podio que sube |
 | `ding.wav` | llega el ascensor (el podio frena) |
 | `ukelele.wav` | música irónica de "vida de rico" (rasgueo C–Am–F–G) |
+| `boveda.wav` | puerta de bóveda que se abre (golpe grave + chirrido) |
+| `viento.wav` | viento en la bóveda vacía |
+| `papel.wav` | papelitos que caen |
 
 Para reemplazar alguno por un archivo con licencia comercial, dejalo con el mismo nombre y anotá acá su origen.

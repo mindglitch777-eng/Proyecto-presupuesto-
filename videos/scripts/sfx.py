@@ -213,6 +213,21 @@ def main():
     uke = mix(*partes)
     save("ukelele", reverb(uke, 0.15), -6, 0.006)
 
+
+    # puerta de bóveda: golpe grave + chirrido de bisagra que se abre
+    chir = bp(sweep(180, 110, 0.9, "sq"), 420, 6) * np.clip(t(0.9) / 0.08, 0, 1) * np.clip((0.9 - t(0.9)) / 0.3, 0, 1) * 0.5
+    bov = mix((0, kick(0.7, 90, 28, 1.3)), (0, lp(metal_hit(1.0, 0.8), 1800)), (0.12, chir))
+    save("boveda", reverb(bov, 0.35, 0.5), -2, 0.005)
+
+    # viento en la bóveda vacía
+    vi = bp(noise(3.2), 520, 1.6) * (0.55 + 0.45 * np.sin(2 * np.pi * 0.55 * t(3.2)))
+    vi = vi * np.clip(t(3.2) / 0.8, 0, 1) * np.clip((3.2 - t(3.2)) / 0.9, 0, 1)
+    save("viento", vi, -12, 0.01)
+
+    # papelitos que caen: ráfaga de roces
+    pap = mix(*[(0.03 * i + 0.07 * rng.random(), hp(bp(noise(0.09), 3200 + (i % 4) * 700, 1.5), 1500) * env(0.09, 0.002, 38)) for i in range(18)])
+    save("papel", pap, -9, 0.004)
+
     print("sonidos listos en", OUT)
 
 

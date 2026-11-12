@@ -1,0 +1,282 @@
+{
+ "id": "v3-02-el-banco",
+ "titulo": "Sos el banco del barrio",
+ "duracionSeg": 27,
+ "tramos": [],
+ "voz": {
+  "nombre": "es-AR-TomasNeural",
+  "gancho": {
+   "rate": "+25%",
+   "pitch": "+3Hz",
+   "volume": "+20%"
+  },
+  "resto": {
+   "rate": "+15%"
+  }
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "SOS EL BANCO",
+    "DEL BARRIO",
+    "Y NO COBRÁS."
+   ],
+   "voz": "¡Sos el banco del barrio… y no cobrás ni un peso de interés!"
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 3.1,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 3.4,
+   "hasta": 8.2,
+   "texto": "Prestás leche, pan, cigarrillos. Sin firma, sin interés, sin fecha."
+  },
+  {
+   "desde": 8.6,
+   "hasta": 12.6,
+   "texto": "Un banco te cobra intereses. Vos, cero."
+  },
+  {
+   "desde": 13.4,
+   "hasta": 15.6,
+   "texto": "Y encima, nadie te paga.",
+   "gigante": true
+  },
+  {
+   "desde": 17.4,
+   "hasta": 23.4,
+   "texto": "En Claro te dice quién te debe, desde cuándo, y le avisa el día que cobra."
+  },
+  {
+   "desde": 24.2,
+   "hasta": 26.8,
+   "texto": "Cobrá como un banco. Probalo gratis.",
+   "gigante": true,
+   "gancho": true
+  }
+ ],
+ "sonidos": [
+  {
+   "en": 0.0,
+   "sfx": "slam"
+  },
+  {
+   "en": 0.35,
+   "sfx": "slam"
+  },
+  {
+   "en": 0.9,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 1.75,
+   "sfx": "thump"
+  },
+  {
+   "en": 1.75,
+   "sfx": "glitch"
+  },
+  {
+   "en": 2.2,
+   "sfx": "heart"
+  },
+  {
+   "en": 2.7,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 2.8,
+   "sfx": "boveda"
+  },
+  {
+   "en": 3.4,
+   "sfx": "tic"
+  },
+  {
+   "en": 3.4,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 3.78,
+   "sfx": "tic"
+  },
+  {
+   "en": 4.16,
+   "sfx": "tic"
+  },
+  {
+   "en": 4.5,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 4.54,
+   "sfx": "tic"
+  },
+  {
+   "en": 4.92,
+   "sfx": "tic"
+  },
+  {
+   "en": 5.3,
+   "sfx": "tic"
+  },
+  {
+   "en": 5.6,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 5.68,
+   "sfx": "tic"
+  },
+  {
+   "en": 6.06,
+   "sfx": "tic"
+  },
+  {
+   "en": 6.44,
+   "sfx": "tic"
+  },
+  {
+   "en": 6.7,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 6.82,
+   "sfx": "tic"
+  },
+  {
+   "en": 7.2,
+   "sfx": "tic"
+  },
+  {
+   "en": 7.58,
+   "sfx": "tic"
+  },
+  {
+   "en": 7.8,
+   "sfx": "viento"
+  },
+  {
+   "en": 8.5,
+   "sfx": "riser"
+  },
+  {
+   "en": 8.6,
+   "sfx": "thump"
+  },
+  {
+   "en": 8.6,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 9.6,
+   "sfx": "thump"
+  },
+  {
+   "en": 9.6,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 11.2,
+   "sfx": "heart"
+  },
+  {
+   "en": 13.2,
+   "sfx": "riser"
+  },
+  {
+   "en": 13.4,
+   "sfx": "papel"
+  },
+  {
+   "en": 14.0,
+   "sfx": "papel"
+  },
+  {
+   "en": 14.6,
+   "sfx": "papel"
+  },
+  {
+   "en": 15.2,
+   "sfx": "papel"
+  },
+  {
+   "en": 15.8,
+   "sfx": "papel"
+  },
+  {
+   "en": 16.4,
+   "sfx": "papel"
+  },
+  {
+   "en": 16.5,
+   "sfx": "thump"
+  },
+  {
+   "en": 17.2,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 18.5,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 19.4,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 20.3,
+   "sfx": "coins"
+  },
+  {
+   "en": 20.6,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 21.5,
+   "sfx": "coins"
+  },
+  {
+   "en": 21.8,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 22.7,
+   "sfx": "coins"
+  },
+  {
+   "en": 22.8,
+   "sfx": "caja"
+  },
+  {
+   "en": 24.2,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 24.5,
+   "sfx": "riser"
+  },
+  {
+   "en": 24.9,
+   "sfx": "thump"
+  },
+  {
+   "en": 25.0,
+   "sfx": "caja"
+  },
+  {
+   "en": 25.6,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 26.4,
+   "sfx": "thump"
+  }
+ ]
+}

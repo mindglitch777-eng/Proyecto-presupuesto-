@@ -76,6 +76,9 @@ jobs:
           - nombre: 01-el-duenio-del-local
             id: Video01-ElDueno
             control: "0 300 560"
+          - nombre: 02-el-banco-del-barrio
+            id: Video02-Banco
+            control: "0 54 270 450 790"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

@@ -46,8 +46,8 @@ function altoPodio(t: number, plata: number, frenos: number[]) {
   return ALTO(plata) + rebote;
 }
 
-type Cam = { pos: [number, number, number]; target: [number, number, number]; fov: number };
-const mixV = (a: number[], b: number[], k: number) => a.map((x, i) => x + (b[i] - x) * k) as [number, number, number];
+export type Cam = { pos: [number, number, number]; target: [number, number, number]; fov: number };
+export const mixV = (a: number[], b: number[], k: number) => a.map((x, i) => x + (b[i] - x) * k) as [number, number, number];
 
 export function camara(t: number): Cam {
   // gancho: el kiosco de frente ocupando la pantalla
@@ -71,7 +71,7 @@ export function camara(t: number): Cam {
 
 const camAux = new THREE.PerspectiveCamera(50, 9 / 16, 0.1, 200);
 /** Punto 3D → posición en el lienzo de 360 × 640. */
-function proyectar(c: Cam, p: [number, number, number]) {
+export function proyectar(c: Cam, p: [number, number, number]) {
   camAux.fov = c.fov;
   camAux.position.set(...c.pos);
   camAux.lookAt(...c.target);
@@ -81,7 +81,7 @@ function proyectar(c: Cam, p: [number, number, number]) {
   return { x: ((v.x + 1) / 2) * 360, y: ((1 - v.y) / 2) * 640 };
 }
 
-const ControlCamara: React.FC<{ c: Cam }> = ({ c }) => {
+export const ControlCamara: React.FC<{ c: Cam }> = ({ c }) => {
   const cam = useThree((s) => s.camera) as THREE.PerspectiveCamera;
   cam.fov = c.fov;
   cam.position.set(...c.pos);
@@ -91,11 +91,11 @@ const ControlCamara: React.FC<{ c: Cam }> = ({ c }) => {
 };
 
 /** Espera a que estén las fuentes para dibujar los carteles 3D con la tipografía correcta. */
-function useFuentesListas() {
+export function useFuentesListas() {
   const [listo, setListo] = useState(false);
   const [h] = useState(() => delayRender("fuentes para texturas 3D"));
   useEffect(() => {
-    Promise.all([document.fonts.load("700 100px 'Space Grotesk'"), document.fonts.ready])
+    Promise.all([document.fonts.load("700 100px 'Space Grotesk'"), document.fonts.load("400 40px 'Permanent Marker'"), document.fonts.ready])
       .catch(() => undefined)
       .then(() => { setListo(true); continueRender(h); });
   }, [h]);
@@ -171,7 +171,7 @@ const Escena3D: React.FC<{ t: number; listo: boolean }> = ({ t, listo }) => {
 };
 
 // ---------- capas 2D ----------
-const Pildora: React.FC<{ texto: string; style?: React.CSSProperties }> = ({ texto, style }) => (
+export const Pildora: React.FC<{ texto: string; style?: React.CSSProperties }> = ({ texto, style }) => (
   <div style={{ padding: "4px 12px", borderRadius: 999, background: "#FFB703", color: "#1A1200", font: `900 15px ${BODY}`, letterSpacing: ".04em", ...style }}>{texto}</div>
 );
 

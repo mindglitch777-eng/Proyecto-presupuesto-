@@ -24,6 +24,15 @@
 - WebGL: `swangle` en `remotion.config.ts` (angle no levanta sin GPU).
 - Sonidos nuevos: `ascensor`, `ding`, `ukelele` (Karplus-Strong). Los efectos duran hasta 5 s en esta composición.
 
+## Video 02 de IDEAS_V3: "Sos el banco del barrio" (27 s, 3D)
+- Composición `Video02-Banco` (`src/v3/ElBanco.tsx`), guion `guiones/v3-02-el-banco.json`, modelos en `src/v3/ModelosBanco.tsx`:
+  `Cuaderno3D` (cuaderno de fiados gigante), `Banco` (fachada con columnas, cartel dorado y puerta de bóveda que se abre),
+  `Casita`, `Producto`, `Moneda`, `Papelito`, `MontonPapel`, `Cartel3D` (BANCO vs VOS).
+- Comparación: carteles BANCO "te cobra interés" vs VOS "0%". **No lleva el 80% anual del guion** (no tengo una tasa
+  verificada con fuente): la voz dice "un banco te cobra intereses. Vos, cero." Si se consigue la tasa real, agregarla con fuente.
+- Los montos de deudas (Marta, Juan, Rosa) llevan "ejemplo". Las monedas vuelven a la bóveda a medida que se cobra.
+- Sonidos nuevos: `boveda`, `viento`, `papel`. Exporta `ControlCamara`, `useFuentesListas`, `Pildora`, `mixV` desde `ElDueno.tsx`.
+
 ## Cambios respecto del animatic / brief
 - **Duración 36,2 s en vez de 32 s.** La voz real de Tomás no entraba en los tiempos del animatic (líneas 2 y 4 daban
   más de 1,25×). Las escenas se siguen escribiendo en segundos del animatic y `tramos` del guion estira solo
