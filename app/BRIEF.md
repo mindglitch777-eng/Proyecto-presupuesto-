@@ -5,6 +5,8 @@
 > (voz, foto de factura, carteles, fiado inteligente, número del día) y lanzamiento con socios fundadores.
 > Si algo de este brief es técnicamente incorrecto o hay una forma claramente mejor, decilo en el plan antes de construir.
 
+> **Referencia visual:** `app/prototipo/` (Main = landing, App = pantallas). Respetá colores, fuentes, textos y orden; los montos son de ejemplo.
+
 ## 1. Producto
 
 En Claro no es un sistema de gestión ni un punto de venta: es la capa de claridad sobre el mostrador. Le dice al dueño
