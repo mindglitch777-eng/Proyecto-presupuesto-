@@ -64,24 +64,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - nombre: la-persiana-gancho-A
-            id: LaPersiana
-            control: "36 535 944"
-          - nombre: la-persiana-gancho-B
-            id: LaPersiana-ganchoB
-          - nombre: la-persiana-gancho-C
-            id: LaPersiana-ganchoC
-          - nombre: la-persiana-gancho-D
-            id: LaPersiana-ganchoD
-          - nombre: 01-el-duenio-del-local
-            id: Video01-ElDueno
-            control: "0 300 560"
-          - nombre: 02-el-banco-del-barrio
-            id: Video02-Banco
-            control: "0 54 270 450 790"
-          - nombre: 03-tu-kiosco-se-hunde
-            id: Video03-SeHunde
-            control: "0 54 330 480 700 850"
+          # Solo el video en producción. Los ya entregados se pueden volver a armar copiando su bloque acá:
+          #   la-persiana-gancho-A/B/C/D  → id LaPersiana, LaPersiana-ganchoB, -ganchoC, -ganchoD
+          #   01-el-duenio-del-local      → id Video01-ElDueno
+          #   02-el-banco-del-barrio      → id Video02-Banco
+          #   03-tu-kiosco-se-hunde       → id Video03-SeHunde
           - nombre: v4-01-el-numero-tapado
             id: Video-v4-01-NumeroTapado
             control: "0 54 440 520 615 840 980"
@@ -122,33 +109,16 @@ jobs:
         run: |
           ffmpeg -y -v error -i out/crudo.mp4 -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=11 -ar 48000 -c:a aac -b:a 192k -movflags +faststart "out/en-claro-${{ matrix.nombre }}.mp4"
           ffprobe -v error -show_entries stream=codec_name,width,height,nb_frames -of compact "out/en-claro-${{ matrix.nombre }}.mp4"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: video-${{ matrix.nombre }}
-          path: videos/out/en-claro-${{ matrix.nombre }}.mp4
-
-  publicar:
-    name: Dejar los MP4 sueltos en la rama videos-listos
-    needs: video
-    if: ${{ !cancelled() }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    defaults:
-      run:
-        working-directory: .
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: video-*
-          path: mp4
-          merge-multiple: true
-      - name: Subir los MP4 (una sola confirmación que se pisa cada vez, el repo no crece)
+      - name: Dejar el MP4 en la misma rama (videos/salida/)
         run: |
-          cd mp4
-          ls -la
-          git init -q -b videos-listos
+          mkdir -p salida
+          cp "out/en-claro-${{ matrix.nombre }}.mp4" salida/
+          cd ..
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add *.mp4
-          git commit -q -m "MP4 listos (${{ github.sha }})"
-          git push -q --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" videos-listos
+          git add videos/salida/*.mp4
+          git commit -q -m "MP4 listo: ${{ matrix.nombre }}"
+          for i in 1 2 3 4; do
+            git pull -q --rebase origin "${{ github.ref_name }}" && git push -q origin "HEAD:${{ github.ref_name }}" && break
+            sleep 6
+          done
