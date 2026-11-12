@@ -1,0 +1,348 @@
+{
+ "voz": "es-AR-TomasNeural",
+ "firma": "ad8affecff41a33b",
+ "palabras": [
+  {
+   "texto": "¡Sos",
+   "desde": 0.084,
+   "hasta": 0.29,
+   "linea": 0
+  },
+  {
+   "texto": "el",
+   "desde": 0.29,
+   "hasta": 0.356,
+   "linea": 0
+  },
+  {
+   "texto": "banco",
+   "desde": 0.375,
+   "hasta": 0.59,
+   "linea": 0
+  },
+  {
+   "texto": "del",
+   "desde": 0.618,
+   "hasta": 0.703,
+   "linea": 0
+  },
+  {
+   "texto": "barrio…",
+   "desde": 0.721,
+   "hasta": 1.021,
+   "linea": 0
+  },
+  {
+   "texto": "y",
+   "desde": 1.218,
+   "hasta": 1.274,
+   "linea": 0
+  },
+  {
+   "texto": "no",
+   "desde": 1.293,
+   "hasta": 1.368,
+   "linea": 0
+  },
+  {
+   "texto": "cobrás",
+   "desde": 1.424,
+   "hasta": 1.705,
+   "linea": 0
+  },
+  {
+   "texto": "ni",
+   "desde": 1.742,
+   "hasta": 1.845,
+   "linea": 0
+  },
+  {
+   "texto": "un",
+   "desde": 1.874,
+   "hasta": 1.977,
+   "linea": 0
+  },
+  {
+   "texto": "peso",
+   "desde": 1.995,
+   "hasta": 2.173,
+   "linea": 0
+  },
+  {
+   "texto": "de",
+   "desde": 2.201,
+   "hasta": 2.248,
+   "linea": 0
+  },
+  {
+   "texto": "interés!",
+   "desde": 2.258,
+   "hasta": 2.651,
+   "linea": 0
+  },
+  {
+   "texto": "Prestás",
+   "desde": 3.482,
+   "hasta": 3.779,
+   "linea": 1
+  },
+  {
+   "texto": "leche,",
+   "desde": 3.807,
+   "hasta": 4.113,
+   "linea": 1
+  },
+  {
+   "texto": "pan,",
+   "desde": 4.237,
+   "hasta": 4.429,
+   "linea": 1
+  },
+  {
+   "texto": "cigarrillos.",
+   "desde": 4.572,
+   "hasta": 5.212,
+   "linea": 1
+  },
+  {
+   "texto": "Sin",
+   "desde": 5.904,
+   "hasta": 6.115,
+   "linea": 1
+  },
+  {
+   "texto": "firma,",
+   "desde": 6.124,
+   "hasta": 6.421,
+   "linea": 1
+  },
+  {
+   "texto": "sin",
+   "desde": 6.602,
+   "hasta": 6.746,
+   "linea": 1
+  },
+  {
+   "texto": "interés,",
+   "desde": 6.755,
+   "hasta": 7.166,
+   "linea": 1
+  },
+  {
+   "texto": "sin",
+   "desde": 7.338,
+   "hasta": 7.53,
+   "linea": 1
+  },
+  {
+   "texto": "fecha.",
+   "desde": 7.539,
+   "hasta": 7.826,
+   "linea": 1
+  },
+  {
+   "texto": "Un",
+   "desde": 8.697,
+   "hasta": 8.816,
+   "linea": 2
+  },
+  {
+   "texto": "banco",
+   "desde": 8.871,
+   "hasta": 9.11,
+   "linea": 2
+  },
+  {
+   "texto": "te",
+   "desde": 9.175,
+   "hasta": 9.229,
+   "linea": 2
+  },
+  {
+   "texto": "cobra",
+   "desde": 9.295,
+   "hasta": 9.479,
+   "linea": 2
+  },
+  {
+   "texto": "intereses.",
+   "desde": 9.49,
+   "hasta": 10.066,
+   "linea": 2
+  },
+  {
+   "texto": "Vos,",
+   "desde": 10.853,
+   "hasta": 11.168,
+   "linea": 2
+  },
+  {
+   "texto": "cero.",
+   "desde": 11.332,
+   "hasta": 11.668,
+   "linea": 2
+  },
+  {
+   "texto": "Y",
+   "desde": 13.493,
+   "hasta": 13.591,
+   "linea": 3
+  },
+  {
+   "texto": "encima,",
+   "desde": 13.591,
+   "hasta": 14.07,
+   "linea": 3
+  },
+  {
+   "texto": "nadie",
+   "desde": 14.341,
+   "hasta": 14.613,
+   "linea": 3
+  },
+  {
+   "texto": "te",
+   "desde": 14.667,
+   "hasta": 14.733,
+   "linea": 3
+  },
+  {
+   "texto": "paga.",
+   "desde": 14.787,
+   "hasta": 15.07,
+   "linea": 3
+  },
+  {
+   "texto": "En",
+   "desde": 17.493,
+   "hasta": 17.646,
+   "linea": 4
+  },
+  {
+   "texto": "Claro",
+   "desde": 17.7,
+   "hasta": 17.907,
+   "linea": 4
+  },
+  {
+   "texto": "te",
+   "desde": 17.961,
+   "hasta": 18.026,
+   "linea": 4
+  },
+  {
+   "texto": "dice",
+   "desde": 18.048,
+   "hasta": 18.265,
+   "linea": 4
+  },
+  {
+   "texto": "quién",
+   "desde": 18.32,
+   "hasta": 18.483,
+   "linea": 4
+  },
+  {
+   "texto": "te",
+   "desde": 18.504,
+   "hasta": 18.57,
+   "linea": 4
+  },
+  {
+   "texto": "debe,",
+   "desde": 18.602,
+   "hasta": 18.863,
+   "linea": 4
+  },
+  {
+   "texto": "desde",
+   "desde": 19.113,
+   "hasta": 19.309,
+   "linea": 4
+  },
+  {
+   "texto": "cuándo,",
+   "desde": 19.363,
+   "hasta": 19.689,
+   "linea": 4
+  },
+  {
+   "texto": "y",
+   "desde": 19.896,
+   "hasta": 19.961,
+   "linea": 4
+  },
+  {
+   "texto": "le",
+   "desde": 19.993,
+   "hasta": 20.059,
+   "linea": 4
+  },
+  {
+   "texto": "avisa",
+   "desde": 20.059,
+   "hasta": 20.363,
+   "linea": 4
+  },
+  {
+   "texto": "el",
+   "desde": 20.385,
+   "hasta": 20.428,
+   "linea": 4
+  },
+  {
+   "texto": "día",
+   "desde": 20.483,
+   "hasta": 20.602,
+   "linea": 4
+  },
+  {
+   "texto": "que",
+   "desde": 20.657,
+   "hasta": 20.722,
+   "linea": 4
+  },
+  {
+   "texto": "cobra.",
+   "desde": 20.776,
+   "hasta": 21.07,
+   "linea": 4
+  },
+  {
+   "texto": "Cobrá",
+   "desde": 24.278,
+   "hasta": 24.478,
+   "linea": 5
+  },
+  {
+   "texto": "como",
+   "desde": 24.53,
+   "hasta": 24.669,
+   "linea": 5
+  },
+  {
+   "texto": "un",
+   "desde": 24.669,
+   "hasta": 24.764,
+   "linea": 5
+  },
+  {
+   "texto": "banco.",
+   "desde": 24.799,
+   "hasta": 25.042,
+   "linea": 5
+  },
+  {
+   "texto": "Probalo",
+   "desde": 25.684,
+   "hasta": 25.901,
+   "linea": 5
+  },
+  {
+   "texto": "gratis.",
+   "desde": 25.927,
+   "hasta": 26.292,
+   "linea": 5
+  }
+ ]
+}
