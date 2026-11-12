@@ -26,7 +26,8 @@ cobro solo por Mercado Pago.
   - `videos/referencia/CREATIVE_BRIEF.md` — la biblia creativa. **Leela completa antes de tocar cualquier video.**
   - `videos/referencia/animatic.html` — el aviso "La persiana" funcionando en el navegador. Su `render(t)` calcula
     cada elemento desde el tiempo, igual que `useCurrentFrame()`: portalo a Remotion sin adivinar.
-- `app/` — (todavía no existe) el MVP de En Claro en Next.js + Supabase + Mercado Pago + Netlify.
+- `app/` — landing y MVP de En Claro en Next.js + Supabase + Mercado Pago + Netlify. `app/BRIEF.md` es la fuente única.
+- `marca/` — foto de perfil y portada (colores y toldo que usa la landing).
 
 ## Voz de los videos (decisión del dueño)
 
@@ -58,6 +59,19 @@ Cuando te pidan "producí el video NN":
 
 Criterio creativo: si algo del guion puede ser más loco, más impactante o más claro en el primer segundo, hacelo. 3D con `@remotion/three` y modelos hechos en código, todo determinista.
 
+## Cómo construir una fase de la app (y ahorrar tokens)
+
+Cuando te pidan "construí la fase N de la app":
+
+1. Leé **solo** `app/BRIEF.md` (la sección de esa fase y las que nombra) y el código de `app/` que vayas a tocar.
+2. Plan de 10 líneas como máximo y arrancás sin esperar aprobación. Si algo de Mercado Pago o Supabase depende de la documentación vigente, verificalo con una búsqueda antes de codear.
+3. Escribí cada archivo completo de una vez. Dependencias: un solo `npm install` al principio.
+4. Verificá con `npm run build`, los tests de la fase y una captura a 360 px de cada pantalla nueva (Playwright).
+5. Commit, push y un resumen de 3 líneas + la **lista numerada de pasos desde el celular** (variables en Netlify, SQL en Supabase, etc.), si los hay.
+6. Marcá la fase en el Estado de abajo.
+
+Claves y secretos: nunca en el código. Si falta una variable, el código falla con un mensaje claro y vos le decís al dueño dónde cargarla.
+
 ## Estado
 
 - [x] Videos: aviso "La persiana" en Remotion con voz `es-AR-TomasNeural` (detalle y pendientes en `videos/CLAUDE.md`).
@@ -66,4 +80,10 @@ Criterio creativo: si algo del guion puede ser más loco, más impactante o más
 - [ ] Videos: guiones 01 a 08 de `videos/guiones/IDEAS_V4.md`.
 - [ ] Videos v4 (`videos/guiones/IDEAS_V4.md`): hecho 01 `Video-v4-01-NumeroTapado`; faltan 02 a 08.
 - [ ] Videos V5 "Objeto que habla" (`videos/guiones/V5-01-CONFESIONES-CUADERNO.md`): hecho V5-01 `Video-v5-01-Confesiones`; serie: heladera, góndola, caja registradora.
-- [ ] App: MVP de En Claro (brief pendiente de subir a `app/BRIEF.md`).
+- [ ] App fase 0: landing + calculadora "tu número del día" + lista de espera (socios fundadores).
+- [ ] App fase 1: fundaciones (esquema, RLS, `has_access()`, auth, PWA).
+- [ ] App fase 2: onboarding y bloqueo.
+- [ ] App fase 3: cierre con voz, ranking, fiado inteligente, plata dormida.
+- [ ] App fase 4: foto de factura y carteles.
+- [ ] App fase 5: pagos con Mercado Pago y emails.
+- [ ] App fase 6: admin, legal y pulido.
