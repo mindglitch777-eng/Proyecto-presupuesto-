@@ -71,6 +71,8 @@ jobs:
             id: Video-v5-01-Confesiones
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -115,7 +117,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add videos/salida/*.mp4
           git commit -q -m "MP4 listo: ${{ matrix.nombre }}"
-          for i in 1 2 3 4; do
-            git pull -q --rebase origin "${{ github.ref_name }}" && git push -q origin "HEAD:${{ github.ref_name }}" && break
-            sleep 6
+          ok=0
+          for i in 1 2 3 4 5; do
+            if git pull -q --rebase origin "${{ github.ref_name }}" && git push -q origin "HEAD:${{ github.ref_name }}"; then ok=1; break; fi
+            sleep 8
           done
+          [ "$ok" = 1 ] || { echo "No se pudo guardar el MP4 en la rama"; exit 1; }
