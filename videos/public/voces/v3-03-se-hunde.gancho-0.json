@@ -1,0 +1,288 @@
+{
+ "voz": "es-AR-TomasNeural",
+ "firma": "0a2fd1a62afbe397",
+ "palabras": [
+  {
+   "texto": "¡Tu",
+   "desde": 0.084,
+   "hasta": 0.178,
+   "linea": 0
+  },
+  {
+   "texto": "kiosco",
+   "desde": 0.234,
+   "hasta": 0.487,
+   "linea": 0
+  },
+  {
+   "texto": "se",
+   "desde": 0.506,
+   "hasta": 0.562,
+   "linea": 0
+  },
+  {
+   "texto": "está",
+   "desde": 0.562,
+   "hasta": 0.712,
+   "linea": 0
+  },
+  {
+   "texto": "hundiendo…",
+   "desde": 0.731,
+   "hasta": 1.105,
+   "linea": 0
+  },
+  {
+   "texto": "y",
+   "desde": 1.34,
+   "hasta": 1.396,
+   "linea": 0
+  },
+  {
+   "texto": "vos",
+   "desde": 1.415,
+   "hasta": 1.536,
+   "linea": 0
+  },
+  {
+   "texto": "sacás",
+   "desde": 1.536,
+   "hasta": 1.836,
+   "linea": 0
+  },
+  {
+   "texto": "agua",
+   "desde": 1.892,
+   "hasta": 2.07,
+   "linea": 0
+  },
+  {
+   "texto": "con",
+   "desde": 2.127,
+   "hasta": 2.211,
+   "linea": 0
+  },
+  {
+   "texto": "un",
+   "desde": 2.23,
+   "hasta": 2.286,
+   "linea": 0
+  },
+  {
+   "texto": "vasito!",
+   "desde": 2.314,
+   "hasta": 2.642,
+   "linea": 0
+  },
+  {
+   "texto": "Vendés",
+   "desde": 3.493,
+   "hasta": 3.917,
+   "linea": 1
+  },
+  {
+   "texto": "más,",
+   "desde": 3.95,
+   "hasta": 4.287,
+   "linea": 1
+  },
+  {
+   "texto": "trabajás",
+   "desde": 4.515,
+   "hasta": 4.928,
+   "linea": 1
+  },
+  {
+   "texto": "más",
+   "desde": 4.961,
+   "hasta": 5.157,
+   "linea": 1
+  },
+  {
+   "texto": "horas…",
+   "desde": 5.167,
+   "hasta": 5.515,
+   "linea": 1
+  },
+  {
+   "texto": "pero",
+   "desde": 5.754,
+   "hasta": 5.906,
+   "linea": 1
+  },
+  {
+   "texto": "el",
+   "desde": 5.917,
+   "hasta": 5.961,
+   "linea": 1
+  },
+  {
+   "texto": "agua",
+   "desde": 5.983,
+   "hasta": 6.178,
+   "linea": 1
+  },
+  {
+   "texto": "sigue",
+   "desde": 6.2,
+   "hasta": 6.45,
+   "linea": 1
+  },
+  {
+   "texto": "subiendo.",
+   "desde": 6.472,
+   "hasta": 6.907,
+   "linea": 1
+  },
+  {
+   "texto": "Porque",
+   "desde": 9.893,
+   "hasta": 10.111,
+   "linea": 2
+  },
+  {
+   "texto": "el",
+   "desde": 10.111,
+   "hasta": 10.176,
+   "linea": 2
+  },
+  {
+   "texto": "problema",
+   "desde": 10.23,
+   "hasta": 10.546,
+   "linea": 2
+  },
+  {
+   "texto": "no",
+   "desde": 10.578,
+   "hasta": 10.665,
+   "linea": 2
+  },
+  {
+   "texto": "es",
+   "desde": 10.687,
+   "hasta": 10.807,
+   "linea": 2
+  },
+  {
+   "texto": "cuánto",
+   "desde": 10.861,
+   "hasta": 11.1,
+   "linea": 2
+  },
+  {
+   "texto": "vendés.",
+   "desde": 11.122,
+   "hasta": 11.546,
+   "linea": 2
+  },
+  {
+   "texto": "Son",
+   "desde": 12.345,
+   "hasta": 12.519,
+   "linea": 2
+  },
+  {
+   "texto": "los",
+   "desde": 12.519,
+   "hasta": 12.671,
+   "linea": 2
+  },
+  {
+   "texto": "agujeros.",
+   "desde": 12.671,
+   "hasta": 13.215,
+   "linea": 2
+  },
+  {
+   "texto": "En",
+   "desde": 16.693,
+   "hasta": 16.835,
+   "linea": 3
+  },
+  {
+   "texto": "Claro",
+   "desde": 16.889,
+   "hasta": 17.107,
+   "linea": 3
+  },
+  {
+   "texto": "te",
+   "desde": 17.172,
+   "hasta": 17.237,
+   "linea": 3
+  },
+  {
+   "texto": "muestra",
+   "desde": 17.259,
+   "hasta": 17.552,
+   "linea": 3
+  },
+  {
+   "texto": "cada",
+   "desde": 17.607,
+   "hasta": 17.77,
+   "linea": 3
+  },
+  {
+   "texto": "agujero",
+   "desde": 17.77,
+   "hasta": 18.183,
+   "linea": 3
+  },
+  {
+   "texto": "y",
+   "desde": 18.237,
+   "hasta": 18.291,
+   "linea": 3
+  },
+  {
+   "texto": "cómo",
+   "desde": 18.346,
+   "hasta": 18.498,
+   "linea": 3
+  },
+  {
+   "texto": "taparlo.",
+   "desde": 18.541,
+   "hasta": 18.933,
+   "linea": 3
+  },
+  {
+   "texto": "Dejá",
+   "desde": 24.49,
+   "hasta": 24.75,
+   "linea": 4
+  },
+  {
+   "texto": "de",
+   "desde": 24.78,
+   "hasta": 24.84,
+   "linea": 4
+  },
+  {
+   "texto": "achicar",
+   "desde": 24.84,
+   "hasta": 25.16,
+   "linea": 4
+  },
+  {
+   "texto": "agua.",
+   "desde": 25.16,
+   "hasta": 25.39,
+   "linea": 4
+  },
+  {
+   "texto": "Probalo",
+   "desde": 26.13,
+   "hasta": 26.38,
+   "linea": 4
+  },
+  {
+   "texto": "gratis.",
+   "desde": 26.41,
+   "hasta": 26.83,
+   "linea": 4
+  }
+ ]
+}
