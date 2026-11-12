@@ -72,7 +72,7 @@ function camara(t: number, T_: T): Cam {
   let pos = mixV(gPos, aPos, k0);
   let tar = mixV(gTar, aTar, k0);
   const dv = I(t, T_.dive, T_.dive + 0.9, 0, 1, eIO);
-  pos = mixV(pos, [0, -1.2, 14.8], dv);
+  pos = mixV(pos, [0, -1.2, 12.6], dv);
   tar = mixV(tar, [0, 0.1, 1.0], dv);
   const up = I(t, T_.tap + 2.4, T_.tap + 3.4, 0, 1, eIO);
   pos = mixV(pos, [0.2, 3.9, 12.5], up);

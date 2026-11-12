@@ -1,0 +1,99 @@
+{
+ "id": "v4-01-numero-tapado",
+ "titulo": "El número tapado",
+ "duracionSeg": 33,
+ "tramos": [],
+ "voz": {
+  "nombre": "es-AR-TomasNeural",
+  "gancho": {
+   "rate": "+25%",
+   "pitch": "+3Hz",
+   "volume": "+20%"
+  },
+  "resto": {
+   "rate": "+15%"
+  }
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "ESTE NÚMERO",
+    "DECIDE SI",
+    "CERRÁS."
+   ],
+   "voz": "¡Hay un número que decide si tu kiosco cierra… y nadie te lo dijo nunca!"
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 3.4,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 3.7,
+   "hasta": 7.5,
+   "texto": "Lo tapé. Al final lo destapo. Y vas a querer saber el tuyo."
+  },
+  {
+   "desde": 8.0,
+   "hasta": 11.4,
+   "texto": "No es lo que vendés. No es lo que tenés en la caja."
+  },
+  {
+   "desde": 12.0,
+   "hasta": 15.2,
+   "texto": "Es lo que perdés antes de abrir la persiana."
+  },
+  {
+   "desde": 15.9,
+   "hasta": 19.5,
+   "texto": "Alquiler, luz, sueldo… divididos por día."
+  },
+  {
+   "desde": 21.0,
+   "hasta": 24.0,
+   "texto": "Si hoy no te quedó esto, perdiste plata."
+  },
+  {
+   "desde": 25.0,
+   "hasta": 29.0,
+   "texto": "En Claro te dice tu número todos los días y si lo pasaste."
+  },
+  {
+   "desde": 30.0,
+   "hasta": 32.7,
+   "texto": "Comentá tu alquiler y te digo tu número.",
+   "gigante": true,
+   "gancho": true
+  }
+ ],
+ "sonidos": [
+  {
+   "en": 0.0,
+   "sfx": "slam"
+  },
+  {
+   "en": 0.35,
+   "sfx": "slam"
+  },
+  {
+   "en": 0.9,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 1.75,
+   "sfx": "thump"
+  },
+  {
+   "en": 1.75,
+   "sfx": "glitch"
+  },
+  {
+   "en": 2.2,
+   "sfx": "heart"
+  }
+ ]
+}

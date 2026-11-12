@@ -44,6 +44,17 @@
 - Los montos ($37.800, $22.400, $31.500, $14.000 = $105.700) son de ejemplo y lo dicen en pantalla.
 - Sonidos nuevos: `agua`, `burbujas`, `gaviota`.
 
+## Videos v4 (loop abierto, `guiones/IDEAS_V4.md`)
+- **v4-01 "El número tapado"** (33 s, 3D): composición `Video-v4-01-NumeroTapado` (`src/v4/NumeroTapado.tsx`), guion `guiones/v4-01-numero-tapado.json`,
+  modelos en `src/v4/ModelosNumero.tsx` (`NumeroAerosol`, `Cinta`, `TrozoCinta`, `Boleta`). Reutiliza `Kiosco3D` y `Piso`.
+- El misterio (el número pintado en la persiana, tapado con cinta) está a la vista casi todo el video. Se destapa de a pedazos:
+  "$3…" (en "destapo"), "$36…" (re-gancho, tras el corte a negro con latido), boletas que aflojan la cinta (alquiler, luz, sueldo,
+  "÷ 30") y el tirón final que arranca todo (revelación, con silencio antes). El truco es el celular con la barra del día que pasa el número.
+  El último cuadro vuelve a tapar un número nuevo ("$??.???") y la cámara vuelve al encuadre del cuadro 0 (loop).
+- Cuentas de ejemplo (marcadas "ejemplo"): alquiler $450.000 + luz $140.000 + sueldo $500.000 = $1.090.000 ÷ 30 = **$36.333/día**; hoy $41.200 (+$4.867).
+- Todo atado a las palabras de Tomás con `tPalabra`. Sonidos nuevos: `cinta`, `cinta_larga`.
+- Se acercó la cámara bajo el agua del video 03 (pendiente que estaba anotado).
+
 ## Cambios respecto del animatic / brief
 - **Duración 36,2 s en vez de 32 s.** La voz real de Tomás no entraba en los tiempos del animatic (líneas 2 y 4 daban
   más de 1,25×). Las escenas se siguen escribiendo en segundos del animatic y `tramos` del guion estira solo

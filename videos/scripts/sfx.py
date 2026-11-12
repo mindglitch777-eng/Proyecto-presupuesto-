@@ -247,6 +247,19 @@ def main():
     gav = mix((0, graznido(1100, 1900, 0.28)), (0.30, graznido(1800, 1150, 0.34)), (0.85, graznido(1000, 1700, 0.22)), (1.1, graznido(1700, 1100, 0.3)))
     save("gaviota", reverb(gav * 0.7, 0.2), -10, 0.006)
 
+
+    # cinta de embalar que se despega: dientes que se rompen, cada vez más rápido
+    def cinta(d, g_):
+        x_ = t(d)
+        dientes = (np.sin(2 * np.pi * (48 * x_ + 40 * x_ ** 2 / d)) > 0.15).astype(float)
+        dientes = lp(dientes, 900)
+        raspa = hp(bp(noise(d), 2600, 1.2), 1200) * dientes * (0.35 + 0.65 * (x_ / d))
+        grave = bp(noise(d), 380, 2.0) * dientes * 0.35
+        return g_ * (raspa + grave) * np.clip(x_ / 0.015, 0, 1) * np.clip((d - x_) / 0.08, 0, 1)
+    save("cinta", cinta(0.55, 1.0), -8, 0.003)
+    tir = mix((0, cinta(1.0, 1.3)), (0.82, kick(0.4, 110, 38, 1.0)), (0.82, hp(noise(0.25), 1500) * env(0.25, 0.001, 14) * 0.9))
+    save("cinta_larga", reverb(tir, 0.2, 0.3), -3, 0.004)
+
     print("sonidos listos en", OUT)
 
 

@@ -82,6 +82,9 @@ jobs:
           - nombre: 03-tu-kiosco-se-hunde
             id: Video03-SeHunde
             control: "0 54 330 480 700 850"
+          - nombre: v4-01-el-numero-tapado
+            id: Video-v4-01-NumeroTapado
+            control: "0 54 440 520 615 840 980"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

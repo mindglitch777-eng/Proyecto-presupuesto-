@@ -1,10 +1,11 @@
 import React from "react";
 import { Composition, staticFile, type CalculateMetadataFunction } from "remotion";
 import { Video, videoSchema, type VideoProps } from "./Video";
-import { GUIONES, GUION_V3_01, GUION_V3_02, GUION_V3_03, duracionVideo } from "./lib/guion";
+import { GUIONES, GUION_V3_01, GUION_V3_02, GUION_V3_03, GUION_V4_01, duracionVideo } from "./lib/guion";
 import { ElDueno } from "./v3/ElDueno";
 import { ElBanco } from "./v3/ElBanco";
 import { SeHunde } from "./v3/SeHunde";
+import { NumeroTapado } from "./v4/NumeroTapado";
 
 const FPS = 30;
 const LETRAS = ["A", "B", "C", "D"];
@@ -72,6 +73,17 @@ export const Root: React.FC = () => (
       width={1080}
       height={1920}
       defaultProps={{ guion: GUION_V3_03.id, gancho: 0, voz: null, palabras: null }}
+      calculateMetadata={calcular}
+    />
+    <Composition
+      id="Video-v4-01-NumeroTapado"
+      component={NumeroTapado}
+      schema={videoSchema}
+      durationInFrames={Math.round(GUION_V4_01.duracionSeg * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: GUION_V4_01.id, gancho: 0, voz: null, palabras: null }}
       calculateMetadata={calcular}
     />
   </>

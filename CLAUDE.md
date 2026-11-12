@@ -55,4 +55,5 @@ Criterio creativo: si algo del guion puede ser más loco, más impactante o más
 - [x] Videos: aviso "La persiana" en Remotion con voz `es-AR-TomasNeural` (detalle y pendientes en `videos/CLAUDE.md`).
 - [ ] Videos: guiones de `IDEAS_V3.md` (hechos: 01 `Video01-ElDueno`, 02 `Video02-Banco`, 03 `Video03-SeHunde`).
 - [ ] Videos: guiones 01 a 08 de `videos/guiones/IDEAS_V4.md` (prioridad).
+- [ ] Videos v4 (`videos/guiones/IDEAS_V4.md`): hecho 01 `Video-v4-01-NumeroTapado`; faltan 02 a 08.
 - [ ] App: MVP de En Claro (brief pendiente de subir a `app/BRIEF.md`).

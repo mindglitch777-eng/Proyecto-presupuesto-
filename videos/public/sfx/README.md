@@ -29,5 +29,7 @@ ni muestras de terceros, así que no tienen restricciones de licencia: se pueden
 | `agua.wav` | agua que entra (rumor con oleaje) |
 | `burbujas.wav` | burbujas / agua que se tira con el vasito |
 | `gaviota.wav` | gaviotas del final |
+| `cinta.wav` | cinta de embalar que se despega (corta) |
+| `cinta_larga.wav` | cinta que se arranca de un tirón (revelación) |
 
 Para reemplazar alguno por un archivo con licencia comercial, dejalo con el mismo nombre y anotá acá su origen.
