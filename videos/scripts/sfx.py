@@ -260,6 +260,46 @@ def main():
     tir = mix((0, cinta(1.0, 1.3)), (0.82, kick(0.4, 110, 38, 1.0)), (0.82, hp(noise(0.25), 1500) * env(0.25, 0.001, 14) * 0.9))
     save("cinta_larga", reverb(tir, 0.2, 0.3), -3, 0.004)
 
+
+    # birome raspando el papel: trazos cortos y rápidos con "scritch"
+    def trazos(d, ritmo):
+        x_ = t(d)
+        gate = (np.sin(2 * np.pi * ritmo * x_ + 2.0 * np.sin(2 * np.pi * 3.1 * x_)) > -0.2).astype(float)
+        gate = lp(gate, 700)
+        return hp(bp(noise(d), 3600, 1.1), 1800) * gate * np.clip(x_ / 0.01, 0, 1) * np.clip((d - x_) / 0.05, 0, 1)
+    save("birome", trazos(0.85, 13.0), -10, 0.003)
+
+    # hoja que se da vuelta: soplido de papel que pasa
+    ho = bp(noise(0.4), 2600, 0.9) * np.sin(np.pi * t(0.4) / 0.4) ** 1.5
+    ho = ho + 0.5 * hp(noise(0.4), 4500) * np.exp(-((t(0.4) - 0.12) ** 2) / 0.004)
+    save("hoja", ho, -8, 0.004)
+
+    # papel arrancado: tirones irregulares, rasgado seco
+    ras = np.zeros(int(SR * 0.7))
+    for k, (a_, d_) in enumerate([(0.0, 0.16), (0.14, 0.2), (0.32, 0.12), (0.42, 0.26)]):
+        b_ = hp(bp(noise(d_), 2200 + 500 * k, 0.8), 1000) * env(d_, 0.002, 7) * (0.7 + 0.2 * k)
+        i_ = int(a_ * SR)
+        ras[i_:i_ + len(b_)] += b_
+    save("papel_arrancado", ras, -5, 0.004)
+
+    # reloj de pared: tic y toc
+    tic_ = tone(2600, 0.03) * env(0.03, 0.0005, 90) + 0.5 * hp(noise(0.03), 3000) * env(0.03, 0.0005, 120)
+    toc_ = tone(1700, 0.04) * env(0.04, 0.0005, 70) + 0.4 * bp(noise(0.04), 1500, 2) * env(0.04, 0.0005, 90)
+    reloj = mix((0, tic_), (0.5, toc_), (1.0, tic_), (1.5, toc_))
+    save("reloj", reverb(reloj, 0.2, 0.25), -10, 0.003)
+
+    # tinta líquida: burbujeo grave que fluye
+    tin = lp(noise(1.2), 600) * 0.35 * (0.6 + 0.4 * np.sin(2 * np.pi * 3 * t(1.2)))
+    burb = mix(*[(0.09 * i, sweep(220 + 70 * (i % 4), 520 + 90 * (i % 3), 0.11) * env(0.11, 0.003, 22)) for i in range(12)])
+    tin = tin + np.pad(burb, (0, len(tin) - len(burb)))
+    tin = tin * np.clip(t(1.2) / 0.05, 0, 1) * np.clip((1.2 - t(1.2)) / 0.3, 0, 1)
+    save("tinta", reverb(tin, 0.15), -9, 0.005)
+
+    # cajón de madera que se cierra: deslizar + golpe seco
+    des = bp(noise(0.55), 420, 1.4) * np.clip(t(0.55) / 0.08, 0, 1) * np.clip((0.55 - t(0.55)) / 0.15, 0, 1) * 0.6
+    caj = mix((0, des), (0.52, kick(0.3, 130, 55, 1.0)), (0.52, bp(noise(0.12), 900, 2) * env(0.12, 0.001, 30) * 0.7))
+    save("cajon", reverb(caj, 0.2, 0.25), -4, 0.004)
+
     print("sonidos listos en", OUT)
 
 

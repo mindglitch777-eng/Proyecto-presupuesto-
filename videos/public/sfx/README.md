@@ -31,5 +31,11 @@ ni muestras de terceros, así que no tienen restricciones de licencia: se pueden
 | `gaviota.wav` | gaviotas del final |
 | `cinta.wav` | cinta de embalar que se despega (corta) |
 | `cinta_larga.wav` | cinta que se arranca de un tirón (revelación) |
+| `birome.wav` | birome raspando el papel |
+| `hoja.wav` | hoja que se da vuelta |
+| `papel_arrancado.wav` | hoja arrancada de un tirón |
+| `reloj.wav` | reloj de pared (tic-toc) |
+| `tinta.wav` | tinta líquida que fluye |
+| `cajon.wav` | cajón de madera que se cierra |
 
 Para reemplazar alguno por un archivo con licencia comercial, dejalo con el mismo nombre y anotá acá su origen.

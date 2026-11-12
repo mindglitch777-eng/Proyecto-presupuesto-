@@ -87,7 +87,47 @@ def palabras_de_subtitulo(texto, habladas):
     return out
 
 
+async def generar_encadenado(guion, n, tmp):
+    """Modo para voces con ritmo propio (personajes): cada línea empieza cuando termina la anterior,
+    más una pausa (`antes`, 0,35 s por defecto). La duración del video la da la voz, no el guion.
+    Cada línea puede traer su propio `estilo` (rate/pitch/volume)."""
+    voz = guion["voz"]
+    pistas, palabras, tiempos_linea = [], [], []
+    cursor = 0.0
+    for i, l in enumerate(guion["lineas"]):
+        texto = guion["ganchos"][n]["voz"] if l["texto"] == "GANCHO" else l["texto"]
+        estilo = l.get("estilo") or (voz["gancho"] if l.get("gancho") else voz["resto"])
+        crudo = tmp / f"l{i}.mp3"
+        habladas = await tts(texto, voz["nombre"], estilo, crudo)
+        dur = duracion(crudo)
+        inicio = cursor + (l.get("antes", 0.35) if i else 0.0)
+        wav = tmp / f"l{i}.wav"
+        sh("ffmpeg", "-y", "-v", "error", "-i", str(crudo), "-af", f"aresample={SR},adelay={int(inicio * 1000)}:all=1", "-ac", "2", str(wav))
+        pistas.append(wav)
+        cursor = inicio + dur
+        habladas = [{"texto": p["texto"], "desde": inicio + p["desde"], "hasta": inicio + p["hasta"]} for p in habladas]
+        visibles = l.get("subtitulo") or texto
+        if l.get("subtitulo") or len(visibles.split()) != len(habladas):
+            habladas = palabras_de_subtitulo(visibles, habladas)
+        else:
+            habladas = [dict(p, texto=w) for p, w in zip(habladas, visibles.split())]
+        palabras += [dict(p, linea=i, desde=round(p["desde"], 3), hasta=round(p["hasta"], 3)) for p in habladas]
+        tiempos_linea.append([round(inicio, 3), round(cursor, 3)])
+        print(f"  línea {i + 1}: empieza {inicio:.2f} s, dura {dur:.2f} s ({estilo.get('rate')}, {estilo.get('pitch', '+0Hz')})")
+    total = round(cursor + 2.2, 3)
+    destino = RAIZ / "public" / "voces"
+    destino.mkdir(parents=True, exist_ok=True)
+    base = destino / f"{guion['id']}.gancho-{n}"
+    entradas = sum((["-i", str(p)] for p in pistas), [])
+    mezcla = f"amix=inputs={len(pistas)}:normalize=0,apad=whole_dur={total},loudnorm=I=-14:TP=-1.5:LRA=11,aresample={SR}"
+    sh("ffmpeg", "-y", "-v", "error", *entradas, "-filter_complex", mezcla, "-t", str(total), "-c:a", "libmp3lame", "-b:a", "192k", f"{base}.mp3")
+    Path(f"{base}.json").write_text(json.dumps({"voz": voz["nombre"], "firma": firma(guion, n), "duracionSeg": total, "lineas": tiempos_linea, "palabras": palabras}, ensure_ascii=False, indent=1))
+    print(f"  listo: {base}.mp3 ({total} s)")
+
+
 async def generar(guion, n, tmp):
+    if guion.get("encadenar"):
+        return await generar_encadenado(guion, n, tmp)
     voz = guion["voz"]
     pistas, palabras, problemas = [], [], []
     total = a_video(guion, guion["duracionSeg"])
@@ -141,7 +181,7 @@ async def generar(guion, n, tmp):
 
 def firma(guion, n):
     """Huella del texto y la configuración: si no cambió, no hace falta regenerar la voz."""
-    datos = json.dumps([guion["voz"], guion["lineas"], guion["ganchos"][n], guion["duracionSeg"], guion.get("tramos")], ensure_ascii=False, sort_keys=True)
+    datos = json.dumps([guion["voz"], guion["lineas"], guion["ganchos"][n], guion["duracionSeg"], guion.get("tramos"), guion.get("encadenar")], ensure_ascii=False, sort_keys=True)
     codigo = Path(__file__).read_bytes()
     return hashlib.sha256(datos.encode() + codigo).hexdigest()[:16]
 

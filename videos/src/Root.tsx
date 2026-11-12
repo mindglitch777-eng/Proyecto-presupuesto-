@@ -1,11 +1,12 @@
 import React from "react";
 import { Composition, staticFile, type CalculateMetadataFunction } from "remotion";
 import { Video, videoSchema, type VideoProps } from "./Video";
-import { GUIONES, GUION_V3_01, GUION_V3_02, GUION_V3_03, GUION_V4_01, duracionVideo } from "./lib/guion";
+import { GUIONES, GUION_V3_01, GUION_V3_02, GUION_V3_03, GUION_V4_01, GUION_V5_01, duracionVideo } from "./lib/guion";
 import { ElDueno } from "./v3/ElDueno";
 import { ElBanco } from "./v3/ElBanco";
 import { SeHunde } from "./v3/SeHunde";
 import { NumeroTapado } from "./v4/NumeroTapado";
+import { Confesiones } from "./v5/Confesiones";
 
 const FPS = 30;
 const LETRAS = ["A", "B", "C", "D"];
@@ -17,7 +18,9 @@ const calcular: CalculateMetadataFunction<VideoProps> = async ({ props }) => {
     const r = await fetch(staticFile(`${base}.json`));
     if (!r.ok) throw new Error(String(r.status));
     const data = (await r.json()) as { palabras: VideoProps["palabras"] };
-    return { props: { ...props, voz: `${base}.mp3`, palabras: data.palabras } };
+    const d = (data as { duracionSeg?: number }).duracionSeg;
+    // si la voz trae su duración (modo "encadenar"), el video dura lo que dura la voz
+    return { props: { ...props, voz: `${base}.mp3`, palabras: data.palabras }, ...(d ? { durationInFrames: Math.round(d * FPS) } : {}) };
   } catch {
     console.log(`[voz] no hay ${base}.json: se usan los tiempos de respaldo y sin voz`);
     return { props: { ...props, voz: null, palabras: null } };
@@ -84,6 +87,17 @@ export const Root: React.FC = () => (
       width={1080}
       height={1920}
       defaultProps={{ guion: GUION_V4_01.id, gancho: 0, voz: null, palabras: null }}
+      calculateMetadata={calcular}
+    />
+    <Composition
+      id="Video-v5-01-Confesiones"
+      component={Confesiones}
+      schema={videoSchema}
+      durationInFrames={Math.round(GUION_V5_01.duracionSeg * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: GUION_V5_01.id, gancho: 0, voz: null, palabras: null }}
       calculateMetadata={calcular}
     />
   </>

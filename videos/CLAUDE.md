@@ -55,6 +55,17 @@
 - Todo atado a las palabras de Tomás con `tPalabra`. Sonidos nuevos: `cinta`, `cinta_larga`.
 - Se acercó la cámara bajo el agua del video 03 (pendiente que estaba anotado).
 
+## V5 "Objeto que habla" (`guiones/V5-01-CONFESIONES-CUADERNO.md`)
+- **V5-01 "Confesiones de un cuaderno de fiados"**: composición `Video-v5-01-Confesiones` (`src/v5/Confesiones.tsx`), guion `guiones/v5-01-confesiones-cuaderno.json`,
+  modelos 3D en `src/v5/ModelosPapel.tsx` (`Pasillo` de páginas, `AbanicoFuiYo`: 26 hojas que giran sobre su borde y forman "FUI YO").
+  El resto es 2D (cuaderno de frente, fichero, suma, hoja arrancada, renglones que se borran, celular, cajón) con "escritura a mano" por máscara (`Tinta`).
+- **Voz en modo encadenado** (`"encadenar": true` en el guion): `voz.py` pone cada línea cuando termina la anterior (+`antes` s de pausa) y cada línea puede
+  traer su `estilo` (rate/pitch/volume). Voz grave y lenta (−6 Hz, +8%), "Fui yo." más grave con 0,9 s de silencio antes. El video dura lo que dura la voz:
+  `voces/<id>.json` trae `duracionSeg` y `Root.tsx` lo usa en `calculateMetadata`.
+- El texto aprobado en el guion no entra en 35 s con ese ritmo: el video dura ~45 s. Si se quiere más corto, recortar texto (no acelerar la voz).
+- Sonidos nuevos: `birome`, `hoja`, `papel_arrancado`, `reloj`, `tinta`, `cajon`.
+- Montos de ejemplo marcados ("$180.000 ejemplo", "$41.200 ejemplo"). Último cuadro = cuadro 0 (loop).
+
 ## Cambios respecto del animatic / brief
 - **Duración 36,2 s en vez de 32 s.** La voz real de Tomás no entraba en los tiempos del animatic (líneas 2 y 4 daban
   más de 1,25×). Las escenas se siguen escribiendo en segundos del animatic y `tramos` del guion estira solo

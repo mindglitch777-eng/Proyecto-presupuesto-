@@ -1,0 +1,111 @@
+{
+ "id": "v5-01-confesiones-cuaderno",
+ "titulo": "Confesiones de un cuaderno de fiados",
+ "duracionSeg": 46,
+ "tramos": [],
+ "encadenar": true,
+ "voz": {
+  "nombre": "es-AR-TomasNeural",
+  "gancho": {
+   "rate": "+15%",
+   "pitch": "-3Hz",
+   "volume": "+20%"
+  },
+  "resto": {
+   "rate": "+8%",
+   "pitch": "-6Hz"
+  }
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "TE ESTOY",
+    "FUNDIENDO",
+    ""
+   ],
+   "voz": "Soy el cuaderno de fiados de un kiosco… y te estoy fundiendo."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 3.2,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 3.6,
+   "hasta": 9.5,
+   "texto": "Hace once años que vivo en este mostrador. Y hoy te voy a decir quién fundió a mi dueño.",
+   "antes": 0.45
+  },
+  {
+   "desde": 10.0,
+   "hasta": 15.5,
+   "texto": "Doña Marta: dieciocho mil. Juan: siete quinientos. El de la moto: nunca supe el nombre.",
+   "antes": 0.5
+  },
+  {
+   "desde": 16.0,
+   "hasta": 20.0,
+   "texto": "Ciento ochenta mil pesos… que él cree que va a cobrar.",
+   "antes": 0.5
+  },
+  {
+   "desde": 20.5,
+   "hasta": 22.5,
+   "texto": "Pero eso no es lo peor.",
+   "antes": 0.6,
+   "estilo": {
+    "rate": "+0%",
+    "pitch": "-7Hz"
+   }
+  },
+  {
+   "desde": 23.5,
+   "hasta": 33.5,
+   "texto": "Lo peor es lo que no anoto. No anoto cuánto le aumentó el proveedor. No anoto lo que se vence. No anoto cuánto le queda al final del día.",
+   "antes": 1.1
+  },
+  {
+   "desde": 34.0,
+   "hasta": 36.0,
+   "texto": "¿Querés saber quién lo fundió?",
+   "antes": 0.6,
+   "estilo": {
+    "rate": "+0%",
+    "pitch": "-7Hz"
+   }
+  },
+  {
+   "desde": 37.0,
+   "hasta": 38.0,
+   "texto": "Fui yo.",
+   "gigante": true,
+   "antes": 0.9,
+   "estilo": {
+    "rate": "-8%",
+    "pitch": "-9Hz",
+    "volume": "+10%"
+   }
+  },
+  {
+   "desde": 38.5,
+   "hasta": 44.0,
+   "texto": "Ahora le habla al celular, y en cinco minutos sabe todo lo que yo le escondí.",
+   "antes": 0.8
+  },
+  {
+   "desde": 44.5,
+   "hasta": 50.0,
+   "texto": "Me jubiló. Y la verdad… me lo merecía. ¿Cuántos años tiene tu cuaderno? Comentalo.",
+   "antes": 0.6,
+   "estilo": {
+    "rate": "+3%",
+    "pitch": "-6Hz"
+   }
+  }
+ ],
+ "sonidos": []
+}

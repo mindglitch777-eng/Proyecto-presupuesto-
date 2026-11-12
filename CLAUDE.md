@@ -61,4 +61,5 @@ Criterio creativo: si algo del guion puede ser más loco, más impactante o más
 - [ ] Videos: **V5-01 "Confesiones de un cuaderno de fiados"** (`videos/guiones/V5-01-CONFESIONES-CUADERNO.md`, aprobado, prioridad). Para producirlo: leé ese archivo en vez del guion de IDEAS_V4.
 - [ ] Videos: guiones 01 a 08 de `videos/guiones/IDEAS_V4.md`.
 - [ ] Videos v4 (`videos/guiones/IDEAS_V4.md`): hecho 01 `Video-v4-01-NumeroTapado`; faltan 02 a 08.
+- [ ] Videos V5 "Objeto que habla" (`videos/guiones/V5-01-CONFESIONES-CUADERNO.md`): hecho V5-01 `Video-v5-01-Confesiones`; serie: heladera, góndola, caja registradora.
 - [ ] App: MVP de En Claro (brief pendiente de subir a `app/BRIEF.md`).
