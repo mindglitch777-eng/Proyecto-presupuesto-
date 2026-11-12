@@ -17,6 +17,8 @@ cobro solo por Mercado Pago.
   en producción (los entregados quedan comentados): reemplazá la entrada por la del video nuevo.
   La matriz tiene solo el video en producción (los 9 ya entregados están en `videos/salida/`).
 - Página con todos los videos para bajar: https://claude.ai/artifact/D2yvc4fKGKJHRoN7DDW1gV (los MP4 son assets de esa página; para sumar uno, subirlo con `Artifact` `asset: true` y agregarlo a `VIDEOS`).
+  Los assets tienen tope de 20 MiB: los videos con mucha cámara pesan 34–76 MB, así que para la página se comprimen en 2 pasadas
+  a ~3,5 Mbps (`ffmpeg -b:v 3500k -pass 1/2`, ~18 MB). La página ya tiene la versión rápida del V5-01 (la lenta se sacó).
 
 ## Estructura
 
