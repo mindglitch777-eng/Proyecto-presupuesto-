@@ -19,9 +19,10 @@ import type { VideoProps } from "../Video";
 const g = GUION_V3_02;
 const GOLPES = [0, 0.35];
 const SELLO = 1.75;
-const PAGOS = [19.4, 20.6, 21.8]; // salen las monedas de cada casita hacia la bóveda
+const PAGOS = [20.0, 21.0, 22.0]; // salen las monedas de cada casita hacia la bóveda
 const DEUDAS: [string, number, string][] = [["Marta", 18000, "41 días"], ["Juan", 7500, "22 días"], ["Rosa", 12300, "9 días"]];
-const LLEGA = 0.9; // lo que tarda una moneda en llegar
+const LLEGA = 0.9;
+const T_VOS = 10.85; // "Vos, cero." en la voz de Tomás // lo que tarda una moneda en llegar
 
 type V3 = [number, number, number];
 const CASITAS: V3[] = [[-1.75, 0, 3.4], [1.75, 0, 3.4], [-1.75, 0, 5.7], [1.75, 0, 5.7], [-1.75, 0, 8.0], [1.75, 0, 8.0]];
@@ -99,7 +100,7 @@ const Escena3D: React.FC<{ t: number; listo: boolean }> = ({ t, listo }) => {
   }
   // carteles BANCO / VOS
   const sB = Math.min(1.05, spring(t - 8.6, 13, 0.5)) * (1 - I(t, 13.0, 13.35, 0, 1, eIn));
-  const sV = Math.min(1.05, spring(t - 9.6, 13, 0.5)) * (1 - I(t, 13.0, 13.35, 0, 1, eIn));
+  const sV = Math.min(1.05, spring(t - T_VOS, 13, 0.5)) * (1 - I(t, 13.0, 13.35, 0, 1, eIn));
 
   return (
     <>
@@ -170,7 +171,7 @@ const Gancho: React.FC<{ t: number; hs: number }> = ({ t, hs }) => {
 const Prestas: React.FC<{ t: number }> = ({ t }) => {
   const o = win(t, 3.2, 8.4, 0.05, 0.25);
   if (o <= 0) return null;
-  const sellos: [number, string, string][] = [[4.0, "SIN FIRMA", "#FFB703"], [5.4, "SIN INTERÉS", "#FF4D5A"], [6.8, "SIN FECHA", "#5FD39A"]];
+  const sellos: [number, string, string][] = [[5.9, "SIN FIRMA", "#FFB703"], [6.6, "SIN INTERÉS", "#FF4D5A"], [7.34, "SIN FECHA", "#5FD39A"]];
   return (
     <div style={{ inset: 0, opacity: o }}>
       <div style={{ left: 0, right: 0, top: 0, height: 215, background: "linear-gradient(#000d,#0009 65%,transparent)" }} />
@@ -197,8 +198,8 @@ const Compara: React.FC<{ t: number }> = ({ t }) => {
   return (
     <div style={{ inset: 0, opacity: o }}>
       <div style={{ left: 0, right: 0, top: 0, height: 200, background: "linear-gradient(#000d,#0009 65%,transparent)" }} />
-      <TextoCinetico t={t} desde={8.65} paso={0.09} texto="Un banco cobra." amarillas={[]} style={{ left: 20, right: 20, top: 68, font: `700 34px/1.05 ${DISP}`, color: "#c9d3e3" }} />
-      <TextoCinetico t={t} desde={9.65} paso={0.09} texto="Vos, cero." amarillas={[0]} style={{ left: 20, right: 20, top: 112, font: `700 44px/1.05 ${DISP}`, color: "#fff" }} />
+      <TextoCinetico t={t} desde={8.7} paso={0.09} texto="Un banco cobra." amarillas={[]} style={{ left: 20, right: 20, top: 68, font: `700 34px/1.05 ${DISP}`, color: "#c9d3e3" }} />
+      <TextoCinetico t={t} desde={T_VOS} paso={0.09} texto="Vos, cero." amarillas={[0]} style={{ left: 20, right: 20, top: 112, font: `700 44px/1.05 ${DISP}`, color: "#fff" }} />
       <div style={{ right: 16, top: 66, font: `600 10px ${BODY}`, letterSpacing: ".1em", color: "#ffffff88", border: "1px solid #ffffff44", borderRadius: 5, padding: "2px 6px", textTransform: "uppercase" }}>ejemplo</div>
     </div>
   );
@@ -303,7 +304,7 @@ export const ElBanco: React.FC<VideoProps> = ({ voz, palabras }) => {
     const d = t - a;
     if (d >= 0) { hs += (i === 2 ? 12 : 18) * Math.exp(-14 * d) * Math.sin(70 * d + 1.2); wf += Math.max(0, 1 - d / 0.15) * (i === 2 ? 0.25 : i === 0 ? 0.28 : 0.5); }
   });
-  [2.8, 8.6, 9.6, 13.4, 16.5, 24.9].forEach((a) => { const d = t - a; if (d > 0) hs += 8 * Math.exp(-12 * d) * Math.sin(60 * d); });
+  [2.8, 8.7, T_VOS, 13.4, 16.5, 24.9].forEach((a) => { const d = t - a; if (d > 0) hs += 8 * Math.exp(-12 * d) * Math.sin(60 * d); });
   if (t >= SELLO) red += Math.max(0, 1 - (t - SELLO) / 0.35);
   if (t >= 8.6) red += Math.max(0, 1 - (t - 8.6) / 0.35) * 0.7;
   if (t >= 13.4) red += Math.max(0, 1 - (t - 13.4) / 0.35) * 0.7;
