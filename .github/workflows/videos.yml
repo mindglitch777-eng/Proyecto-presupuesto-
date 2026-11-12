@@ -126,3 +126,29 @@ jobs:
         with:
           name: video-${{ matrix.nombre }}
           path: videos/out/en-claro-${{ matrix.nombre }}.mp4
+
+  publicar:
+    name: Dejar los MP4 sueltos en la rama videos-listos
+    needs: video
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: video-*
+          path: mp4
+          merge-multiple: true
+      - name: Subir los MP4 (una sola confirmación que se pisa cada vez, el repo no crece)
+        run: |
+          cd mp4
+          ls -la
+          git init -q -b videos-listos
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add *.mp4
+          git commit -q -m "MP4 listos (${{ github.sha }})"
+          git push -q --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" videos-listos
