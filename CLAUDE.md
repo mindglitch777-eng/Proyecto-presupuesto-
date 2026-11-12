@@ -15,6 +15,9 @@ cobro solo por Mercado Pago.
   (le resultan incómodos). Todo va en **la misma rama de trabajo**, sin ramas extra: el workflow arma el video y deja el MP4
   en `videos/salida/` de esa rama; hacé `git pull` y mandalo con `SendUserFile`. La matriz de `videos.yml` tiene solo el video
   en producción (los entregados quedan comentados): reemplazá la entrada por la del video nuevo.
+  **Importante:** hoy la matriz tiene los 9 videos (para armar la página de descargas). Antes del próximo push a `videos/`,
+  dejá solo el video nuevo, o se vuelven a armar los 9 y se suman ~150 MB al historial.
+- Página con todos los videos para bajar: https://claude.ai/artifact/D2yvc4fKGKJHRoN7DDW1gV (los MP4 son assets de esa página; para sumar uno, subirlo con `Artifact` `asset: true` y agregarlo a `VIDEOS`).
 
 ## Estructura
 
