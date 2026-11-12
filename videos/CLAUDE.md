@@ -33,6 +33,17 @@
 - Los montos de deudas (Marta, Juan, Rosa) llevan "ejemplo". Las monedas vuelven a la bóveda a medida que se cobra.
 - Sonidos nuevos: `boveda`, `viento`, `papel`. Exporta `ControlCamara`, `useFuentesListas`, `Pildora`, `mixV` desde `ElDueno.tsx`.
 
+## Video 03 de IDEAS_V3: "Tu kiosco se hunde" (30 s, 3D)
+- Composición `Video03-SeHunde` (`src/v3/SeHunde.tsx`), guion `guiones/v3-03-se-hunde.json`, modelos en `src/v3/ModelosBarco.tsx`:
+  `Casco` (barco con el kiosco arriba), `Agua` (olas calculadas por cuadro), `Agujero`, `Tapon` (con el logo), `Sol`, `Gaviota`, `Gota`, `Moneda`.
+  El kiosquero usa `Muneco` con `vaso` (nuevo).
+- **Los momentos clave leen la voz**: `tPalabra(pal, linea, prefijo, def)` en `src/lib/guion.ts` devuelve el segundo en que Tomás dice
+  una palabra. Con eso se sincronizan el corte bajo el agua ("Porque"), los agujeros ("Son"), los tapones ("taparlo") y el cierre ("Dejá").
+  Los sonidos que dependen de la voz se arman en el componente (`extra`); los fijos están en el JSON. Usar este patrón en los próximos.
+- Corte bajo el agua: niebla + luz solo cuando `sub > 0.5`; fondo azul y cielo (2D) detrás del canvas.
+- Los montos ($37.800, $22.400, $31.500, $14.000 = $105.700) son de ejemplo y lo dicen en pantalla.
+- Sonidos nuevos: `agua`, `burbujas`, `gaviota`.
+
 ## Cambios respecto del animatic / brief
 - **Duración 36,2 s en vez de 32 s.** La voz real de Tomás no entraba en los tiempos del animatic (líneas 2 y 4 daban
   más de 1,25×). Las escenas se siguen escribiendo en segundos del animatic y `tramos` del guion estira solo

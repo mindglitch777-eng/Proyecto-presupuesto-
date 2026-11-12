@@ -1,0 +1,120 @@
+{
+ "id": "v3-03-se-hunde",
+ "titulo": "Tu kiosco se hunde",
+ "duracionSeg": 30,
+ "tramos": [],
+ "voz": {
+  "nombre": "es-AR-TomasNeural",
+  "gancho": {
+   "rate": "+25%",
+   "pitch": "+3Hz",
+   "volume": "+20%"
+  },
+  "resto": {
+   "rate": "+15%"
+  }
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "TU KIOSCO",
+    "SE HUNDE",
+    "CON UN VASITO."
+   ],
+   "voz": "¡Tu kiosco se está hundiendo… y vos sacás agua con un vasito!"
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 3.0,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 3.4,
+   "hasta": 9.2,
+   "texto": "Vendés más, trabajás más horas… pero el agua sigue subiendo."
+  },
+  {
+   "desde": 9.8,
+   "hasta": 15.8,
+   "texto": "Porque el problema no es cuánto vendés. Son los agujeros."
+  },
+  {
+   "desde": 16.6,
+   "hasta": 23.0,
+   "texto": "En Claro te muestra cada agujero y cómo taparlo."
+  },
+  {
+   "desde": 24.4,
+   "hasta": 28.8,
+   "texto": "Dejá de achicar agua. Probalo gratis.",
+   "gigante": true,
+   "gancho": true
+  }
+ ],
+ "sonidos": [
+  {
+   "en": 0.0,
+   "sfx": "slam"
+  },
+  {
+   "en": 0.1,
+   "sfx": "agua"
+  },
+  {
+   "en": 0.35,
+   "sfx": "slam"
+  },
+  {
+   "en": 0.9,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 1.75,
+   "sfx": "thump"
+  },
+  {
+   "en": 1.75,
+   "sfx": "glitch"
+  },
+  {
+   "en": 2.2,
+   "sfx": "heart"
+  },
+  {
+   "en": 2.7,
+   "sfx": "whoosh"
+  },
+  {
+   "en": 3.2,
+   "sfx": "agua"
+  },
+  {
+   "en": 4.0,
+   "sfx": "burbujas"
+  },
+  {
+   "en": 5.5,
+   "sfx": "burbujas"
+  },
+  {
+   "en": 6.4,
+   "sfx": "agua"
+  },
+  {
+   "en": 7.0,
+   "sfx": "burbujas"
+  },
+  {
+   "en": 8.5,
+   "sfx": "burbujas"
+  },
+  {
+   "en": 8.9,
+   "sfx": "heart"
+  }
+ ]
+}

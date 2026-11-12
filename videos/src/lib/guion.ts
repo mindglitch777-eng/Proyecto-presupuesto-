@@ -2,6 +2,7 @@ import { z } from "zod";
 import guion01 from "../../guiones/01-la-persiana.json";
 import guionV3_01 from "../../guiones/v3-01-el-dueno.json";
 import guionV3_02 from "../../guiones/v3-02-el-banco.json";
+import guionV3_03 from "../../guiones/v3-03-se-hunde.json";
 
 export const lineaSchema = z.object({
   desde: z.number(),
@@ -36,6 +37,7 @@ export type Linea = z.infer<typeof lineaSchema>;
 export const GUIONES: Guion[] = [guionSchema.parse(guion01)];
 export const GUION_V3_01: Guion = guionSchema.parse(guionV3_01);
 export const GUION_V3_02: Guion = guionSchema.parse(guionV3_02);
+export const GUION_V3_03: Guion = guionSchema.parse(guionV3_03);
 
 /** Una palabra con su tiempo, en segundos (sale de voces/<id>.gancho-N.json o del respaldo). */
 export type Palabra = { texto: string; desde: number; hasta: number; linea: number };
@@ -77,3 +79,10 @@ export function aAnimatic(g: Guion, v: number) {
   return a;
 }
 export const duracionVideo = (g: Guion) => aVideo(g, g.duracionSeg);
+
+/** Segundo del video en que la voz dice una palabra (de la línea `linea`, empieza con `prefijo`); si no está, `def`. */
+export function tPalabra(pal: Palabra[], linea: number, prefijo: string, def: number) {
+  const limpia = (s: string) => s.toLowerCase().replace(/[¡!¿?.,…:;"]/g, "");
+  const w = pal.find((p) => p.linea === linea && limpia(p.texto).startsWith(limpia(prefijo)));
+  return w ? w.desde : def;
+}

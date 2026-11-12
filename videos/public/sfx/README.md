@@ -26,5 +26,8 @@ ni muestras de terceros, así que no tienen restricciones de licencia: se pueden
 | `boveda.wav` | puerta de bóveda que se abre (golpe grave + chirrido) |
 | `viento.wav` | viento en la bóveda vacía |
 | `papel.wav` | papelitos que caen |
+| `agua.wav` | agua que entra (rumor con oleaje) |
+| `burbujas.wav` | burbujas / agua que se tira con el vasito |
+| `gaviota.wav` | gaviotas del final |
 
 Para reemplazar alguno por un archivo con licencia comercial, dejalo con el mismo nombre y anotá acá su origen.

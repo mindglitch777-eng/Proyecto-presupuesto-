@@ -160,7 +160,7 @@ export type Pose = {
 };
 
 /** Muñeco low-poly. tipo "duenio": traje y llave; "kiosquero": camisa y delantal. */
-export const Muneco: React.FC<{ tipo: "duenio" | "kiosquero"; pose: Pose; position: V3; rotY?: number }> = ({ tipo, pose, position, rotY = 0 }) => {
+export const Muneco: React.FC<{ tipo: "duenio" | "kiosquero"; pose: Pose; position: V3; rotY?: number; vaso?: boolean }> = ({ tipo, pose, position, rotY = 0, vaso = false }) => {
   const { recostado = 0, brazoI = 0, brazoD = 0, salto = 0, lentes = false, caida = 0 } = pose;
   const traje = tipo === "duenio";
   const torso = traje ? "#1d2a4a" : "#9cc3e8";
@@ -227,6 +227,12 @@ export const Muneco: React.FC<{ tipo: "duenio" | "kiosquero"; pose: Pose; positi
             <M c={piel} />
           </mesh>
           {traje ? <Llave /> : null}
+          {vaso ? (
+            <mesh position={[0, -0.64, 0.07]} castShadow>
+              <cylinderGeometry args={[0.1, 0.07, 0.14, 14]} />
+              <M c="#f4f4f4" />
+            </mesh>
+          ) : null}
         </group>
       </group>
     </group>

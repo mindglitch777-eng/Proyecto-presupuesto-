@@ -228,6 +228,25 @@ def main():
     pap = mix(*[(0.03 * i + 0.07 * rng.random(), hp(bp(noise(0.09), 3200 + (i % 4) * 700, 1.5), 1500) * env(0.09, 0.002, 38)) for i in range(18)])
     save("papel", pap, -9, 0.004)
 
+
+    # agua que entra: rumor grave con oleaje
+    ag = bp(noise(3.2), 700, 0.7) * (0.6 + 0.4 * np.sin(2 * np.pi * 0.8 * t(3.2) + 1.0)) + 0.5 * lp(noise(3.2), 260)
+    ag = ag * np.clip(t(3.2) / 0.5, 0, 1) * np.clip((3.2 - t(3.2)) / 0.7, 0, 1)
+    save("agua", ag, -12, 0.008)
+
+    # burbujas: gotas que suben de tono
+    bub = mix(*[(0.13 * i + 0.05 * rng.random(), sweep(280 + 90 * (i % 5), 900 + 120 * (i % 4), 0.09) * env(0.09, 0.002, 28)) for i in range(9)])
+    save("burbujas", reverb(bub, 0.15), -10, 0.004)
+
+    # gaviotas: dos graznidos con vibrato
+    def graznido(f0, f1, d):
+        x_ = t(d)
+        f = f0 + (f1 - f0) * (x_ / d) + 70 * np.sin(2 * np.pi * 22 * x_)
+        ph = 2 * np.pi * np.cumsum(f) / SR
+        return (np.sin(ph) + 0.4 * np.sin(2 * ph)) * np.sin(np.pi * x_ / d) ** 0.6
+    gav = mix((0, graznido(1100, 1900, 0.28)), (0.30, graznido(1800, 1150, 0.34)), (0.85, graznido(1000, 1700, 0.22)), (1.1, graznido(1700, 1100, 0.3)))
+    save("gaviota", reverb(gav * 0.7, 0.2), -10, 0.006)
+
     print("sonidos listos en", OUT)
 
 

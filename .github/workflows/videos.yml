@@ -79,6 +79,9 @@ jobs:
           - nombre: 02-el-banco-del-barrio
             id: Video02-Banco
             control: "0 54 270 450 790"
+          - nombre: 03-tu-kiosco-se-hunde
+            id: Video03-SeHunde
+            control: "0 54 330 480 700 850"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
