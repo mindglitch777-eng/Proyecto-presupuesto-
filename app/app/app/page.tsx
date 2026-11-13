@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { Logo } from "@/components/Iconos";
 import { SinConexion } from "@/components/auth/Marco";
 import { supabaseServidor } from "@/lib/supabase/servidor";
@@ -10,12 +11,12 @@ export const dynamic = "force-dynamic";
 const dias = (hasta: string | null) => (hasta ? Math.max(0, Math.ceil((new Date(hasta).getTime() - Date.now()) / 86_400_000)) : null);
 
 export default async function Inicio() {
-  let negocio: { name: string; ciudad: string | null } | null = null;
+  let negocio: { name: string; ciudad: string | null; onboarding_completed_at: string | null } | null = null;
   let restan: number | null = null;
   try {
     const supabase = await supabaseServidor();
     const [{ data: b }, { data: s }] = await Promise.all([
-      supabase.from("businesses").select("name, ciudad").maybeSingle(),
+      supabase.from("businesses").select("name, ciudad, onboarding_completed_at").maybeSingle(),
       supabase.from("subscriptions").select("status, trial_ends_at").maybeSingle(),
     ]);
     negocio = b;
@@ -24,6 +25,7 @@ export default async function Inicio() {
     if (e instanceof ConfigFaltante) return <SinConexion />;
     throw e;
   }
+  if (negocio && !negocio.onboarding_completed_at) redirect("/app/bienvenida");
   return (
     <>
       <div className="toldo" aria-hidden="true" />

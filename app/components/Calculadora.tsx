@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { CLAVE_CALCULADORA } from "@/lib/calculadora";
 import { MARGEN_INICIAL, MARGEN_MAX, MARGEN_MIN, numeroDelDia } from "@/lib/numeroDelDia";
 import { conPuntos, pesos, soloDigitos } from "@/lib/formato";
 import { LUGARES_FUNDADORES, RUBROS, type Rubro } from "@/lib/listaEspera";
@@ -58,6 +59,20 @@ export function Calculadora() {
   const r = numeroDelDia({ alquiler: soloDigitos(alquiler), luz: soloDigitos(luz), sueldos: soloDigitos(sueldos) }, margen);
   const diario = useRueda(r.diario);
   const vender = useRueda(r.vender);
+
+  // Si la persona cambió los números (no los de ejemplo), se guardan para precargarlos al crear su cuenta.
+  const primeraVez = useRef(true);
+  useEffect(() => {
+    if (primeraVez.current) {
+      primeraVez.current = false;
+      return;
+    }
+    try {
+      localStorage.setItem(CLAVE_CALCULADORA, JSON.stringify({ alquiler: soloDigitos(alquiler), luz: soloDigitos(luz), sueldos: soloDigitos(sueldos) }));
+    } catch {
+      /* sin almacenamiento: no pasa nada */
+    }
+  }, [alquiler, luz, sueldos]);
 
   const [nombre, setNombre] = useState("");
   const [wpp, setWpp] = useState("");

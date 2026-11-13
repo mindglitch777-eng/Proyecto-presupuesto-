@@ -10,7 +10,7 @@ aplicar() { # $1 = comando psql base
   local p=("$@")
   "${p[@]}" -q -f "$SQL/tests/stub-supabase.sql" >/dev/null
   for f in "$SQL"/migrations/*.sql; do "${p[@]}" -q -f "$f" >/dev/null; done
-  "${p[@]}" -f "$SQL/tests/rls.test.sql" 2>&1 | grep -v '^$' || true
+  for t in "$SQL"/tests/*.test.sql; do "${p[@]}" -f "$t" 2>&1 | grep -v '^$' || true; done
 }
 
 if [ -n "${DATABASE_URL:-}" ]; then
@@ -35,4 +35,7 @@ else
 fi
 
 echo "$salida"
-if echo "$salida" | grep -q "TODO OK"; then exit 0; else echo "FALLÓ la prueba de la base." >&2; exit 1; fi
+esperados=$(ls "$SQL"/tests/*.test.sql | wc -l)
+pasaron=$(echo "$salida" | grep -c "TODO OK" || true)
+if [ "$pasaron" -eq "$esperados" ]; then echo "Pasaron $pasaron de $esperados archivos de prueba."; exit 0; fi
+echo "FALLÓ la prueba de la base ($pasaron de $esperados archivos pasaron)." >&2; exit 1

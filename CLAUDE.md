@@ -83,7 +83,7 @@ Claves y secretos: nunca en el código. Si falta una variable, el código falla 
 - [ ] Videos V6 "Expediente" (policial): **V6-01 "Autopsia de un kiosco"** (`videos/guiones/V6-01-AUTOPSIA-KIOSCO.md`) y **V6-02 "El ladrón que la cámara no ve"** (`videos/guiones/V6-02-LADRON-INVISIBLE.md`). Se anuncian entre sí: publicar en días seguidos. Para producirlos: leé ese archivo en vez del guion de IDEAS_V4.
 - [x] App fase 0: landing + calculadora "tu número del día" + lista de espera (socios fundadores). Hecha en `app/` (Lighthouse móvil 93/96/100/100; falta cargar Supabase y Netlify, ver pasos).
 - [x] App fase 1: fundaciones. Hecha en `app/`: esquema completo, `has_access()`, RLS, triggers, token hook (`app/supabase/migrations/20261114000000_esquema_y_acceso.sql`), auth en español (`/entrar`, `/registrarme`, `/recuperar`), PWA. 40 pruebas de seguridad de la base (`npm run test:db`, también en Actions). Falta cargar en Supabase y Netlify (ver pasos).
-- [ ] App fase 2: onboarding y bloqueo.
+- [x] App fase 2: primer uso y bloqueo. `/app/bienvenida` (negocio → gastos fijos + comisión de cobro → 5 productos → "wow" con número del día, ranking y recordatorio .ics), precarga desde la calculadora, control de acceso en el momento (`app/app/layout.tsx`), vencimiento automático con pg_cron (`20261115000000_onboarding_y_vencidos.sql`). Prueba de punta a punta en `/prueba/bienvenida` (solo con `ENCLARO_MODO_PRUEBA=1`).
 - [ ] App fase 3: cierre con voz, ranking, fiado inteligente, plata dormida.
 - [ ] App fase 4: foto de factura y carteles.
 - [ ] App fase 5: pagos con Mercado Pago y emails.

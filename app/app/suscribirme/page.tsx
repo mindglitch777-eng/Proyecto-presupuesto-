@@ -26,6 +26,7 @@ export default async function Suscribirme() {
         <dl className="grid grid-cols-2 gap-3 text-[15px]">
           {[
             ["Negocio", r.negocio],
+            ["Gastos fijos del mes", pesos(Number(r.gastos_fijos_mes))],
             ["Cierres cargados", String(r.cierres)],
             ["Productos", String(r.productos)],
             ["Te deben", pesos(Number(r.fiados_pendientes))],
