@@ -1,7 +1,7 @@
 {
  "voz": "es-AR-TomasNeural",
- "firma": "ac0d7b782b297df8",
- "duracionSeg": 39.646,
+ "firma": "663f13813a3dbb08",
+ "duracionSeg": 39.982,
  "lineas": [
   [
    0.0,
@@ -33,15 +33,15 @@
   ],
   [
    26.93,
-   28.466
+   28.802
   ],
   [
-   28.866,
-   31.866
+   29.202,
+   32.202
   ],
   [
-   32.166,
-   37.446
+   32.502,
+   37.782
   ]
  ],
  "palabras": [
@@ -491,140 +491,140 @@
   },
   {
    "texto": "Ahora",
-   "desde": 28.954,
-   "hasta": 29.204,
+   "desde": 29.29,
+   "hasta": 29.54,
    "linea": 8
   },
   {
    "texto": "le",
-   "desde": 29.233,
-   "hasta": 29.32,
+   "desde": 29.569,
+   "hasta": 29.656,
    "linea": 8
   },
   {
    "texto": "habla",
-   "desde": 29.329,
-   "hasta": 29.512,
+   "desde": 29.665,
+   "hasta": 29.848,
    "linea": 8
   },
   {
    "texto": "al",
-   "desde": 29.531,
-   "hasta": 29.608,
+   "desde": 29.867,
+   "hasta": 29.944,
    "linea": 8
   },
   {
    "texto": "celular",
-   "desde": 29.618,
-   "hasta": 29.945,
+   "desde": 29.954,
+   "hasta": 30.281,
    "linea": 8
   },
   {
    "texto": "y",
-   "desde": 29.983,
-   "hasta": 30.051,
+   "desde": 30.319,
+   "hasta": 30.387,
    "linea": 8
   },
   {
    "texto": "en",
-   "desde": 30.051,
-   "hasta": 30.147,
+   "desde": 30.387,
+   "hasta": 30.483,
    "linea": 8
   },
   {
    "texto": "cinco",
-   "desde": 30.156,
-   "hasta": 30.378,
+   "desde": 30.492,
+   "hasta": 30.714,
    "linea": 8
   },
   {
    "texto": "minutos",
-   "desde": 30.406,
-   "hasta": 30.685,
+   "desde": 30.742,
+   "hasta": 31.021,
    "linea": 8
   },
   {
    "texto": "sabe",
-   "desde": 30.685,
-   "hasta": 30.887,
+   "desde": 31.021,
+   "hasta": 31.223,
    "linea": 8
   },
   {
    "texto": "todo.",
-   "desde": 30.945,
-   "hasta": 31.147,
+   "desde": 31.281,
+   "hasta": 31.483,
    "linea": 8
   },
   {
    "texto": "Me",
-   "desde": 32.254,
-   "hasta": 32.37,
+   "desde": 32.59,
+   "hasta": 32.706,
    "linea": 9
   },
   {
    "texto": "jubiló,",
-   "desde": 32.389,
-   "hasta": 32.783,
+   "desde": 32.725,
+   "hasta": 33.119,
    "linea": 9
   },
   {
    "texto": "y",
-   "desde": 32.947,
-   "hasta": 33.014,
+   "desde": 33.283,
+   "hasta": 33.35,
    "linea": 9
   },
   {
    "texto": "me",
-   "desde": 33.043,
-   "hasta": 33.101,
+   "desde": 33.379,
+   "hasta": 33.437,
    "linea": 9
   },
   {
    "texto": "lo",
-   "desde": 33.129,
-   "hasta": 33.178,
+   "desde": 33.465,
+   "hasta": 33.514,
    "linea": 9
   },
   {
    "texto": "merecía.",
-   "desde": 33.197,
-   "hasta": 33.572,
+   "desde": 33.533,
+   "hasta": 33.908,
    "linea": 9
   },
   {
    "texto": "¿Cuántos",
-   "desde": 34.281,
-   "hasta": 34.628,
+   "desde": 34.617,
+   "hasta": 34.964,
    "linea": 9
   },
   {
    "texto": "años",
-   "desde": 34.628,
-   "hasta": 34.81,
+   "desde": 34.964,
+   "hasta": 35.146,
    "linea": 9
   },
   {
    "texto": "tiene",
-   "desde": 34.858,
-   "hasta": 35.003,
+   "desde": 35.194,
+   "hasta": 35.339,
    "linea": 9
   },
   {
    "texto": "tu",
-   "desde": 35.051,
-   "hasta": 35.099,
+   "desde": 35.387,
+   "hasta": 35.435,
    "linea": 9
   },
   {
    "texto": "cuaderno?",
-   "desde": 35.137,
-   "hasta": 35.522,
+   "desde": 35.473,
+   "hasta": 35.858,
    "linea": 9
   },
   {
    "texto": "Comentalo.",
-   "desde": 36.239,
-   "hasta": 36.71,
+   "desde": 36.575,
+   "hasta": 37.046,
    "linea": 9
   }
  ]
