@@ -1,0 +1,86 @@
+{
+ "id": "v4-02-tres-errores",
+ "titulo": "3 errores que cierran kioscos",
+ "duracionSeg": 32,
+ "tramos": [],
+ "encadenar": true,
+ "voz": {
+  "nombre": "es-AR-TomasNeural",
+  "gancho": {
+   "rate": "+25%",
+   "pitch": "+3Hz",
+   "volume": "+20%"
+  },
+  "resto": {
+   "rate": "+22%"
+  }
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "EL UNO",
+    "LO HICISTE",
+    "HOY"
+   ],
+   "voz": "¡Tres errores que cierran kioscos… y el número uno lo cometiste esta mañana!"
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0,
+   "hasta": 4.6,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 4.9,
+   "hasta": 9.6,
+   "texto": "Error tres: comprar lo que te ofrece el preventista, no lo que se vende.",
+   "antes": 0.25
+  },
+  {
+   "desde": 9.9,
+   "hasta": 13.3,
+   "texto": "Error dos: fiar sin anotar la fecha.",
+   "antes": 0.25
+  },
+  {
+   "desde": 13.6,
+   "hasta": 17.2,
+   "texto": "Y el uno… lo hiciste hoy, cuando abriste.",
+   "antes": 0.4,
+   "estilo": {
+    "rate": "+10%",
+    "pitch": "-4Hz"
+   }
+  },
+  {
+   "desde": 17.9,
+   "hasta": 23.4,
+   "texto": "Vender con el precio de la semana pasada. El proveedor ya aumentó. Vos no.",
+   "antes": 0.55,
+   "estilo": {
+    "rate": "+15%",
+    "volume": "+10%"
+   }
+  },
+  {
+   "desde": 23.7,
+   "hasta": 28.4,
+   "texto": "Sacale foto a la factura y En Claro te dice a cuánto vender hoy.",
+   "antes": 0.3
+  },
+  {
+   "desde": 28.8,
+   "hasta": 32.4,
+   "texto": "Hay un error más que no ve nadie. Mañana te lo muestro.",
+   "antes": 0.3,
+   "estilo": {
+    "rate": "+10%",
+    "pitch": "-3Hz"
+   }
+  }
+ ],
+ "sonidos": []
+}

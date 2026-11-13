@@ -1,0 +1,83 @@
+{
+ "id": "v3-06-basura",
+ "titulo": "Tirás plata a la basura",
+ "duracionSeg": 26,
+ "tramos": [],
+ "encadenar": true,
+ "voz": {
+  "nombre": "es-AR-TomasNeural",
+  "gancho": {
+   "rate": "+25%",
+   "pitch": "+3Hz",
+   "volume": "+20%"
+  },
+  "resto": {
+   "rate": "+22%"
+  }
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "TIRÁS PLATA",
+    "A LA",
+    "BASURA"
+   ],
+   "voz": "¡Todos los meses tirás plata a la basura… y hoy te muestro cuánta!"
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0,
+   "hasta": 3.9,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 4.2,
+   "hasta": 6.4,
+   "texto": "Lo que compraste y nunca se vendió.",
+   "antes": 0.25
+  },
+  {
+   "desde": 6.7,
+   "hasta": 8.8,
+   "texto": "Lo que se venció en el depósito.",
+   "antes": 0.25
+  },
+  {
+   "desde": 9.1,
+   "hasta": 11.8,
+   "texto": "Pero lo peor… es lo que ni anotás.",
+   "antes": 0.3,
+   "estilo": {
+    "rate": "+10%",
+    "pitch": "-4Hz"
+   }
+  },
+  {
+   "desde": 12.3,
+   "hasta": 16.0,
+   "texto": "Treinta y siete mil ochocientos pesos… en un solo mes.",
+   "antes": 0.5,
+   "estilo": {
+    "rate": "+10%",
+    "pitch": "-2Hz",
+    "volume": "+10%"
+   }
+  },
+  {
+   "desde": 16.4,
+   "hasta": 20.6,
+   "texto": "En Claro te avisa qué no reponer, antes de que termine en el tacho.",
+   "antes": 0.3
+  },
+  {
+   "desde": 21.0,
+   "hasta": 24.5,
+   "texto": "Revisá tu depósito hoy. Probalo gratis.",
+   "antes": 0.3
+  }
+ ],
+ "sonidos": []
+}
