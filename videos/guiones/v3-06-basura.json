@@ -3,7 +3,7 @@
  "titulo": "Tirás plata a la basura",
  "duracionSeg": 26,
  "tramos": [],
- "encadenar": true,
+ "encadenar": "recortar",
  "voz": {
   "nombre": "es-AR-TomasNeural",
   "gancho": {

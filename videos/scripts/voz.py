@@ -99,6 +99,11 @@ async def generar_encadenado(guion, n, tmp):
         estilo = l.get("estilo") or (voz["gancho"] if l.get("gancho") else voz["resto"])
         crudo = tmp / f"l{i}.mp3"
         habladas = await tts(texto, voz["nombre"], estilo, crudo)
+        if guion.get("encadenar") == "recortar":
+            # saca el silencio del final de cada línea (la voz de Microsoft deja ~0,7 s) para que el ritmo sea más ágil
+            rec = tmp / f"l{i}r.mp3"
+            sh("ffmpeg", "-y", "-v", "error", "-i", str(crudo), "-af", "areverse,silenceremove=start_periods=1:start_threshold=-42dB:start_silence=0.12,areverse", str(rec))
+            crudo = rec
         dur = duracion(crudo)
         inicio = cursor + (l.get("antes", 0.35) if i else 0.0)
         wav = tmp / f"l{i}.wav"
@@ -114,7 +119,7 @@ async def generar_encadenado(guion, n, tmp):
         palabras += [dict(p, linea=i, desde=round(p["desde"], 3), hasta=round(p["hasta"], 3)) for p in habladas]
         tiempos_linea.append([round(inicio, 3), round(cursor, 3)])
         print(f"  línea {i + 1}: empieza {inicio:.2f} s, dura {dur:.2f} s ({estilo.get('rate')}, {estilo.get('pitch', '+0Hz')})")
-    total = round(cursor + 2.2, 3)
+    total = round(cursor + (1.7 if guion.get("encadenar") == "recortar" else 2.2), 3)
     destino = RAIZ / "public" / "voces"
     destino.mkdir(parents=True, exist_ok=True)
     base = destino / f"{guion['id']}.gancho-{n}"

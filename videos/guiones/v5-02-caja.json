@@ -3,16 +3,16 @@
  "titulo": "Confesiones de una caja registradora",
  "duracionSeg": 36,
  "tramos": [],
- "encadenar": true,
+ "encadenar": "recortar",
  "voz": {
   "nombre": "es-AR-TomasNeural",
   "gancho": {
-   "rate": "+22%",
+   "rate": "+28%",
    "pitch": "-2Hz",
    "volume": "+20%"
   },
   "resto": {
-   "rate": "+22%",
+   "rate": "+30%",
    "pitch": "-4Hz"
   }
  },
@@ -37,14 +37,14 @@
   {
    "desde": 4.9,
    "hasta": 9.4,
-   "texto": "Todos los días suena mi campanita. Hoy vendiste ciento veinte mil pesos. Qué lindo, ¿no?",
-   "antes": 0.3
+   "texto": "Todos los días suena mi campanita. Hoy vendiste ciento veinte mil. Qué lindo, ¿no?",
+   "antes": 0.25
   },
   {
    "desde": 9.8,
    "hasta": 12.0,
    "texto": "Ahora mirá lo que sale antes de que cierres.",
-   "antes": 0.3,
+   "antes": 0.25,
    "estilo": {
     "rate": "+15%",
     "pitch": "-7Hz"
@@ -53,14 +53,14 @@
   {
    "desde": 12.4,
    "hasta": 19.0,
-   "texto": "Mercadería, sesenta y seis mil. Alquiler, luz y sueldo del día, treinta y seis mil. El fiado que no vuelve, ocho mil.",
-   "antes": 0.3
+   "texto": "Mercadería, sesenta y seis mil. Alquiler, luz y sueldo, treinta y seis mil. Fiado que no vuelve, ocho mil.",
+   "antes": 0.25
   },
   {
    "desde": 19.4,
    "hasta": 22.4,
-   "texto": "Yo sé cuánto te quedó de verdad. Pero nunca me lo preguntaste.",
-   "antes": 0.35,
+   "texto": "Yo sé cuánto te quedó de verdad. Nunca me lo preguntaste.",
+   "antes": 0.25,
    "estilo": {
     "rate": "+15%",
     "pitch": "-7Hz"
@@ -69,7 +69,7 @@
   {
    "desde": 23.2,
    "hasta": 27.0,
-   "texto": "Te quedaron nueve mil seiscientos sesenta y siete pesos. Y vos creías que eran ciento veinte mil.",
+   "texto": "Te quedaron nueve mil seiscientos sesenta y siete pesos. Y vos creías… ciento veinte mil.",
    "antes": 0.7,
    "estilo": {
     "rate": "+10%",
@@ -80,14 +80,14 @@
   {
    "desde": 27.4,
    "hasta": 31.4,
-   "texto": "Ahora le hablás al celular al cerrar, y En Claro hace esta cuenta por vos.",
-   "antes": 0.3
+   "texto": "Ahora le hablás al celular al cerrar, y En Claro hace la cuenta por vos.",
+   "antes": 0.25
   },
   {
    "desde": 31.8,
    "hasta": 36.0,
    "texto": "Mi campanita ya no te miente. ¿Cuánto creés que te quedó hoy? Comentalo.",
-   "antes": 0.3
+   "antes": 0.25
   }
  ],
  "sonidos": []

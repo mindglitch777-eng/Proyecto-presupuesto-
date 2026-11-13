@@ -3,7 +3,7 @@
  "titulo": "3 errores que cierran kioscos",
  "duracionSeg": 32,
  "tramos": [],
- "encadenar": true,
+ "encadenar": "recortar",
  "voz": {
   "nombre": "es-AR-TomasNeural",
   "gancho": {
