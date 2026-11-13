@@ -15,6 +15,8 @@ const config: NextConfig = {
           { key: "Permissions-Policy", value: "microphone=(self), camera=(self), geolocation=()" },
         ],
       },
+      // el service worker nunca se guarda en caché, así los cambios llegan enseguida
+      { source: "/sw.js", headers: [{ key: "Cache-Control", value: "no-cache, no-store, must-revalidate" }] },
     ];
   },
 };

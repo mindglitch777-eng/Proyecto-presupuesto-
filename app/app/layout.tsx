@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { RegistrarSW } from "@/components/RegistrarSW";
 
 const jakarta = localFont({ src: "../fuentes/PlusJakartaSans.woff2", weight: "500 800", variable: "--font-jakarta", display: "swap" });
 const inter = localFont({ src: "../fuentes/Inter.woff2", weight: "100 900", variable: "--font-inter", display: "swap" });
@@ -14,6 +15,8 @@ export const metadata: Metadata = {
   title: titulo,
   description: descripcion,
   applicationName: "En Claro",
+  appleWebApp: { capable: true, title: "En Claro", statusBarStyle: "default" },
+  icons: { apple: "/icons/apple-touch-icon.png" },
   openGraph: {
     type: "website",
     locale: "es_AR",
@@ -30,7 +33,10 @@ export const viewport: Viewport = { width: "device-width", initialScale: 1, them
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es-AR" className={`${jakarta.variable} ${inter.variable}`}>
-      <body className="min-h-screen font-sans">{children}</body>
+      <body className="min-h-screen font-sans">
+        {children}
+        <RegistrarSW />
+      </body>
     </html>
   );
 }

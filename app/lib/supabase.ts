@@ -22,7 +22,8 @@ export async function rpc<T>(nombre: string, args: Record<string, unknown>, opci
   const { url, key } = config();
   const res = await fetch(`${url}/rest/v1/rpc/${nombre}`, {
     method: "POST",
-    headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    // Las claves nuevas de Supabase (sb_secret_...) van solo en "apikey"; las viejas (JWT, eyJ...) también como Bearer.
+    headers: { apikey: key, ...(key.startsWith("sb_") ? {} : { Authorization: `Bearer ${key}` }), "Content-Type": "application/json" },
     body: JSON.stringify(args),
     ...(opciones.revalidate ? { next: { revalidate: opciones.revalidate } } : { cache: "no-store" as const }),
   });

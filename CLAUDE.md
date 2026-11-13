@@ -82,7 +82,7 @@ Claves y secretos: nunca en el código. Si falta una variable, el código falla 
 - [ ] Videos V5 "Objeto que habla" (`videos/guiones/V5-01-CONFESIONES-CUADERNO.md`): hechos V5-01 `Video-v5-01-Confesiones` y V5-02 `Video-v5-02-Caja` (caja registradora); faltan heladera y góndola.
 - [ ] Videos V6 "Expediente" (policial): **V6-01 "Autopsia de un kiosco"** (`videos/guiones/V6-01-AUTOPSIA-KIOSCO.md`) y **V6-02 "El ladrón que la cámara no ve"** (`videos/guiones/V6-02-LADRON-INVISIBLE.md`). Se anuncian entre sí: publicar en días seguidos. Para producirlos: leé ese archivo en vez del guion de IDEAS_V4.
 - [x] App fase 0: landing + calculadora "tu número del día" + lista de espera (socios fundadores). Hecha en `app/` (Lighthouse móvil 93/96/100/100; falta cargar Supabase y Netlify, ver pasos).
-- [ ] App fase 1: fundaciones (esquema, RLS, `has_access()`, auth, PWA).
+- [x] App fase 1: fundaciones. Hecha en `app/`: esquema completo, `has_access()`, RLS, triggers, token hook (`app/supabase/migrations/20261114000000_esquema_y_acceso.sql`), auth en español (`/entrar`, `/registrarme`, `/recuperar`), PWA. 40 pruebas de seguridad de la base (`npm run test:db`, también en Actions). Falta cargar en Supabase y Netlify (ver pasos).
 - [ ] App fase 2: onboarding y bloqueo.
 - [ ] App fase 3: cierre con voz, ranking, fiado inteligente, plata dormida.
 - [ ] App fase 4: foto de factura y carteles.
