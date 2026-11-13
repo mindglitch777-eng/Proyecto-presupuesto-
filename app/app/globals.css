@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-jakarta), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Misma identidad que los videos: verde oscuro, amarillo para el dato clave, rojo solo para pérdidas. */
+  --color-verde: #0e3b2a;
+  --color-hoja: #16794a;
+  --color-ambar: #f5a524;
+  --color-papel: #f7f8f5;
+  --color-tinta: #0f1f17;
+  --color-g1: #3d4d44;
+  --color-g2: #4f6057;
+  --color-g3: #8a968f;
+  --color-linea: #e4e9e4;
+  --color-linea2: #dce3dd;
+  --color-menta: #e8f3ec;
+  --color-menta2: #cfe3d6;
+  --color-suave: #eef2ee;
+  --color-crema: #fff4dc;
+  --color-oro: #b26b00;
+  --color-oro2: #8a5300;
+  --color-rojo: #d92d20;
+  --color-mostaza: #e9a400;
+  --color-salvia: #a9c7b5;
+  --color-salvia2: #c5d9cc;
+  --color-rosa: #f4b9b2;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+body {
+  background: var(--color-papel);
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+:focus-visible {
+  outline: 3px solid var(--color-ambar);
+  outline-offset: 2px;
+}
+input[type="range"] { accent-color: var(--color-verde); }
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] .mas { transform: rotate(45deg); }
+
+/* Toldo rayado verde y blanco: la firma de la marca. */
+.toldo {
+  height: 10px;
+  background: repeating-linear-gradient(90deg, #1b7a43 0 26px, #f2f2ea 26px 52px);
+}

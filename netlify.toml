@@ -1,0 +1,9 @@
+# Netlify publica la carpeta app/ (Next.js). Se conecta una sola vez desde el panel de Netlify:
+# Add new site → Import from Git → este repositorio → rama main. Estas líneas hacen el resto.
+[build]
+  base = "app"
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"

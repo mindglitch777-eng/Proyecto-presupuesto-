@@ -80,7 +80,7 @@ Claves y secretos: nunca en el código. Si falta una variable, el código falla 
 - [ ] Videos: guiones 01 a 08 de `videos/guiones/IDEAS_V4.md`.
 - [ ] Videos v4 (`videos/guiones/IDEAS_V4.md`): hecho 01 `Video-v4-01-NumeroTapado`; faltan 02 a 08.
 - [ ] Videos V5 "Objeto que habla" (`videos/guiones/V5-01-CONFESIONES-CUADERNO.md`): hecho V5-01 `Video-v5-01-Confesiones`; serie: heladera, góndola, caja registradora.
-- [ ] App fase 0: landing + calculadora "tu número del día" + lista de espera (socios fundadores).
+- [x] App fase 0: landing + calculadora "tu número del día" + lista de espera (socios fundadores). Hecha en `app/` (Lighthouse móvil 93/96/100/100; falta cargar Supabase y Netlify, ver pasos).
 - [ ] App fase 1: fundaciones (esquema, RLS, `has_access()`, auth, PWA).
 - [ ] App fase 2: onboarding y bloqueo.
 - [ ] App fase 3: cierre con voz, ranking, fiado inteligente, plata dormida.
