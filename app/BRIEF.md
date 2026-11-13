@@ -83,13 +83,14 @@ Regla: cada carga se hace en menos de 30 segundos con el pulgar. Todo en voseo, 
 
 ### 4.1 Cierre del día (con voz)
 
-- Configuración única: gastos fijos mensuales (alquiler, luz, sueldos, otros).
+- Configuración única: gastos fijos mensuales (alquiler, luz, sueldos, otros) y **comisión de cobros con tarjeta o QR** (% que cobra su medio de cobro; lo pone el dueño, sin valor por defecto inventado).
 - **Cierre por voz** (botón principal): micrófono grande; el navegador transcribe con Web Speech API (`es-AR`); Claude ordena el texto
   en `{ventas, gastos:[{categoria, monto}], productosMovidos:[...]}`; pantalla de confirmación editable antes de guardar.
   Si el navegador no tiene reconocimiento de voz, se puede grabar un audio y transcribirlo en el servidor; si nada funciona, formulario manual.
 - Formulario manual: total vendido y gastos del día (Proveedor, Flete, Vuelto, Otros). Un cierre por día; se edita el de días anteriores.
 - "¿Qué se movió hoy?": chips de productos (los más usados primero + buscador). Alimenta la plata dormida.
-- Resultado: **"Hoy te quedaron $X libres"** = ventas − gastos del día − fijos ÷ días del mes. Al lado: **tu número del día** y si lo pasaste (barra que se llena).
+- El cierre pregunta también cuánto entró por tarjeta o QR (por voz: "ochenta mil fueron por QR") y descuenta la comisión como gasto ("Comisiones de cobro").
+- Resultado: **"Hoy te quedaron $X libres"** = ventas − gastos del día − comisiones − fijos ÷ días del mes. Al lado: **tu número del día** y si lo pasaste (barra que se llena).
 - Promedio de 7 días con la nota: "Los días que le pagás al proveedor te da más bajo. Mirá el promedio de la semana."
 - Historial de 30 días: barras verdes (positivo) y amarillas (negativo).
 
@@ -97,6 +98,7 @@ Regla: cada carga se hace en menos de 30 segundos con el pulgar. Todo en voseo, 
 
 - Producto: nombre, precio, costo, stock aproximado, fecha de última actualización de precio.
 - Margen % = (precio − costo) ÷ precio. Tabla ordenada por margen; rojo bajo 15% (editable).
+- El precio sugerido ya incluye la comisión de cobro configurada.
 - Al cambiar un costo: "Para seguir ganando 30%, vendelo a $X" — un toque lo aplica (redondeo a $10 o $50, configurable).
 - **Foto de la factura:** foto → Claude (visión) lee productos y costos → cruce con la lista (coincidencia aproximada de nombres, el usuario confirma)
   → "7 productos aumentaron. Para mantener tu ganancia, vendelos a estos precios" → un toque aplica todo. También sirve para el onboarding.
@@ -133,8 +135,8 @@ Un usuario = un negocio. Montos `numeric(14,2)`. Todas las tablas de datos con `
 | Tabla | Columnas clave |
 |---|---|
 | `businesses` | id, owner_id (único), name, rubro (kiosco · almacen · dietetica), ciudad, margin_alert_pct (15), dormant_days (30), price_rounding, onboarding_completed_at, utm_source, utm_content |
-| `fixed_costs` | id, business_id, concept, monthly_amount |
-| `daily_closes` | id, business_id, date (único por negocio), sales_total, source (voz · manual) |
+| `fixed_costs` | id, business_id, concept, monthly_amount · y en `businesses`: `card_fee_pct` |
+| `daily_closes` | id, business_id, date (único por negocio), sales_total, digital_total, fee_amount, source (voz · manual) |
 | `close_expenses` | id, close_id, category (proveedor · flete · vuelto · otros), concept, amount |
 | `products` | id, business_id, name, price, cost, stock, price_updated_at, last_sold_at, dormant_action, dormant_snoozed_until, archived_at |
 | `product_sale_days` | product_id, date (PK compuesta); trigger que actualiza `last_sold_at` |
