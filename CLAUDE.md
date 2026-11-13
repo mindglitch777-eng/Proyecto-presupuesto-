@@ -75,11 +75,11 @@ Claves y secretos: nunca en el código. Si falta una variable, el código falla 
 ## Estado
 
 - [x] Videos: aviso "La persiana" en Remotion con voz `es-AR-TomasNeural` (detalle y pendientes en `videos/CLAUDE.md`).
-- [ ] Videos: guiones de `IDEAS_V3.md` (hechos: 01 `Video01-ElDueno`, 02 `Video02-Banco`, 03 `Video03-SeHunde`).
+- [ ] Videos: guiones de `IDEAS_V3.md` (hechos: 01 `Video01-ElDueno`, 02 `Video02-Banco`, 03 `Video03-SeHunde`, 06 `Video-v3-06-Basura`; faltan 04, 05, 07, 08).
 - [ ] Videos: **V5-01 "Confesiones de un cuaderno de fiados"** (`videos/guiones/V5-01-CONFESIONES-CUADERNO.md`, aprobado, prioridad). Para producirlo: leé ese archivo en vez del guion de IDEAS_V4.
 - [ ] Videos: guiones 01 a 08 de `videos/guiones/IDEAS_V4.md`.
-- [ ] Videos v4 (`videos/guiones/IDEAS_V4.md`): hecho 01 `Video-v4-01-NumeroTapado`; faltan 02 a 08.
-- [ ] Videos V5 "Objeto que habla" (`videos/guiones/V5-01-CONFESIONES-CUADERNO.md`): hecho V5-01 `Video-v5-01-Confesiones`; serie: heladera, góndola, caja registradora.
+- [ ] Videos v4 (`videos/guiones/IDEAS_V4.md`): hechos 01 `Video-v4-01-NumeroTapado` y 02 `Video-v4-02-TresErrores`; faltan 03 a 08 (el 08 es la parte 2 del 02).
+- [ ] Videos V5 "Objeto que habla" (`videos/guiones/V5-01-CONFESIONES-CUADERNO.md`): hechos V5-01 `Video-v5-01-Confesiones` y V5-02 `Video-v5-02-Caja` (caja registradora); faltan heladera y góndola.
 - [x] App fase 0: landing + calculadora "tu número del día" + lista de espera (socios fundadores). Hecha en `app/` (Lighthouse móvil 93/96/100/100; falta cargar Supabase y Netlify, ver pasos).
 - [ ] App fase 1: fundaciones (esquema, RLS, `has_access()`, auth, PWA).
 - [ ] App fase 2: onboarding y bloqueo.

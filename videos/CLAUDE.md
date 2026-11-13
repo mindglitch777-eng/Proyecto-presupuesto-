@@ -70,6 +70,15 @@
 - Sonidos nuevos: `birome`, `hoja`, `papel_arrancado`, `reloj`, `tinta`, `cajon`.
 - Montos de ejemplo marcados ("$180.000 ejemplo", "$41.200 ejemplo"). Último cuadro = cuadro 0 (loop).
 
+## V3-06, V4-02 y V5-02 (tercera tanda, código común en `src/v6/`)
+- `src/v6/comun.tsx`: `Marco` (capas 2D + 3D + cámara 2D con golpes + subtítulos + sonidos), `camaraBeats`, `camaraClaves` (cámara 3D por cuadros clave),
+  `temblor`, `GanchoGigante`, `Celular`, `LogoEnClaro`, `BotonProbalo`, `useTex`. Un video nuevo solo escribe sus `tiempos()` (con `tPalabra`) y sus escenas.
+- **V3-06 "Tirás plata a la basura"** (`Video-v3-06-Basura`, 20 s): tacho monstruo (`ModelosBasura.tsx`: `Tacho`, `Objeto`, `Deposito`). El número queda en "$??.???" hasta que la voz dice "treinta y siete mil".
+- **V4-02 "3 errores que cierran kioscos"** (`Video-v4-02-TresErrores`, 27 s): persianas 3D (`ModelosPersianas.tsx`: `Persiana` que se enrolla, lona que se arranca, `Fachada`). Termina con la cuarta persiana tapada ("PARTE 2 · MAÑANA").
+- **V5-02 "Confesiones de una caja registradora"** (`Video-v5-02-Caja`, 38 s): caja 3D (`ModelosCaja.tsx`: pantalla con ojos y LCD redibujada por cuadro, ticket que se imprime, cajón con billetes). Cuenta: $120.000 − $66.000 − $36.333 − $8.000 = **$9.667** (ejemplo).
+- `voz.py`: con `"encadenar": "recortar"` saca el silencio del final de cada línea (la voz deja ~0,7 s) y el video queda más ágil. Los 3 videos nuevos lo usan.
+- La voz no se puede generar desde el contenedor de Claude (edge-tts no tiene salida): se genera en Actions y se baja con `git pull` para sacar imágenes de control con los tiempos reales.
+
 ## Cambios respecto del animatic / brief
 - **Duración 36,2 s en vez de 32 s.** La voz real de Tomás no entraba en los tiempos del animatic (líneas 2 y 4 daban
   más de 1,25×). Las escenas se siguen escribiendo en segundos del animatic y `tramos` del guion estira solo
