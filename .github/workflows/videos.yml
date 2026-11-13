@@ -67,8 +67,12 @@ jobs:
           # Solo el video en producción. Los entregados ya están en videos/salida/ y en la página de descargas.
           # Para volver a armar uno, copiá su bloque acá (ids: LaPersiana, LaPersiana-ganchoB/C/D, Video01-ElDueno,
           # Video02-Banco, Video03-SeHunde, Video-v4-01-NumeroTapado, Video-v5-01-Confesiones).
-          - nombre: v5-01-confesiones-rapido
-            id: Video-v5-01-Confesiones
+          - nombre: v3-06-tiras-plata-a-la-basura
+            id: Video-v3-06-Basura
+          - nombre: v4-02-tres-errores
+            id: Video-v4-02-TresErrores
+          - nombre: v5-02-caja-registradora
+            id: Video-v5-02-Caja
     steps:
       - uses: actions/checkout@v4
         with:
