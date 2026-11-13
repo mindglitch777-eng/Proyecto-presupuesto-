@@ -67,10 +67,10 @@ function claves(T_: T, dur: number): Clave[] {
     c(T_.l[2] + 0.1, [1.7, 1.0, 5.8], [0, 1.0, 0.4], 52, -0.07),
     c(T_.l[3] + 0.1, [0, 2.6, 6.6], [0, 1.1, 0.6], 54),
     c(T_.e[3], [0.1, 2.6, 6.4], [0, 1.1, 0.5], 54),
-    c(T_.l[4] + 0.2, [0, 1.65, 3.7], [0, 1.55, 0], 42),
-    c(T_.e[4] + 0.2, [0, 1.7, 3.5], [0, 1.55, 0], 41),
-    c(T_.l[5] + 0.3, [0, 1.75, 3.1], [0, 1.55, 0], 40),
-    c(T_.e[5], [0, 1.8, 3.4], [0, 1.5, 0], 42),
+    c(T_.l[4] + 0.2, [0, 1.75, 4.3], [0, 1.55, 0], 44),
+    c(T_.e[4] + 0.2, [0, 1.8, 4.2], [0, 1.55, 0], 44),
+    c(T_.l[5] + 0.3, [0, 1.9, 4.5], [0, 1.55, 0], 46),
+    c(T_.e[5], [0, 1.9, 4.8], [0, 1.5, 0], 46),
     c(T_.l[6] + 0.3, [-1.1, 2.0, 7.4], [0.9, 1.4, 0], 50),
     c(T_.l[7] - 0.2, [-0.2, 2.0, 6.8], [0.3, 1.2, 0], 50),
     c(dur - 0.9, ini.pos, ini.target, ini.fov),
@@ -248,9 +248,9 @@ const Cierre: React.FC<{ t: number; T_: T }> = ({ t, T_ }) => {
     <div style={{ inset: 0, opacity: o }}>
       <div style={{ left: 0, right: 0, top: 0, height: 230, background: "linear-gradient(#000d,transparent)" }} />
       <LogoEnClaro style={{ position: "absolute", left: 18, top: 62, opacity: Math.min(1, spring(t - T_.l[7], 12, 0.5)) }} />
-      <TextoCinetico t={t} desde={T_.cuanto - 0.1} paso={0.09} texto="¿Cuánto creés" amarillas={[]} style={{ left: 18, right: 10, top: 112, font: `700 32px/1.05 ${DISP}`, color: "#fff", textShadow: "0 4px 0 #000" }} />
-      <TextoCinetico t={t} desde={T_.cuanto + 0.5} paso={0.09} texto="que te quedó hoy?" amarillas={[2]} style={{ left: 18, right: 10, top: 148, font: `800 36px/1.05 ${DISP}`, color: "#fff", textShadow: "0 4px 0 #000" }} />
-      <Pildora texto="COMENTALO" style={{ left: 18, top: 204, transform: `scale(${sb})`, transformOrigin: "0 50%", fontSize: 18 }} />
+      <TextoCinetico t={t} desde={T_.cuanto - 0.1} paso={0.09} texto="¿Cuánto creés" amarillas={[]} style={{ left: 18, right: 10, top: 112, font: `700 27px/1.05 ${DISP}`, color: "#fff", textShadow: "0 4px 0 #000" }} />
+      <TextoCinetico t={t} desde={T_.cuanto + 0.5} paso={0.09} texto="que te quedó hoy?" amarillas={[2]} style={{ left: 18, right: 10, top: 142, font: `800 31px/1.05 ${DISP}`, color: "#fff", textShadow: "0 4px 0 #000" }} />
+      <Pildora texto="COMENTALO" style={{ left: 18, top: 196, transform: `scale(${sb})`, transformOrigin: "0 50%", fontSize: 18 }} />
       <BotonProbalo s={sb} top={566} />
     </div>
   );
