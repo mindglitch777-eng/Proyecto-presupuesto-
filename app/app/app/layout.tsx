@@ -1,12 +1,14 @@
 import { redirect } from "next/navigation";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { ConfigFaltante } from "@/lib/supabase/config";
+import { modoPrueba } from "@/lib/datos";
 
 export const dynamic = "force-dynamic";
 
 // Control en el momento (el token puede tener hasta una hora): sin sesión → entrar; sin acceso → suscribirme.
 // La base igual no devuelve datos a quien no tiene acceso; esto es para mostrar la pantalla correcta.
 export default async function LayoutApp({ children }: { children: React.ReactNode }) {
+  if (await modoPrueba()) return <>{children}</>;
   let destino: string | null = null;
   try {
     const supabase = await supabaseServidor();

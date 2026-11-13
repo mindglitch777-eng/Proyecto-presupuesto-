@@ -5,6 +5,8 @@ import { ConfigFaltante } from "@/lib/supabase/config";
 
 // Solo corre en la app (no en la landing): renueva la sesión y manda a cada persona donde corresponde.
 export async function proxy(request: NextRequest) {
+  // Pruebas automáticas (solo si el servidor arrancó con ENCLARO_MODO_PRUEBA=1, nunca en Netlify)
+  if (process.env.ENCLARO_MODO_PRUEBA === "1" && request.cookies.get("enclaro_prueba")?.value === "1") return NextResponse.next();
   try {
     const { response, claims } = await leerSesion(request);
     const ir = destino(request.nextUrl.pathname, Boolean(claims?.sub), estadoDeClaims(claims));

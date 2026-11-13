@@ -1,0 +1,25 @@
+{
+  "productos": ["Coca Cola 2,25 L", "Alfajor triple", "Yerba 1 kg", "Pan lactal", "Cigarrillos"],
+  "frases": [
+    {
+      "texto": "Hoy vendí ciento veinte mil, le pagué sesenta mil al proveedor y cinco mil de flete",
+      "esperado": { "ventas": 120000, "tarjeta": 0, "gastos": { "proveedor": 60000, "flete": 5000 }, "productos": [] }
+    },
+    {
+      "texto": "Vendí 186.000, ochenta mil fueron por QR, pagué 92 mil de mercadería y 8 mil de flete",
+      "esperado": { "ventas": 186000, "tarjeta": 80000, "gastos": { "proveedor": 92000, "flete": 8000 }, "productos": [] }
+    },
+    {
+      "texto": "Hice noventa y cinco lucas, gasté doce mil en el vuelto y tres mil quinientos en otras cosas",
+      "esperado": { "ventas": 95000, "tarjeta": 0, "gastos": { "vuelto": 12000, "otros": 3500 }, "productos": [] }
+    },
+    {
+      "texto": "Entraron doscientos treinta mil pesos, cien mil con tarjeta. Al distribuidor de bebidas le di setenta y ocho mil",
+      "esperado": { "ventas": 230000, "tarjeta": 100000, "gastos": { "proveedor": 78000 }, "productos": [] }
+    },
+    {
+      "texto": "Vendí un palo doscientos, pagué cuatrocientos mil a los proveedores, se movió la coca, el alfajor y la yerba",
+      "esperado": { "ventas": 1200000, "tarjeta": 0, "gastos": { "proveedor": 400000 }, "productos": ["Coca Cola 2,25 L", "Alfajor triple", "Yerba 1 kg"] }
+    }
+  ]
+}
