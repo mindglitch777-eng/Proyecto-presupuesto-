@@ -80,6 +80,7 @@ Claves y secretos: nunca en el código. Si falta una variable, el código falla 
 - [ ] Videos: guiones 01 a 08 de `videos/guiones/IDEAS_V4.md`.
 - [ ] Videos v4 (`videos/guiones/IDEAS_V4.md`): hechos 01 `Video-v4-01-NumeroTapado` y 02 `Video-v4-02-TresErrores`; faltan 03 a 08 (el 08 es la parte 2 del 02).
 - [ ] Videos V5 "Objeto que habla" (`videos/guiones/V5-01-CONFESIONES-CUADERNO.md`): hechos V5-01 `Video-v5-01-Confesiones` y V5-02 `Video-v5-02-Caja` (caja registradora); faltan heladera y góndola.
+- [ ] Videos V6 "Expediente" (policial): **V6-01 "Autopsia de un kiosco"** (`videos/guiones/V6-01-AUTOPSIA-KIOSCO.md`) y **V6-02 "El ladrón que la cámara no ve"** (`videos/guiones/V6-02-LADRON-INVISIBLE.md`). Se anuncian entre sí: publicar en días seguidos. Para producirlos: leé ese archivo en vez del guion de IDEAS_V4.
 - [x] App fase 0: landing + calculadora "tu número del día" + lista de espera (socios fundadores). Hecha en `app/` (Lighthouse móvil 93/96/100/100; falta cargar Supabase y Netlify, ver pasos).
 - [ ] App fase 1: fundaciones (esquema, RLS, `has_access()`, auth, PWA).
 - [ ] App fase 2: onboarding y bloqueo.
