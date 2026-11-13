@@ -1,5 +1,7 @@
 import { Escudo, Tilde } from "./Iconos";
 import { LUGARES_FUNDADORES } from "@/lib/listaEspera";
+import { PRECIO_FUNDADOR, PRECIO_MENSUAL } from "@/lib/precios";
+import { pesos } from "@/lib/formato";
 
 const incluye = ["14 días gratis, sin tarjeta", "Todas las funciones, sin límites raros", "Pagás con Mercado Pago: tarjeta o saldo", "Cancelás cuando quieras, con un botón"];
 
@@ -23,10 +25,10 @@ export function Precio({ lugares }: { lugares: number | null }) {
             <span className="rounded-full bg-crema px-2.5 py-[5px] text-xs font-bold text-oro2">Solo los primeros {LUGARES_FUNDADORES}</span>
           </div>
           <div className="flex flex-wrap items-baseline gap-2">
-            <span className="font-display text-[60px] font-extrabold leading-none tracking-[-0.04em]">$7.900</span>
+            <span className="font-display text-[60px] font-extrabold leading-none tracking-[-0.04em]">{pesos(PRECIO_FUNDADOR)}</span>
             <span className="text-base text-g2">/ mes, para siempre</span>
           </div>
-          <span className="-mt-2.5 text-[15px] text-g2">Después, $12.900 por mes.</span>
+          <span className="-mt-2.5 text-[15px] text-g2">Después, {pesos(PRECIO_MENSUAL)} por mes.</span>
           <div className="h-px bg-linea" />
           <ul className="flex flex-col gap-3 text-base text-g1">
             {incluye.map((t) => (

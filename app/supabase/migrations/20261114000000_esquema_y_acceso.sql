@@ -132,7 +132,7 @@ create table public.subscriptions (
   user_id uuid not null unique references auth.users (id) on delete cascade,
   status text not null default 'trial' check (status in ('trial', 'active', 'past_due', 'expired', 'cancelled')),
   plan text not null default 'mensual' check (plan in ('fundador', 'mensual', 'anual')),
-  price numeric(14, 2) not null default 12900 check (price >= 0),
+  price numeric(14, 2) not null default 19900 check (price >= 0),
   billing_method text not null default 'mp_suscripcion' check (billing_method in ('mp_suscripcion', 'mp_pago_unico', 'manual')),
   trial_ends_at timestamptz,
   current_period_end timestamptz,
@@ -271,7 +271,7 @@ begin
     nullif(left(meta ->> 'utm_content', 80), '')
   );
   insert into public.subscriptions (user_id, status, plan, price, billing_method, trial_ends_at)
-  values (new.id, 'trial', 'mensual', 12900, 'mp_suscripcion', now() + interval '14 days');
+  values (new.id, 'trial', 'mensual', 19900, 'mp_suscripcion', now() + interval '14 days');
   return new;
 end;
 $$;

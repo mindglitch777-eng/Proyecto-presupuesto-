@@ -1,7 +1,7 @@
 # En Claro — instrucciones para Claude Code
 
 En Claro es una app para dueños de kioscos, almacenes y dietéticas de Argentina: les dice cuánto les quedó de verdad,
-qué producto les deja plata, a quién cobrarle los fiados y qué plata tienen dormida. Precio: $12.900/mes, 14 días gratis,
+qué producto les deja plata, a quién cobrarle los fiados y qué plata tienen dormida. Precio: $19.900/mes ($12.900 para siempre para los primeros 100 socios fundadores), 14 días gratis,
 cobro solo por Mercado Pago.
 
 ## Cómo trabaja el dueño del proyecto

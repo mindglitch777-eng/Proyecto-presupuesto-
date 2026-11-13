@@ -64,8 +64,8 @@ amarillo #FFB703 para el dato clave, rojo solo para pérdidas, toldo rayado verd
    - "Tengo $180.000 en la calle y me da vergüenza cobrar." → Te avisa a quién cobrarle el día que cobra y le manda el mensaje por WhatsApp.
    - "El proveedor aumentó y no cambié los precios." → Sacás foto a la factura y te dice a cuánto vender. Y te imprime los carteles.
 4. **Cómo funciona** — tres pasos con captura real de la app: "Hablale" · "Sacale foto a la factura" · "Mirá tu número".
-5. **Precio** — "Socio fundador: **$7.900 por mes** para siempre. Solo para los primeros 100." Contador real de lugares que quedan
-   (sale de la base). Debajo, tachado no: "Después, $12.900 por mes." "14 días gratis, sin tarjeta." "Pagás con Mercado Pago: tarjeta o el saldo de tu cuenta. Cancelás cuando quieras."
+5. **Precio** — "Socio fundador: **$12.900 por mes** para siempre. Solo para los primeros 100." Contador real de lugares que quedan
+   (sale de la base). Debajo, tachado no: "Después, $19.900 por mes." "14 días gratis, sin tarjeta." "Pagás con Mercado Pago: tarjeta o el saldo de tu cuenta. Cancelás cuando quieras."
    **Garantía:** "Si en el primer mes pago no recuperaste lo que pagaste, te devolvemos la plata."
 6. **Preguntas** (4): ¿Necesito computadora? No. · ¿Tengo que cargar cada venta? No, el total del día una vez. · ¿Qué pasa con mis datos si dejo de pagar? Quedan guardados. · ¿Factura? No, En Claro no factura ni reemplaza tu caja.
 7. **Footer** — Términos · Privacidad · **Darme de baja** · WhatsApp de contacto (número visible como texto, además del link `wa.me`) · "Hecho en Santo Tomé, Corrientes" · Dale Web.
@@ -166,7 +166,7 @@ Límites de IA: 3 lecturas de factura y 10 cierres por voz por día y por negoci
 
 | Camino | Medios | Implementación |
 |---|---|---|
-| A · Suscripción automática (principal) | Tarjeta o saldo de Mercado Pago | Preapproval mensual. Fundador $7.900 (los primeros 100, precio congelado), después $12.900. Si se suscribe durante el trial, el primer cobro arranca al vencer el trial. |
+| A · Suscripción automática (principal) | Tarjeta o saldo de Mercado Pago | Preapproval mensual. Fundador $12.900 (los primeros 100, precio congelado), después $19.900. Si se suscribe durante el trial, el primer cobro arranca al vencer el trial. |
 | B · Pago mes a mes (link chico) | Tarjeta o saldo | Checkout Pro con `excluded_payment_types` = `ticket`, `atm`. Suma 30 días. Email 3 días antes con el link. |
 | Anual | Igual que B | Checkout Pro por 12 meses con 20% off. Suma 365 días. |
 | Manual (admin) | — | "Marcar como pagado" suma 30 días. |
