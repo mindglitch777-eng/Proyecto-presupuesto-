@@ -1,0 +1,72 @@
+{
+  "productos": [
+    { "id": "coca225", "nombre": "Coca Cola 2,25 L" },
+    { "id": "sprite15", "nombre": "Sprite 1,5 L" },
+    { "id": "agua500", "nombre": "Agua mineral 500 ml" },
+    { "id": "cerveza", "nombre": "Cerveza Quilmes lata" },
+    { "id": "fanta225", "nombre": "Fanta naranja 2,25 L" },
+    { "id": "levite", "nombre": "Levité pomelo 1,5 L" },
+    { "id": "speed", "nombre": "Energizante Speed 250" },
+    { "id": "pepsi", "nombre": "Pepsi 2 L" },
+    { "id": "yerba", "nombre": "Yerba Playadito 1 kg" },
+    { "id": "azucar", "nombre": "Azúcar Ledesma 1 kg" },
+    { "id": "fideos", "nombre": "Fideos Matarazzo tirabuzón" },
+    { "id": "aceite", "nombre": "Aceite Natura 1,5 L" },
+    { "id": "arroz", "nombre": "Arroz Gallo oro 1 kg" },
+    { "id": "harina", "nombre": "Harina Pureza 000" },
+    { "id": "leche", "nombre": "Leche La Serenísima" },
+    { "id": "pure", "nombre": "Puré de tomate Arcor" },
+    { "id": "alfajor", "nombre": "Alfajor triple Guaymallén" },
+    { "id": "turron", "nombre": "Turrón Arcor" },
+    { "id": "chicle", "nombre": "Chicle Beldent menta" },
+    { "id": "caramelos", "nombre": "Caramelos Media Hora" },
+    { "id": "chocolate", "nombre": "Chocolate Águila 100 g" },
+    { "id": "papas", "nombre": "Papas fritas Lays 85 g" },
+    { "id": "galletitas", "nombre": "Galletitas Oreo" },
+    { "id": "bonobon", "nombre": "Bombón Bon o Bon" }
+  ],
+  "facturas": [
+    {
+      "archivo": "factura-1.jpg",
+      "proveedor": "DISTRIBUIDORA DEL LITORAL S.R.L.",
+      "renglones": [
+        ["101", "COCA COLA 2.25 LTS X6", 6, 2890],
+        ["102", "SPRITE 1.5 LT", 6, 1950],
+        ["104", "AGUA MINERAL 500ML", 12, 640],
+        ["110", "CERVEZA QUILMES LATA 473", 24, 1320],
+        ["105", "FANTA NARANJA 2.25 LTS", 6, 2790],
+        ["107", "LEVITE POMELO 1.5L", 6, 1680],
+        ["120", "ENERGIZANTE SPEED 250ML", 12, 1150],
+        ["103", "PEPSI 2LTS", 6, 2350]
+      ]
+    },
+    {
+      "archivo": "factura-2.jpg",
+      "proveedor": "MAYORISTA EL SOL",
+      "renglones": [
+        ["2001", "YERBA PLAYADITO 1KG", 10, 3150],
+        ["2002", "AZUCAR LEDESMA 1KG", 10, 1240],
+        ["2003", "FIDEOS MATARAZZO TIRABUZON 500G", 20, 1090],
+        ["2004", "ACEITE NATURA 1.5L", 6, 3480],
+        ["2005", "ARROZ GALLO ORO 1KG", 10, 1870],
+        ["2006", "HARINA PUREZA 000 1KG", 10, 980],
+        ["2007", "LECHE LA SERENISIMA 1L", 12, 1390],
+        ["2008", "PURE DE TOMATE ARCOR 520G", 12, 760]
+      ]
+    },
+    {
+      "archivo": "factura-3.jpg",
+      "proveedor": "GOLOSINAS NORTE",
+      "renglones": [
+        ["A1", "ALFAJOR TRIPLE GUAYMALLEN", 24, 520],
+        ["A2", "TURRON ARCOR X 50U", 50, 190],
+        ["A3", "CHICLE BELDENT MENTA", 20, 610],
+        ["A4", "CARAMELOS MEDIA HORA X 100", 4, 2450],
+        ["A5", "CHOCOLATE AGUILA 100GR", 10, 2180],
+        ["A6", "PAPAS LAYS 85GR", 12, 1490],
+        ["A7", "GALLETITAS OREO 118GR", 12, 1130],
+        ["A8", "BON O BON X 30U", 30, 310]
+      ]
+    }
+  ]
+}

@@ -81,6 +81,12 @@ export function datosSupabase(sb: SupabaseClient): Datos {
       }
       return p.id;
     },
+    async nuevoCosto(id, costo, precio, origen) {
+      const { id: negocioId } = await negocio();
+      const antes = ok(await sb.from("products").select("price, cost").eq("id", id).single());
+      hecho(await sb.from("products").update({ cost: costo, price: precio, price_updated_at: new Date().toISOString() }).eq("id", id));
+      hecho(await sb.from("price_changes").insert({ business_id: negocioId, product_id: id, old_cost: antes.cost, new_cost: costo, old_price: antes.price, new_price: precio, source: origen }));
+    },
     async vendiHoy(id, fecha) {
       const { id: negocioId } = await negocio();
       const r = await sb.from("product_sale_days").insert({ product_id: id, business_id: negocioId, date: fecha });

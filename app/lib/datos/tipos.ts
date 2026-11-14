@@ -24,6 +24,7 @@ export interface Datos {
   usoDeProductos(desde: string): Promise<Record<string, number>>;
   guardarProducto(p: ProductoEditado, origen: "manual" | "factura"): Promise<string>;
   vendiHoy(id: string, fecha: string): Promise<void>;
+  nuevoCosto(id: string, costo: number, precio: number, origen: "manual" | "factura"): Promise<void>;
   accionDormido(id: string, accion: AccionDormido, stock: number | null, precio: number | null, hasta: string | null): Promise<void>;
   clientes(): Promise<Cliente[]>;
   guardarCliente(c: { id?: string; nombre: string; telefono: string | null; diaCobro: number | null; nota: string | null }): Promise<string>;

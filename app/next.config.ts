@@ -15,6 +15,8 @@ const config: NextConfig = {
           { key: "Permissions-Policy", value: "microphone=(self), camera=(self), geolocation=()" },
         ],
       },
+      // el lector de facturas pesa unos MB: que el celular lo guarde una semana
+      { source: "/lector/:archivo*", headers: [{ key: "Cache-Control", value: "public, max-age=604800" }] },
       // el service worker nunca se guarda en caché, así los cambios llegan enseguida
       { source: "/sw.js", headers: [{ key: "Cache-Control", value: "no-cache, no-store, must-revalidate" }] },
     ];

@@ -97,6 +97,12 @@ export function datosMemoria(): Datos {
       }
       return p.id;
     },
+    async nuevoCosto(id, costo, precio) {
+      const p = estado().productos.find((x) => x.id === id);
+      if (!p) throw new Error("sin producto");
+      Object.assign(p, { costo, precio, precioActualizado: new Date().toISOString() });
+      estado().cambios++;
+    },
     async vendiHoy(id, fecha) {
       const e = estado();
       if (!e.movidos.some((m) => m.id === id && m.fecha === fecha)) e.movidos.push({ id, fecha });

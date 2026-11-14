@@ -8,15 +8,19 @@
     "start": "next start",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "test:db": "bash scripts/test-db.sh"
+    "test:db": "bash scripts/test-db.sh",
+    "prebuild": "node scripts/copiar-lector.cjs",
+    "predev": "node scripts/copiar-lector.cjs"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",
     "@supabase/supabase-js": "2.118.0",
+    "@tesseract.js-data/spa": "1.0.0",
     "next": "16.4.3",
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "server-only": "0.0.1",
+    "tesseract.js": "7.0.0",
     "zod": "4.6.7"
   },
   "devDependencies": {

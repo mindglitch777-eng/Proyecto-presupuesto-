@@ -49,6 +49,21 @@ export async function guardarProducto(datos: unknown): Promise<Resultado> {
   return correr(async () => void (await (await obtenerDatos()).guardarProducto(v.data, "manual")));
 }
 
+const preciosSchema = z.object({
+  cambios: z.array(z.object({ id, costo: plata, precio: plata.refine((p) => p > 0, "Revisá los precios.") })).max(200),
+  nuevos: z.array(z.object({ nombre: z.string().trim().min(1).max(120), costo: plata, precio: plata.refine((p) => p > 0, "Revisá los precios."), stock: z.number().int().min(0).max(1_000_000).nullable() })).max(100),
+});
+/** Aplica de una vez los precios nuevos (de la foto de la factura o de "el proveedor aumentó X%"). */
+export async function aplicarPrecios(datos: unknown): Promise<Resultado> {
+  const v = preciosSchema.safeParse(datos);
+  if (!v.success) return { ok: false, mensaje: primerError(v.error) };
+  return correr(async () => {
+    const d = await obtenerDatos();
+    for (const c of v.data.cambios) await d.nuevoCosto(c.id, c.costo, c.precio, "factura");
+    for (const n of v.data.nuevos) await d.guardarProducto({ nombre: n.nombre, costo: n.costo, precio: n.precio, stock: n.stock }, "factura");
+  });
+}
+
 export async function vendiHoy(productoId: unknown): Promise<Resultado> {
   const v = id.safeParse(productoId);
   if (!v.success) return { ok: false, mensaje: "Revisá el producto." };
