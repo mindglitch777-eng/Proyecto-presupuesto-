@@ -36,7 +36,7 @@ async function sesionDe(page) {
   try { s = JSON.parse(crudo); } catch { return `cookies ${cs.map((c) => c.name).join(",")} ilegibles`; }
   const claims = JSON.parse(Buffer.from(s.access_token.split(".")[1], "base64url").toString());
   const { error } = await createClient(SUPA_URL, SUPA_ANON, { auth: { persistSession: false } }).auth.getUser(s.access_token);
-  return `cookies ${cs.map((c) => c.name).join(",")}; sesión ${String(claims.session_id).slice(0, 8)} amr=${(claims.amr || []).map((a) => a.method).join("+")} vence en ${claims.exp - Math.floor(Date.now() / 1000)} s; Supabase: ${error ? error.message : "válida"}`;
+  return `cookies ${cs.map((c) => `${c.name}[path=${c.path} dominio=${c.domain} secure=${c.secure} sameSite=${c.sameSite} vence=${c.expires === -1 ? "al cerrar" : Math.round(c.expires - Date.now() / 1000) + "s"}]`).join(",")}; sesión ${String(claims.session_id).slice(0, 8)} amr=${(claims.amr || []).map((a) => a.method).join("+")} vence en ${claims.exp - Math.floor(Date.now() / 1000)} s; Supabase: ${error ? error.message : "válida"}`;
 }
 // Para los mensajes de error: en qué pantalla quedó y qué decía (sin colgarse si la pantalla no tiene <main>).
 const donde = async (page) => `${page.url()} «${(await page.locator("body").innerText({ timeout: 3000 }).catch(() => "")).replace(/\s+/g, " ").slice(0, 400)}»`;
