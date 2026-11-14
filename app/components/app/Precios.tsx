@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { margenDe, precioSugerido, precioViejo, ranking, type ProductoMargen } from "@/lib/margen";
 import { conPuntos, pesos, soloDigitos } from "@/lib/formato";
 import type { Resultado } from "@/lib/resultado";
@@ -15,6 +15,7 @@ export function Precios({ productos, hoy, alertaPct, comisionPct, redondeo, acci
   const [error, setError] = useState<string | null>(null);
   const [ok, setOk] = useState<string | null>(null);
   const [ocupado, setOcupado] = useState(false);
+  const enCurso = useRef(false); // evita guardar dos veces con un doble toque
   const filas = ranking(productos, alertaPct);
 
   const abrir = (p?: ProductoMargen) =>
@@ -23,6 +24,8 @@ export function Precios({ productos, hoy, alertaPct, comisionPct, redondeo, acci
   async function correr(fn: () => Promise<Resultado>, mensaje: string) {
     setError(null);
     setOk(null);
+    if (enCurso.current) return;
+    enCurso.current = true;
     setOcupado(true);
     try {
       const r = await fn();
@@ -31,6 +34,7 @@ export function Precios({ productos, hoy, alertaPct, comisionPct, redondeo, acci
     } catch {
       setError("No se pudo guardar. Revisá tu conexión y probá de nuevo.");
     } finally {
+      enCurso.current = false;
       setOcupado(false);
     }
   }

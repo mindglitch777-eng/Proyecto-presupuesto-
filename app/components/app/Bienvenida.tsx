@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { CHIPS, NOMBRES_RUBRO, ganancia, leerCalculadora, CLAVE_CALCULADORA, recordatorioIcs, wow, type Producto, type Rubro } from "@/lib/onboarding";
 import { conPuntos, pesos, soloDigitos } from "@/lib/formato";
 import type { AccionesBienvenida } from "@/lib/resultado";
@@ -30,6 +30,7 @@ export function Bienvenida({ inicial, acciones, urlApp }: { inicial: Inicial; ac
   const [paso, setPaso] = useState<1 | 2 | 3 | 4>(1);
   const [error, setError] = useState<string | null>(null);
   const [ocupado, setOcupado] = useState(false);
+  const enCurso = useRef(false); // evita guardar dos veces con un doble toque
 
   // Paso 1
   const [nombre, setNombre] = useState(inicial.nombre === "Mi negocio" ? "" : inicial.nombre);
@@ -71,6 +72,8 @@ export function Bienvenida({ inicial, acciones, urlApp }: { inicial: Inicial; ac
 
   async function correr(accion: () => Promise<{ ok: true } | { ok: false; mensaje: string }>, siguiente: () => void) {
     setError(null);
+    if (enCurso.current) return;
+    enCurso.current = true;
     setOcupado(true);
     try {
       const r = await accion();
@@ -79,6 +82,7 @@ export function Bienvenida({ inicial, acciones, urlApp }: { inicial: Inicial; ac
     } catch {
       setError("No se pudo guardar. Revisá tu conexión y probá de nuevo.");
     } finally {
+      enCurso.current = false;
       setOcupado(false);
     }
   }

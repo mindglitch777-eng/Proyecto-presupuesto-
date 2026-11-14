@@ -8,7 +8,7 @@ import { Alerta, botonPrincipal, entrada } from "./Marco";
 type Estado = { fase: "listo" } | { fase: "enviando" } | { fase: "error"; mensaje: string } | { fase: "ok"; mensaje: string };
 
 /** modo "pedir": manda el mail para cambiar la contraseña. modo "nueva": guarda la contraseña nueva (ya con sesión). */
-export function FormClave({ modo }: { modo: "pedir" | "nueva" }) {
+export function FormClave({ modo, cambiar }: { modo: "pedir" | "nueva"; cambiar?: (clave: string) => Promise<{ ok: true } | { ok: false; mensaje: string }> }) {
   const [valor, setValor] = useState("");
   const [estado, setEstado] = useState<Estado>({ fase: "listo" });
 
@@ -24,8 +24,8 @@ export function FormClave({ modo }: { modo: "pedir" | "nueva" }) {
         if (error) return setEstado({ fase: "error", mensaje: traducirError(error) });
         return setEstado({ fase: "ok", mensaje: "Listo. Si ese mail tiene cuenta, te mandamos un link para elegir una contraseña nueva." });
       }
-      const { error } = await sb.auth.updateUser({ password: valor });
-      if (error) return setEstado({ fase: "error", mensaje: traducirError(error) });
+      const r = cambiar ? await cambiar(valor) : await sb.auth.updateUser({ password: valor }).then(({ error }) => (error ? { ok: false as const, mensaje: traducirError(error) } : { ok: true as const }));
+      if (!r.ok) return setEstado({ fase: "error", mensaje: r.mensaje });
       setEstado({ fase: "ok", mensaje: "Listo, cambiaste tu contraseña." });
       setTimeout(() => window.location.assign("/app"), 1200);
     } catch (err) {

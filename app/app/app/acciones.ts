@@ -5,6 +5,7 @@ import { z } from "zod";
 import { obtenerDatos } from "@/lib/datos";
 import { ERROR_GUARDAR, primerError, type Resultado } from "@/lib/resultado";
 import { hoyArgentina, sumarDias } from "@/lib/fechas";
+import { pesos } from "@/lib/formato";
 
 // Todo lo que se guarda desde la app. Valida en el servidor y guarda con la sesión de la persona (RLS).
 const plata = z.number({ message: "Revisá el monto." }).int("Usá pesos enteros.").min(0, "Revisá el monto.").max(1_000_000_000, "Ese monto es demasiado grande.");
@@ -95,6 +96,15 @@ const movSchema = z.object({ clienteId: id, tipo: z.enum(["fio", "pago"]), monto
 export async function movimiento(datos: unknown): Promise<Resultado> {
   const v = movSchema.safeParse(datos);
   if (!v.success) return { ok: false, mensaje: primerError(v.error) };
+  try {
+    if (v.data.tipo === "pago") {
+      const c = (await (await obtenerDatos()).clientes()).find((x) => x.id === v.data.clienteId);
+      const debe = c ? c.movimientos.reduce((s2, m) => s2 + (m.tipo === "fio" ? m.monto : -m.monto), 0) : 0;
+      if (v.data.monto > debe) return { ok: false, mensaje: debe > 0 ? `Te debe ${pesos(debe)}: no puede pagarte más que eso.` : "No te debe nada." };
+    }
+  } catch {
+    return { ok: false, mensaje: ERROR_GUARDAR };
+  }
   return correr(async () => (await obtenerDatos()).movimiento(v.data.clienteId, v.data.tipo, v.data.monto, hoyArgentina(), v.data.nota || null));
 }
 

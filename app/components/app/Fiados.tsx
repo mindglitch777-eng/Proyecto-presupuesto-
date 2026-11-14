@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { cobraHoy, deudaMasVieja, linkWhatsapp, mensajeRecordatorio, saldo, semaforo, type Semaforo } from "@/lib/fiado";
 import { haceCuanto } from "@/lib/fechas";
 import { pesos, soloDigitos } from "@/lib/formato";
@@ -23,6 +23,7 @@ export function Fiados({ clientes, hoy, filtroInicial, acciones }: { clientes: C
   const [form, setForm] = useState({ nombre: "", telefono: "", diaCobro: "", nota: "" });
   const [error, setError] = useState<string | null>(null);
   const [ocupado, setOcupado] = useState(false);
+  const enCurso = useRef(false); // evita guardar dos veces con un doble toque
 
   const lista = clientes
     .map((c) => ({ ...c, saldo: saldo(c.movimientos), sem: semaforo(c.movimientos, c.recordatoriosSinPago, hoy), vieja: deudaMasVieja(c.movimientos), cobra: cobraHoy(c.diaCobro, hoy) }))
@@ -34,6 +35,8 @@ export function Fiados({ clientes, hoy, filtroInicial, acciones }: { clientes: C
 
   async function correr(fn: () => Promise<Resultado>, despues?: () => void) {
     setError(null);
+    if (enCurso.current) return;
+    enCurso.current = true;
     setOcupado(true);
     try {
       const r = await fn();
@@ -42,6 +45,7 @@ export function Fiados({ clientes, hoy, filtroInicial, acciones }: { clientes: C
     } catch {
       setError("No se pudo guardar. Revisá tu conexión y probá de nuevo.");
     } finally {
+      enCurso.current = false;
       setOcupado(false);
     }
   }

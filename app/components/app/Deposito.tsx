@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { dormidos, precioLiquidar } from "@/lib/dormida";
 import type { ProductoMargen } from "@/lib/margen";
 import { pesos } from "@/lib/formato";
@@ -16,10 +16,13 @@ export function Deposito({ productos, hoy, dias, redondeo, accion }: { productos
   const [error, setError] = useState<string | null>(null);
   const [ok, setOk] = useState<string | null>(null);
   const [ocupado, setOcupado] = useState(false);
+  const enCurso = useRef(false); // evita guardar dos veces con un doble toque
 
   async function confirmar(p: ProductoMargen) {
     if (!abierto) return;
     setError(null);
+    if (enCurso.current) return;
+    enCurso.current = true;
     setOcupado(true);
     try {
       const res = await accion({ id: p.id, accion: abierto.accion, stock: abierto.stock.trim() === "" ? null : Number(abierto.stock), precio: abierto.accion === "liquidar" && p.costo ? precioLiquidar(p.costo, redondeo) : null });
@@ -30,6 +33,7 @@ export function Deposito({ productos, hoy, dias, redondeo, accion }: { productos
     } catch {
       setError("No se pudo guardar. Revisá tu conexión y probá de nuevo.");
     } finally {
+      enCurso.current = false;
       setOcupado(false);
     }
   }

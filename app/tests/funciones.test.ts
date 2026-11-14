@@ -119,3 +119,13 @@ describe("fechas", () => {
     expect(haceCuanto("2026-11-12", "2026-11-13")).toBe("ayer");
   });
 });
+
+describe("formato de plata", () => {
+  it("pérdidas con el signo adelante", async () => {
+    const { pesos } = await import("@/lib/formato");
+    expect(pesos(-53000)).toBe("-$53.000");
+    expect(pesos(44867.4)).toBe("$44.867");
+    expect(pesos(0)).toBe("$0");
+    expect(pesos(-0.4)).toBe("$0");
+  });
+});

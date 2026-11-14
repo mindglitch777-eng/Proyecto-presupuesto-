@@ -23,6 +23,7 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
   const [parcial, setParcial] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [ocupado, setOcupado] = useState(false);
+  const enCurso = useRef(false); // evita guardar dos veces con un doble toque
   const [fuente, setFuente] = useState<"voz" | "manual">("manual");
   const [ventas, setVentas] = useState(p.previo ? conPuntos(String(p.previo.ventas)) : "");
   const [tarjeta, setTarjeta] = useState(p.previo?.tarjeta ? conPuntos(String(p.previo.tarjeta)) : "");
@@ -111,6 +112,8 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
     setError(null);
     if (!nVentas) return setError("Poné cuánto vendiste.");
     if (nTarjeta > nVentas) return setError("Lo que cobraste con tarjeta o QR no puede ser más que lo que vendiste.");
+    if (enCurso.current) return;
+    enCurso.current = true;
     setOcupado(true);
     try {
       const r = await p.guardar({ fecha: p.fecha, ventas: nVentas, tarjeta: nTarjeta, gastos: listaGastos, productos: movidos, fuente });
@@ -119,6 +122,7 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
     } catch {
       setError("No se pudo guardar. Revisá tu conexión y probá de nuevo.");
     } finally {
+      enCurso.current = false;
       setOcupado(false);
     }
   }

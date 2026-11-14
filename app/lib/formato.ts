@@ -1,7 +1,7 @@
 const nf = new Intl.NumberFormat("es-AR", { maximumFractionDigits: 0 });
 
 /** $23.400 */
-export const pesos = (n: number) => "$" + nf.format(Math.round(n));
+export const pesos = (n: number) => (Math.round(n) < 0 ? "-$" : "$") + nf.format(Math.abs(Math.round(n)));
 
 /** "1.250.000" → 1250000. Ignora todo lo que no sea un dígito. */
 export const soloDigitos = (v: string) => Number(String(v).replace(/\D/g, "")) || 0;

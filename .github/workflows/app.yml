@@ -81,12 +81,18 @@ jobs:
         run: |
           SUPABASE_SERVICE_ROLE_KEY="$SUPA_SERVICE" NEXT_PUBLIC_WHATSAPP=5493756000000 nohup npx next start -p 3100 > next.log 2>&1 &
           for i in $(seq 1 30); do curl -sf http://127.0.0.1:3100/ > /dev/null && break; sleep 1; done
-      - name: Instalar el navegador de prueba
+      - name: Instalar los navegadores de prueba (Chrome y Safari)
         run: |
           npm i -g playwright@1.63.0
-          npx --yes playwright@1.63.0 install --with-deps chromium
+          npx --yes playwright@1.63.0 install --with-deps chromium webkit
       - name: Recorrido completo de dos usuarios (360 px)
         run: NODE_PATH="$(npm root -g)" node scripts/e2e-real.cjs
+      - name: Escenarios (errores, casos raros, doble toque, sesiones) en Chrome de Android
+        if: always()
+        run: NODE_PATH="$(npm root -g)" node scripts/e2e-escenarios.cjs
+      - name: Escenarios en Safari de iPhone
+        if: always()
+        run: NODE_PATH="$(npm root -g)" NAVEGADOR=webkit node scripts/e2e-escenarios.cjs
       - name: Registro de la app si algo falló
         if: failure()
         run: tail -100 next.log

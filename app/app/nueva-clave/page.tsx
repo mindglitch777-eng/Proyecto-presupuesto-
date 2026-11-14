@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { FormClave } from "@/components/auth/FormClave";
 import { MarcoAuth, SinConexion } from "@/components/auth/Marco";
 import { ConfigFaltante, configPublica } from "@/lib/supabase/config";
+import { cambiarClave } from "./acciones";
 
 export const metadata: Metadata = { title: "Nueva contraseña · En Claro", robots: { index: false } };
 
@@ -14,7 +15,7 @@ export default function NuevaClave() {
   }
   return (
     <MarcoAuth titulo="Elegí tu contraseña nueva" bajada="Tiene que tener al menos 8 caracteres.">
-      <FormClave modo="nueva" />
+      <FormClave modo="nueva" cambiar={cambiarClave} />
     </MarcoAuth>
   );
 }

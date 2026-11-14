@@ -25,7 +25,8 @@ function valorDigitos(t: string): number | null {
   const k = /^(\d+(?:[.,]\d+)?)k$/.exec(t);
   if (k) return Math.round(Number(k[1].replace(",", ".")) * 1000);
   if (/^\d{1,3}(\.\d{3})+$/.test(t)) return Number(t.replace(/\./g, ""));
-  if (/^\d+,\d{1,2}$/.test(t)) return Number(t.replace(",", "."));
+  if (/^\d{1,3}(\.\d{3})+,\d{1,2}$/.test(t)) return Math.round(Number(t.replace(/\./g, "").replace(",", ".")));
+  if (/^\d+,\d{1,2}$/.test(t)) return Math.round(Number(t.replace(",", ".")));
   if (/^\d+$/.test(t)) return Number(t);
   return null;
 }
@@ -75,7 +76,7 @@ const CLAVES: [RegExp, Categoria | "ventas" | "tarjeta"][] = [
   [/\b(tarjeta|qr|mercado ?pago|debito|credito|posnet|point|transferencia|transfirieron)/, "tarjeta"],
   [/\b(flete|envio|nafta|remis|uber|colectivo|transporte)/, "flete"],
   [/\b(vuelto|cambio)/, "vuelto"],
-  [/\b(proveedor|proveedores|mercaderia|distribuidor|distribuidora|reparto|repartidor|preventista|mayorista)/, "proveedor"],
+  [/\b(proveedor|proveedores|mercaderia|distribuidor|distribuidora|reparto|repartidor|preventista|mayorista|le di|al de la|al de los)\b/, "proveedor"],
   [/\b(vend|venta|hice|hicimos|factur|entr(o|aron|ó)|recaud|caja)/, "ventas"],
   [/\b(otros|otras|otra cosa|varios|gast|pague|pagamos|compre|limpieza|bolsas)/, "otros"],
 ];
@@ -100,6 +101,13 @@ export function productosMencionados(texto: string, productos: string[]) {
 export function entenderCierre(texto: string, productos: string[] = []): CierreEntendido {
   const tokens = tokenizar(texto);
   const ms = montos(tokens);
+  const mayor = Math.max(0, ...ms.map((m) => m.valor));
+  if (mayor >= 20000) {
+    for (const m of ms) {
+      const conPesos = FIN_DE_MONTO.has(tokens[m.hasta - 1]) || /pesos?/.test(tokens[m.hasta] ?? "");
+      if (m.valor < 1000 && !conPesos) m.valor *= 1000;
+    }
+  }
   const r: CierreEntendido = { ventas: 0, tarjeta: 0, gastos: [], productos: productosMencionados(texto, productos) };
   ms.forEach((m, k) => {
     // cláusula: desde el separador (o "y" suelta, o el monto anterior) hasta el próximo separador o monto

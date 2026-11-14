@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { conPuntos, soloDigitos } from "@/lib/formato";
 import type { Ajustes as TAjustes } from "@/lib/datos/tipos";
 import type { Resultado } from "@/lib/resultado";
@@ -19,10 +19,13 @@ export function Ajustes({ inicial, guardar }: { inicial: TAjustes; guardar: (d: 
   const [fijos, setFijos] = useState(inicial.fijos.map((f) => ({ concepto: f.concepto, monto: conPuntos(String(f.monto)) })));
   const [estado, setEstado] = useState<{ tipo: "ok" | "error"; texto: string } | null>(null);
   const [ocupado, setOcupado] = useState(false);
+  const enCurso = useRef(false); // evita guardar dos veces con un doble toque
 
   async function enviar(e: React.FormEvent) {
     e.preventDefault();
     setEstado(null);
+    if (enCurso.current) return;
+    enCurso.current = true;
     setOcupado(true);
     try {
       const r = await guardar({
@@ -35,6 +38,7 @@ export function Ajustes({ inicial, guardar }: { inicial: TAjustes; guardar: (d: 
     } catch {
       setEstado({ tipo: "error", texto: "No se pudo guardar. Revisá tu conexión y probá de nuevo." });
     } finally {
+      enCurso.current = false;
       setOcupado(false);
     }
   }

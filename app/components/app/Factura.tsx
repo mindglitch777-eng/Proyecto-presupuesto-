@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { conAumento, cruzar, leerLineas } from "@/lib/factura";
 import { margenDe, precioSugerido } from "@/lib/margen";
 import { conPuntos, pesos, soloDigitos } from "@/lib/formato";
@@ -33,6 +33,7 @@ export function Factura({ productos, comisionPct, redondeo, negocio, aplicar }: 
   const [elegidos, setElegidos] = useState<string[]>(productos.filter((p) => p.costo).map((p) => p.id));
   const [error, setError] = useState<string | null>(null);
   const [ocupado, setOcupado] = useState(false);
+  const enCurso = useRef(false); // evita guardar dos veces con un doble toque
   const [listos, setListos] = useState<{ nombre: string; precio: number }[] | null>(null);
   const porId = new Map(productos.map((p) => [p.id, p]));
 
@@ -76,6 +77,8 @@ export function Factura({ productos, comisionPct, redondeo, negocio, aplicar }: 
 
   async function guardar(cambios: { id: string; costo: number; precio: number }[], nuevos: { nombre: string; costo: number; precio: number; stock: number | null }[]) {
     setError(null);
+    if (enCurso.current) return;
+    enCurso.current = true;
     setOcupado(true);
     try {
       const r = await aplicar({ cambios, nuevos });
@@ -84,6 +87,7 @@ export function Factura({ productos, comisionPct, redondeo, negocio, aplicar }: 
     } catch {
       setError("No se pudo guardar. Revisá tu conexión y probá de nuevo.");
     } finally {
+      enCurso.current = false;
       setOcupado(false);
     }
   }
