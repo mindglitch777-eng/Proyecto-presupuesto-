@@ -7,6 +7,10 @@ on:
       - "app/**"
       - ".github/workflows/app.yml"
   workflow_dispatch:
+  # Todas las noches (04:23 de Argentina) aunque nadie toque nada: si Supabase, Next o los navegadores cambian algo
+  # y se rompe una función, nos enteramos antes que los clientes (ver app/PROBLEMAS.md).
+  schedule:
+    - cron: "23 7 * * *"
 
 concurrency:
   group: app-${{ github.ref }}

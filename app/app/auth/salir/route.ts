@@ -1,12 +1,12 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { irA } from "@/lib/redirigir";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     const supabase = await supabaseServidor();
     await supabase.auth.signOut();
   } catch {
     // si no había sesión, igual se vuelve al inicio
   }
-  return NextResponse.redirect(new URL("/", request.url), 303);
+  return irA("/");
 }

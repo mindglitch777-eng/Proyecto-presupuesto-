@@ -270,6 +270,8 @@ async function ultimoMail(para) {
   const link = html.match(/href="([^"]*\/auth\/callback[^"]*)"/)[1].replace(/&amp;/g, "&");
   await p2.goto(link, { waitUntil: "networkidle" });
   await p2.waitForURL(/\/nueva-clave/);
+  // P-07: el link del mail no puede mandarte a otra dirección del sitio (ahí la sesión se pierde)
+  assert.equal(new URL(p2.url()).host, new URL(link).host, `el link del mail llevó a otra dirección: ${p2.url()}`);
   await p2.getByLabel("Tu contraseña nueva").fill("clave-nueva-beto-1");
   await p2.getByRole("button", { name: "Guardar contraseña" }).click();
   await p2.locator("form [role=alert], form [role=status]").first().waitFor();
@@ -301,7 +303,7 @@ async function ultimoMail(para) {
   await p2.goto(`${BASE}/app`, { waitUntil: "networkidle" });
   await p2.waitForURL(/\/app\/bienvenida/, { timeout: 10000 }).catch(async () => { throw new Error(`al abrir /app quedó en ${await donde(p2)} · antes: ${sesionTrasCambio} · ahora: ${await sesionDe(p2)}`); });
   await p2.getByRole("button", { name: "Salir de mi cuenta" }).click({ timeout: 10000 }).catch(async () => { throw new Error(`no aparece «Salir de mi cuenta» en ${await donde(p2)}`); });
-  await p2.waitForURL((u) => u.pathname === "/", { timeout: 10000 }).catch(async () => { throw new Error(`después de salir quedó en ${await donde(p2)}`); });
+  await p2.waitForURL((u) => u.pathname === "/" && u.host === new URL(BASE).host, { timeout: 10000 }).catch(async () => { throw new Error(`después de salir quedó en ${await donde(p2)}`); });
   await p2.goto(`${BASE}/app`, { waitUntil: "networkidle" });
   await p2.waitForURL(/\/entrar/);
   await p2.getByLabel("Tu mail").fill(B.email);

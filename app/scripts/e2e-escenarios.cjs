@@ -409,6 +409,13 @@ async function escenario(nombre, fn) {
     assert.deepEqual(p.errores, [], p.errores.join(" | "));
   });
 
+  await escenario("un link viejo o mal copiado muestra 'Esta página no existe' en español (no el cartel en inglés)", async () => {
+    const res = await p.goto(`${BASE}/esto-no-existe-${Date.now()}`, { waitUntil: "networkidle" });
+    assert.equal(res.status(), 404);
+    await p.getByRole("heading", { name: "Esta página no existe" }).waitFor();
+    assert.ok(await p.getByRole("link", { name: "Ir a Tu día" }).isVisible());
+  });
+
   // ---------------- Resultado ----------------
   await browser.close();
   const mal = resultados.filter((r) => !r.ok);

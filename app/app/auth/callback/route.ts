@@ -1,6 +1,7 @@
-import { NextResponse, type NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 import type { EmailOtpType } from "@supabase/supabase-js";
 import { rutaSegura } from "@/lib/acceso";
+import { irA } from "@/lib/redirigir";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 
 // Adonde llegan los links de los mails (confirmar cuenta, entrar con un link, cambiar contraseña).
@@ -15,14 +16,14 @@ export async function GET(request: NextRequest) {
     const code = q.get("code");
     // Cambiar contraseña: el link no se gasta acá (los antivirus del mail abren los links solos). Se valida recién
     // cuando la persona guarda la contraseña nueva, en el mismo paso que el cambio.
-    if (tokenHash && tipo === "recovery") return NextResponse.redirect(new URL(`/nueva-clave?t=${encodeURIComponent(tokenHash)}`, request.url));
+    if (tokenHash && tipo === "recovery") return irA(`/nueva-clave?t=${encodeURIComponent(tokenHash)}`);
     let error = null;
     if (tokenHash && tipo) ({ error } = await supabase.auth.verifyOtp({ type: tipo, token_hash: tokenHash }));
     else if (code) ({ error } = await supabase.auth.exchangeCodeForSession(code));
     else error = new Error("sin código");
-    if (!error) return NextResponse.redirect(new URL(tipo === "recovery" ? "/nueva-clave" : siguiente, request.url));
+    if (!error) return irA(tipo === "recovery" ? "/nueva-clave" : siguiente);
   } catch {
     // cae al aviso de abajo
   }
-  return NextResponse.redirect(new URL("/entrar?error=1", request.url));
+  return irA("/entrar?error=1");
 }
