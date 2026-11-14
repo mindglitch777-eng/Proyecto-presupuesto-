@@ -26,6 +26,18 @@ async function nuevaPagina(browser) {
 }
 const sinScroll = async (page, donde) => assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= 360), "scroll horizontal en " + donde);
 const texto = (page) => page.locator("main").innerText();
+// Diagnóstico: qué sesión tiene guardada el navegador y qué dice Supabase de ella (sin mostrar los tokens).
+async function sesionDe(page) {
+  const cs = (await page.context().cookies()).filter((c) => /^sb-.*-auth-token(\.\d+)?$/.test(c.name)).sort((a, b) => a.name.localeCompare(b.name));
+  if (!cs.length) return "sin cookie de sesión";
+  let crudo = cs.map((c) => c.value).join("");
+  if (crudo.startsWith("base64-")) crudo = Buffer.from(crudo.slice(7), "base64url").toString();
+  let s;
+  try { s = JSON.parse(crudo); } catch { return `cookies ${cs.map((c) => c.name).join(",")} ilegibles`; }
+  const claims = JSON.parse(Buffer.from(s.access_token.split(".")[1], "base64url").toString());
+  const { error } = await createClient(SUPA_URL, SUPA_ANON, { auth: { persistSession: false } }).auth.getUser(s.access_token);
+  return `cookies ${cs.map((c) => c.name).join(",")}; sesión ${String(claims.session_id).slice(0, 8)} amr=${(claims.amr || []).map((a) => a.method).join("+")} vence en ${claims.exp - Math.floor(Date.now() / 1000)} s; Supabase: ${error ? error.message : "válida"}`;
+}
 // Para los mensajes de error: en qué pantalla quedó y qué decía (sin colgarse si la pantalla no tiene <main>).
 const donde = async (page) => `${page.url()} «${(await page.locator("body").innerText({ timeout: 3000 }).catch(() => "")).replace(/\s+/g, " ").slice(0, 400)}»`;
 
@@ -267,6 +279,10 @@ async function ultimoMail(para) {
   await p2.waitForURL(/\/app\/bienvenida/).catch(async () => {
     throw new Error(`después de cambiar la contraseña quedó en ${await donde(p2)}`);
   });
+  const sesionTrasCambio = await sesionDe(p2);
+  console.log("  · sesión de Beto después de cambiar la contraseña: " + sesionTrasCambio);
+  await p2.goto(`${BASE}/app/ajustes`, { waitUntil: "networkidle" });
+  assert.match(p2.url(), /\/app\/ajustes/, `recién cambiada la contraseña, /app/ajustes llevó a ${await donde(p2)} · ${await sesionDe(p2)}`);
   const otra = createClient(SUPA_URL, SUPA_ANON, { auth: { persistSession: false } });
   const { error: errNueva } = await otra.auth.signInWithPassword({ email: B.email, password: "clave-nueva-beto-1" });
   assert.ifError(errNueva);
@@ -283,7 +299,7 @@ async function ultimoMail(para) {
   // ---------- 12. Salir y volver a entrar ----------
   // Beto no terminó el primer uso: tiene que poder salir desde la bienvenida.
   await p2.goto(`${BASE}/app`, { waitUntil: "networkidle" });
-  await p2.waitForURL(/\/app\/bienvenida/, { timeout: 10000 }).catch(async () => { throw new Error(`al abrir /app quedó en ${await donde(p2)}`); });
+  await p2.waitForURL(/\/app\/bienvenida/, { timeout: 10000 }).catch(async () => { throw new Error(`al abrir /app quedó en ${await donde(p2)} · antes: ${sesionTrasCambio} · ahora: ${await sesionDe(p2)}`); });
   await p2.getByRole("button", { name: "Salir de mi cuenta" }).click({ timeout: 10000 }).catch(async () => { throw new Error(`no aparece «Salir de mi cuenta» en ${await donde(p2)}`); });
   await p2.waitForURL((u) => u.pathname === "/", { timeout: 10000 }).catch(async () => { throw new Error(`después de salir quedó en ${await donde(p2)}`); });
   await p2.goto(`${BASE}/app`, { waitUntil: "networkidle" });
