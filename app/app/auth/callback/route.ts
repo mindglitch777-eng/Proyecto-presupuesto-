@@ -13,6 +13,9 @@ export async function GET(request: NextRequest) {
     const tokenHash = q.get("token_hash");
     const tipo = q.get("type") as EmailOtpType | null;
     const code = q.get("code");
+    // Cambiar contraseña: el link no se gasta acá (los antivirus del mail abren los links solos). Se valida recién
+    // cuando la persona guarda la contraseña nueva, en el mismo paso que el cambio.
+    if (tokenHash && tipo === "recovery") return NextResponse.redirect(new URL(`/nueva-clave?t=${encodeURIComponent(tokenHash)}`, request.url));
     let error = null;
     if (tokenHash && tipo) ({ error } = await supabase.auth.verifyOtp({ type: tipo, token_hash: tokenHash }));
     else if (code) ({ error } = await supabase.auth.exchangeCodeForSession(code));

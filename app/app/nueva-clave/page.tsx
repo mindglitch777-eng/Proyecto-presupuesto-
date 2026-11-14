@@ -4,9 +4,11 @@ import { MarcoAuth, SinConexion } from "@/components/auth/Marco";
 import { ConfigFaltante, configPublica } from "@/lib/supabase/config";
 import { cambiarClave } from "./acciones";
 
-export const metadata: Metadata = { title: "Nueva contraseña · En Claro", robots: { index: false } };
+export const metadata: Metadata = { title: "Nueva contraseña · En Claro", robots: { index: false }, referrer: "no-referrer" };
 
-export default function NuevaClave() {
+export default async function NuevaClave({ searchParams }: { searchParams: Promise<{ t?: string | string[] }> }) {
+  const { t } = await searchParams;
+  const codigo = typeof t === "string" && /^[A-Za-z0-9_-]{8,200}$/.test(t) ? t : undefined;
   try {
     configPublica();
   } catch (e) {
@@ -15,7 +17,7 @@ export default function NuevaClave() {
   }
   return (
     <MarcoAuth titulo="Elegí tu contraseña nueva" bajada="Tiene que tener al menos 8 caracteres.">
-      <FormClave modo="nueva" cambiar={cambiarClave} />
+      <FormClave modo="nueva" cambiar={cambiarClave} codigo={codigo} />
     </MarcoAuth>
   );
 }

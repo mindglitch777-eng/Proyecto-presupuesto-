@@ -266,7 +266,15 @@ async function ultimoMail(para) {
   const otra = createClient(SUPA_URL, SUPA_ANON, { auth: { persistSession: false } });
   const { error: errNueva } = await otra.auth.signInWithPassword({ email: B.email, password: "clave-nueva-beto-1" });
   assert.ifError(errNueva);
-  ok("recuperar contraseña: llegó el mail en español, el link funciona y la contraseña nueva entra");
+  const p3 = await nuevaPagina(browser);
+  await p3.goto(link, { waitUntil: "networkidle" });
+  await p3.waitForURL(/\/nueva-clave/);
+  await p3.getByLabel("Tu contraseña nueva").fill("otra-clave-de-beto-2");
+  await p3.getByRole("button", { name: "Guardar contraseña" }).click();
+  await p3.getByText(/El link venció o ya se usó/).waitFor();
+  const { error: errVieja } = await otra.auth.signInWithPassword({ email: B.email, password: "otra-clave-de-beto-2" });
+  assert.ok(errVieja, "un link ya usado cambió la contraseña otra vez");
+  ok("recuperar contraseña: llegó el mail en español, el link funciona, la contraseña nueva entra y el link no sirve dos veces");
 
   // ---------- 12. Salir y volver a entrar ----------
   await p2.goto(`${BASE}/app/ajustes`, { waitUntil: "networkidle" });
