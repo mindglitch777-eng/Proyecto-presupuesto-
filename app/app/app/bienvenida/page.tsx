@@ -23,10 +23,16 @@ export default async function PaginaBienvenida() {
   if (negocio?.onboarding_completed_at) redirect("/app");
   const url = (process.env.APP_URL || process.env.URL || "https://enclaro.netlify.app") + "/app";
   return (
+    <>
     <Bienvenida
       inicial={{ nombre: negocio?.name ?? "", rubro: negocio?.rubro ?? null, ciudad: negocio?.ciudad ?? "" }}
       acciones={{ guardarNegocio, guardarFijos, guardarProductos, terminar }}
       urlApp={url}
     />
+    {/* Quien se registró a medias tiene que poder salir (por ejemplo, si usa el celular de otro). */}
+    <form action="/auth/salir" method="post" className="mx-auto max-w-md px-4 pb-8 text-center">
+      <button type="submit" className="min-h-[48px] cursor-pointer px-4 text-[15px] font-semibold text-g1 underline">Salir de mi cuenta</button>
+    </form>
+    </>
   );
 }

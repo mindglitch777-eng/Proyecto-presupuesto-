@@ -262,7 +262,9 @@ async function ultimoMail(para) {
   const respuesta = await p2.locator("form [role=alert], form [role=status]").first().innerText();
   const cookies = (await p2.context().cookies()).map((c) => `${c.name} (httpOnly=${c.httpOnly})`).join(", ");
   assert.match(respuesta, /Listo, cambiaste tu contraseña\./, `al guardar la contraseña nueva la pantalla dijo: «${respuesta}» · cookies: ${cookies}`);
-  await p2.waitForURL(/\/app/);
+  await p2.waitForURL(/\/app\/bienvenida/).catch(async () => {
+    throw new Error(`después de cambiar la contraseña quedó en ${p2.url()}: «${(await texto(p2)).slice(0, 300)}»`);
+  });
   const otra = createClient(SUPA_URL, SUPA_ANON, { auth: { persistSession: false } });
   const { error: errNueva } = await otra.auth.signInWithPassword({ email: B.email, password: "clave-nueva-beto-1" });
   assert.ifError(errNueva);
@@ -277,8 +279,12 @@ async function ultimoMail(para) {
   ok("recuperar contraseña: llegó el mail en español, el link funciona, la contraseña nueva entra y el link no sirve dos veces");
 
   // ---------- 12. Salir y volver a entrar ----------
-  await p2.goto(`${BASE}/app/ajustes`, { waitUntil: "networkidle" });
-  await p2.getByRole("button", { name: "Salir de mi cuenta" }).click();
+  // Beto no terminó el primer uso: tiene que poder salir desde la bienvenida.
+  await p2.goto(`${BASE}/app`, { waitUntil: "networkidle" });
+  await p2.waitForURL(/\/app\/bienvenida/);
+  await p2.getByRole("button", { name: "Salir de mi cuenta" }).click({ timeout: 10000 }).catch(async () => {
+    throw new Error(`no aparece «Salir de mi cuenta» en ${p2.url()}: «${(await texto(p2)).slice(0, 300)}»`);
+  });
   await p2.waitForURL((u) => u.pathname === "/");
   await p2.goto(`${BASE}/app`, { waitUntil: "networkidle" });
   await p2.waitForURL(/\/entrar/);
@@ -289,7 +295,7 @@ async function ultimoMail(para) {
   await p2.getByLabel("Tu contraseña").fill("clave-nueva-beto-1");
   await p2.getByRole("button", { name: "Entrar", exact: true }).click();
   await p2.waitForURL(/\/app\/bienvenida/);
-  ok("salir, contraseña mala con mensaje claro, y entrar de nuevo (Beto va a su primer uso)");
+  ok("salir (aun a mitad del primer uso), contraseña mala con mensaje claro, y entrar de nuevo (Beto va a su primer uso)");
 
   assert.deepEqual(errores, [], "errores en el navegador: " + errores.join(" | "));
   ok("sin errores en el navegador en todo el recorrido");
