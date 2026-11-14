@@ -16,6 +16,11 @@ export async function leerSesion(request: NextRequest) {
       },
     },
   });
-  const { data } = await supabase.auth.getClaims();
+  const { data, error } = await supabase.auth.getClaims();
+  if (!data?.claims && request.cookies.getAll().some((c) => /^sb-.*-auth-token(\.\d+)?$/.test(c.name))) {
+    // Hay sesión guardada pero no se pudo leer: queda anotado para encontrar la causa (sin datos de la persona).
+    const { data: s } = await supabase.auth.getSession();
+    console.error(`[sesion] ${request.nextUrl.pathname}: hay cookie pero no hay sesión válida (${error?.message ?? "sin error"}; getSession: ${s.session ? "con sesión" : "vacía"})`);
+  }
   return { response, claims: (data?.claims as Record<string, unknown> | undefined) ?? null };
 }
