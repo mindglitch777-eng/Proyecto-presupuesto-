@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { Pantalla } from "@/components/app/Pantalla";
 import { Fiados } from "@/components/app/Fiados";
 import { SinConexion } from "@/components/auth/Marco";
-import { obtenerDatos } from "@/lib/datos";
+import { obtenerDatos, SinAcceso } from "@/lib/datos";
 import { ConfigFaltante } from "@/lib/supabase/config";
 import { hoyArgentina } from "@/lib/fechas";
 import { guardarCliente, movimiento, recordado } from "../acciones";
@@ -19,6 +20,7 @@ export default async function PaginaFiados({ searchParams }: { searchParams: Pro
     d = { negocio, clientes };
   } catch (e) {
     if (e instanceof ConfigFaltante) return <SinConexion />;
+    if (e instanceof SinAcceso) redirect("/suscribirme");
     throw e;
   }
   return (

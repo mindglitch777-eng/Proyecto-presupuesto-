@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { Pantalla } from "@/components/app/Pantalla";
 import { Ajustes } from "@/components/app/Ajustes";
 import { SinConexion } from "@/components/auth/Marco";
-import { obtenerDatos } from "@/lib/datos";
+import { obtenerDatos, SinAcceso } from "@/lib/datos";
 import { ConfigFaltante } from "@/lib/supabase/config";
 import { guardarAjustes } from "../acciones";
 
@@ -17,6 +18,7 @@ export default async function PaginaAjustes() {
     d = { negocio, fijos };
   } catch (e) {
     if (e instanceof ConfigFaltante) return <SinConexion />;
+    if (e instanceof SinAcceso) redirect("/suscribirme");
     throw e;
   }
   const n = d.negocio;

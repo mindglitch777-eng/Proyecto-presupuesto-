@@ -11,6 +11,13 @@ export type Fijo = { concepto: string; monto: number };
 export type Ajustes = { nombre: string; ciudad: string | null; comisionPct: number | null; alertaPct: number; diasDormida: number; redondeo: number; fijos: Fijo[] };
 export type AccionDormido = "no_reponer" | "liquidar" | "mantener";
 
+/** La base no devuelve el negocio: la prueba o la suscripción venció (la RLS lo oculta). */
+export class SinAcceso extends Error {
+  constructor() {
+    super("sin acceso");
+  }
+}
+
 /** Todo lo que las pantallas leen y guardan. Hay una versión con Supabase (la real) y una en memoria (para las pruebas). */
 export interface Datos {
   negocio(): Promise<Negocio>;

@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { destino, estadoDeClaims } from "@/lib/acceso";
+import { destino } from "@/lib/acceso";
 import { leerSesion } from "@/lib/supabase/sesion";
 import { ConfigFaltante } from "@/lib/supabase/config";
 
@@ -9,7 +9,9 @@ export async function proxy(request: NextRequest) {
   if (process.env.ENCLARO_MODO_PRUEBA === "1" && request.cookies.get("enclaro_prueba")?.value === "1") return NextResponse.next();
   try {
     const { response, claims } = await leerSesion(request);
-    const ir = destino(request.nextUrl.pathname, Boolean(claims?.sub), estadoDeClaims(claims));
+    // El acceso se decide en el momento en cada pantalla (la base); acá solo importa si hay sesión,
+    // porque el estado del token puede estar viejo y causar idas y vueltas entre /app y /suscribirme.
+    const ir = destino(request.nextUrl.pathname, Boolean(claims?.sub), null);
     if (!ir) return response;
     const redireccion = NextResponse.redirect(new URL(ir, request.url));
     response.cookies.getAll().forEach((c) => redireccion.cookies.set(c));

@@ -6,6 +6,7 @@ import { datosMemoria } from "./memoria";
 import type { Datos } from "./tipos";
 
 export type { Datos } from "./tipos";
+export { SinAcceso } from "./tipos";
 export const COOKIE_PRUEBA = "enclaro_prueba";
 
 /** Modo prueba: solo si el servidor arrancó con ENCLARO_MODO_PRUEBA=1 (nunca en Netlify) y el navegador trae la cookie. */

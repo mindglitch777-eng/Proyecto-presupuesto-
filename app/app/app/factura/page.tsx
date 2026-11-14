@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { Pantalla } from "@/components/app/Pantalla";
 import { Factura } from "@/components/app/Factura";
 import { SinConexion } from "@/components/auth/Marco";
-import { obtenerDatos } from "@/lib/datos";
+import { obtenerDatos, SinAcceso } from "@/lib/datos";
 import { ConfigFaltante } from "@/lib/supabase/config";
 import { aplicarPrecios } from "../acciones";
 
@@ -17,6 +18,7 @@ export default async function PaginaFactura() {
     d = { negocio, productos };
   } catch (e) {
     if (e instanceof ConfigFaltante) return <SinConexion />;
+    if (e instanceof SinAcceso) redirect("/suscribirme");
     throw e;
   }
   return (

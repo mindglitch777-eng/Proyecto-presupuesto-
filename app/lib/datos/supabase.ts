@@ -2,7 +2,7 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { CierreGuardado, CategoriaGasto } from "../cierre";
 import type { ProductoMargen } from "../margen";
-import type { Cliente, Datos, Negocio } from "./tipos";
+import { SinAcceso, type Cliente, type Datos, type Negocio } from "./tipos";
 
 // Datos reales: cada consulta va con la sesión de la persona, así que la RLS de la base decide qué ve y qué toca.
 function hecho(r: { error: { message: string } | null }) {
@@ -19,7 +19,10 @@ export function datosSupabase(sb: SupabaseClient): Datos {
   let cacheNegocio: Negocio | null = null;
   const negocio = async (): Promise<Negocio> => {
     if (cacheNegocio) return cacheNegocio;
-    const b = ok(await sb.from("businesses").select("id, name, rubro, ciudad, card_fee_pct, margin_alert_pct, dormant_days, price_rounding, onboarding_completed_at").single());
+    const r = await sb.from("businesses").select("id, name, rubro, ciudad, card_fee_pct, margin_alert_pct, dormant_days, price_rounding, onboarding_completed_at").maybeSingle();
+    if (r.error) throw new Error(r.error.message);
+    if (!r.data) throw new SinAcceso();
+    const b = r.data;
     cacheNegocio = { id: b.id, primerUsoTerminado: Boolean(b.onboarding_completed_at), nombre: b.name, rubro: b.rubro, ciudad: b.ciudad, comisionPct: num(b.card_fee_pct), alertaPct: Number(b.margin_alert_pct), diasDormida: b.dormant_days, redondeo: b.price_rounding };
     return cacheNegocio;
   };

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { Pantalla } from "@/components/app/Pantalla";
 import { Precios } from "@/components/app/Precios";
 import { SinConexion } from "@/components/auth/Marco";
-import { obtenerDatos } from "@/lib/datos";
+import { obtenerDatos, SinAcceso } from "@/lib/datos";
 import { ConfigFaltante } from "@/lib/supabase/config";
 import { hoyArgentina } from "@/lib/fechas";
 import { guardarProducto, vendiHoy } from "../acciones";
@@ -18,6 +19,7 @@ export default async function PaginaPrecios() {
     d = { negocio, productos };
   } catch (e) {
     if (e instanceof ConfigFaltante) return <SinConexion />;
+    if (e instanceof SinAcceso) redirect("/suscribirme");
     throw e;
   }
   return (

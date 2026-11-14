@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { MarcoAuth, SinConexion } from "@/components/auth/Marco";
 import { supabaseServidor } from "@/lib/supabase/servidor";
 import { ConfigFaltante } from "@/lib/supabase/config";
@@ -12,14 +13,17 @@ type Resumen = { negocio: string; gastos_fijos_mes: number; cierres: number; ult
 // Vencido: ve su resumen en solo lectura. El botón de pago se habilita en la fase de pagos.
 export default async function Suscribirme() {
   let r: Resumen | null = null;
+  let tieneAcceso = false;
   try {
     const supabase = await supabaseServidor();
-    const { data } = await supabase.from("resumen_bloqueado").select("*").maybeSingle();
+    const [{ data }, { data: estado }] = await Promise.all([supabase.from("resumen_bloqueado").select("*").maybeSingle(), supabase.rpc("mi_estado")]);
+    if (["trial", "active", "past_due"].includes(String(estado))) tieneAcceso = true;
     r = data as Resumen | null;
   } catch (e) {
     if (e instanceof ConfigFaltante) return <SinConexion />;
     throw e;
   }
+  if (tieneAcceso) redirect("/app");
   return (
     <MarcoAuth titulo="Tu prueba terminó" bajada="Tus datos están guardados. Cuando te suscribas, seguís donde dejaste.">
       {r ? (

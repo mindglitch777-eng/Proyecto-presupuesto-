@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { Pantalla } from "@/components/app/Pantalla";
 import { Cierre } from "@/components/app/Cierre";
 import { SinConexion } from "@/components/auth/Marco";
-import { obtenerDatos } from "@/lib/datos";
+import { obtenerDatos, SinAcceso } from "@/lib/datos";
 import { ConfigFaltante } from "@/lib/supabase/config";
 import { margenDe } from "@/lib/margen";
 import { hoyArgentina, sumarDias } from "@/lib/fechas";
@@ -22,6 +23,7 @@ export default async function PaginaCierre({ searchParams }: { searchParams: Pro
     d = { negocio, fijosMes, productos, uso, cierre: cierres.find((c) => c.fecha === fecha) ?? null, movidos };
   } catch (e) {
     if (e instanceof ConfigFaltante) return <SinConexion />;
+    if (e instanceof SinAcceso) redirect("/suscribirme");
     throw e;
   }
   const margenes = d.productos.map((p) => margenDe(p.precio, p.costo)).filter((m): m is number => m !== null);
