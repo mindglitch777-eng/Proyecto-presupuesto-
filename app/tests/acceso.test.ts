@@ -36,6 +36,10 @@ describe("destino (a dónde va cada persona)", () => {
     expect(destino("/suscribirme", true, "trial")).toBe("/app");
     expect(destino("/suscribirme", false, null)).toBe("/entrar?siguiente=%2Fsuscribirme");
   });
+  it("sin el estado del token, nunca rebota entre /app y /suscribirme (decide la base)", () => {
+    expect(destino("/suscribirme", true, null)).toBeNull();
+    expect(destino("/app", true, null)).toBeNull();
+  });
   it("las páginas públicas no se tocan", () => {
     expect(destino("/", false, null)).toBeNull();
     expect(destino("/terminos", true, "expired")).toBeNull();

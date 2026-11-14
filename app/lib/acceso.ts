@@ -29,7 +29,8 @@ export function destino(ruta: string, sesion: boolean, estado: Estado | null): s
   }
   if (ruta === "/suscribirme") {
     if (!sesion) return "/entrar?siguiente=%2Fsuscribirme";
-    return tieneAcceso ? "/app" : null;
+    // sin dato del estado no se sabe: decide la pantalla mirando la base (si no, rebota con /app)
+    return estado !== null && tieneAcceso ? "/app" : null;
   }
   if (entrada && sesion) return tieneAcceso ? "/app" : "/suscribirme";
   return null;
