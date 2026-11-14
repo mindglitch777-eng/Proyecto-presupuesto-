@@ -27,11 +27,27 @@ describe("redirecciones: el navegador nunca cambia de dirección", () => {
     expect(culpables, "usá irA() de lib/redirigir.ts").toEqual([]);
   });
 
-  it("irA manda una dirección relativa y no acepta sitios de afuera", () => {
-    expect(irA("/app").headers.get("location")).toBe("/app");
-    expect(irA("/nueva-clave?t=abc").status).toBe(303);
-    expect(() => irA("//sitio-malo.com")).toThrow();
-    expect(() => irA("https://sitio-malo.com")).toThrow();
+  const pedidoDe = (url: string, cabeceras: Record<string, string>) => new NextRequest(url, { headers: cabeceras });
+
+  it("irA usa la dirección que escribió la persona, no la interna del servidor", () => {
+    // El servidor se cree "localhost", pero el navegador entró por 127.0.0.1 (lo que pasaba en la prueba real)
+    const r = irA(pedidoDe("http://localhost:3100/auth/callback", { host: "127.0.0.1:3100" }), "/nueva-clave?t=abc");
+    expect(r.headers.get("location")).toBe("http://127.0.0.1:3100/nueva-clave?t=abc");
+    expect(r.status).toBe(303);
+    // Netlify: la dirección real viene en x-forwarded-host / x-forwarded-proto
+    const n = irA(pedidoDe("http://interno:8080/app", { host: "interno:8080", "x-forwarded-host": "enclaro.com.ar", "x-forwarded-proto": "https" }), "/entrar", 307);
+    expect(n.headers.get("location")).toBe("https://enclaro.com.ar/entrar");
+  });
+
+  it("irA siempre da una dirección completa (con una relativa, el proxy de Next da error 500)", () => {
+    expect(irA(pedidoDe("http://localhost:3100/app", { host: "localhost:3100" }), "/app").headers.get("location")).toMatch(/^https?:\/\//);
+  });
+
+  it("irA no acepta mandar a sitios de afuera", () => {
+    const req = pedidoDe("http://localhost:3100/", { host: "localhost:3100" });
+    expect(() => irA(req, "//sitio-malo.com")).toThrow();
+    expect(() => irA(req, "https://sitio-malo.com")).toThrow();
+    expect(() => irA(req, "/\\sitio-malo.com")).toThrow();
   });
 });
 

@@ -16,14 +16,14 @@ export async function GET(request: NextRequest) {
     const code = q.get("code");
     // Cambiar contraseña: el link no se gasta acá (los antivirus del mail abren los links solos). Se valida recién
     // cuando la persona guarda la contraseña nueva, en el mismo paso que el cambio.
-    if (tokenHash && tipo === "recovery") return irA(`/nueva-clave?t=${encodeURIComponent(tokenHash)}`);
+    if (tokenHash && tipo === "recovery") return irA(request, `/nueva-clave?t=${encodeURIComponent(tokenHash)}`);
     let error = null;
     if (tokenHash && tipo) ({ error } = await supabase.auth.verifyOtp({ type: tipo, token_hash: tokenHash }));
     else if (code) ({ error } = await supabase.auth.exchangeCodeForSession(code));
     else error = new Error("sin código");
-    if (!error) return irA(tipo === "recovery" ? "/nueva-clave" : siguiente);
+    if (!error) return irA(request, tipo === "recovery" ? "/nueva-clave" : siguiente);
   } catch {
     // cae al aviso de abajo
   }
-  return irA("/entrar?error=1");
+  return irA(request, "/entrar?error=1");
 }

@@ -29,8 +29,8 @@ export default async function PaginaBienvenida() {
       acciones={{ guardarNegocio, guardarFijos, guardarProductos, terminar }}
       urlApp={url}
     />
-    {/* Quien se registró a medias tiene que poder salir (por ejemplo, si usa el celular de otro). */}
-    <form action="/auth/salir" method="post" className="mx-auto max-w-md px-4 pb-8 text-center">
+    {/* Quien se registró a medias tiene que poder salir. pb-36: que no lo tape la barra fija de "Seguir" (P-13). */}
+    <form action="/auth/salir" method="post" className="mx-auto max-w-md px-4 pb-36 text-center">
       <button type="submit" className="min-h-[48px] cursor-pointer px-4 text-[15px] font-semibold text-g1 underline">Salir de mi cuenta</button>
     </form>
     </>

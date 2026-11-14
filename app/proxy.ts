@@ -17,7 +17,7 @@ export async function proxy(request: NextRequest) {
     // porque el estado del token puede estar viejo y causar idas y vueltas entre /app y /suscribirme.
     const ir = destino(request.nextUrl.pathname, Boolean(claims?.sub), null);
     if (!ir) return response;
-    const redireccion = irA(ir, 307);
+    const redireccion = irA(request, ir, 307);
     response.cookies.getAll().forEach((c) => redireccion.cookies.set(c));
     return redireccion;
   } catch (e) {
