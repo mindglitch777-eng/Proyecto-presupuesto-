@@ -258,7 +258,10 @@ async function ultimoMail(para) {
   await p2.waitForURL(/\/nueva-clave/);
   await p2.getByLabel("Tu contraseña nueva").fill("clave-nueva-beto-1");
   await p2.getByRole("button", { name: "Guardar contraseña" }).click();
-  await p2.getByText("Listo, cambiaste tu contraseña.").waitFor();
+  await p2.locator("form [role=alert], form [role=status]").first().waitFor();
+  const respuesta = await p2.locator("form [role=alert], form [role=status]").first().innerText();
+  const cookies = (await p2.context().cookies()).map((c) => `${c.name} (httpOnly=${c.httpOnly})`).join(", ");
+  assert.match(respuesta, /Listo, cambiaste tu contraseña\./, `al guardar la contraseña nueva la pantalla dijo: «${respuesta}» · cookies: ${cookies}`);
   await p2.waitForURL(/\/app/);
   const otra = createClient(SUPA_URL, SUPA_ANON, { auth: { persistSession: false } });
   const { error: errNueva } = await otra.auth.signInWithPassword({ email: B.email, password: "clave-nueva-beto-1" });
