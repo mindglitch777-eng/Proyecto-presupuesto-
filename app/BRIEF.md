@@ -20,7 +20,7 @@ de un kiosco, almacén o dietética lo que su cuaderno no le dice:
 **Promesa:** "Te hago las cuentas que tu cuaderno no te hace." · **Tagline:** "Dejá de adivinar. Tu negocio te está hablando."
 
 **Público:** dueño-operador en Argentina, 30 a 65 años, sin conocimientos técnicos, usa el celular con una mano detrás del mostrador.
-La IA va por dentro: **nunca** aparece la palabra "IA" ni "inteligencia artificial" en la interfaz.
+No usa IA ni servicios pagos por uso (todo corre gratis en el celular y en la base). **Nunca** aparece la palabra "IA" ni "inteligencia artificial" en la interfaz.
 
 **Fuera del MVP:** facturación electrónica, ARCA, lector de códigos de barras, stock por cada venta, multiusuario.
 
@@ -35,12 +35,12 @@ La IA va por dentro: **nunca** aparece la palabra "IA" ni "inteligencia artifici
 | Webhook | Route handler `/api/webhooks/mercadopago` |
 | Tareas programadas | `pg_cron` + `pg_net` en Supabase |
 | Emails | Resend |
-| Voz y fotos | Claude por API, modelo más económico (Haiku); límites por usuario y por día; costo por llamada guardado |
+| Voz y fotos | **Sin IA ni servicios pagos (decisión del dueño, 14/11/2026).** Voz: reconocimiento del navegador (`es-AR`) + lector propio de números en castellano (`lib/voz.ts`). Foto de factura: lectura de texto en el propio celular (Tesseract, gratis) + cruce con la lista + botón "el proveedor aumentó X%" |
 | Estilos | Tailwind, mobile-first, fuentes locales (las de `videos/public/fuentes`) |
 | Validación y tests | Zod · Vitest (lógica) · Playwright (flujos, viewport 360 px) |
 
 Variables: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `MP_ACCESS_TOKEN`,
-`MP_WEBHOOK_SECRET`, `MP_PLAN_ID`, `RESEND_API_KEY`, `ANTHROPIC_API_KEY`, `ADMIN_EMAIL`, `APP_URL`.
+`MP_WEBHOOK_SECRET`, `MP_PLAN_ID`, `RESEND_API_KEY`, `ADMIN_EMAIL`, `APP_URL`.
 Ninguna clave en el código: todo en variables de Netlify y secretos de GitHub.
 
 ## 3. Landing (fase 0: va primero, ya hay videos apuntando al link del perfil)
@@ -84,9 +84,9 @@ Regla: cada carga se hace en menos de 30 segundos con el pulgar. Todo en voseo, 
 ### 4.1 Cierre del día (con voz)
 
 - Configuración única: gastos fijos mensuales (alquiler, luz, sueldos, otros) y **comisión de cobros con tarjeta o QR** (% que cobra su medio de cobro; lo pone el dueño, sin valor por defecto inventado).
-- **Cierre por voz** (botón principal): micrófono grande; el navegador transcribe con Web Speech API (`es-AR`); Claude ordena el texto
+- **Cierre por voz** (botón principal): micrófono grande; el navegador transcribe con Web Speech API (`es-AR`); el lector propio (`lib/voz.ts`, sin IA) ordena el texto
   en `{ventas, gastos:[{categoria, monto}], productosMovidos:[...]}`; pantalla de confirmación editable antes de guardar.
-  Si el navegador no tiene reconocimiento de voz, se puede grabar un audio y transcribirlo en el servidor; si nada funciona, formulario manual.
+  Si el navegador no tiene reconocimiento de voz, se escribe la frase o se usa el formulario manual.
 - Formulario manual: total vendido y gastos del día (Proveedor, Flete, Vuelto, Otros). Un cierre por día; se edita el de días anteriores.
 - "¿Qué se movió hoy?": chips de productos (los más usados primero + buscador). Alimenta la plata dormida.
 - El cierre pregunta también cuánto entró por tarjeta o QR (por voz: "ochenta mil fueron por QR") y descuenta la comisión como gasto ("Comisiones de cobro").
@@ -100,7 +100,7 @@ Regla: cada carga se hace en menos de 30 segundos con el pulgar. Todo en voseo, 
 - Margen % = (precio − costo) ÷ precio. Tabla ordenada por margen; rojo bajo 15% (editable).
 - El precio sugerido ya incluye la comisión de cobro configurada.
 - Al cambiar un costo: "Para seguir ganando 30%, vendelo a $X" — un toque lo aplica (redondeo a $10 o $50, configurable).
-- **Foto de la factura:** foto → Claude (visión) lee productos y costos → cruce con la lista (coincidencia aproximada de nombres, el usuario confirma)
+- **Foto de la factura:** foto → lectura de texto en el celular (Tesseract, gratis) lee productos y costos → cruce con la lista (coincidencia aproximada de nombres, el usuario confirma)
   → "7 productos aumentaron. Para mantener tu ganancia, vendelos a estos precios" → un toque aplica todo. También sirve para el onboarding.
 - **Carteles:** después de cambiar precios, generar carteles listos (A4 con varios productos o tarjetitas de góndola) como **imagen PNG**
   para compartir por WhatsApp o imprimir desde el celular, con "hecho con En Claro" discreto. Además, una imagen para el estado de WhatsApp.
@@ -149,7 +149,7 @@ Un usuario = un negocio. Montos `numeric(14,2)`. Todas las tablas de datos con `
 | `payments` | id, user_id, mp_payment_id (único), amount, status, paid_at, raw jsonb |
 | `waitlist` | id, name, whatsapp, rubro, ciudad, numero_del_dia, utm_source, utm_content, founder_number, created_at |
 
-Límites de IA: 3 lecturas de factura y 10 cierres por voz por día y por negocio (constantes editables). Si se pasan: "Por hoy llegaste al límite, cargalo a mano".
+Sin límites de uso: la voz y la foto de factura se procesan gratis en el celular. (La tabla `ai_calls` queda sin uso.)
 
 ## 6. Acceso y suscripciones
 
@@ -196,7 +196,7 @@ dinero en cuenta habilitado para suscripciones en Argentina. Proponer el flujo e
 Lista de usuarios (negocio, rubro, ciudad, estado, plan, próximo cobro, último cierre, `utm_content`) · contadores por estado ·
 **activación** (% que terminó el onboarding, % con 3+ cierres en el trial) · **lista de espera** con exportar a CSV y botón "abrir WhatsApp" por fila ·
 socios fundadores ocupados/100 · registros y pagos por video (`utm_content`) · MRR · churn del mes (de `subscription_events`) ·
-LTV ("Pocos datos" con menos de 20 activos) · costo de IA del mes y por usuario ·
+LTV ("Pocos datos" con menos de 20 activos) ·
 acciones: extender trial 7 días, marcar pagado, bloquear (cada una con motivo en `subscription_events`).
 
 ## 10. Legal

@@ -7,12 +7,16 @@ export type Negocio = { id: string; primerUsoTerminado: boolean; nombre: string;
 export type Cliente = { id: string; nombre: string; telefono: string | null; diaCobro: number | null; nota: string | null; ultimoRecordatorio: string | null; recordatoriosSinPago: number; movimientos: (Movimiento & { id: string; nota: string | null })[] };
 export type NuevoCierre = { fecha: string; ventas: number; tarjeta: number; gastos: Gasto[]; productos: string[]; fuente: "voz" | "manual" };
 export type ProductoEditado = { id?: string; nombre: string; precio: number | null; costo: number | null; stock: number | null };
+export type Fijo = { concepto: string; monto: number };
+export type Ajustes = { nombre: string; ciudad: string | null; comisionPct: number | null; alertaPct: number; diasDormida: number; redondeo: number; fijos: Fijo[] };
 export type AccionDormido = "no_reponer" | "liquidar" | "mantener";
 
 /** Todo lo que las pantallas leen y guardan. Hay una versión con Supabase (la real) y una en memoria (para las pruebas). */
 export interface Datos {
   negocio(): Promise<Negocio>;
   fijosMes(): Promise<number>;
+  fijos(): Promise<Fijo[]>;
+  guardarAjustes(a: Ajustes): Promise<void>;
   cierres(desde: string): Promise<CierreGuardado[]>;
   movidosEn(fecha: string): Promise<string[]>;
   guardarCierre(c: NuevoCierre): Promise<void>;

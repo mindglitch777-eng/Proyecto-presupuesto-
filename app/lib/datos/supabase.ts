@@ -34,6 +34,17 @@ export function datosSupabase(sb: SupabaseClient): Datos {
       const filas = ok(await sb.from("fixed_costs").select("monthly_amount"));
       return filas.reduce((s, f) => s + Number(f.monthly_amount), 0);
     },
+    async fijos() {
+      return ok(await sb.from("fixed_costs").select("concept, monthly_amount").order("concept")).map((f) => ({ concepto: f.concept, monto: Number(f.monthly_amount) }));
+    },
+    async guardarAjustes(a) {
+      const { id } = await negocio();
+      hecho(await sb.from("businesses").update({ name: a.nombre, ciudad: a.ciudad, card_fee_pct: a.comisionPct, margin_alert_pct: a.alertaPct, dormant_days: a.diasDormida, price_rounding: a.redondeo }).eq("id", id));
+      hecho(await sb.from("fixed_costs").delete().eq("business_id", id));
+      const filas = a.fijos.filter((f) => f.concepto.trim()).map((f) => ({ business_id: id, concept: f.concepto.trim(), monthly_amount: f.monto }));
+      if (filas.length) hecho(await sb.from("fixed_costs").insert(filas));
+      cacheNegocio = null;
+    },
     async cierres(desde) {
       const filas = ok(await sb.from("daily_closes").select("date, sales_total, card_sales, close_expenses(category, amount)").gte("date", desde).order("date"));
       return filas.map((c): CierreGuardado => ({

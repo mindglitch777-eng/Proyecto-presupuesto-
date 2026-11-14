@@ -6,7 +6,7 @@ import type { Cliente, Datos, Negocio } from "./tipos";
 
 // Datos de ejemplo en memoria, SOLO para las pruebas automáticas (ENCLARO_MODO_PRUEBA=1 + cookie). Nunca en la web publicada.
 
-type Estado = { negocio: Negocio; fijos: number; cierres: CierreGuardado[]; movidos: { id: string; fecha: string }[]; productos: ProductoMargen[]; clientes: Cliente[]; cambios: number; sec: number };
+type Estado = { negocio: Negocio; fijos: number; listaFijos: { concepto: string; monto: number }[]; cierres: CierreGuardado[]; movidos: { id: string; fecha: string }[]; productos: ProductoMargen[]; clientes: Cliente[]; cambios: number; sec: number };
 
 function semilla(): Estado {
   const hoy = hoyArgentina();
@@ -16,6 +16,7 @@ function semilla(): Estado {
   return {
     negocio: { id: "n1", primerUsoTerminado: true, nombre: "Kiosco Don Pedro", rubro: "kiosco", ciudad: "Santo Tomé", comisionPct: 6, alertaPct: 15, diasDormida: 30, redondeo: 10 },
     fijos: 1_090_000,
+    listaFijos: [{ concepto: "Alquiler", monto: 450_000 }, { concepto: "Luz y servicios", monto: 140_000 }, { concepto: "Sueldos", monto: 500_000 }, { concepto: "Otros", monto: 0 }],
     cierres: [
       { fecha: d(6), ventas: 168000, tarjeta: 60000, gastos: [{ categoria: "proveedor", monto: 95000 }, { categoria: "comision", monto: 3600 }] },
       { fecha: d(5), ventas: 152000, tarjeta: 40000, gastos: [{ categoria: "flete", monto: 6000 }, { categoria: "comision", monto: 2400 }] },
@@ -55,6 +56,13 @@ export function datosMemoria(): Datos {
   return {
     async negocio() { return estado().negocio; },
     async fijosMes() { return estado().fijos; },
+    async fijos() { return estado().listaFijos; },
+    async guardarAjustes(a) {
+      const e = estado();
+      Object.assign(e.negocio, { nombre: a.nombre, ciudad: a.ciudad, comisionPct: a.comisionPct, alertaPct: a.alertaPct, diasDormida: a.diasDormida, redondeo: a.redondeo });
+      e.listaFijos = a.fijos;
+      e.fijos = a.fijos.reduce((s, f) => s + f.monto, 0);
+    },
     async cierres(desde) { return estado().cierres.filter((c) => c.fecha >= desde).sort((a, b) => a.fecha.localeCompare(b.fecha)); },
     async movidosEn(fecha) { return estado().movidos.filter((m) => m.fecha === fecha).map((m) => m.id); },
     async guardarCierre(c) {

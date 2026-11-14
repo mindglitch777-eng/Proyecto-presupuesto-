@@ -83,6 +83,21 @@ export async function movimiento(datos: unknown): Promise<Resultado> {
   return correr(async () => (await obtenerDatos()).movimiento(v.data.clienteId, v.data.tipo, v.data.monto, hoyArgentina(), v.data.nota || null));
 }
 
+const ajustesSchema = z.object({
+  nombre: z.string().trim().min(2, "Escribí el nombre de tu negocio.").max(120),
+  ciudad: z.string().trim().max(120).nullable().transform((t) => t || null),
+  comisionPct: z.number().min(0, "La comisión va de 0 a 20%.").max(20, "La comisión va de 0 a 20%.").nullable(),
+  alertaPct: z.number().int().min(0).max(100, "El aviso de margen va de 0 a 100%."),
+  diasDormida: z.number().int().min(7, "Los días sin ventas van de 7 a 365.").max(365, "Los días sin ventas van de 7 a 365."),
+  redondeo: z.union([z.literal(1), z.literal(5), z.literal(10), z.literal(50), z.literal(100)]),
+  fijos: z.array(z.object({ concepto: z.string().trim().max(80), monto: plata })).max(20),
+});
+export async function guardarAjustes(datos: unknown): Promise<Resultado> {
+  const v = ajustesSchema.safeParse(datos);
+  if (!v.success) return { ok: false, mensaje: primerError(v.error) };
+  return correr(async () => (await obtenerDatos()).guardarAjustes(v.data));
+}
+
 export async function recordado(clienteId: unknown): Promise<Resultado> {
   const v = id.safeParse(clienteId);
   if (!v.success) return { ok: false, mensaje: "Revisá el cliente." };
