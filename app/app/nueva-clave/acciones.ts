@@ -18,9 +18,19 @@ export async function cambiarClave(clave: unknown, codigo?: unknown): Promise<Re
         return { ok: false, mensaje: "El link venció o ya se usó. Pedí uno nuevo desde «Me olvidé la contraseña»." };
       }
     }
-    const { error } = await supabase.auth.updateUser({ password: clave });
-    if (error) console.error("[nueva-clave] cambio:", error.message);
-    return error ? { ok: false, mensaje: traducirError(error) } : { ok: true };
+    const { data, error } = await supabase.auth.updateUser({ password: clave });
+    if (error) {
+      console.error("[nueva-clave] cambio:", error.message);
+      return { ok: false, mensaje: traducirError(error) };
+    }
+    // Al cambiar la contraseña, Supabase cierra las sesiones viejas (también la del link): se abre una nueva
+    // con la contraseña recién elegida, así la persona queda adentro.
+    const email = data.user?.email;
+    if (email) {
+      const { error: errEntrar } = await supabase.auth.signInWithPassword({ email, password: clave });
+      if (errEntrar) console.error("[nueva-clave] entrar:", errEntrar.message);
+    }
+    return { ok: true };
   } catch (e) {
     return { ok: false, mensaje: traducirError(e as Error) };
   }

@@ -358,6 +358,7 @@ async function escenario(nombre, fn) {
     await p.getByText(/no te avisamos de Gaseosa 500 por 30 días/).waitFor();
     await p.locator("li", { hasText: "Pan lactal" }).getByRole("button", { name: "No reponer" }).click();
     await p.locator("li", { hasText: "Pan lactal" }).getByRole("button", { name: "No reponer" }).click();
+    await p.getByText(/no repongas Pan lactal/).waitFor();
     await p.goto(`${BASE}/app/deposito`, { waitUntil: "networkidle" });
     assert.ok(!/Gaseosa 500/.test(await texto(p)));
     assert.match(await p.locator("li", { hasText: "Pan lactal" }).innerText(), /no reponer/);
