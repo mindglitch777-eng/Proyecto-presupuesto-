@@ -26,6 +26,8 @@ async function nuevaPagina(browser) {
 }
 const sinScroll = async (page, donde) => assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= 360), "scroll horizontal en " + donde);
 const texto = (page) => page.locator("main").innerText();
+// Para los mensajes de error: en qué pantalla quedó y qué decía (sin colgarse si la pantalla no tiene <main>).
+const donde = async (page) => `${page.url()} «${(await page.locator("body").innerText({ timeout: 3000 }).catch(() => "")).replace(/\s+/g, " ").slice(0, 400)}»`;
 
 /** Busca el último mail para `para` en la casilla de prueba (Mailpit o Inbucket) y devuelve su HTML. */
 async function ultimoMail(para) {
@@ -263,7 +265,7 @@ async function ultimoMail(para) {
   const cookies = (await p2.context().cookies()).map((c) => `${c.name} (httpOnly=${c.httpOnly})`).join(", ");
   assert.match(respuesta, /Listo, cambiaste tu contraseña\./, `al guardar la contraseña nueva la pantalla dijo: «${respuesta}» · cookies: ${cookies}`);
   await p2.waitForURL(/\/app\/bienvenida/).catch(async () => {
-    throw new Error(`después de cambiar la contraseña quedó en ${p2.url()}: «${(await texto(p2)).slice(0, 300)}»`);
+    throw new Error(`después de cambiar la contraseña quedó en ${await donde(p2)}`);
   });
   const otra = createClient(SUPA_URL, SUPA_ANON, { auth: { persistSession: false } });
   const { error: errNueva } = await otra.auth.signInWithPassword({ email: B.email, password: "clave-nueva-beto-1" });
@@ -281,11 +283,9 @@ async function ultimoMail(para) {
   // ---------- 12. Salir y volver a entrar ----------
   // Beto no terminó el primer uso: tiene que poder salir desde la bienvenida.
   await p2.goto(`${BASE}/app`, { waitUntil: "networkidle" });
-  await p2.waitForURL(/\/app\/bienvenida/);
-  await p2.getByRole("button", { name: "Salir de mi cuenta" }).click({ timeout: 10000 }).catch(async () => {
-    throw new Error(`no aparece «Salir de mi cuenta» en ${p2.url()}: «${(await texto(p2)).slice(0, 300)}»`);
-  });
-  await p2.waitForURL((u) => u.pathname === "/");
+  await p2.waitForURL(/\/app\/bienvenida/, { timeout: 10000 }).catch(async () => { throw new Error(`al abrir /app quedó en ${await donde(p2)}`); });
+  await p2.getByRole("button", { name: "Salir de mi cuenta" }).click({ timeout: 10000 }).catch(async () => { throw new Error(`no aparece «Salir de mi cuenta» en ${await donde(p2)}`); });
+  await p2.waitForURL((u) => u.pathname === "/", { timeout: 10000 }).catch(async () => { throw new Error(`después de salir quedó en ${await donde(p2)}`); });
   await p2.goto(`${BASE}/app`, { waitUntil: "networkidle" });
   await p2.waitForURL(/\/entrar/);
   await p2.getByLabel("Tu mail").fill(B.email);
