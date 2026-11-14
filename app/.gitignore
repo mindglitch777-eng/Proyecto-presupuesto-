@@ -8,3 +8,6 @@ next-env.d.ts
 capturas/
 capturas/
 public/lector/
+supabase/.temp/
+supabase/.branches/
+.supa.env

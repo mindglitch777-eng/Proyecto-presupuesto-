@@ -1,0 +1,69 @@
+# Supabase local (solo para la prueba completa en GitHub Actions: npx supabase start).
+# El proyecto real se configura desde el panel de Supabase con los mismos valores (ver la guía).
+project_id = "en-claro"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 17
+
+[studio]
+enabled = false
+
+[inbucket]
+enabled = true
+port = 54324
+
+[storage]
+enabled = false
+
+[realtime]
+enabled = false
+
+[edge_runtime]
+enabled = false
+
+[analytics]
+enabled = false
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:3100"
+additional_redirect_urls = ["http://127.0.0.1:3100/**"]
+jwt_expiry = 3600
+enable_signup = true
+minimum_password_length = 8
+
+[auth.rate_limit]
+email_sent = 100
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
+max_frequency = "1s"
+
+[auth.email.template.confirmation]
+subject = "Confirmá tu mail en En Claro"
+content_path = "./supabase/plantillas/confirmar-cuenta.html"
+
+[auth.email.template.magic_link]
+subject = "Tu link para entrar a En Claro"
+content_path = "./supabase/plantillas/entrar-con-link.html"
+
+[auth.email.template.recovery]
+subject = "Elegí tu contraseña nueva en En Claro"
+content_path = "./supabase/plantillas/cambiar-contrasena.html"
+
+[auth.email.template.email_change]
+subject = "Confirmá tu mail nuevo en En Claro"
+content_path = "./supabase/plantillas/cambiar-mail.html"
+
+[auth.hook.custom_access_token]
+enabled = true
+uri = "pg-functions://postgres/public/custom_access_token_hook"
