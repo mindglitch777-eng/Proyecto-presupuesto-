@@ -41,7 +41,7 @@ export function Precio({ lugares }: { lugares: number | null }) {
             </div>
             <span className="text-[13px] text-g2">{lugares === null ? `Lugares limitados: solo los primeros ${LUGARES_FUNDADORES}` : `Quedan ${lugares} de ${LUGARES_FUNDADORES} lugares`}</span>
           </div>
-          <a href="#calculadora" className="rounded-xl bg-verde px-[22px] py-4 text-center text-[17px] font-semibold text-white hover:bg-hoja">Quiero mi lugar</a>
+          <a href="#calculadora" className="rounded-xl bg-verde px-[22px] py-4 text-center text-[17px] font-semibold text-white hover:bg-hoja">Pedí tu lugar</a>
         </div>
       </div>
     </section>
