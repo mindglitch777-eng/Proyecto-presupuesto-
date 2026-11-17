@@ -14,9 +14,11 @@ type Resumen = { negocio: string; gastos_fijos_mes: number; cierres: number; ult
 export default async function Suscribirme() {
   let r: Resumen | null = null;
   let tieneAcceso = false;
+  let plan: { plan: string; price: number } | null = null;
   try {
     const supabase = await supabaseServidor();
-    const [{ data }, { data: estado }] = await Promise.all([supabase.from("resumen_bloqueado").select("*").maybeSingle(), supabase.rpc("mi_estado")]);
+    const [{ data }, { data: estado }, { data: sus }] = await Promise.all([supabase.from("resumen_bloqueado").select("*").maybeSingle(), supabase.rpc("mi_estado"), supabase.from("subscriptions").select("plan, price").maybeSingle()]);
+    plan = sus as { plan: string; price: number } | null;
     if (["trial", "active", "past_due"].includes(String(estado))) tieneAcceso = true;
     r = data as Resumen | null;
   } catch (e) {
@@ -43,7 +45,7 @@ export default async function Suscribirme() {
         </dl>
       ) : null}
       <div className="flex flex-col gap-3">
-        <p className="text-[16px] leading-[1.5] text-g1">Socio fundador: <strong>$12.900 por mes</strong> para siempre (los primeros 100). Después, $19.900.</p>
+        <p className="text-[16px] leading-[1.5] text-g1">{plan?.plan === "fundador" ? <>Sos socio fundador: <strong>$12.900 por mes</strong>, para siempre.</> : <>Tu plan: <strong>{pesos(Number(plan?.price ?? 19900))} por mes</strong>.</>}</p>
         {linkPago ? (
           <a href={linkPago} target="_blank" rel="noopener noreferrer" className="min-h-[52px] w-full rounded-xl bg-verde px-6 py-4 text-center text-[17px] font-semibold text-white">Pagar con Mercado Pago</a>
         ) : null}

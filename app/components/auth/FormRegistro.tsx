@@ -9,7 +9,7 @@ import { CampoClave } from "./CampoClave";
 
 type Estado = { fase: "listo" } | { fase: "enviando" } | { fase: "error"; mensaje: string } | { fase: "confirmar" };
 
-export function FormRegistro() {
+export function FormRegistro({ fundador = false }: { fundador?: boolean }) {
   const [email, setEmail] = useState("");
   const [clave, setClave] = useState("");
   const [estado, setEstado] = useState<Estado>({ fase: "listo" });
@@ -26,7 +26,7 @@ export function FormRegistro() {
         password: clave,
         options: {
           emailRedirectTo: `${window.location.origin}/auth/callback`,
-          data: { utm_source: utm.source ?? null, utm_content: utm.content ?? null },
+          data: { utm_source: utm.source ?? null, utm_content: utm.content ?? null, ...(fundador ? { fundador: "si" } : {}) },
         },
       });
       if (error) return setEstado({ fase: "error", mensaje: traducirError(error) });
@@ -57,7 +57,7 @@ export function FormRegistro() {
         <strong>Anotá tu contraseña en un lugar seguro.</strong> Si te la olvidás, no se puede recuperar: no la volvemos a mostrar ni mandamos mails para cambiarla.
       </p>
       {estado.fase === "error" ? <Alerta>{estado.mensaje}</Alerta> : null}
-      <button type="submit" disabled={ocupado} className={botonPrincipal}>{ocupado ? "Un segundo…" : "Crear mi cuenta"}</button>
+      <button type="submit" disabled={ocupado} className={botonPrincipal}>{ocupado ? "Un segundo…" : fundador ? "Crear mi cuenta de fundador" : "Crear mi cuenta"}</button>
       <p className="text-center text-[13px] leading-[1.5] text-g2">
         Al crear tu cuenta aceptás los <a href="/terminos" className="underline">términos</a> y la <a href="/privacidad" className="underline">política de privacidad</a>.
       </p>

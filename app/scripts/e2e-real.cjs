@@ -318,6 +318,23 @@ async function ultimoMail(para) {
   await p2.waitForURL(/\/app\/bienvenida/);
   ok("salir (aun a mitad del primer uso), contraseña mala con mensaje claro, y entrar de nuevo (Beto va a su primer uso)");
 
+  // ---------- 13. Link de socios fundadores: precio de fundador y contador real ----------
+  const p4 = await nuevaPagina(browser);
+  await p4.goto(`${BASE}/fundadores`, { waitUntil: "networkidle" });
+  const antes = Number((await p4.getByRole("status").innerText()).match(/Quedan (\d+) de 100/)[1]);
+  const F = { email: `fundadora.${Date.now()}@prueba.enclaro.ar`, clave: "fundadora-2026" };
+  await p4.getByLabel("Tu mail").fill(F.email);
+  await p4.getByLabel(/Elegí una contraseña/).fill(F.clave);
+  await p4.getByRole("button", { name: "Crear mi cuenta de fundador" }).click();
+  await p4.waitForURL(/\/app\/bienvenida/, { timeout: 20000 });
+  const idF = (await admin.auth.admin.listUsers()).data.users.find((u) => u.email === F.email).id;
+  const { data: subF } = await admin.from("subscriptions").select("plan, price").eq("user_id", idF).single();
+  assert.equal(subF.plan, "fundador");
+  assert.equal(Number(subF.price), 12900);
+  const { data: quedanF } = await admin.rpc("lugares_fundadores");
+  assert.equal(quedanF, antes - 1);
+  ok(`fundadores: entra por el link, queda como socio fundador a $12.900 y el contador baja de ${antes} a ${quedanF}`);
+
   assert.deepEqual(errores, [], "errores en el navegador: " + errores.join(" | "));
   ok("sin errores en el navegador en todo el recorrido");
   await browser.close();
