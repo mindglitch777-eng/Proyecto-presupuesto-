@@ -80,7 +80,7 @@ jobs:
           echo "MAIL_URL=${MAILPIT_URL:-$INBUCKET_URL}" >> "$GITHUB_ENV"
           echo "Supabase en $API_URL · casilla de mails en ${MAILPIT_URL:-$INBUCKET_URL}"
       - name: Armar la app apuntando a ese Supabase
-        run: NEXT_PUBLIC_SUPABASE_URL="$SUPA_URL" NEXT_PUBLIC_SUPABASE_ANON_KEY="$SUPA_ANON" npm run build
+        run: NEXT_PUBLIC_SUPABASE_URL="$SUPA_URL" NEXT_PUBLIC_SUPABASE_ANON_KEY="$SUPA_ANON" NEXT_PUBLIC_WHATSAPP=5493756000000 npm run build
       - name: Prender la app
         run: |
           SUPABASE_SERVICE_ROLE_KEY="$SUPA_SERVICE" NEXT_PUBLIC_WHATSAPP=5493756000000 nohup npx next start -p 3100 > next.log 2>&1 &

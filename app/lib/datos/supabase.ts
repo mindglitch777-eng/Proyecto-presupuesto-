@@ -58,6 +58,12 @@ export function datosSupabase(sb: SupabaseClient): Datos {
     async movidosEn(fecha) {
       return ok(await sb.from("product_sale_days").select("product_id").eq("date", fecha)).map((r) => r.product_id);
     },
+    async vendidoEn(fecha) {
+      const r = await sb.from("daily_closes").select("close_sales(rubro, descripcion, amount, units, product_id, stock_descontado)").eq("date", fecha).maybeSingle();
+      if (r.error) return []; // base sin la migración de lo vendido: no se muestra nada
+      const filas = ((r.data?.close_sales as Record<string, unknown>[] | undefined) ?? []);
+      return filas.map((f) => ({ rubro: String(f.rubro), descripcion: (f.descripcion as string) ?? null, monto: num(f.amount), unidades: num(f.units), productoId: (f.product_id as string) ?? null, descontar: num(f.stock_descontado) }));
+    },
     async guardarCierre(c) {
       ok(await sb.rpc("guardar_cierre", { p_fecha: c.fecha, p_ventas: c.ventas, p_tarjeta: c.tarjeta, p_gastos: c.gastos.filter((g) => g.categoria !== "comision"), p_productos: c.productos, p_fuente: c.fuente }));
       if (c.items) {

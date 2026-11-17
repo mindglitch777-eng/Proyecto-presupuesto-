@@ -2,11 +2,11 @@ import { hoyArgentina, sumarDias } from "../fechas";
 import type { CierreGuardado } from "../cierre";
 import { comisionDe } from "../cierre";
 import type { ProductoMargen } from "../margen";
-import type { Cliente, Datos, Negocio } from "./tipos";
+import type { Cliente, Datos, ItemCierre, Negocio } from "./tipos";
 
 // Datos de ejemplo en memoria, SOLO para las pruebas automáticas (ENCLARO_MODO_PRUEBA=1 + cookie). Nunca en la web publicada.
 
-type Estado = { negocio: Negocio; fijos: number; listaFijos: { concepto: string; monto: number }[]; cierres: CierreGuardado[]; movidos: { id: string; fecha: string }[]; productos: ProductoMargen[]; clientes: Cliente[]; cambios: number; sec: number };
+type Estado = { vendido?: Record<string, ItemCierre[]>; negocio: Negocio; fijos: number; listaFijos: { concepto: string; monto: number }[]; cierres: CierreGuardado[]; movidos: { id: string; fecha: string }[]; productos: ProductoMargen[]; clientes: Cliente[]; cambios: number; sec: number };
 
 function semilla(): Estado {
   const hoy = hoyArgentina();
@@ -65,18 +65,29 @@ export function datosMemoria(): Datos {
     },
     async cierres(desde) { return estado().cierres.filter((c) => c.fecha >= desde).sort((a, b) => a.fecha.localeCompare(b.fecha)); },
     async movidosEn(fecha) { return estado().movidos.filter((m) => m.fecha === fecha).map((m) => m.id); },
+    async vendidoEn(fecha) { return estado().vendido?.[fecha] ?? []; },
     async guardarCierre(c) {
       const e = estado();
+      if (c.items) {
+        // corregir el cierre devuelve al stock lo que se había descontado
+        for (const it of e.vendido?.[c.fecha] ?? []) {
+          const p = it.productoId ? e.productos.find((x) => x.id === it.productoId) : undefined;
+          if (p && p.stock !== null && it.descontar) p.stock += it.descontar;
+        }
+        const guardados: ItemCierre[] = c.items.map((it) => {
+          const p = it.productoId ? e.productos.find((x) => x.id === it.productoId) : undefined;
+          const quitar = p && p.stock !== null && it.descontar ? Math.min(p.stock, it.descontar) : 0;
+          if (p && p.stock !== null) p.stock -= quitar;
+          return { ...it, descontar: quitar };
+        });
+        e.vendido = { ...(e.vendido ?? {}), [c.fecha]: guardados };
+      }
       if (c.tarjeta > c.ventas) throw new Error("tarjeta > ventas");
       const gastos = c.gastos.filter((x) => x.categoria !== "comision" && x.monto > 0);
       const com = comisionDe(c.tarjeta, e.negocio.comisionPct);
       if (com) gastos.push({ categoria: "comision", monto: com });
       e.cierres = [...e.cierres.filter((x) => x.fecha !== c.fecha), { fecha: c.fecha, ventas: c.ventas, tarjeta: c.tarjeta, gastos }];
-      for (const it of c.items ?? []) {
-        const p = it.productoId ? e.productos.find((x) => x.id === it.productoId) : undefined;
-        if (p && p.stock !== null && it.descontar) p.stock = Math.max(0, p.stock - Math.min(p.stock, it.descontar));
-        if (it.productoId && !c.productos.includes(it.productoId)) c.productos.push(it.productoId);
-      }
+      for (const it of c.items ?? []) if (it.productoId && !c.productos.includes(it.productoId)) c.productos.push(it.productoId);
       for (const id of c.productos) {
         if (!e.movidos.some((m) => m.id === id && m.fecha === c.fecha)) e.movidos.push({ id, fecha: c.fecha });
         const p = e.productos.find((x) => x.id === id);

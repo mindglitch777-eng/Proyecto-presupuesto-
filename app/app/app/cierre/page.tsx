@@ -19,8 +19,8 @@ export default async function PaginaCierre({ searchParams }: { searchParams: Pro
   let d;
   try {
     const datos = await obtenerDatos();
-    const [negocio, fijosMes, productos, uso, cierres, movidos] = await Promise.all([datos.negocio(), datos.fijosMes(), datos.productos(), datos.usoDeProductos(sumarDias(hoy, -30)), datos.cierres(fecha), datos.movidosEn(fecha)]);
-    d = { negocio, fijosMes, productos, uso, cierre: cierres.find((c) => c.fecha === fecha) ?? null, movidos };
+    const [negocio, fijosMes, productos, uso, cierres, movidos, vendido] = await Promise.all([datos.negocio(), datos.fijosMes(), datos.productos(), datos.usoDeProductos(sumarDias(hoy, -30)), datos.cierres(fecha), datos.movidosEn(fecha), datos.vendidoEn(fecha)]);
+    d = { negocio, fijosMes, productos, uso, cierre: cierres.find((c) => c.fecha === fecha) ?? null, movidos, vendido };
   } catch (e) {
     if (e instanceof ConfigFaltante) return <SinConexion />;
     if (e instanceof SinAcceso) redirect("/suscribirme");
@@ -38,7 +38,7 @@ export default async function PaginaCierre({ searchParams }: { searchParams: Pro
         comisionPct={d.negocio.comisionPct}
         fijosMes={d.fijosMes}
         margen={margenes.length ? margenes.reduce((s, m) => s + m, 0) / margenes.length : null}
-        previo={d.cierre ? { ventas: d.cierre.ventas, tarjeta: d.cierre.tarjeta, gastos: d.cierre.gastos, productos: d.movidos } : null}
+        previo={d.cierre ? { ventas: d.cierre.ventas, tarjeta: d.cierre.tarjeta, gastos: d.cierre.gastos, productos: d.movidos, items: d.vendido } : null}
         guardar={guardarCierre}
       />
     </Pantalla>

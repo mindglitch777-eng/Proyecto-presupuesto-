@@ -45,45 +45,30 @@ const BASE = process.env.BASE || "http://127.0.0.1:3100";
   await page.locator("#calculadora").scrollIntoViewIfNeeded();
   await page.locator("#calculadora").screenshot({ path: "capturas/02-calculadora.png" });
 
-  // Anotarse sin datos: mensaje claro (nada se guarda)
-  await page.getByRole("button", { name: "Quiero ser socio fundador" }).click();
-  await page.locator("form [role=alert]").waitFor();
-  assert.match(await page.locator("form [role=alert]").innerText(), /Escribí tu nombre/);
-  paso("formulario vacío → «Escribí tu nombre.»");
-
-  // WhatsApp inválido
-  await page.getByLabel("Tu nombre").fill("Marta Gómez");
-  await page.getByLabel("Tu WhatsApp").fill("123");
-  await page.getByRole("button", { name: "Quiero ser socio fundador" }).click();
-  await page.waitForFunction(() => /WhatsApp/.test(document.querySelector("form [role=alert]")?.textContent ?? ""));
-  paso("WhatsApp inválido → mensaje en voseo");
-
-  // Alta válida
-  await page.getByLabel("Tu WhatsApp").fill("3756 15 123456");
-  await page.getByLabel(/Tu ciudad/).fill("Santo Tomé");
+  // Pedir la app por WhatsApp: el mensaje sale armado con nombre, rubro, número del día y video de origen
+  const boton = page.getByRole("link", { name: /Pedí la app por WhatsApp/ });
+  const texto = async () => decodeURIComponent((await boton.getAttribute("href")).split("?text=")[1]);
+  assert.match(await boton.getAttribute("href"), /^https:\/\/wa\.me\/\d+\?text=/);
+  assert.match(await texto(), /^Hola, estoy interesado en En Claro\. Tengo un kiosco\. Mi número del día me dio \$156\.667\. Quiero la aplicación\. \(Vi el video v5-01\)$/);
+  paso("sin nombre: «Tengo un kiosco… me dio $156.667»");
+  await page.getByLabel(/Tu nombre/).fill("Marta Gómez");
   await page.getByRole("radio", { name: "Almacén" }).click();
-  await page.getByRole("button", { name: "Quiero ser socio fundador" }).click();
-  await page.getByRole("status").getByText(/socio fundador N° 1/).waitFor();
-  const ok = await page.getByRole("status").innerText();
-  assert.match(ok, /Marta/);
-  assert.match(ok, /\$156\.667/);
-  paso("alta → «Sos el socio fundador N° 1» con el número del día");
-  await page.getByRole("status").screenshot({ path: "capturas/03-anotado.png" });
-
-  // El mismo WhatsApp otra vez devuelve el mismo número
+  assert.match(await texto(), /Me llamo Marta Gómez y tengo un almacén\. Mi número del día me dio \$156\.667/);
+  paso("con nombre y rubro: «Me llamo Marta Gómez y tengo un almacén»");
+  await page.goto(`${BASE}/?utm_source=tiktok&utm_content=v6-02`, { waitUntil: "networkidle" });
   await page.goto(`${BASE}/`, { waitUntil: "networkidle" });
-  await page.getByLabel("Tu nombre").fill("Marta otra vez");
-  await page.getByLabel("Tu WhatsApp").fill("03756-123456");
-  await page.getByRole("button", { name: "Quiero ser socio fundador" }).click();
-  await page.getByRole("status").getByText(/ya estabas anotado/).waitFor();
-  paso("el mismo WhatsApp → «ya estabas anotado», mismo N° 1");
+  await page.waitForFunction(() => decodeURIComponent(document.querySelector("a[href^='https://wa.me']")?.getAttribute("href") ?? "").includes("(Vi el video v6-02)"));
+  paso("el video de origen queda guardado aunque vuelva a entrar sin el link");
+  assert.equal(await page.getByRole("button", { name: "Quiero ser socio fundador" }).count(), 0);
 
   // Preguntas frecuentes se abren
   await page.locator("summary", { hasText: "¿Necesito computadora?" }).click();
   await page.getByText("Todo se hace desde el celular").waitFor();
   paso("preguntas frecuentes se abren");
 
-  // Baja
+  // Baja (para quien se anotó en la lista de espera antes del cambio al botón de WhatsApp)
+  const alta = await page.request.post(`${BASE}/api/lista-espera`, { data: { nombre: "Marta Gómez", whatsapp: "3756 15 123456", rubro: "kiosco", ciudad: "", numero_del_dia: 1, web: "" } });
+  assert.equal(alta.status(), 200);
   await page.goto(`${BASE}/baja`, { waitUntil: "networkidle" });
   await page.getByLabel("Tu WhatsApp").fill("3756 15 123456");
   await page.getByRole("button", { name: "Borrar mis datos" }).click();

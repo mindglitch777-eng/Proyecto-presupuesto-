@@ -12,6 +12,7 @@ export function Carteles({ items, negocio }: { items: ItemCartel[]; negocio: str
 
   useEffect(() => {
     let vivas: string[] = [];
+    setUrls([]); // al cambiar de tipo no se muestra el cartel viejo mientras se dibuja el nuevo
     void (async () => {
       await document.fonts?.ready;
       const cvs = dibujarCarteles(items, tipo, negocio);

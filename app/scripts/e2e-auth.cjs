@@ -67,7 +67,7 @@ const BASE = process.env.BASE || "http://127.0.0.1:3100";
 
   // la landing no se rompe
   await page.goto(BASE + "/", { waitUntil: "networkidle" });
-  await page.getByRole("button", { name: "Quiero ser socio fundador" }).waitFor();
+  await page.getByRole("link", { name: /Pedí la app por WhatsApp/ }).waitFor();
   ok("la landing sigue funcionando");
   assert.deepEqual(errores, [], errores.join(" | "));
   ok("sin errores de JavaScript");

@@ -68,14 +68,16 @@ async function ultimoMail(para) {
   const p = await nuevaPagina(browser);
   await p.goto(`${BASE}/?utm_source=tiktok&utm_content=v6-01`, { waitUntil: "networkidle" });
   await p.getByLabel("Alquiler del mes").fill("300000");
-  await p.getByLabel("Tu nombre").fill("Ana");
-  await p.getByLabel("Tu WhatsApp").fill("3756 15 111222");
-  await p.getByRole("radio", { name: "Kiosco" }).click();
-  await p.getByRole("button", { name: "Quiero ser socio fundador" }).click();
-  await p.getByRole("status").getByText(/socio fundador N° \d+/).waitFor();
-  const { data: anotada } = await admin.from("waitlist").select("name, utm_source, utm_content, founder_number").eq("whatsapp", "5493756111222").single();
-  assert.equal(anotada.utm_content, "v6-01");
-  ok(`lista de espera: Ana guardada en la base como socia fundadora N° ${anotada.founder_number}, con el video de origen`);
+  await p.getByLabel(/Tu nombre/).fill("Ana");
+  await p.getByRole("radio", { name: "Almacén" }).click();
+  const botonWpp = p.getByRole("link", { name: /Pedí la app por WhatsApp/ });
+  await botonWpp.waitFor();
+  const mensaje = decodeURIComponent((await botonWpp.getAttribute("href")).split("?text=")[1] || "");
+  assert.match(await botonWpp.getAttribute("href"), /^https:\/\/wa\.me\/5493756000000\?text=/);
+  assert.match(mensaje, /Me llamo Ana y tengo un almacén\. Mi número del día me dio \$[\d.]+\. Quiero la aplicación\. \(Vi el video v6-01\)/);
+  ok("landing: el botón abre WhatsApp con nombre, rubro, número del día y el video de origen ya escritos");
+  // La baja sigue funcionando para quien se haya anotado antes en la lista de espera.
+  await admin.from("waitlist").insert({ name: "Ana", whatsapp: "5493756111222", rubro: "kiosco", founder_number: 9999 });
   await p.goto(`${BASE}/baja`, { waitUntil: "networkidle" });
   await p.getByLabel("Tu WhatsApp").fill("3756 15 111222");
   await p.getByRole("button", { name: "Borrar mis datos" }).click();
@@ -140,6 +142,29 @@ async function ultimoMail(para) {
   assert.equal(Number(cierre.sales_total), 186000);
   assert.equal(cierre.close_expenses.find((g) => g.category === "comision").amount, 4800);
   ok("cierre guardado en la base: ventas, QR, comisión de $4.800 y hoy te quedaron $49.867");
+
+  // ---------- 3b. Lo vendido por rubro y unidades, con descuento de stock (cierre de ayer) ----------
+  const ayer = new Date(Date.now() - 3 * 3600e3 - 86400e3).toISOString().slice(0, 10);
+  await admin.from("products").update({ stock: 48 }).eq("business_id", negA.id).eq("name", "Gaseosa 500");
+  const cierreAyer = async (frase) => {
+    await p.goto(`${BASE}/app/cierre?fecha=${ayer}`, { waitUntil: "networkidle" });
+    if (await p.getByRole("button", { name: "Hablar" }).isVisible().catch(() => false)) await p.getByRole("button", { name: "Hablar" }).click();
+    else await p.getByRole("button", { name: "Volver a hablar" }).click();
+    await p.getByLabel("Escribilo como lo dirías").fill(frase);
+    await p.getByRole("button", { name: "Entender" }).click();
+    await p.getByText("Lo que vendiste").waitFor();
+    await p.getByRole("button", { name: "Guardar cierre" }).click();
+    await p.getByText("Lo que más vendiste").waitFor();
+  };
+  await cierreAyer("vendí 90 mil, 50 mil de carne, 25 mil de cigarrillos y salieron 10 gaseosas");
+  const { data: lineas } = await admin.from("close_sales").select("rubro, amount, units, stock_descontado").eq("business_id", negA.id).order("rubro");
+  assert.deepEqual(lineas.map((l) => [l.rubro, Number(l.amount) || null, Number(l.units) || null]), [["bebidas", null, 10], ["carniceria", 50000, null], ["cigarrillos", 25000, null]]);
+  const stock1 = (await admin.from("products").select("stock").eq("business_id", negA.id).eq("name", "Gaseosa 500").single()).data.stock;
+  assert.equal(Number(stock1), 38);
+  await cierreAyer("vendí 90 mil y salieron 4 gaseosas");
+  const stock2 = (await admin.from("products").select("stock").eq("business_id", negA.id).eq("name", "Gaseosa 500").single()).data.stock;
+  assert.equal(Number(stock2), 44); // corregir el cierre devuelve las 10 y descuenta 4
+  ok("lo vendido: rubros y unidades guardados; 10 gaseosas bajan el stock de 48 a 38 y al corregir a 4 queda en 44");
 
   // ---------- 4. Fiados ----------
   await p.goto(`${BASE}/app/fiados`, { waitUntil: "networkidle" });
@@ -227,7 +252,7 @@ async function ultimoMail(para) {
   const { data: negociosVistos } = await beto.from("businesses").select("id, name");
   assert.equal(negociosVistos.length, 1);
   assert.notEqual(negociosVistos[0].id, negA.id);
-  for (const t of ["daily_closes", "close_expenses", "customers", "credit_movements", "fixed_costs", "price_changes"]) {
+  for (const t of ["daily_closes", "close_expenses", "close_sales", "customers", "credit_movements", "fixed_costs", "price_changes"]) {
     const { data } = await beto.from(t).select("*");
     assert.equal(data.length, 0, `Beto ve ${t} de Ana`);
   }

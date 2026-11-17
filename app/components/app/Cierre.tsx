@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { entenderCierre } from "@/lib/voz";
+import { rubroPorId } from "@/lib/rubros";
 import { CATEGORIAS, comisionDe, resultadoDelDia, type Gasto } from "@/lib/cierre";
 import { conPuntos, pesos, soloDigitos } from "@/lib/formato";
 import type { Resultado } from "@/lib/resultado";
@@ -19,7 +20,8 @@ const aDescontar = (i: ItemUI) => {
   const m = soloDigitos(i.monto);
   return m && i.precio ? Math.round(m / i.precio) : null;
 };
-type Previo = { ventas: number; tarjeta: number; gastos: Gasto[]; productos: string[] } | null;
+type ItemPrevio = { rubro: string; descripcion: string | null; monto: number | null; unidades: number | null; productoId: string | null; descontar: number | null };
+type Previo = { ventas: number; tarjeta: number; gastos: Gasto[]; productos: string[]; items?: ItemPrevio[] } | null;
 type Fase = "elegir" | "escuchando" | "escribir" | "confirmar" | "listo";
 
 type Reconocedor = { lang: string; continuous: boolean; interimResults: boolean; start(): void; stop(): void; abort(): void; onresult: ((e: { resultIndex: number; results: ArrayLike<{ isFinal: boolean; 0: { transcript: string } }> }) => void) | null; onerror: ((e: { error: string }) => void) | null; onend: (() => void) | null };
@@ -43,7 +45,13 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
     return g;
   });
   const [movidos, setMovidos] = useState<string[]>(p.previo?.productos ?? []);
-  const [items, setItems] = useState<ItemUI[]>([]);
+  const [items, setItems] = useState<ItemUI[]>(() =>
+    (p.previo?.items ?? []).map((it, k) => {
+      const prod = it.productoId ? p.productos.find((x) => x.id === it.productoId) ?? null : null;
+      const r = rubroPorId(it.rubro);
+      return { clave: `g${k}`, rubro: it.rubro, rubroNombre: r?.nombre ?? mayuscula(it.rubro), texto: prod?.nombre ?? mayuscula(it.descripcion ?? it.rubro), monto: it.monto ? conPuntos(String(it.monto)) : "", unidades: it.unidades, medida: null, productoId: it.productoId, precio: prod?.precio ?? null, stock: prod?.stock ?? null };
+    }),
+  );
   const [itemsTocados, setItemsTocados] = useState(false);
   const [busca, setBusca] = useState("");
   const [hayVoz, setHayVoz] = useState(true);
@@ -252,10 +260,10 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
                         <span className="sr-only">Plata de {i.texto}</span>
                         <span className="relative block">
                           <span className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-[15px] font-semibold text-g3">$</span>
-                          <input inputMode="numeric" value={i.monto} placeholder={i.unidades && i.precio ? conPuntos(String(Math.round(i.unidades * i.precio))) : "0"} onChange={(e) => { const v = conPuntos(e.target.value); setItems((l) => l.map((x) => (x.clave === i.clave ? { ...x, monto: v } : x))); }} className="min-h-[44px] w-full rounded-xl border border-linea2 bg-white pr-2 pl-7 text-[16px] font-semibold" />
+                          <input inputMode="numeric" value={i.monto} placeholder={i.unidades && i.precio ? conPuntos(String(Math.round(i.unidades * i.precio))) : "0"} onChange={(e) => { const v = conPuntos(e.target.value); setItemsTocados(true); setItems((l) => l.map((x) => (x.clave === i.clave ? { ...x, monto: v } : x))); }} className="min-h-[44px] w-full rounded-xl border border-linea2 bg-white pr-2 pl-7 text-[16px] font-semibold" />
                         </span>
                       </label>
-                      <button type="button" onClick={() => setItems((l) => l.filter((x) => x.clave !== i.clave))} aria-label={`Sacar ${i.texto}`} className="flex size-[44px] flex-none cursor-pointer items-center justify-center rounded-xl text-g2 hover:bg-suave">✕</button>
+                      <button type="button" onClick={() => { setItemsTocados(true); setItems((l) => l.filter((x) => x.clave !== i.clave)); }} aria-label={`Sacar ${i.texto}`} className="flex size-[44px] flex-none cursor-pointer items-center justify-center rounded-xl text-g2 hover:bg-suave">✕</button>
                     </li>
                   );
                 })}
@@ -300,7 +308,8 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
       {fase === "confirmar" ? (
         <div className="fixed inset-x-0 bottom-[60px] z-10 border-t border-linea bg-papel/95 px-5 py-3 backdrop-blur">
           <div className="mx-auto flex max-w-[520px] gap-2">
-            {hayVoz && !p.previo ? <button type="button" onClick={escuchar} className={`${botonSecundario} w-auto px-4`} aria-label="Volver a hablar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" /></svg></button> : null}
+            {/* Volver a contarlo: también para corregir un cierre ya guardado */}
+            {<button type="button" onClick={hayVoz ? escuchar : () => setFase("escribir")} className={`${botonSecundario} w-auto px-4`} aria-label="Volver a hablar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" /><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" /></svg></button>}
             <button type="button" disabled={ocupado} onClick={guardar} className={botonPrincipal}>{ocupado ? "Guardando…" : "Guardar cierre"}</button>
           </div>
         </div>
