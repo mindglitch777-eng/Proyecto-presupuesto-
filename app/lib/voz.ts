@@ -25,6 +25,9 @@ function valorDigitos(t: string): number | null {
   const k = /^(\d+(?:[.,]\d+)?)k$/.exec(t);
   if (k) return Math.round(Number(k[1].replace(",", ".")) * 1000);
   if (/^\d{1,3}(\.\d{3})+$/.test(t)) return Number(t.replace(/\./g, ""));
+  // El dictado del celular a veces escribe los miles con coma ("120,000") o con coma y punto ("1,200,000.00").
+  if (/^\d{1,3}(,\d{3})+$/.test(t)) return Number(t.replace(/,/g, ""));
+  if (/^\d{1,3}(,\d{3})+\.\d{1,2}$/.test(t)) return Math.round(Number(t.replace(/,/g, "")));
   if (/^\d{1,3}(\.\d{3})+,\d{1,2}$/.test(t)) return Math.round(Number(t.replace(/\./g, "").replace(",", ".")));
   if (/^\d+,\d{1,2}$/.test(t)) return Math.round(Number(t.replace(",", ".")));
   if (/^\d+$/.test(t)) return Number(t);
@@ -43,7 +46,11 @@ export function montos(tokens: string[]): Monto[] {
     const desde = i;
     let total = 0, actual = 0, despuesDeMillon = false, ultimoMult = 0, uso = false, soloArticulo = true;
     while (i < tokens.length) {
-      const t = tokens[i];
+      let t = tokens[i];
+      // Miles separados con espacio ("120 000"): se juntan en un solo número.
+      if (/^\d{1,3}$/.test(t)) {
+        while (/^\d{3}$/.test(tokens[i + 1] ?? "")) { t += tokens[i + 1]; i++; }
+      }
       const p = valorPalabra(t);
       const d = valorDigitos(t);
       if (p !== undefined) {
@@ -120,7 +127,10 @@ export function entenderCierre(texto: string, productos: string[] = []): CierreE
     const antes = tokens.slice(a + 1, m.desde).join(" ");
     const despues = tokens.slice(m.hasta, b).join(" ");
     const clase = (txt: string) => CLAVES.find(([re]) => re.test(txt))?.[1];
-    let tipo = clase(`${antes} ${despues}`);
+    // Manda lo que se dijo antes del monto ("vendí 120 mil", "al proveedor le pagué 200 mil").
+    // Si antes solo hay algo genérico ("pagué", "gasté"), se mira lo que viene después ("…200 mil al proveedor").
+    const deAntes = clase(antes), deDespues = clase(despues);
+    let tipo = deAntes && deAntes !== "otros" ? deAntes : deDespues && deDespues !== "otros" ? deDespues : deAntes ?? deDespues;
     if (!tipo) tipo = r.ventas === 0 && k === 0 ? "ventas" : "otros";
     if (tipo === "ventas") r.ventas += m.valor;
     else if (tipo === "tarjeta") r.tarjeta += m.valor;

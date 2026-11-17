@@ -46,7 +46,7 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
   function aplicar(frase: string, origen: "voz" | "manual") {
     const r = entenderCierre(frase, p.productos.map((x) => x.nombre));
     if (!r.ventas && !r.gastos.length) {
-      setError("No encontré montos en lo que dijiste. Probá de nuevo, por ejemplo: «vendí ciento veinte mil, le pagué sesenta mil al proveedor».");
+      setError(`No encontré montos en lo que dijiste${frase.trim() ? ` (escuché: «${frase.trim().slice(0, 160)}»)` : ""}. Probá de nuevo, por ejemplo: «vendí ciento veinte mil, le pagué sesenta mil al proveedor».`);
       setFase(origen === "voz" && hayVoz ? "elegir" : "escribir");
       return;
     }
