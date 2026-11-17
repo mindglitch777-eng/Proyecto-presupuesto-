@@ -34,6 +34,10 @@ cobro solo por Mercado Pago.
 Todos los videos usan la voz argentina **es-AR-TomasNeural** (Tomás), generada con `videos/scripts/voz.py`
 en GitHub Actions. Reemplaza a la voz del creador que menciona la sección 1 del brief.
 
+## Skills de video
+
+En `.claude/skills/` hay skills instaladas: oficiales de Remotion (`remotion-best-practices`, `remotion-create`, `remotion-render`, `remotion-captions`, `remotion-multimedia`, etc.) y de motion design / video corto (`short-form-video`, `caption-animation`, `beat-sync-editing`, `animation-principles`, `motion-art-direction`, `shot-composition`, `ad-creative-video`...). Cargá solo las que la tarea necesite; las reglas de este archivo y del CREATIVE_BRIEF mandan sobre cualquier skill.
+
 ## Reglas de oro de los videos (no negociables)
 
 1. Cuadro 0 = kiosco + amenaza: se reconoce al instante que es para dueños de kiosco o almacén.
