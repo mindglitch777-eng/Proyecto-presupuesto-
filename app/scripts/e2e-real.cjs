@@ -313,7 +313,7 @@ async function ultimoMail(para) {
   await p2.getByLabel("Tu contraseña").fill("clave-mala-123");
   await p2.getByRole("button", { name: "Entrar", exact: true }).click();
   await p2.getByText("El mail o la contraseña no son correctos.").waitFor();
-  await p2.getByLabel("Tu contraseña").fill("clave-nueva-beto-1");
+  await p2.getByLabel("Tu contraseña").fill(B.clave);
   await p2.getByRole("button", { name: "Entrar", exact: true }).click();
   await p2.waitForURL(/\/app\/bienvenida/);
   ok("salir (aun a mitad del primer uso), contraseña mala con mensaje claro, y entrar de nuevo (Beto va a su primer uso)");
