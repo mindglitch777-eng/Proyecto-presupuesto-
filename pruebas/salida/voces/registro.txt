@@ -1,0 +1,6 @@
+OK voz 1: Algenib (gemini-2.5-flash-preview-tts)
+OK voz 2: Charon (gemini-2.5-flash-preview-tts)
+OK voz 3: Fenrir (gemini-2.5-flash-preview-tts)
+OK voz 4: Orus (gemini-2.5-flash-preview-tts)
+OK voz 5: Iapetus (gemini-2.5-flash-preview-tts)
+OK Tomás (respaldo, sin acelerar)
