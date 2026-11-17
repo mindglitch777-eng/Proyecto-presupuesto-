@@ -40,9 +40,10 @@ Por eso NO se usan: ElevenLabs gratis (no permite uso comercial y obliga a citar
 ## 3. Imagen
 
 - **Base real, filmada:** kiosco argentino real (vidriera con golosinas, heladera de bebidas, cartel pintado, rejas), manos, caja, cuaderno de fiados, billetes, calle de barrio.
-  1. **Primero, tomas del dueño** filmadas con el celular en kioscos reales de su ciudad (con permiso del kiosquero; sin caras de clientes): son las que más conectan porque son de acá.
-     Claude le pasa una **lista de tomas** por video (qué filmar, cuántos segundos, vertical, desde qué ángulo). Las sube a `videos/tomas/`.
-  2. **Relleno de Pexels / Pixabay** (gratis, uso comercial, sin citar; clave `PEXELS_API_KEY` gratis): manos contando plata, cajas registradoras, góndolas, facturas.
+  1. **Búsqueda automática (la hace Claude, no el dueño):** un script en GitHub Actions busca y baja las tomas por palabra clave
+     de **Pexels** (clave `PEXELS_API_KEY`), **Pixabay** y **Wikimedia Commons** (sin clave; solo archivos con licencia que permita uso comercial,
+     y los que piden crédito se anotan en `videos/salida/<id>-creditos.txt` para la descripción). Claude mira cada toma (hoja de contacto) antes de usarla.
+  2. **Tomas del dueño, opcionales:** si algún día filma un kiosco real (con permiso), van a `videos/tomas/` y tienen prioridad.
      Nunca un video de stock sin tocar como plano principal: siempre recortado a 9:16, con color propio y la capa gráfica encima.
 - **Pantalla real de En Claro:** grabada de la app de verdad (Playwright a 360 px con datos de ejemplo), nunca maquetas dibujadas.
 - **La capa gráfica (código) solo suma:** subtítulos palabra por palabra, un número grande, una flecha o círculo, una comparación. **Máximo 2 elementos de texto a la vez** además del subtítulo. Texto mínimo de 48 px (en 1080 de ancho).

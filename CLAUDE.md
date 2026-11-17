@@ -34,7 +34,7 @@ cobro solo por Mercado Pago.
 
 Decisión del dueño: los videos 100% hechos con código no atrapan. **Antes de escribir un guion o producir un video, leé
 `videos/referencia/ESTANDAR-CALIDAD.md` completo** y cumplilo: presupuesto US$0 con permiso de uso comercial, formato probado
-primero (`FORMATOS-VIRALES.md`), persona y emoción en vez de metáforas, imagen filmada de verdad (tomas del dueño + Pexels) + pantalla
+primero (`FORMATOS-VIRALES.md`), persona y emoción en vez de metáforas, imagen filmada de verdad (búsqueda automática en Pexels, Pixabay y Wikimedia Commons; el dueño no filma) + pantalla
 real de la app, código solo como capa gráfica, voz con emoción (Gemini TTS gratis o Tomás) a velocidad natural (**prohibido acelerar la voz**), máximo 2 textos a la vez y
 control de calidad con puntaje ≥ 8 en cada punto antes de entregar. Lo que no cumple, no se entrega. Los guiones V6 y V7 pendientes
 quedan en pausa: se rehacen con este estándar antes de producirse.
