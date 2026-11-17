@@ -6,3 +6,7 @@
 [build.environment]
   NODE_VERSION = "22"
   NEXT_TELEMETRY_DISABLED = "1"
+
+# Adaptador de Next.js para Netlify (crea las funciones del servidor: cuentas, app, middleware).
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
