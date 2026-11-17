@@ -27,7 +27,9 @@ export default async function Suscribirme() {
   }
   if (tieneAcceso) redirect("/app");
   // Mientras no esté el cobro automático (fase 5): link de pago de Mercado Pago (si está cargado) y WhatsApp del dueño.
-  const linkPago = /^https:\/\//.test(process.env.NEXT_PUBLIC_LINK_PAGO ?? "") ? process.env.NEXT_PUBLIC_LINK_PAGO! : null;
+  // Cada plan tiene su link: fundador $12.900 (NEXT_PUBLIC_LINK_PAGO_FUNDADOR) y normal $19.900 (NEXT_PUBLIC_LINK_PAGO).
+  const crudo = plan?.plan === "fundador" ? process.env.NEXT_PUBLIC_LINK_PAGO_FUNDADOR : process.env.NEXT_PUBLIC_LINK_PAGO;
+  const linkPago = /^https:\/\//.test(crudo ?? "") ? crudo! : null;
   const wpp = (process.env.NEXT_PUBLIC_WHATSAPP ?? "").replace(/\D/g, "");
   return (
     <MarcoAuth titulo="Tu prueba terminó" bajada="Tus datos están guardados. Cuando te suscribas, seguís donde dejaste.">
