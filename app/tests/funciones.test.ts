@@ -8,18 +8,20 @@ import { diasEntre, haceCuanto, hoyArgentina, sumarDias } from "@/lib/fechas";
 const prod = (o: Partial<ProductoMargen>): ProductoMargen => ({ id: "x", nombre: "X", precio: 1000, costo: 700, stock: 10, precioActualizado: "2026-11-01", ultimaVenta: null, creado: "2026-09-01", accionDormido: null, dormidoHasta: null, ...o });
 
 describe("cierre del día", () => {
-  it("hoy te quedaron libres = ventas − gastos − comisión − fijos ÷ 30", () => {
+  it("ganancia del día = ventas × margen − comisión − gastos que no son mercadería − fijos ÷ 30", () => {
     const r = resultadoDelDia({ ventas: 186000, tarjeta: 80000, gastos: [{ categoria: "proveedor", monto: 92000 }, { categoria: "flete", monto: 8000 }], comisionPct: 6, fijosMes: 1090000, margenPct: 30 });
     expect(r.comision).toBe(4800);
     expect(Math.round(r.fijosDia)).toBe(36333);
-    expect(Math.round(r.libres)).toBe(186000 - 92000 - 8000 - 4800 - 36333);
+    expect(Math.round(r.libres)).toBe(Math.round(186000 * 0.3 - 4800 - 8000 - 1090000 / 30)); // 6.667: el proveedor no se resta
+    expect(r.caja).toBe(186000 - 92000 - 8000 - 4800); // 81.200 entraron a la caja
     expect(Math.round(r.vender)).toBe(121111);
     expect(r.pasaste).toBe(true);
   });
   it("si el cierre guardado ya trae la comisión, no la cuenta dos veces", () => {
     const r = resultadoDelDia({ ventas: 100000, tarjeta: 50000, gastos: [{ categoria: "comision", monto: 3000 }], comisionPct: 6, fijosMes: 0, margenPct: 30 });
     expect(r.comision).toBe(3000);
-    expect(r.libres).toBe(97000);
+    expect(r.libres).toBe(27000);
+    expect(r.caja).toBe(97000);
   });
   it("sin comisión cargada no se inventa", () => expect(comisionDe(80000, null)).toBe(0));
   it("número del día con el margen del negocio, entre 10% y 60%", () => {
@@ -29,11 +31,30 @@ describe("cierre del día", () => {
   it("últimos 7 días y promedio", () => {
     const d = ultimos7([{ fecha: "2026-11-13", ventas: 50000, tarjeta: 0, gastos: [] }, { fecha: "2026-11-10", ventas: 10000, tarjeta: 0, gastos: [] }], "2026-11-13", 300000, 30);
     expect(d.map((x) => x.fecha)).toEqual(["2026-11-07", "2026-11-08", "2026-11-09", "2026-11-10", "2026-11-11", "2026-11-12", "2026-11-13"]);
-    expect(d[6].libres).toBe(40000);
-    expect(d[3].libres).toBe(0);
+    expect(d[6].libres).toBe(5000); // 50.000 × 30% − 10.000 de fijos
+    expect(d[3].libres).toBe(-7000); // 10.000 × 30% − 10.000
     expect(d[0].libres).toBeNull();
-    expect(promedio(d.map((x) => x.libres))).toBe(20000);
+    expect(promedio(d.map((x) => x.libres))).toBe(-1000);
     expect(promedio([null, null])).toBeNull();
+  });
+});
+
+describe("ganancia: pagarle al proveedor no la cambia", () => {
+  const base = { ventas: 180000, tarjeta: 60000, comisionPct: 6, fijosMes: 1090000, margenPct: 28 };
+  it("el día que le pagás al proveedor gana lo mismo que el día que no", () => {
+    const con = resultadoDelDia({ ...base, gastos: [{ categoria: "proveedor", monto: 60000 }] });
+    const sin = resultadoDelDia({ ...base, gastos: [] });
+    expect(con.libres).toBe(sin.libres);
+    expect(con.caja).toBe(sin.caja - 60000);
+  });
+  it("ejemplo del informe: vendió 180 mil y pagó 60 al proveedor → gana ≈ $10.467, no $80.067", () => {
+    const r = resultadoDelDia({ ...base, gastos: [{ categoria: "proveedor", monto: 60000 }] });
+    expect(Math.round(r.libres)).toBe(Math.round(180000 * 0.28 - 3600 - 1090000 / 30));
+    expect(r.caja).toBe(116400);
+  });
+  it("flete, vuelto y otros sí se restan de la ganancia", () => {
+    const r = resultadoDelDia({ ...base, gastos: [{ categoria: "flete", monto: 5000 }, { categoria: "otros", monto: 2000 }] });
+    expect(Math.round(r.libres)).toBe(Math.round(180000 * 0.28 - 3600 - 7000 - 1090000 / 30));
   });
 });
 

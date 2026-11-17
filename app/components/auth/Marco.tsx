@@ -42,3 +42,4 @@ export function Alerta({ children, tipo = "error" }: { children: React.ReactNode
     <p role="status" className="rounded-xl border border-hoja/30 bg-menta px-4 py-3 text-[15px] text-verde">{children}</p>
   );
 }
+

@@ -43,16 +43,16 @@ const BASE = process.env.BASE || "http://127.0.0.1:3100";
     await sinScroll("/app/cierre");
     await page.screenshot({ path: "capturas/app-cierre-confirmar.png", fullPage: true });
     await page.getByRole("button", { name: "Guardar cierre" }).click();
-    await page.getByText("Hoy te quedaron libres").waitFor();
+    await page.getByText("Ganancia de hoy").waitFor();
   });
-  // 186.000 − 92.000 − 8.000 − 4.800 − 36.333 = 44.867
-  assert.match(await page.locator("main").innerText(), /\$44\.867/);
+  // a la caja: 186.000 − 92.000 − 8.000 − 4.800 = 81.200; la ganancia descuenta el costo con el margen, no el pago al proveedor
+  assert.match(await page.locator("main").innerText(), /Entró a la caja: \$81\.200/);
   await page.screenshot({ path: "capturas/app-cierre-listo.png" });
-  ok("resultado: hoy te quedaron $44.867 libres");
+  ok("resultado: ganancia del día y $81.200 que entraron a la caja");
 
   await page.getByRole("link", { name: "Ver tu día" }).click();
-  await page.getByText("Hoy te quedaron libres").waitFor();
-  assert.match(await page.locator("main").innerText(), /\$44\.867/);
+  await page.getByText("Ganancia de hoy").waitFor();
+  assert.match(await page.locator("main").innerText(), /Entró a la caja: \$81\.200/);
   await page.screenshot({ path: "capturas/app-dia-despues.png", fullPage: true });
   ok("Tu día muestra el cierre guardado y la barra del número del día");
 
@@ -62,7 +62,7 @@ const BASE = process.env.BASE || "http://127.0.0.1:3100";
     await page.locator("#ventas").fill("200000");
     await page.locator("#gasto-vuelto").fill("3000");
     await page.getByRole("button", { name: "Guardar cierre" }).click();
-    await page.getByText("Hoy te quedaron libres").waitFor();
+    await page.getByText("Ganancia de hoy").waitFor();
   });
 
   // Fiados: recordar, me pagó, cliente nuevo y me fió

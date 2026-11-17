@@ -57,7 +57,7 @@ export async function guardarProductos(datos: unknown): Promise<Resultado> {
     }
     if (!v.data.length) return { ok: true };
     const ahora = new Date().toISOString();
-    const { error } = await supabase.from("products").insert(v.data.map((p) => ({ business_id: id, name: p.nombre, price: p.precio, cost: p.costo, price_updated_at: ahora })));
+    const { error } = await supabase.from("products").insert(v.data.map((p) => ({ business_id: id, name: p.nombre, price: p.precio, cost: p.costo, stock: p.stock ?? null, price_updated_at: ahora })));
     return error ? { ok: false, mensaje: ERROR_GUARDAR } : { ok: true };
   } catch {
     return { ok: false, mensaje: ERROR_GUARDAR };

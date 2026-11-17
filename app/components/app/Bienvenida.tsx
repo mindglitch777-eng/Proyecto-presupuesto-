@@ -8,7 +8,7 @@ import { Alerta, botonPrincipal, botonSecundario, entrada } from "../auth/Marco"
 import { Logo } from "../Iconos";
 
 type Inicial = { nombre: string; rubro: Rubro | null; ciudad: string };
-type Fila = { id: number; nombre: string; precio: string; costo: string };
+type Fila = { id: number; nombre: string; precio: string; costo: string; stock: string };
 
 const RUBROS: Rubro[] = ["kiosco", "almacen", "dietetica"];
 const etiqueta = "flex flex-col gap-2 text-[15px] font-semibold text-g1";
@@ -68,7 +68,7 @@ export function Bienvenida({ inicial, acciones, urlApp }: { inicial: Inicial; ac
   }, [paso]);
 
   const fijos = { alquiler: soloDigitos(alquiler), luz: soloDigitos(luz), sueldos: soloDigitos(sueldos), otros: soloDigitos(otros), comision: comision.trim() === "" ? null : Number(comision.replace(",", ".")) };
-  const productos: Producto[] = filas.filter((f) => f.nombre.trim() && soloDigitos(f.precio) > 0).map((f) => ({ nombre: f.nombre.trim(), precio: soloDigitos(f.precio), costo: soloDigitos(f.costo) }));
+  const productos: Producto[] = filas.filter((f) => f.nombre.trim() && soloDigitos(f.precio) > 0).map((f) => ({ nombre: f.nombre.trim(), precio: soloDigitos(f.precio), costo: soloDigitos(f.costo), stock: f.stock.trim() ? soloDigitos(f.stock) : null }));
 
   async function correr(accion: () => Promise<{ ok: true } | { ok: false; mensaje: string }>, siguiente: () => void) {
     setError(null);
@@ -89,7 +89,7 @@ export function Bienvenida({ inicial, acciones, urlApp }: { inicial: Inicial; ac
 
   function agregar(n: string) {
     if (filas.length >= 20) return;
-    setFilas((f) => [...f, { id: siguienteId, nombre: n, precio: "", costo: "" }]);
+    setFilas((f) => [...f, { id: siguienteId, nombre: n, precio: "", costo: "", stock: "" }]);
     setSiguienteId((i) => i + 1);
   }
   const cambiar = (id: number, campo: keyof Omit<Fila, "id">, valor: string) => setFilas((fs) => fs.map((f) => (f.id === id ? { ...f, [campo]: campo === "nombre" ? valor : conPuntos(valor) } : f)));
@@ -188,7 +188,7 @@ export function Bienvenida({ inicial, acciones, urlApp }: { inicial: Inicial; ac
           <section className="flex flex-col gap-5">
             <div className="flex flex-col gap-2">
               <h1 className="font-display text-[30px] font-extrabold leading-[1.1] tracking-[-0.03em]">Cargá 5 productos</h1>
-              <p className="text-base leading-[1.6] text-g1">Tocá los que vendés y poné a cuánto lo vendés y cuánto te cuesta. Con eso te decimos cuál te deja plata.</p>
+              <p className="text-base leading-[1.6] text-g1">Tocá los que vendés y poné a cuánto lo vendés y cuánto te cuesta. Con eso te decimos cuál te deja plata. Si ponés cuántos tenés, te avisamos cuando se están por terminar.</p>
             </div>
             <div className="flex flex-wrap gap-2">
               {(rubro ? CHIPS[rubro] : CHIPS.kiosco).filter((c) => !filas.some((f) => f.nombre === c)).map((c) => (
@@ -212,6 +212,10 @@ export function Bienvenida({ inicial, acciones, urlApp }: { inicial: Inicial; ac
                         <Plata etiquetaTexto="Lo vendés a" valor={f.precio} onChange={(v) => cambiar(f.id, "precio", v)} />
                         <Plata etiquetaTexto="Te cuesta" valor={f.costo} onChange={(v) => cambiar(f.id, "costo", v)} />
                       </div>
+                      <label className="flex items-center justify-between gap-3 text-[14px] font-semibold text-g1">
+                        <span>¿Cuántos tenés ahora? <span className="font-normal text-g2">(si querés)</span></span>
+                        <input inputMode="numeric" value={f.stock} onChange={(e) => cambiar(f.id, "stock", e.target.value)} placeholder="—" aria-label={`Cuántos ${f.nombre || "productos"} tenés`} className="min-h-[44px] w-[96px] rounded-xl border border-linea2 bg-white px-3 text-right text-[17px] font-semibold text-tinta" />
+                      </label>
                       {p.precio > 0 && f.costo.trim() !== "" ? (
                         <p className={`text-[14px] font-semibold ${p.costo > p.precio ? "text-rojo" : "text-hoja"}`}>
                           {p.costo > p.precio ? "Te cuesta más de lo que lo vendés" : `Te deja ${pesos(ganancia(p))} por unidad`}

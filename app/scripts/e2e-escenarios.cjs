@@ -206,8 +206,9 @@ async function escenario(nombre, fn) {
     await p.locator("#ventas").fill("20000");
     await p.locator("#gasto-proveedor").fill("60000");
     await p.getByRole("button", { name: "Guardar cierre" }).click();
-    await p.getByText("Hoy te quedaron libres").waitFor();
-    assert.match(await texto(p), /-\$53\.000/); // 20.000 − 60.000 − 13.000 de fijos
+    await p.getByText("Ganancia de hoy").waitFor();
+    assert.match(await texto(p), /Ganancia de hoy\s*-\$/); // vendió menos que su número del día: pierde
+    assert.match(await texto(p), /Entró a la caja: -\$40\.000/); // 20.000 − 60.000 al proveedor
     assert.match(await texto(p), /Te faltaron/);
   });
 
@@ -217,13 +218,13 @@ async function escenario(nombre, fn) {
     await p.locator("#ventas").fill("120000");
     await p.locator("#gasto-proveedor").fill("");
     await p.getByRole("button", { name: "Guardar cierre" }).click();
-    await p.getByText("Hoy te quedaron libres").waitFor();
+    await p.getByText("Ganancia de hoy").waitFor();
     const ayer = new Date(Date.now() - 3 * 3600000 - 86400000).toISOString().slice(0, 10);
     await p.goto(`${BASE}/app/cierre?fecha=${ayer}`, { waitUntil: "networkidle" });
     await p.getByRole("button", { name: "Prefiero cargarlo a mano" }).click();
     await p.locator("#ventas").fill("80000");
     await p.getByRole("button", { name: "Guardar cierre" }).click();
-    await p.getByText("Ese día te quedaron libres").waitFor();
+    await p.getByText("Ganancia de ese día").waitFor();
     const { data } = await admin.from("daily_closes").select("date, sales_total").eq("business_id", c.negocio).order("date");
     assert.equal(data.length, 2);
     assert.deepEqual(data.map((x) => Number(x.sales_total)), [80000, 120000]);
@@ -395,8 +396,8 @@ async function escenario(nombre, fn) {
     await p.goto(`${BASE}/app/cierre`, { waitUntil: "networkidle" });
     await p.locator("#ventas").fill("25000000");
     await p.getByRole("button", { name: "Guardar cierre" }).click();
-    await p.getByText("Hoy te quedaron libres").waitFor();
-    assert.match(await texto(p), /\$24\.97\d\.\d{3}/);
+    await p.getByText("Ganancia de hoy").waitFor();
+    assert.match(await texto(p), /Entró a la caja: \$25\.000\.000/);
     assert.ok(await ancho(p), "la pantalla se corre de costado");
   });
 

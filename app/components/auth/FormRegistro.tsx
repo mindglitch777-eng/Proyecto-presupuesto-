@@ -5,6 +5,7 @@ import { CLAVE_MINIMA, emailValido, traducirError } from "@/lib/acceso";
 import { supabaseNavegador } from "@/lib/supabase/navegador";
 import { leerUtm } from "../UtmCapture";
 import { Alerta, botonPrincipal, entrada } from "./Marco";
+import { CampoClave } from "./CampoClave";
 
 type Estado = { fase: "listo" } | { fase: "enviando" } | { fase: "error"; mensaje: string } | { fase: "confirmar" };
 
@@ -51,11 +52,10 @@ export function FormRegistro() {
         Tu mail
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" inputMode="email" autoCapitalize="none" className={entrada} />
       </label>
-      <label className="flex flex-col gap-2 text-[15px] font-semibold text-g1">
-        Elegí una contraseña
-        <input type="password" value={clave} onChange={(e) => setClave(e.target.value)} autoComplete="new-password" className={entrada} />
-        <span className="text-[13px] font-normal text-g2">Al menos {CLAVE_MINIMA} caracteres.</span>
-      </label>
+      <CampoClave etiqueta="Elegí una contraseña" valor={clave} onChange={setClave} nueva ayuda={`Al menos ${CLAVE_MINIMA} caracteres. Tocá «Ver» para revisar que esté bien escrita.`} />
+      <p role="note" className="rounded-xl border border-ambar/50 bg-crema px-4 py-3 text-[14px] leading-[1.5] text-oro2">
+        <strong>Anotá tu contraseña en un lugar seguro.</strong> Si te la olvidás, no se puede recuperar: no la volvemos a mostrar ni mandamos mails para cambiarla.
+      </p>
       {estado.fase === "error" ? <Alerta>{estado.mensaje}</Alerta> : null}
       <button type="submit" disabled={ocupado} className={botonPrincipal}>{ocupado ? "Un segundo…" : "Crear mi cuenta"}</button>
       <p className="text-center text-[13px] leading-[1.5] text-g2">

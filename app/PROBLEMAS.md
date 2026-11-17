@@ -32,6 +32,11 @@ su prueba automática antes de darlo por arreglado. Si una prueba de esta lista 
 | P-11 | Factura con foto: renglones mal leídos o productos que no son tuyos. | Fotos movidas, otros proveedores. | Lector con cruce por parecido; lo dudoso queda en "No lo uses"; siempre se puede usar "Aumentó un %". | `tests/facturas.test.ts` (3 facturas reales al 100%) + escenarios de factura | Guardá la foto que falló en `tests/facturas/` con su resultado esperado. |
 | P-12 | Sin internet o sin la base configurada. | Corte de conexión o variables sin cargar. | Pantalla "sin conexión" de la app y aviso "falta configurar" que nombra la variable. | escenarios "todas las pantallas" | Cargá la variable que nombra el aviso en Netlify. |
 
+| P-14 | Las pruebas de GitHub fallaban sin que nadie lo viera. | La landing cambió a botón de WhatsApp y las pruebas seguían buscando el formulario viejo. | Pruebas actualizadas al botón (mensaje, rubro, número del día y video de origen). | recorrido real "landing" + `scripts/e2e.cjs` | Un cambio de pantalla actualiza sus pruebas en el mismo commit. |
+| P-15 | En Safari de iPhone algunas pantallas daban error al cargar (React #418). | `Intl.NumberFormat("es-AR")` escribe "1.500" en Node y "1500" en Safari: el HTML del servidor no coincidía. | Los miles se ponen a mano en `lib/formato.ts`. | escenarios en Safari "todas las pantallas" | Nada que se muestre puede depender de `Intl`/`toLocale…` del navegador. |
+| P-16 | Corregir un cierre descontaba el stock dos veces. | Se descontaba lo nuevo sin devolver lo anterior. | `guardar_ventas_cierre` devuelve lo descontado antes de descontar lo nuevo; nunca queda negativo. | recorrido real "lo vendido" (48 → 38 → 44) | — |
+| P-17 | "Hoy te quedaron libres" no era la ganancia. | Restaba el pago al proveedor del día (plata de mercadería) en vez del costo de lo vendido. | Número principal = ganancia (ventas × margen − comisiones − otros gastos − fijos); aparte "entró a la caja". | `tests/funciones.test.ts` "pagarle al proveedor no la cambia" | — |
+
 ## Cómo se suma un problema nuevo (siempre igual)
 
 1. Reproducirlo con una prueba que falle (escenario, recorrido real o prueba de la lógica).

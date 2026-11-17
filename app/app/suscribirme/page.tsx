@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 type Resumen = { negocio: string; gastos_fijos_mes: number; cierres: number; ultimo_cierre: string | null; productos: number; fiados_pendientes: number };
 
-// Vencido: ve su resumen en solo lectura. El botón de pago se habilita en la fase de pagos.
+// Vencido: ve su resumen en solo lectura y cómo seguir (link de pago o WhatsApp). El cobro automático llega en la fase de pagos.
 export default async function Suscribirme() {
   let r: Resumen | null = null;
   let tieneAcceso = false;
@@ -24,6 +24,9 @@ export default async function Suscribirme() {
     throw e;
   }
   if (tieneAcceso) redirect("/app");
+  // Mientras no esté el cobro automático (fase 5): link de pago de Mercado Pago (si está cargado) y WhatsApp del dueño.
+  const linkPago = /^https:\/\//.test(process.env.NEXT_PUBLIC_LINK_PAGO ?? "") ? process.env.NEXT_PUBLIC_LINK_PAGO! : null;
+  const wpp = (process.env.NEXT_PUBLIC_WHATSAPP ?? "").replace(/\D/g, "");
   return (
     <MarcoAuth titulo="Tu prueba terminó" bajada="Tus datos están guardados. Cuando te suscribas, seguís donde dejaste.">
       {r ? (
@@ -39,7 +42,19 @@ export default async function Suscribirme() {
           ))}
         </dl>
       ) : null}
-      <p role="note" className="rounded-xl border border-ambar/50 bg-crema px-4 py-3 text-[15px] text-oro2">Estamos terminando de habilitar el pago con Mercado Pago. Te avisamos apenas esté.</p>
+      <div className="flex flex-col gap-3">
+        <p className="text-[16px] leading-[1.5] text-g1">Socio fundador: <strong>$12.900 por mes</strong> para siempre (los primeros 100). Después, $19.900.</p>
+        {linkPago ? (
+          <a href={linkPago} target="_blank" rel="noopener noreferrer" className="min-h-[52px] w-full rounded-xl bg-verde px-6 py-4 text-center text-[17px] font-semibold text-white">Pagar con Mercado Pago</a>
+        ) : null}
+        {wpp ? (
+          <a href={`https://wa.me/${wpp}?text=${encodeURIComponent(`Hola, se terminó mi prueba de En Claro${r?.negocio ? ` (${r.negocio})` : ""} y quiero seguir usándola.`)}`} target="_blank" rel="noopener noreferrer"
+            className={`min-h-[52px] w-full rounded-xl px-6 py-4 text-center text-[17px] font-semibold ${linkPago ? "border border-linea2 bg-white text-tinta" : "bg-verde text-white"}`}>
+            {linkPago ? "¿Dudas? Escribinos por WhatsApp" : "Quiero seguir: escribinos por WhatsApp"}
+          </a>
+        ) : null}
+        <p className="text-[14px] text-g2">{linkPago ? "Apenas se acredite el pago, te habilitamos la cuenta y seguís donde dejaste." : "Te pasamos el link de pago de Mercado Pago y te habilitamos la cuenta al toque."}</p>
+      </div>
       <form action="/auth/salir" method="post"><button type="submit" className="min-h-[48px] w-full cursor-pointer rounded-xl border border-linea2 bg-white px-6 py-3 text-base font-semibold text-tinta hover:bg-suave">Salir</button></form>
     </MarcoAuth>
   );

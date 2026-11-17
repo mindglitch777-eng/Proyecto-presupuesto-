@@ -22,7 +22,10 @@ export function numeroDelDiaDe(fijosMes: number, margenPct: number | null) {
 }
 
 /**
- * "Hoy te quedaron $X libres" = ventas − gastos del día − comisiones de cobro − fijos ÷ 30.
+ * Ganancia del día (`libres`) = lo que te deja lo vendido (ventas × margen) − comisiones − flete, vuelto y otros − fijos ÷ 30.
+ * Lo que se le paga al proveedor NO se resta: es mercadería, y su costo ya está en el margen. Si se restara, el día que
+ * le pagás parecería malísimo y el día que no, buenísimo (pasaba antes).
+ * `caja` = la plata que entró a la caja ese día: ventas − todo lo que pagaste (proveedor incluido) − comisiones.
  * `gastos` puede traer ya la comisión (cierre guardado) o no (cierre por guardar: se calcula con `comisionPct`).
  */
 export function resultadoDelDia(p: { ventas: number; tarjeta: number; gastos: Gasto[]; comisionPct: number | null; fijosMes: number; margenPct: number | null }) {
@@ -30,11 +33,15 @@ export function resultadoDelDia(p: { ventas: number; tarjeta: number; gastos: Ga
   const comision = yaTieneComision ? p.gastos.filter((g) => g.categoria === "comision").reduce((s, g) => s + g.monto, 0) : comisionDe(p.tarjeta, p.comisionPct);
   const gastosSinComision = p.gastos.filter((g) => g.categoria !== "comision").reduce((s, g) => s + g.monto, 0);
   const { fijosDia, vender, margen } = numeroDelDiaDe(p.fijosMes, p.margenPct);
-  const libres = p.ventas - gastosSinComision - comision - fijosDia;
-  return { comision, gastos: gastosSinComision + comision, fijosDia, libres, vender, margen, pasaste: p.ventas >= vender, progreso: vender > 0 ? Math.min(1, p.ventas / vender) : 1 };
+  const proveedor = p.gastos.filter((g) => g.categoria === "proveedor").reduce((s, g) => s + g.monto, 0);
+  const otrosGastos = gastosSinComision - proveedor;
+  const leDejo = (p.ventas * margen) / 100;
+  const libres = leDejo - comision - otrosGastos - fijosDia;
+  const caja = p.ventas - gastosSinComision - comision;
+  return { comision, gastos: gastosSinComision + comision, otrosGastos, proveedor, leDejo, caja, fijosDia, libres, vender, margen, pasaste: p.ventas >= vender, progreso: vender > 0 ? Math.min(1, p.ventas / vender) : 1 };
 }
 
-/** Los últimos 7 días terminando hoy, con lo que quedó libre cada uno (null si no hubo cierre). */
+/** Los últimos 7 días terminando hoy, con la ganancia de cada uno (null si no hubo cierre). */
 export function ultimos7(cierres: CierreGuardado[], hoy: string, fijosMes: number, margenPct: number | null) {
   return Array.from({ length: 7 }, (_, i) => {
     const fecha = sumarDias(hoy, i - 6);

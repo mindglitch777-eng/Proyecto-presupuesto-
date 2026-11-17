@@ -21,7 +21,7 @@ export function Funciones() {
           </div>
           <div className="flex flex-col gap-3 rounded-2xl bg-papel p-4">
             <span className="self-start rounded-[14px_14px_14px_4px] border border-linea bg-white px-3 py-2.5 text-sm leading-[1.45] text-g1">“Vendí 186 mil, le pagué 92 al proveedor y 8 de flete.”</span>
-            <div className="flex items-baseline justify-between gap-3"><span className="text-sm text-g2">Te quedaron libres</span><strong className="font-display text-[26px] text-hoja">$40.667</strong></div>
+            <div className="flex items-baseline justify-between gap-3"><span className="text-sm text-g2">Ganancia de hoy</span><strong className="font-display text-[26px] text-hoja">$40.667</strong></div>
           </div>
         </article>
 

@@ -61,9 +61,10 @@ export default async function TuDia() {
         {r ? (
           <>
             <div>
-              <p className="text-[15px] text-salvia2">Hoy te quedaron libres</p>
+              <p className="text-[15px] text-salvia2">Ganancia de hoy</p>
               <p className={`font-display text-[46px] leading-none font-extrabold tracking-[-0.03em] ${r.libres < 0 ? "text-rosa" : "text-white"}`}>{pesos(r.libres)}</p>
-              <p className="mt-2 text-[14px] text-salvia2">Vendiste {pesos(deHoy!.ventas)} · gastos {pesos(r.gastos)} · fijos del día {pesos(r.fijosDia)}</p>
+              <p className="mt-2 text-[14px] leading-[1.5] text-salvia2">Vendiste {pesos(deHoy!.ventas)}, que te dejan {pesos(r.leDejo)} (ganás {Math.round(r.margen)}% en promedio){r.comision + r.otrosGastos > 0 ? ` · gastos ${pesos(r.comision + r.otrosGastos)}` : ""} · fijos del día {pesos(r.fijosDia)}</p>
+              <p className="mt-2 text-[14px] text-salvia2">Entró a la caja: <strong className="text-white">{pesos(r.caja)}</strong>{r.proveedor ? ` (ya le pagaste ${pesos(r.proveedor)} al proveedor)` : ""}</p>
             </div>
             {prom !== null ? <p className="text-[14px] text-salvia2">{r.libres >= prom ? "Mejor" : "Peor"} que tu promedio de la semana ({pesos(prom)}).</p> : null}
           </>
@@ -86,7 +87,7 @@ export default async function TuDia() {
             <div className="h-3 overflow-hidden rounded-full bg-white/15" role="img" aria-label={r.pasaste ? "Pasaste tu número del día" : `Llegaste al ${Math.round(r.progreso * 100)}% de tu número del día`}>
               <div className={`h-full rounded-full ${r.pasaste ? "bg-ambar" : "bg-salvia"}`} style={{ width: `${Math.max(4, r.progreso * 100)}%` }} />
             </div>
-            <p className="text-[14px] font-semibold">{r.pasaste ? "Lo pasaste. Hoy ganaste plata." : `Te faltaron ${pesos(vender - deHoy!.ventas)} para no perder.`}</p>
+            <p className="text-[14px] font-semibold">{r.libres >= 0 ? (r.pasaste ? "Lo pasaste. Hoy ganaste plata." : "Hoy cubriste tus gastos.") : `Hoy perdiste plata: te faltaron ${pesos(Math.max(0, vender - deHoy!.ventas))} de ventas para cubrir los fijos.`}</p>
           </div>
         ) : null}
       </section>
@@ -106,7 +107,7 @@ export default async function TuDia() {
             </div>
           ))}
         </div>
-        {hayNegativo ? <p className="mt-3 text-[14px] leading-[1.5] text-g1">Los días que le pagás al proveedor te da más bajo. Mirá el promedio de la semana.</p> : null}
+        {hayNegativo ? <p className="mt-3 text-[14px] leading-[1.5] text-g1">Los días en naranja perdiste plata: vendiste menos de tu número del día.</p> : <p className="mt-3 text-[13px] text-g2">Ganancia de cada día: lo que te deja lo vendido menos gastos y fijos.</p>}
       </section>
 
       {porRubro.length ? (

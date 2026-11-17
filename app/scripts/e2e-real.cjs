@@ -135,13 +135,13 @@ async function ultimoMail(para) {
   await p.getByRole("button", { name: "Entender" }).click();
   await p.getByText("Esto es lo que entendí").waitFor();
   await p.getByRole("button", { name: "Guardar cierre" }).click();
-  await p.getByText("Hoy te quedaron libres").waitFor();
-  // 186.000 − 92.000 − 8.000 − 4.800 − 31.333 = 49.867
-  assert.match(await texto(p), /\$49\.867/);
+  await p.getByText("Ganancia de hoy").waitFor();
+  // a la caja: 186.000 − 92.000 − 8.000 − 4.800 = 81.200 (la ganancia usa el margen, no el pago al proveedor)
+  assert.match(await texto(p), /Entró a la caja: \$81\.200/);
   const { data: cierre } = await admin.from("daily_closes").select("sales_total, card_sales, source, close_expenses(category, amount)").eq("business_id", negA.id).single();
   assert.equal(Number(cierre.sales_total), 186000);
   assert.equal(cierre.close_expenses.find((g) => g.category === "comision").amount, 4800);
-  ok("cierre guardado en la base: ventas, QR, comisión de $4.800 y hoy te quedaron $49.867");
+  ok("cierre guardado en la base: ventas, QR, comisión de $4.800, ganancia del día y $81.200 a la caja");
 
   // ---------- 3b. Lo vendido por rubro y unidades, con descuento de stock (cierre de ayer) ----------
   const ayer = new Date(Date.now() - 3 * 3600e3 - 86400e3).toISOString().slice(0, 10);
@@ -233,7 +233,7 @@ async function ultimoMail(para) {
   const { data: neg2 } = await admin.from("businesses").select("card_fee_pct").eq("id", negA.id).single();
   assert.equal(Number(neg2.card_fee_pct), 4.5);
   await p.goto(`${BASE}/app`, { waitUntil: "networkidle" });
-  await p.getByText("Hoy te quedaron libres").waitFor();
+  await p.getByText("Ganancia de hoy").waitFor();
   for (const ruta of ["/app", "/app/cierre", "/app/fiados", "/app/precios", "/app/deposito", "/app/ajustes", "/app/factura"]) {
     await p.goto(BASE + ruta, { waitUntil: "networkidle" });
     await sinScroll(p, ruta);
@@ -274,6 +274,7 @@ async function ultimoMail(para) {
   await p.goto(`${BASE}/app`, { waitUntil: "networkidle" });
   await p.waitForURL(/\/suscribirme/);
   await p.getByRole("heading", { name: "Tu prueba terminó" }).waitFor();
+  assert.match(decodeURIComponent(await p.getByRole("link", { name: /escribinos por WhatsApp/ }).getAttribute("href")), /se terminó mi prueba de En Claro \(Kiosco de Ana\)/);
   assert.match(await texto(p), /Kiosco de Ana/);
   assert.match(await texto(p), /\$13\.000/); // lo que le deben, guardado
   const ana = createClient(SUPA_URL, SUPA_ANON, { auth: { persistSession: false } });
@@ -284,44 +285,21 @@ async function ultimoMail(para) {
   assert.equal(claims.claims.account_status, "expired");
   ok("vencida: va a 'Tu prueba terminó' con su resumen guardado, la base no le da datos y el token dice expired");
 
-  // ---------- 11. Recuperar la contraseña con el mail real ----------
+  // ---------- 11. Contraseñas: no se recuperan (decisión del dueño) y se pueden ver al escribirlas ----------
   const p2 = await nuevaPagina(browser);
   await p2.goto(`${BASE}/recuperar`, { waitUntil: "networkidle" });
+  await p2.getByRole("heading", { name: "Las contraseñas no se pueden recuperar" }).waitFor();
+  assert.equal(await p2.getByLabel("Tu mail").count(), 0, "no tiene que haber formulario para pedir un mail");
+  await p2.goto(`${BASE}/entrar`, { waitUntil: "networkidle" });
+  assert.equal(await p2.getByRole("link", { name: /olvidé/i }).count(), 0);
   await p2.getByLabel("Tu mail").fill(B.email);
-  await p2.getByRole("button", { name: "Mandarme el link" }).click();
-  await p2.getByText(/te mandamos un link/).waitFor();
-  const html = await ultimoMail(B.email);
-  assert.match(html, /Elegí una contraseña nueva/);
-  const link = html.match(/href="([^"]*\/auth\/callback[^"]*)"/)[1].replace(/&amp;/g, "&");
-  await p2.goto(link, { waitUntil: "networkidle" });
-  await p2.waitForURL(/\/nueva-clave/);
-  // P-07: el link del mail no puede mandarte a otra dirección del sitio (ahí la sesión se pierde)
-  assert.equal(new URL(p2.url()).host, new URL(link).host, `el link del mail llevó a otra dirección: ${p2.url()}`);
-  await p2.getByLabel("Tu contraseña nueva").fill("clave-nueva-beto-1");
-  await p2.getByRole("button", { name: "Guardar contraseña" }).click();
-  await p2.locator("form [role=alert], form [role=status]").first().waitFor();
-  const respuesta = await p2.locator("form [role=alert], form [role=status]").first().innerText();
-  const cookies = (await p2.context().cookies()).map((c) => `${c.name} (httpOnly=${c.httpOnly})`).join(", ");
-  assert.match(respuesta, /Listo, cambiaste tu contraseña\./, `al guardar la contraseña nueva la pantalla dijo: «${respuesta}» · cookies: ${cookies}`);
-  await p2.waitForURL(/\/app\/bienvenida/).catch(async () => {
-    throw new Error(`después de cambiar la contraseña quedó en ${await donde(p2)}`);
-  });
+  await p2.getByLabel("Tu contraseña").fill(B.clave);
+  await p2.getByRole("button", { name: "Mostrar contraseña" }).click();
+  assert.equal(await p2.getByLabel("Tu contraseña").getAttribute("type"), "text");
+  await p2.getByRole("button", { name: "Entrar", exact: true }).click();
+  await p2.waitForURL(/\/app\/bienvenida/, { timeout: 20000 });
   const sesionTrasCambio = await sesionDe(p2);
-  console.log("  · sesión de Beto después de cambiar la contraseña: " + sesionTrasCambio);
-  await p2.goto(`${BASE}/app/ajustes`, { waitUntil: "networkidle" });
-  assert.match(p2.url(), /\/app\/ajustes/, `recién cambiada la contraseña, /app/ajustes llevó a ${await donde(p2)} · ${await sesionDe(p2)}`);
-  const otra = createClient(SUPA_URL, SUPA_ANON, { auth: { persistSession: false } });
-  const { error: errNueva } = await otra.auth.signInWithPassword({ email: B.email, password: "clave-nueva-beto-1" });
-  assert.ifError(errNueva);
-  const p3 = await nuevaPagina(browser);
-  await p3.goto(link, { waitUntil: "networkidle" });
-  await p3.waitForURL(/\/nueva-clave/);
-  await p3.getByLabel("Tu contraseña nueva").fill("otra-clave-de-beto-2");
-  await p3.getByRole("button", { name: "Guardar contraseña" }).click();
-  await p3.getByText(/El link venció o ya se usó/).waitFor();
-  const { error: errVieja } = await otra.auth.signInWithPassword({ email: B.email, password: "otra-clave-de-beto-2" });
-  assert.ok(errVieja, "un link ya usado cambió la contraseña otra vez");
-  ok("recuperar contraseña: llegó el mail en español, el link funciona, la contraseña nueva entra y el link no sirve dos veces");
+  ok("contraseñas: /recuperar avisa que no se recuperan, no hay link de 'me olvidé', «Ver» muestra lo escrito y Beto entra con la suya");
 
   // ---------- 12. Salir y volver a entrar ----------
   // Beto no terminó el primer uso: tiene que poder salir desde la bienvenida.

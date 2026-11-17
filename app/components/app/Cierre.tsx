@@ -174,11 +174,12 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
     return (
       <section className="flex flex-col gap-5" aria-live="polite">
         <div className="flex flex-col gap-4 rounded-[24px] bg-verde p-6 text-white">
-          <p className="text-[15px] text-salvia2">{esHoy ? "Hoy te quedaron libres" : "Ese día te quedaron libres"}</p>
+          <p className="text-[15px] text-salvia2">{esHoy ? "Ganancia de hoy" : "Ganancia de ese día"}</p>
           <p className={`font-display text-[46px] leading-none font-extrabold tracking-[-0.03em] ${resultado.libres < 0 ? "text-rosa" : ""}`}>{pesos(resultado.libres)}</p>
-          <p className="text-[14px] text-salvia2">Vendiste {pesos(nVentas)} · gastos {pesos(resultado.gastos)} · fijos del día {pesos(resultado.fijosDia)}</p>
+          <p className="text-[14px] leading-[1.5] text-salvia2">Vendiste {pesos(nVentas)}, que te dejan {pesos(resultado.leDejo)} (ganás {Math.round(resultado.margen)}% en promedio){resultado.comision + resultado.otrosGastos > 0 ? ` · gastos ${pesos(resultado.comision + resultado.otrosGastos)}` : ""} · fijos del día {pesos(resultado.fijosDia)}</p>
+          <p className="text-[14px] text-salvia2">Entró a la caja: <strong className="text-white">{pesos(resultado.caja)}</strong>{resultado.proveedor ? ` (ya le pagaste ${pesos(resultado.proveedor)} al proveedor)` : ""}</p>
           <div className="h-3 overflow-hidden rounded-full bg-white/15"><div className={`h-full rounded-full ${resultado.pasaste ? "bg-ambar" : "bg-salvia"}`} style={{ width: `${Math.max(4, resultado.progreso * 100)}%` }} /></div>
-          <p className="text-[15px] font-semibold">{resultado.pasaste ? `Pasaste tu número del día (${pesos(resultado.vender)}).` : `Te faltaron ${pesos(resultado.vender - nVentas)} para tu número del día.`}</p>
+          <p className="text-[15px] font-semibold">{resultado.pasaste ? `Pasaste tu número del día (${pesos(resultado.vender)}).` : `Te faltaron ${pesos(resultado.vender - nVentas)} de ventas para tu número del día.`}</p>
         </div>
         {items.some((i) => soloDigitos(i.monto) || i.unidades) ? (
           <div className="flex flex-col gap-2 rounded-[20px] border border-linea bg-white p-5">
@@ -297,7 +298,7 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
           ) : null}
           {nVentas ? (
             <p className="rounded-xl bg-suave px-4 py-3 text-[15px] text-g1">
-              Te quedarían <strong className={resultado.libres < 0 ? "text-rojo" : "text-hoja"}>{pesos(resultado.libres)}</strong> libres.
+              Ganancia del día: <strong className={resultado.libres < 0 ? "text-rojo" : "text-hoja"}>{pesos(resultado.libres)}</strong>. A la caja entran {pesos(resultado.caja)}.
             </p>
           ) : null}
         </div>

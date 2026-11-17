@@ -37,6 +37,8 @@ export const productoSchema = z
     nombre: z.string().trim().min(1).max(120),
     precio: z.number().int().positive("Poné a cuánto lo vendés."),
     costo: z.number().int().min(0, "Poné cuánto te cuesta."),
+    // Cuántos tiene ahora (opcional): con eso En Claro descuenta lo que vende y avisa cuando se termina.
+    stock: z.number().int().min(0).max(1_000_000).nullable().optional(),
   })
   .refine((p) => p.costo <= p.precio * 3, { message: "Revisá el costo: es mucho más alto que el precio." });
 

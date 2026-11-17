@@ -11,7 +11,7 @@ const BASE = process.env.BASE || "http://127.0.0.1:3100";
   const ok = (t) => console.log("✓", t);
   const sinScroll = async (n) => assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= 360), "scroll horizontal en " + n);
 
-  for (const [ruta, h1] of [["/entrar", "Entrar a tu negocio"], ["/registrarme", "Empezá tus 14 días gratis"], ["/recuperar", "¿Te olvidaste la contraseña?"], ["/offline", "Sin conexión"]]) {
+  for (const [ruta, h1] of [["/entrar", "Entrar a tu negocio"], ["/registrarme", "Empezá tus 14 días gratis"], ["/recuperar", "Las contraseñas no se pueden recuperar"], ["/offline", "Sin conexión"]]) {
     await page.goto(BASE + ruta, { waitUntil: "networkidle" });
     await page.getByRole("heading", { level: 1, name: h1 }).waitFor();
     await sinScroll(ruta);

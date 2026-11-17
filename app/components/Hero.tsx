@@ -38,7 +38,7 @@ export function Hero() {
               <span className="rounded-full border border-linea bg-white px-[7px] py-[3px] text-[10px] font-semibold text-g2">Ejemplo</span>
             </div>
             <div className="flex flex-col gap-1.5 rounded-[20px] bg-verde p-4 text-white">
-              <span className="text-[11px] font-medium text-salvia">Hoy te quedaron libres</span>
+              <span className="text-[11px] font-medium text-salvia">Ganancia de hoy</span>
               <span className="font-display text-[32px] font-extrabold tracking-[-0.02em]">$40.667</span>
               <div className="h-1.5 overflow-hidden rounded-full bg-white/15"><div className="h-full w-full rounded-full bg-ambar" /></div>
               <span className="text-[11px] text-[#d7e6dc]">Pasaste tu número del día por $64.889</span>
