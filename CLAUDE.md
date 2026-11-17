@@ -20,6 +20,10 @@ cobro solo por Mercado Pago.
     cada elemento desde el tiempo, igual que `useCurrentFrame()`: portalo a Remotion sin adivinar.
 - `app/` — (todavía no existe) el MVP de En Claro en Next.js + Supabase + Mercado Pago + Netlify.
 
+## Skills de video
+
+En `.claude/skills/` hay skills instaladas: oficiales de Remotion (`remotion-best-practices`, `remotion-create`, `remotion-render`, `remotion-captions`, `remotion-multimedia`, etc.) y de motion design / video corto (`short-form-video`, `caption-animation`, `beat-sync-editing`, `animation-principles`, `motion-art-direction`, `shot-composition`, `ad-creative-video`...). Cargá solo las que la tarea necesite; las reglas de este archivo y del CREATIVE_BRIEF mandan sobre cualquier skill.
+
 ## Reglas de oro de los videos (no negociables)
 
 1. Cuadro 0 = kiosco + amenaza: se reconoce al instante que es para dueños de kiosco o almacén.
