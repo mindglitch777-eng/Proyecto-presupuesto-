@@ -1,7 +1,7 @@
 import React from "react";
 import { Composition, staticFile, type CalculateMetadataFunction } from "remotion";
 import { Video, videoSchema, type VideoProps } from "./Video";
-import { GUIONES, GUION_V3_01, GUION_V3_02, GUION_V3_03, GUION_V4_01, GUION_V5_01, GUION_V3_06, GUION_V4_02, GUION_V5_02, duracionVideo } from "./lib/guion";
+import { GUIONES, GUION_V3_01, GUION_V3_02, GUION_V3_03, GUION_V4_01, GUION_V5_01, GUION_V3_06, GUION_V4_02, GUION_V5_02, GUION_V7_01, duracionVideo } from "./lib/guion";
 import { ElDueno } from "./v3/ElDueno";
 import { ElBanco } from "./v3/ElBanco";
 import { SeHunde } from "./v3/SeHunde";
@@ -10,6 +10,7 @@ import { Confesiones } from "./v5/Confesiones";
 import { Basura } from "./v6/Basura";
 import { TresErrores } from "./v6/TresErrores";
 import { CajaRegistradora } from "./v6/CajaRegistradora";
+import { RecordDeVentas } from "./v7/RecordDeVentas";
 
 const FPS = 30;
 const LETRAS = ["A", "B", "C", "D"];
@@ -134,6 +135,17 @@ export const Root: React.FC = () => (
       width={1080}
       height={1920}
       defaultProps={{ guion: GUION_V5_02.id, gancho: 0, voz: null, palabras: null }}
+      calculateMetadata={calcular}
+    />
+    <Composition
+      id="Video-v7-01-Record"
+      component={RecordDeVentas}
+      schema={videoSchema}
+      durationInFrames={Math.round(GUION_V7_01.duracionSeg * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: GUION_V7_01.id, gancho: 0, voz: null, palabras: null }}
       calculateMetadata={calcular}
     />
   </>

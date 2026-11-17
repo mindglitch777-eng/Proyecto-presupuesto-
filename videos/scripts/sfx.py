@@ -300,6 +300,45 @@ def main():
     caj = mix((0, des), (0.52, kick(0.3, 130, 55, 1.0)), (0.52, bp(noise(0.12), 900, 2) * env(0.12, 0.001, 30) * 0.7))
     save("cajon", reverb(caj, 0.2, 0.25), -4, 0.004)
 
+    # ---------- serie V7 "Rompe-esquemas" ----------
+    # rayón de disco: chirrido que baja + ruido de púa, corte seco
+    ray = sweep(1800, 140, 0.32, "saw") * env(0.32, 0.001, 5) * 0.5 + bp(noise(0.32), 2500, 2) * env(0.32, 0.001, 9)
+    save("rayon", ray, -4, 0.003)
+
+    # rebobinado de cinta: zumbido agudo que acelera con chirridos de cinta
+    d = 1.1
+    reb = sweep(300, 2200, d, "saw") * 0.25 + bp(noise(d), 3500, 3) * 0.6 * (0.5 + 0.5 * np.sin(2 * np.pi * 23 * t(d)))
+    reb = reb * np.clip(t(d) / 0.05, 0, 1) * np.clip((d - t(d)) / 0.08, 0, 1)
+    save("rebobinado", reb, -7, 0.004)
+
+    # vidrio que estalla: golpe + muchos tintineos agudos que caen
+    trozos = mix(*[(0.02 + 0.03 * i + 0.01 * (i % 3), tone(3200 + (i * 731) % 3800, 0.25) * env(0.25, 0.001, 18 + i % 5)) for i in range(18)])
+    vid = mix((0, kick(0.4, 120, 40, 1.0)), (0, hp(noise(0.5), 2500) * env(0.5, 0.001, 7)), (0, trozos))
+    save("vidrio", reverb(vid, 0.3), -2, 0.006)
+
+    # escudo: zumbido eléctrico con "bong" metálico al rebotar
+    esc = mix((0, sweep(900, 260, 0.45) * env(0.45, 0.002, 6) * 0.7), (0, tone(110, 0.45, "sq") * env(0.45, 0.002, 9) * 0.25),
+              (0, hp(noise(0.12), 4000) * env(0.12, 0.001, 30) * 0.5))
+    save("escudo", reverb(esc, 0.25), -4, 0.004)
+
+    # tijera: dos cortes metálicos secos
+    corte = lambda: hp(noise(0.06), 3500) * env(0.06, 0.0005, 70) + 0.4 * tone(4200, 0.06) * env(0.06, 0.0005, 60)
+    save("tijera", mix((0, corte()), (0.13, corte())), -5, 0.003)
+
+    # aspiradora: motor que arranca y aspira
+    d = 0.7
+    asp = (bp(noise(d), 1400, 1.5) * 0.7 + tone(180, d, "saw") * 0.15) * np.clip(t(d) / 0.15, 0, 1) * np.clip((d - t(d)) / 0.12, 0, 1)
+    save("aspiradora", asp, -8, 0.003)
+
+    # marcador sobre cartón: trazo áspero rápido
+    d = 0.22
+    mar = bp(noise(d), 1800, 2.5) * np.sin(np.pi * t(d) / d) ** 0.7
+    save("marcador", mar, -6, 0.002)
+
+    # sello de goma con golpe grave
+    sel = mix((0, kick(0.5, 110, 35, 1.3)), (0, lp(noise(0.15), 900) * env(0.15, 0.001, 20)), (0.02, metal_hit(0.3, 0.15)))
+    save("sello", reverb(sel, 0.25), -1, 0.004)
+
     print("sonidos listos en", OUT)
 
 

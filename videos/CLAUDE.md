@@ -79,6 +79,19 @@
 - `voz.py`: con `"encadenar": "recortar"` saca el silencio del final de cada línea (la voz deja ~0,7 s) y el video queda más ágil. Los 3 videos nuevos lo usan.
 - La voz no se puede generar desde el contenedor de Claude (edge-tts no tiene salida): se genera en Actions y se baja con `git pull` para sacar imágenes de control con los tiempos reales.
 
+## V7 "Rompe-esquemas" (`referencia/DIRECCION-V7.md`)
+- `src/v7/rompe.tsx`: los 10 rompe-patrones de la dirección. Usados en V7-01: `Congelado` (desatura con backdrop-filter, rayón, ‖),
+  `RebobinadoVHS` (líneas de tracking y ◀◀ / ▶ ×0,4), `FinFalso`, `VidrioRoto` (triángulos desde un punto que vuelan a cámara), `Escudo`
+  (rebotes con "BLOQUEADO"). Listos para V7-02/03: `Tragamonedas`, `ZoomMejorar`, `BarraVida`, `Glitch`, `CartelPelea`. Curvas `entra`/`sale`
+  (expo-out / rápida) y `remapear` (tiempo de imagen para rebobinar o cámara lenta).
+- **V7-01 "Récord de ventas"** (`Video-v7-01-Record`, `src/v7/RecordDeVentas.tsx`, guion `guiones/v7-01-record-de-ventas.json`):
+  kiosco 3D (`Kiosco3D`), caja (`Caja` de V5-02, a escala 0,72) y el dueño (`Muneco` kiosquero ×2). Todo se dibuja desde un **tiempo de imagen**
+  (`vista(t)`): se congela en "Pará", rebobina y va en cámara lenta en "Volvé dos segundos" (se ve de verdad la mano del seg. ~3 con círculo de
+  marcador), FIN falso en silencio, vidrio roto, la mano es del dueño, comparación que se cruza en X y el mes repetido con En Claro (escudo).
+  El último cuadro repite el cuadro 0 (cámara, temblor y destellos en cero). Montos con "(ejemplo)".
+- Sonidos nuevos: `rayon`, `rebobinado`, `vidrio`, `escudo`, `tijera`, `aspiradora`, `marcador`, `sello` (`scripts/sfx.py`, ya generados en `public/sfx/`).
+- Duración: la da la voz (~25 s con las pausas del guion: rebobinado + FIN y el truco necesitan aire; el guion decía 22 s).
+
 ## Cambios respecto del animatic / brief
 - **Duración 36,2 s en vez de 32 s.** La voz real de Tomás no entraba en los tiempos del animatic (líneas 2 y 4 daban
   más de 1,25×). Las escenas se siguen escribiendo en segundos del animatic y `tramos` del guion estira solo

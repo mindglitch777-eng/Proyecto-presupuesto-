@@ -1,0 +1,108 @@
+{
+ "id": "v7-01-record-de-ventas",
+ "titulo": "Récord de ventas",
+ "duracionSeg": 26,
+ "tramos": [],
+ "encadenar": "recortar",
+ "voz": {
+  "nombre": "es-AR-TomasNeural",
+  "gancho": {
+   "rate": "+15%",
+   "pitch": "-3Hz",
+   "volume": "+20%"
+  },
+  "resto": {
+   "rate": "+28%",
+   "pitch": "-3Hz"
+  }
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "VENDISTE UN",
+    "RÉCORD",
+    "Y POR ESO VAS A CERRAR"
+   ],
+   "voz": "Vendiste un récord… y por eso vas a cerrar."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0,
+   "hasta": 1.6,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 1.95,
+   "hasta": 3.0,
+   "texto": "Un día. Otro. Otro.",
+   "antes": 0.35
+  },
+  {
+   "desde": 4.8,
+   "hasta": 6.6,
+   "texto": "Alguien sacó ciento ochenta mil. Y lo saludaste hoy.",
+   "antes": 1.8
+  },
+  {
+   "desde": 6.9,
+   "hasta": 8.6,
+   "texto": "¿El proveedor? ¿La vecina? ¿El chico de la caja?",
+   "antes": 0.3
+  },
+  {
+   "desde": 8.85,
+   "hasta": 9.6,
+   "texto": "Pará. ¿Lo viste?",
+   "antes": 0.25,
+   "estilo": {
+    "rate": "+12%",
+    "pitch": "-6Hz"
+   }
+  },
+  {
+   "desde": 9.8,
+   "hasta": 10.6,
+   "texto": "Volvé dos segundos.",
+   "antes": 0.2
+  },
+  {
+   "desde": 12.5,
+   "hasta": 13.3,
+   "texto": "…Falta lo peor.",
+   "antes": 1.9,
+   "estilo": {
+    "rate": "+8%",
+    "pitch": "-8Hz",
+    "volume": "+10%"
+   }
+  },
+  {
+   "desde": 13.6,
+   "hasta": 16.9,
+   "texto": "Esa mano… es la tuya. Pagando el alquiler con la plata de la mercadería.",
+   "antes": 0.3
+  },
+  {
+   "desde": 17.2,
+   "hasta": 20.4,
+   "texto": "Vendiste más… a precio viejo. Cuanto más vendés, más rápido perdés.",
+   "antes": 0.3
+  },
+  {
+   "desde": 20.75,
+   "hasta": 22.0,
+   "texto": "Mismo mes. Con En Claro.",
+   "antes": 0.35
+  },
+  {
+   "desde": 24.2,
+   "hasta": 25.9,
+   "texto": "Cinco minutos por noche. Probalo gratis.",
+   "antes": 2.2
+  }
+ ],
+ "sonidos": []
+}
