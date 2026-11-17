@@ -92,6 +92,11 @@
 - Sonidos nuevos: `rayon`, `rebobinado`, `vidrio`, `escudo`, `tijera`, `aspiradora`, `marcador`, `sello` (`scripts/sfx.py`, ya generados en `public/sfx/`).
 - Duración: la da la voz (~25 s con las pausas del guion: rebobinado + FIN y el truco necesitan aire; el guion decía 22 s).
 
+## Guardado del MP4 en la rama (videos.yml)
+- Después de renderizar, el MP4 se sube primero como respaldo (`mp4-<nombre>`, 7 días) y después se guarda en `videos/salida/`
+  partiendo siempre de una copia limpia de la rama (`fetch` + `reset --hard` + `clean`), con 8 reintentos.
+  Antes fallaba con "cannot pull with rebase: You have unstaged changes" (las voces bajadas dejaban el árbol sucio) y el render se perdía.
+
 ## Cambios respecto del animatic / brief
 - **Duración 36,2 s en vez de 32 s.** La voz real de Tomás no entraba en los tiempos del animatic (líneas 2 y 4 daban
   más de 1,25×). Las escenas se siguen escribiendo en segundos del animatic y `tramos` del guion estira solo

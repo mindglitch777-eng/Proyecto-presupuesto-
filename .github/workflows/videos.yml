@@ -110,20 +110,34 @@ jobs:
         run: |
           ffmpeg -y -v error -i out/crudo.mp4 -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=11 -ar 48000 -c:a aac -b:a 192k -movflags +faststart "out/en-claro-${{ matrix.nombre }}.mp4"
           ffprobe -v error -show_entries stream=codec_name,width,height,nb_frames -of compact "out/en-claro-${{ matrix.nombre }}.mp4"
+      - name: Respaldo del MP4 (por si falla el guardado en la rama, el render no se pierde)
+        uses: actions/upload-artifact@v4
+        with:
+          name: mp4-${{ matrix.nombre }}
+          path: videos/out/en-claro-${{ matrix.nombre }}.mp4
+          retention-days: 7
       - name: Dejar el MP4 en la misma rama (videos/salida/)
+        # Siempre parte de una copia limpia de la rama (nada de lo que quedó del render puede trabarlo),
+        # pone solo el MP4 y lo sube; si otro video subió justo antes, vuelve a empezar (hasta 8 veces).
         run: |
-          mkdir -p salida
-          cp "out/en-claro-${{ matrix.nombre }}.mp4" salida/
+          RAMA="${{ github.ref_name }}"
+          MP4="en-claro-${{ matrix.nombre }}.mp4"
+          cp "out/$MP4" "$RUNNER_TEMP/$MP4"
           cd ..
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add videos/salida/*.mp4
-          git commit -q -m "MP4 listo: ${{ matrix.nombre }}"
-          # lo demás (voces bajadas del paso anterior, out/) no se guarda acá: se descarta para poder traer la rama
-          git stash -u -q || true
           ok=0
-          for i in 1 2 3 4 5; do
-            if git pull -q --rebase origin "${{ github.ref_name }}" && git push -q origin "HEAD:${{ github.ref_name }}"; then ok=1; break; fi
-            sleep 8
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch -q origin "$RAMA" \
+              && git reset -q --hard "origin/$RAMA" \
+              && git clean -qfd \
+              && mkdir -p videos/salida \
+              && cp "$RUNNER_TEMP/$MP4" "videos/salida/$MP4" \
+              && git add "videos/salida/$MP4" \
+              && { git diff --cached --quiet || git commit -q -m "MP4 listo: ${{ matrix.nombre }}"; } \
+              && git push -q origin "HEAD:$RAMA" \
+              && { ok=1; break; }
+            echo "Intento $i no pudo guardar el MP4; reintento en $((i * 5)) s"
+            sleep $((i * 5))
           done
-          [ "$ok" = 1 ] || { echo "No se pudo guardar el MP4 en la rama"; exit 1; }
+          [ "$ok" = 1 ] || { echo "No se pudo guardar el MP4 en la rama (quedó en el respaldo mp4-${{ matrix.nombre }})"; exit 1; }
