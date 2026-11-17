@@ -43,6 +43,34 @@
       "skillPath": "skills/countdown-video/SKILL.md",
       "computedHash": "0880e2c2c689a9b19d72946e75d04b1e3e780aa8877cae43ec11738bb9a367b1"
     },
+    "figma": {
+      "source": "heygen-com/hyperframes",
+      "commit": "0b0108f2f630b95d3a39617b5f5b7e6b538d9752",
+      "sourceType": "github",
+      "skillPath": "skills/figma/SKILL.md",
+      "computedHash": "c0fa96dcd20130cbb865024a5b2ebaed0330dddd4dd2b9891e3cc3fd63b861f2"
+    },
+    "hyperframes": {
+      "source": "heygen-com/hyperframes",
+      "commit": "0b0108f2f630b95d3a39617b5f5b7e6b538d9752",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes/SKILL.md",
+      "computedHash": "0e360722ee39f312c3dcf257634fa1b11da05ffdaba59f407293f0f2133dfccb"
+    },
+    "hyperframes-cli": {
+      "source": "heygen-com/hyperframes",
+      "commit": "0b0108f2f630b95d3a39617b5f5b7e6b538d9752",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-cli/SKILL.md",
+      "computedHash": "08fe6ce267a6054500b7da0590c0b5119ff053703785f17ab6c794c54670e544"
+    },
+    "hyperframes-registry": {
+      "source": "heygen-com/hyperframes",
+      "commit": "0b0108f2f630b95d3a39617b5f5b7e6b538d9752",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-registry/SKILL.md",
+      "computedHash": "a3c816f09a2ff43bc1502983a68c3fb4e2bb40c6b70dc065d4c11bd91cfa8740"
+    },
     "launch-video": {
       "source": "iart-ai/ad-video-skills",
       "commit": "cc8071678f4225ee7bdccc4506f2468722bb3515",
@@ -56,6 +84,13 @@
       "sourceType": "github",
       "skillPath": "skills/logo-animation/SKILL.md",
       "computedHash": "83fe1e51ea228454bcb6aac125fdf69b191b410f75abff250d848f88a27c3581"
+    },
+    "media-use": {
+      "source": "heygen-com/hyperframes",
+      "commit": "0b0108f2f630b95d3a39617b5f5b7e6b538d9752",
+      "sourceType": "github",
+      "skillPath": "skills/media-use/SKILL.md",
+      "computedHash": "7d02c191134f7b1222760d7eca41d2c2f7c0cab4f96238491f10f6766647bc40"
     },
     "motion-art-direction": {
       "source": "iart-ai/motion-design-skills",
@@ -127,12 +162,26 @@
       "skillPath": "skills/remotion-studio/SKILL.md",
       "computedHash": "db539e768acb70bdc42bd945a4321c2f5ef85e02cf49224fb92c47935decf963"
     },
+    "remotion-to-hyperframes": {
+      "source": "heygen-com/hyperframes",
+      "commit": "0b0108f2f630b95d3a39617b5f5b7e6b538d9752",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-to-hyperframes/SKILL.md",
+      "computedHash": "38eb75c5c051cfbd74d938fcaa7b57544d8b266ec47d18f02bab1574ef71786b"
+    },
     "remotion-video": {
       "source": "iart-ai/motion-design-skills",
       "commit": "b85e50c4cef5ff17aa2187a10d49d2dae9226c74",
       "sourceType": "github",
       "skillPath": "skills/remotion-video/SKILL.md",
       "computedHash": "6ca1bfb591dcc7cf856ccec5d65750c3d6106cfebd39891ef77b650e7eb3ef98"
+    },
+    "reverse-any-video": {
+      "source": "heygen-com/hyperframes",
+      "commit": "0b0108f2f630b95d3a39617b5f5b7e6b538d9752",
+      "sourceType": "github",
+      "skillPath": "skills/reverse-any-video/SKILL.md",
+      "computedHash": "ff697348c4f2b0590f156b939fcf7e550c7a17bc40bf210d07e71ccbd42db753"
     },
     "short-form-video": {
       "source": "iart-ai/tiktok-video-skills",
@@ -147,6 +196,20 @@
       "sourceType": "github",
       "skillPath": "skills/shot-composition/SKILL.md",
       "computedHash": "a2d2e603a077f879bcaacd696e5cef5a4b62b1f0fc4d21ecf5e446466b7bfdb4"
+    },
+    "slideshow": {
+      "source": "heygen-com/hyperframes",
+      "commit": "0b0108f2f630b95d3a39617b5f5b7e6b538d9752",
+      "sourceType": "github",
+      "skillPath": "skills/slideshow/SKILL.md",
+      "computedHash": "1f3adb414853a124eb06b767d531048d68573a468b3790dd00bf340fc4a18677"
+    },
+    "style-sampling": {
+      "source": "heygen-com/hyperframes",
+      "commit": "0b0108f2f630b95d3a39617b5f5b7e6b538d9752",
+      "sourceType": "github",
+      "skillPath": "skills/style-sampling/SKILL.md",
+      "computedHash": "86da7c4f9b678b950c43c9b1ca323ac11e761be91d8ad14feb3cb9043926d20d"
     }
   }
 }

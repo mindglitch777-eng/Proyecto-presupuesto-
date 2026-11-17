@@ -30,14 +30,23 @@ cobro solo por Mercado Pago.
 - `app/` — landing y MVP de En Claro en Next.js + Supabase + Mercado Pago + Netlify. `app/BRIEF.md` es la fuente única.
 - `marca/` — foto de perfil y portada (colores y toldo que usa la landing).
 
-## Voz de los videos (decisión del dueño)
+## ⚠️ Estándar de calidad de los videos (obligatorio desde el 17/11/2026)
 
-Todos los videos usan la voz argentina **es-AR-TomasNeural** (Tomás), generada con `videos/scripts/voz.py`
-en GitHub Actions. Reemplaza a la voz del creador que menciona la sección 1 del brief.
+Decisión del dueño: los videos 100% hechos con código no atrapan. **Antes de escribir un guion o producir un video, leé
+`videos/referencia/ESTANDAR-CALIDAD.md` completo** y cumplilo: referencia viral real primero (`reverse-any-video`), persona y emoción
+en vez de metáforas, imagen fotorrealista generada con IA (fal.ai: Veo 3.1 / Kling / Seedance) + pantalla real de la app, código solo
+como capa gráfica, voz humana con ElevenLabs v3 a velocidad natural (**prohibido acelerar la voz**), máximo 2 textos a la vez y
+control de calidad con puntaje ≥ 8 en cada punto antes de entregar. Lo que no cumple, no se entrega. Los guiones V6 y V7 pendientes
+quedan en pausa: se rehacen con este estándar antes de producirse.
+
+## Voz de los videos
+
+Desde el estándar nuevo: **ElevenLabs v3** (clave `ELEVENLABS_API_KEY` en secretos de GitHub), voz de acento argentino, velocidad natural.
+Respaldo si falta la clave: **es-AR-TomasNeural** (Tomás) con `videos/scripts/voz.py` en GitHub Actions, también sin acelerar.
 
 ## Skills de video
 
-En `.claude/skills/` hay skills instaladas: oficiales de Remotion (`remotion-best-practices`, `remotion-create`, `remotion-render`, `remotion-captions`, `remotion-multimedia`, etc.) y de motion design / video corto (`short-form-video`, `caption-animation`, `beat-sync-editing`, `animation-principles`, `motion-art-direction`, `shot-composition`, `ad-creative-video`...). Cargá solo las que la tarea necesite; las reglas de este archivo y del CREATIVE_BRIEF mandan sobre cualquier skill.
+En `.claude/skills/` hay skills instaladas: oficiales de Remotion (`remotion-best-practices`, `remotion-create`, `remotion-render`, `remotion-captions`, `remotion-multimedia`, etc.) y de motion design / video corto (`short-form-video`, `caption-animation`, `beat-sync-editing`, `animation-principles`, `motion-art-direction`, `shot-composition`, `ad-creative-video`...). También HyperFrames de HeyGen (`hyperframes`, `hyperframes-cli`, `media-use`, `reverse-any-video`, `style-sampling`, `remotion-to-hyperframes`). Cargá solo las que la tarea necesite; las reglas de este archivo y del CREATIVE_BRIEF mandan sobre cualquier skill.
 
 ## Reglas de oro de los videos (no negociables)
 
@@ -54,6 +63,7 @@ Si un video rompe una de estas reglas, no está terminado.
 
 Cuando te pidan "producí el video NN":
 
+0. Leé `videos/referencia/ESTANDAR-CALIDAD.md` y cumplilo en todo; manda sobre los pasos de abajo.
 1. Leé **solo**: secciones 0, 4, 6 y 11 de `videos/referencia/CREATIVE_BRIEF.md`, y en `videos/guiones/IDEAS_V4.md` la estructura de loop abierto y el guion NN (los guiones 3D de `IDEAS_V3.md` ya hechos son referencia de código: `videos/CLAUDE.md`). Nada más.
 2. Reutilizá los componentes que ya existen en `videos/src/components`. Creá solo los que falten.
 3. Plan de 10 líneas como máximo y arrancás sin esperar aprobación.
@@ -61,6 +71,8 @@ Cuando te pidan "producí el video NN":
 5. Dependencias nuevas: un solo `npm install` al principio.
 6. Verificá con `npx tsc --noEmit` y 3 imágenes de control (`npx remotion still`: cuadro 0, el del gancho y el del giro). El MP4 lo renderiza GitHub Actions.
 7. Commit, push y un resumen de 3 líneas: qué hiciste y si hay algo que hacer desde el celular.
+
+Antes de entregar, siempre el control de calidad de la sección 6 del estándar.
 
 Criterio creativo: si algo del guion puede ser más loco, más impactante o más claro en el primer segundo, hacelo. 3D con `@remotion/three` y modelos hechos en código, todo determinista.
 
