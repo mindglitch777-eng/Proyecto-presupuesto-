@@ -23,7 +23,7 @@ Por eso NO se usan: ElevenLabs gratis (no permite uso comercial y obliga a citar
 1. **Formato probado primero.** Cada video usa uno de los formatos de `videos/referencia/FORMATOS-VIRALES.md` (investigados por Claude).
    Si hay un video viral concreto en `videos/referencias-virales/`, se desarma con `reverse-any-video`. Copiamos la **estructura**, nunca el contenido.
 2. **Guion con persona y emoción** (sección 2). Siempre 3 ganchos alternativos por video.
-3. **Imagen real** (sección 3): video filmado de verdad (del dueño o de Pexels/Pixabay) + pantalla real de la app.
+3. **Imagen real** (sección 3): video filmado de verdad (búsqueda automática en Wikimedia Commons y Pixabay) + pantalla real de la app.
 4. **Voz humana** (sección 4).
 5. **Montaje y capa gráfica** con HyperFrames (skills `hyperframes`, `media-use`) o Remotion: solo encima de la imagen real.
 6. **Control de calidad** (sección 6). Si no aprueba, no se entrega.
@@ -41,7 +41,7 @@ Por eso NO se usan: ElevenLabs gratis (no permite uso comercial y obliga a citar
 
 - **Base real, filmada:** kiosco argentino real (vidriera con golosinas, heladera de bebidas, cartel pintado, rejas), manos, caja, cuaderno de fiados, billetes, calle de barrio.
   1. **Búsqueda automática (la hace Claude, no el dueño):** un script en GitHub Actions busca y baja las tomas por palabra clave
-     de **Wikimedia Commons** (API sin clave) y **Pixabay** (clave gratis `PIXABAY_API_KEY`, opcional). Pexels no: su API está suspendida para cuentas nuevas. (Solo solo archivos con licencia que permita uso comercial,
+     de **Wikimedia Commons** (API sin clave) y **Pixabay** (clave gratis `PIXABAY_API_KEY`, opcional). Pexels no: su API está suspendida para cuentas nuevas. (solo archivos con licencia que permita uso comercial,
      y los que piden crédito se anotan en `videos/salida/<id>-creditos.txt` para la descripción). Claude mira cada toma (hoja de contacto) antes de usarla.
   2. **Tomas del dueño, opcionales:** si algún día filma un kiosco real (con permiso), van a `videos/tomas/` y tienen prioridad.
      Nunca un video de stock sin tocar como plano principal: siempre recortado a 9:16, con color propio y la capa gráfica encima.
