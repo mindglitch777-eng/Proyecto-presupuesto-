@@ -1,18 +1,18 @@
 {
  "id": "v7-01-record-de-ventas",
  "titulo": "Récord de ventas",
- "duracionSeg": 26,
+ "duracionSeg": 27,
  "tramos": [],
  "encadenar": "recortar",
  "voz": {
   "nombre": "es-AR-TomasNeural",
   "gancho": {
-   "rate": "+15%",
+   "rate": "+35%",
    "pitch": "-3Hz",
    "volume": "+20%"
   },
   "resto": {
-   "rate": "+28%",
+   "rate": "+50%",
    "pitch": "-3Hz"
   }
  },
@@ -23,7 +23,7 @@
     "RÉCORD",
     "Y POR ESO VAS A CERRAR"
    ],
-   "voz": "Vendiste un récord… y por eso vas a cerrar."
+   "voz": "Vendiste un récord, y por eso vas a cerrar."
   }
  ],
  "lineas": [
@@ -37,19 +37,19 @@
   {
    "desde": 1.95,
    "hasta": 3.0,
-   "texto": "Un día. Otro. Otro.",
+   "texto": "Un día, otro, otro.",
    "antes": 0.35
   },
   {
    "desde": 4.8,
    "hasta": 6.6,
    "texto": "Alguien sacó ciento ochenta mil. Y lo saludaste hoy.",
-   "antes": 1.8
+   "antes": 1.0
   },
   {
    "desde": 6.9,
    "hasta": 8.6,
-   "texto": "¿El proveedor? ¿La vecina? ¿El chico de la caja?",
+   "texto": "¿El proveedor, la vecina, el chico de la caja?",
    "antes": 0.3
   },
   {
@@ -58,7 +58,7 @@
    "texto": "Pará. ¿Lo viste?",
    "antes": 0.25,
    "estilo": {
-    "rate": "+12%",
+    "rate": "+30%",
     "pitch": "-6Hz"
    }
   },
@@ -71,10 +71,10 @@
   {
    "desde": 12.5,
    "hasta": 13.3,
-   "texto": "…Falta lo peor.",
-   "antes": 1.9,
+   "texto": "Falta lo peor.",
+   "antes": 1.4,
    "estilo": {
-    "rate": "+8%",
+    "rate": "+25%",
     "pitch": "-8Hz",
     "volume": "+10%"
    }
@@ -82,26 +82,26 @@
   {
    "desde": 13.6,
    "hasta": 16.9,
-   "texto": "Esa mano… es la tuya. Pagando el alquiler con la plata de la mercadería.",
+   "texto": "Esa mano es la tuya: pagando el alquiler con la plata de la mercadería.",
    "antes": 0.3
   },
   {
    "desde": 17.2,
    "hasta": 20.4,
-   "texto": "Vendiste más… a precio viejo. Cuanto más vendés, más rápido perdés.",
+   "texto": "Vendiste más, a precio viejo. Cuanto más vendés, más rápido perdés.",
    "antes": 0.3
   },
   {
    "desde": 20.75,
    "hasta": 22.0,
-   "texto": "Mismo mes. Con En Claro.",
+   "texto": "Mismo mes, con En Claro.",
    "antes": 0.35
   },
   {
    "desde": 24.2,
    "hasta": 25.9,
    "texto": "Cinco minutos por noche. Probalo gratis.",
-   "antes": 2.2
+   "antes": 1.4
   }
  ],
  "sonidos": []
