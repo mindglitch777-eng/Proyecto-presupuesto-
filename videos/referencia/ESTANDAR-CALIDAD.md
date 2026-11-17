@@ -41,7 +41,7 @@ Por eso NO se usan: ElevenLabs gratis (no permite uso comercial y obliga a citar
 
 - **Base real, filmada:** kiosco argentino real (vidriera con golosinas, heladera de bebidas, cartel pintado, rejas), manos, caja, cuaderno de fiados, billetes, calle de barrio.
   1. **Búsqueda automática (la hace Claude, no el dueño):** un script en GitHub Actions busca y baja las tomas por palabra clave
-     de **Pexels** (clave `PEXELS_API_KEY`), **Pixabay** y **Wikimedia Commons** (sin clave; solo archivos con licencia que permita uso comercial,
+     de **Wikimedia Commons** (API sin clave) y **Pixabay** (clave gratis `PIXABAY_API_KEY`, opcional). Pexels no: su API está suspendida para cuentas nuevas. (Solo solo archivos con licencia que permita uso comercial,
      y los que piden crédito se anotan en `videos/salida/<id>-creditos.txt` para la descripción). Claude mira cada toma (hoja de contacto) antes de usarla.
   2. **Tomas del dueño, opcionales:** si algún día filma un kiosco real (con permiso), van a `videos/tomas/` y tienen prioridad.
      Nunca un video de stock sin tocar como plano principal: siempre recortado a 9:16, con color propio y la capa gráfica encima.
@@ -68,7 +68,7 @@ Por eso NO se usan: ElevenLabs gratis (no permite uso comercial y obliga a citar
 | `short-form-video`, `beat-sync-editing`, `caption-animation` | Ritmo, cortes en el tiempo y subtítulos |
 | Remotion (skills `remotion-*`) | Los videos ya hechos y la capa gráfica si conviene |
 | Gemini TTS (plan gratis, clave `GEMINI_API_KEY`) | Voz con emoción dirigida por texto |
-| Pexels / Pixabay (gratis, clave `PEXELS_API_KEY`) | Tomas de relleno con uso comercial |
+| Wikimedia Commons / Pixabay (gratis, desde GitHub Actions) | Tomas reales con uso comercial |
 | Tomas del dueño (`videos/tomas/`) | La imagen principal: kioscos reales de su ciudad |
 
 Las claves van como secretos de GitHub, nunca en el código. Si faltan, el workflow falla con un mensaje claro.
