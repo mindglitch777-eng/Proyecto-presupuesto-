@@ -13,9 +13,10 @@ cobro solo por Mercado Pago.
 - Todo el producto, los textos y los videos van en **español argentino con voseo**, sin jerga técnica.
 - **Los videos se le entregan como MP4 directo en el chat** (`SendUserFile`), nunca como .zip ni artifacts de Actions
   (le resultan incómodos). Todo va en **la misma rama de trabajo**, sin ramas extra: el workflow arma el video y deja el MP4
-  en `videos/salida/` de esa rama; hacé `git pull` y mandalo con `SendUserFile`. La matriz de `videos.yml` tiene solo el video
-  en producción (los entregados quedan comentados): reemplazá la entrada por la del video nuevo.
-  La matriz tiene solo el video en producción (los 9 ya entregados están en `videos/salida/`).
+  en `videos/salida/` de esa rama; hacé `git pull` y mandalo con `SendUserFile`. `videos.yml` arma solo el video en producción:
+  para cambiarlo tocá `NOMBRE`, `ID` y `CONTROL` arriba del archivo. El render se reparte en 10 máquinas a la vez (cada una hace
+  una parte de los cuadros, `scripts/cuadros.cjs`) y el job `unir` las junta sin recomprimir: tarda ~4-5 min en vez de 10-20.
+  Por eso todo tiene que ser determinista (cada cuadro sale solo de `useCurrentFrame()`, nada que dependa del cuadro anterior).
 - Página con todos los videos para bajar: https://claude.ai/artifact/D2yvc4fKGKJHRoN7DDW1gV (los MP4 son assets de esa página; para sumar uno, subirlo con `Artifact` `asset: true` y agregarlo a `VIDEOS`).
   Los assets tienen tope de 20 MiB: los videos con mucha cámara pesan 34–76 MB, así que para la página se comprimen en 2 pasadas
   a ~3,5 Mbps (`ffmpeg -b:v 3500k -pass 1/2`, ~18 MB). La página ya tiene la versión rápida del V5-01 (la lenta se sacó).

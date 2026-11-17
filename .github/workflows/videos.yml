@@ -1,7 +1,9 @@
 name: Videos
 
-# Arma los avisos de En Claro: genera la voz argentina (es-AR-TomasNeural), saca 3 imágenes de control
-# y renderiza un MP4 por cada gancho. Todo queda para descargar en la pestaña Actions → la corrida → Artifacts.
+# Arma el video en producción de En Claro: genera la voz argentina (es-AR-TomasNeural), saca 3 imágenes de control
+# y renderiza el MP4 REPARTIDO EN 10 MÁQUINAS A LA VEZ (cada una hace una parte de los cuadros), después
+# las une sin volver a comprimir, empareja el volumen y deja el MP4 en videos/salida/ de esta misma rama.
+# Para cambiar de video: tocá solo NOMBRE, ID y CONTROL de abajo.
 
 on:
   push:
@@ -10,8 +12,17 @@ on:
       - ".github/workflows/videos.yml"
   workflow_dispatch:
 
+env:
+  # Solo el video en producción. Los entregados ya están en videos/salida/ y en la página de descargas.
+  # Otros ids: LaPersiana, LaPersiana-ganchoB/C/D, Video01-ElDueno, Video02-Banco, Video03-SeHunde,
+  # Video-v4-01-NumeroTapado, Video-v5-01-Confesiones, Video-v3-06-Basura, Video-v4-02-TresErrores, Video-v5-02-Caja.
+  NOMBRE: v7-01-record-de-ventas
+  ID: Video-v7-01-Record
+  CONTROL: "0 40 440"
+  PARTES: 10
+
 concurrency:
-  group: videos-${{ github.ref }}
+  group: videos-rapido-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -55,73 +66,137 @@ jobs:
           path: videos/public/voces
           if-no-files-found: ignore
 
-  video:
-    name: Video ${{ matrix.nombre }}
+  control:
+    name: Imágenes de control
     needs: voz
     runs-on: ubuntu-latest
-    timeout-minutes: 60
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          # Solo el video en producción. Los entregados ya están en videos/salida/ y en la página de descargas.
-          # Para volver a armar uno, copiá su bloque acá (ids: LaPersiana, LaPersiana-ganchoB/C/D, Video01-ElDueno,
-          # Video02-Banco, Video03-SeHunde, Video-v4-01-NumeroTapado, Video-v5-01-Confesiones).
-          # Entregados: Video-v3-06-Basura, Video-v4-02-TresErrores, Video-v5-02-Caja.
-          - nombre: v7-01-record-de-ventas
-            id: Video-v7-01-Record
-            control: "0 40 440"
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: videos/package-lock.json
       - uses: actions/download-artifact@v4
         with:
           name: voces
           path: videos/public/voces
         continue-on-error: true
+      - name: Traer lo instalado (o instalar)
+        id: mods
+        uses: actions/cache@v4
+        with:
+          path: videos/node_modules
+          key: mods-${{ runner.os }}-${{ hashFiles('videos/package-lock.json') }}-v1
       - name: Instalar
-        run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-          npm ci
-          npx remotion browser ensure
-      - name: Imágenes de control
-        if: matrix.control
+        if: steps.mods.outputs.cache-hit != 'true'
+        run: npm ci && npx remotion browser ensure
+      - name: Imágenes
         run: |
           mkdir -p out
           n=1
-          for f in ${{ matrix.control }}; do
-            npx remotion still src/index.ts ${{ matrix.id }} "out/control-$n-cuadro-$f.png" --frame=$f
+          for f in $CONTROL; do
+            npx remotion still src/index.ts "$ID" "out/control-$n-cuadro-$f.png" --frame=$f
             n=$((n+1))
           done
       - uses: actions/upload-artifact@v4
-        if: matrix.control
         with:
-          name: imagenes-de-control-${{ matrix.nombre }}
+          name: imagenes-de-control-${{ env.NOMBRE }}
           path: videos/out/control-*.png
-      - name: Renderizar el video
-        run: npx remotion render src/index.ts ${{ matrix.id }} out/crudo.mp4 --codec=h264 --crf=18 --audio-codec=aac --concurrency=100%
-      - name: Volumen parejo (−14 LUFS)
+
+  parte:
+    name: Parte ${{ matrix.parte }}
+    needs: voz
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: true
+      matrix:
+        parte: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          name: voces
+          path: videos/public/voces
+        continue-on-error: true
+      - name: Traer lo instalado (o instalar)
+        id: mods
+        uses: actions/cache@v4
+        with:
+          path: videos/node_modules
+          key: mods-${{ runner.os }}-${{ hashFiles('videos/package-lock.json') }}-v1
+      - name: Instalar
+        if: steps.mods.outputs.cache-hit != 'true'
+        run: npm ci && npx remotion browser ensure
+      - name: Renderizar mi parte de los cuadros
         run: |
-          ffmpeg -y -v error -i out/crudo.mp4 -c:v copy -af loudnorm=I=-14:TP=-1.5:LRA=11 -ar 48000 -c:a aac -b:a 192k -movflags +faststart "out/en-claro-${{ matrix.nombre }}.mp4"
-          ffprobe -v error -show_entries stream=codec_name,width,height,nb_frames -of compact "out/en-claro-${{ matrix.nombre }}.mp4"
-      - name: Respaldo del MP4 (por si falla el guardado en la rama, el render no se pierde)
+          npx remotion bundle src/index.ts --out-dir build --log=error
+          INFO=$(node scripts/cuadros.cjs build "$ID")
+          read TOTAL FPS <<< "$INFO"
+          P=${{ matrix.parte }}
+          POR=$(( (TOTAL + PARTES - 1) / PARTES ))
+          A=$(( P * POR )); B=$(( A + POR - 1 )); [ $B -ge $TOTAL ] && B=$((TOTAL - 1))
+          N=$(printf "%02d" $P)
+          mkdir -p out
+          if [ $A -gt $B ]; then echo "Esta parte no tiene cuadros ($TOTAL en total)."; exit 0; fi
+          echo "Cuadros $A a $B de $TOTAL"
+          npx remotion render build "$ID" "out/parte-$N.mp4" --frames=$A-$B --codec=h264 --crf=18 \
+            --separate-audio-to="out/parte-$N.wav" --concurrency=100%
+          echo "$A $B $FPS" > "out/parte-$N.txt"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: parte-${{ matrix.parte }}
+          path: videos/out/parte-*
+          if-no-files-found: ignore
+          retention-days: 1
+
+  unir:
+    name: Unir y guardar el MP4
+    needs: parte
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: parte-*
+          path: videos/partes
+          merge-multiple: true
+      - name: Unir las partes (sin volver a comprimir la imagen)
+        run: |
+          command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; }
+          cd partes
+          : > v.txt; : > a.txt
+          for t in $(ls parte-*.txt | sort); do
+            N=${t%.txt}; read A B FPS < "$t"
+            echo "file '$N.mp4'" >> v.txt
+            # Si una parte no trajo sonido, va silencio del mismo largo (para que nada se corra).
+            [ -f "$N.wav" ] || ffmpeg -v error -f lavfi -i anullsrc=r=48000:cl=stereo -t "$(echo "($B - $A + 1) / $FPS" | bc -l)" "$N.wav"
+            echo "file '$N.wav'" >> a.txt
+          done
+          cat v.txt
+          ffmpeg -y -v error -f concat -safe 0 -i v.txt -c copy video.mp4
+          ffmpeg -y -v error -f concat -safe 0 -i a.txt -ar 48000 -ac 2 audio.wav
+          mkdir -p ../out
+          ffmpeg -y -v error -i video.mp4 -i audio.wav -map 0:v -map 1:a -c:v copy \
+            -af loudnorm=I=-14:TP=-1.5:LRA=11 -ar 48000 -c:a aac -b:a 192k -shortest -movflags +faststart \
+            "../out/en-claro-$NOMBRE.mp4"
+          ffprobe -v error -show_entries stream=codec_name,width,height,nb_frames,duration -of compact "../out/en-claro-$NOMBRE.mp4"
+      - name: Respaldo del MP4
         uses: actions/upload-artifact@v4
         with:
-          name: mp4-${{ matrix.nombre }}
-          path: videos/out/en-claro-${{ matrix.nombre }}.mp4
+          name: mp4-${{ env.NOMBRE }}
+          path: videos/out/en-claro-${{ env.NOMBRE }}.mp4
           retention-days: 7
       - name: Dejar el MP4 en la misma rama (videos/salida/)
-        # Siempre parte de una copia limpia de la rama (nada de lo que quedó del render puede trabarlo),
-        # pone solo el MP4 y lo sube; si otro video subió justo antes, vuelve a empezar (hasta 8 veces).
         run: |
           RAMA="${{ github.ref_name }}"
-          MP4="en-claro-${{ matrix.nombre }}.mp4"
+          MP4="en-claro-$NOMBRE.mp4"
           cp "out/$MP4" "$RUNNER_TEMP/$MP4"
           cd ..
           git config user.name "github-actions[bot]"
@@ -134,10 +209,10 @@ jobs:
               && mkdir -p videos/salida \
               && cp "$RUNNER_TEMP/$MP4" "videos/salida/$MP4" \
               && git add "videos/salida/$MP4" \
-              && { git diff --cached --quiet || git commit -q -m "MP4 listo: ${{ matrix.nombre }}"; } \
+              && { git diff --cached --quiet || git commit -q -m "MP4 listo: $NOMBRE"; } \
               && git push -q origin "HEAD:$RAMA" \
               && { ok=1; break; }
             echo "Intento $i no pudo guardar el MP4; reintento en $((i * 5)) s"
             sleep $((i * 5))
           done
-          [ "$ok" = 1 ] || { echo "No se pudo guardar el MP4 en la rama (quedó en el respaldo mp4-${{ matrix.nombre }})"; exit 1; }
+          [ "$ok" = 1 ] || { echo "No se pudo guardar el MP4 en la rama (quedó en el respaldo mp4-$NOMBRE)"; exit 1; }
