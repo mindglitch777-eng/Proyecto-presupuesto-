@@ -66,6 +66,7 @@ export function datosMemoria(): Datos {
     async cierres(desde) { return estado().cierres.filter((c) => c.fecha >= desde).sort((a, b) => a.fecha.localeCompare(b.fecha)); },
     async movidosEn(fecha) { return estado().movidos.filter((m) => m.fecha === fecha).map((m) => m.id); },
     async vendidoEn(fecha) { return estado().vendido?.[fecha] ?? []; },
+    async vendidoDesde(desde) { return Object.entries(estado().vendido ?? {}).filter(([f]) => f >= desde).flatMap(([, l]) => l); },
     async guardarCierre(c) {
       const e = estado();
       if (c.items) {

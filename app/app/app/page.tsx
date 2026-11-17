@@ -10,6 +10,7 @@ import { cobraHoy, saldo } from "@/lib/fiado";
 import { dormidos } from "@/lib/dormida";
 import { diaCorto, hoyArgentina, sumarDias } from "@/lib/fechas";
 import { pesos } from "@/lib/formato";
+import { rubroPorId } from "@/lib/rubros";
 
 export const metadata: Metadata = { title: "Tu día · En Claro", robots: { index: false } };
 export const dynamic = "force-dynamic";
@@ -19,14 +20,14 @@ export default async function TuDia() {
   try {
     const datos = await obtenerDatos();
     const hoy = hoyArgentina();
-    const [negocio, fijosMes, cierres, productos, clientes] = await Promise.all([datos.negocio(), datos.fijosMes(), datos.cierres(sumarDias(hoy, -6)), datos.productos(), datos.clientes()]);
-    d = { negocio, fijosMes, cierres, productos, clientes, hoy };
+    const [negocio, fijosMes, cierres, productos, clientes, vendido] = await Promise.all([datos.negocio(), datos.fijosMes(), datos.cierres(sumarDias(hoy, -6)), datos.productos(), datos.clientes(), datos.vendidoDesde(sumarDias(hoy, -6))]);
+    d = { negocio, fijosMes, cierres, productos, clientes, vendido, hoy };
   } catch (e) {
     if (e instanceof ConfigFaltante) return <SinConexion />;
     if (e instanceof SinAcceso) redirect("/suscribirme");
     throw e;
   }
-  const { negocio, fijosMes, cierres, productos, clientes, hoy } = d;
+  const { negocio, fijosMes, cierres, productos, clientes, vendido, hoy } = d;
   if (!negocio.primerUsoTerminado) redirect("/app/bienvenida");
 
   const margenes = productos.map((p) => margenDe(p.precio, p.costo)).filter((m): m is number => m !== null);
@@ -41,6 +42,18 @@ export default async function TuDia() {
   const viejos = productos.filter((p) => p.precio !== null && precioViejo(p, hoy));
   const dormida = dormidos(productos, negocio.diasDormida, hoy);
   const hayNegativo = semana.some((x) => x.libres !== null && x.libres < 0);
+  // Lo que más se vendió en la semana, por rubro (de lo que contó en los cierres).
+  const porRubro = Object.entries(
+    vendido.reduce<Record<string, number>>((m, i) => {
+      const precio = i.productoId ? productos.find((x) => x.id === i.productoId)?.precio ?? null : null;
+      const plata = i.monto ?? (i.unidades && precio ? i.unidades * precio : 0);
+      m[i.rubro] = (m[i.rubro] ?? 0) + plata;
+      return m;
+    }, {}),
+  ).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
+  const totalRubros = porRubro.reduce((s, [, v]) => s + v, 0);
+  // Productos que se están por terminar (solo los que tienen stock cargado).
+  const pocos = productos.filter((x) => x.stock !== null && x.stock <= 3 && !x.accionDormido).sort((a, b) => (a.stock ?? 0) - (b.stock ?? 0));
 
   return (
     <Pantalla seccion="dia" negocio={negocio.nombre}>
@@ -95,6 +108,28 @@ export default async function TuDia() {
         </div>
         {hayNegativo ? <p className="mt-3 text-[14px] leading-[1.5] text-g1">Los días que le pagás al proveedor te da más bajo. Mirá el promedio de la semana.</p> : null}
       </section>
+
+      {porRubro.length ? (
+        <section className={tarjeta} aria-labelledby="rubros">
+          <h2 id="rubros" className={tituloSeccion}>Lo que más vendiste esta semana</h2>
+          <ul className="mt-3 flex flex-col gap-3">
+            {porRubro.slice(0, 6).map(([id, v]) => (
+              <li key={id} className="flex flex-col gap-1">
+                <div className="flex justify-between gap-3 text-[15px]"><span>{rubroPorId(id)?.nombre ?? id}</span><strong>{pesos(v)}</strong></div>
+                <div className="h-2 overflow-hidden rounded-full bg-suave"><div className="h-full rounded-full bg-hoja" style={{ width: `${Math.max(3, (v / totalRubros) * 100)}%` }} /></div>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-[13px] text-g2">Sale de lo que contás en cada cierre («vendí 50 mil de carne, 20 de cerveza…»).</p>
+        </section>
+      ) : null}
+
+      {pocos.length ? (
+        <a href="/app/precios" className={`${tarjeta} flex items-center justify-between gap-3 border-ambar/60 bg-crema`}>
+          <span><strong className="block text-[17px]">{pocos.length === 1 ? `Te quedan pocos: ${pocos[0].nombre}` : `${pocos.length} productos por terminarse`}</strong><span className="text-[14px] text-oro2">{pocos.slice(0, 3).map((x) => `${x.nombre} (${x.stock})`).join(" · ")} · reponé antes de quedarte sin</span></span>
+          <span aria-hidden="true" className="text-[22px] text-oro2">›</span>
+        </a>
+      ) : null}
 
       {cobran.map((c) => (
         <a key={c.id} href="/app/fiados?ver=cobran" className={`${tarjeta} flex items-center justify-between gap-3 border-ambar/60 bg-crema`}>

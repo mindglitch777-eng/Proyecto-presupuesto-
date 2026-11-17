@@ -64,6 +64,11 @@ export function datosSupabase(sb: SupabaseClient): Datos {
       const filas = ((r.data?.close_sales as Record<string, unknown>[] | undefined) ?? []);
       return filas.map((f) => ({ rubro: String(f.rubro), descripcion: (f.descripcion as string) ?? null, monto: num(f.amount), unidades: num(f.units), productoId: (f.product_id as string) ?? null, descontar: num(f.stock_descontado) }));
     },
+    async vendidoDesde(desde) {
+      const r = await sb.from("close_sales").select("rubro, descripcion, amount, units, product_id, daily_closes!inner(date)").gte("daily_closes.date", desde);
+      if (r.error) return [];
+      return (r.data as Record<string, unknown>[]).map((f) => ({ rubro: String(f.rubro), descripcion: (f.descripcion as string) ?? null, monto: num(f.amount), unidades: num(f.units), productoId: (f.product_id as string) ?? null, descontar: null }));
+    },
     async guardarCierre(c) {
       ok(await sb.rpc("guardar_cierre", { p_fecha: c.fecha, p_ventas: c.ventas, p_tarjeta: c.tarjeta, p_gastos: c.gastos.filter((g) => g.categoria !== "comision"), p_productos: c.productos, p_fuente: c.fuente }));
       if (c.items) {

@@ -30,6 +30,7 @@ export interface Datos {
   cierres(desde: string): Promise<CierreGuardado[]>;
   movidosEn(fecha: string): Promise<string[]>;
   vendidoEn(fecha: string): Promise<ItemCierre[]>;
+  vendidoDesde(desde: string): Promise<ItemCierre[]>;
   guardarCierre(c: NuevoCierre): Promise<void>;
   productos(): Promise<ProductoMargen[]>;
   usoDeProductos(desde: string): Promise<Record<string, number>>;
