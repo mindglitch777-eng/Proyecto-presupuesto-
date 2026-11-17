@@ -1,0 +1,50 @@
+name: Pruebas de voz y tomas
+
+# Genera pruebas de voz (Gemini TTS gratis + Tomás) y baja fotos con licencia comercial de Wikimedia Commons.
+# Deja todo en pruebas/salida/ de esta misma rama. No toca videos/ (así no se dispara el render).
+on:
+  push:
+    paths:
+      - "pruebas/*.py"
+      - ".github/workflows/pruebas.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: pruebas
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q edge-tts==7.3.1 pillow
+      - name: Voces
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python voces.py
+      - name: Fotos
+        run: python tomas.py || echo "falló la búsqueda de fotos"
+      - name: Guardar en la rama
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          RAMA="${GITHUB_REF_NAME}"
+          for i in 1 2 3 4 5; do
+            cp -r salida /tmp/salida-pruebas
+            git fetch -q origin "$RAMA" && git reset -q --hard "origin/$RAMA" && git clean -fdq
+            rm -rf salida && cp -r /tmp/salida-pruebas salida && rm -rf /tmp/salida-pruebas
+            git add salida && { git diff --cached --quiet || git commit -q -m "Pruebas de voz y tomas listas"; } \
+              && git push -q origin "HEAD:$RAMA" && break
+            sleep 5
+          done
