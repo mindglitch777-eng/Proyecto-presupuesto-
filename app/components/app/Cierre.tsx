@@ -71,15 +71,22 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
     r.lang = "es-AR";
     r.continuous = true;
     r.interimResults = true;
-    let final = "";
     r.onresult = (e) => {
+      // Se rearma todo el texto en cada evento (no se va sumando): Chrome de Android a veces repite
+      // frases ya entregadas o manda cada frase acumulada ("vendí", "vendí 120 mil", …), y eso duplicaba montos.
+      const finales: string[] = [];
       let tmp = "";
-      for (let i = e.resultIndex; i < e.results.length; i++) {
+      for (let i = 0; i < e.results.length; i++) {
         const res = e.results[i];
-        if (res.isFinal) final += res[0].transcript + " ";
-        else tmp += res[0].transcript;
+        const tx = res[0].transcript.trim();
+        if (!tx) continue;
+        if (res.isFinal) {
+          const ultima = finales[finales.length - 1];
+          if (ultima && tx.startsWith(ultima)) finales[finales.length - 1] = tx;
+          else if (!(ultima && ultima.endsWith(tx))) finales.push(tx);
+        } else tmp = tx;
       }
-      setTexto(final);
+      setTexto(finales.join(" "));
       setParcial(tmp);
     };
     r.onerror = (e) => {
