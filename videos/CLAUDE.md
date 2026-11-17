@@ -93,6 +93,9 @@
 - Duración: la da la voz (~25 s con las pausas del guion: rebobinado + FIN y el truco necesitan aire; el guion decía 22 s).
 
 ## Guardado del MP4 en la rama (videos.yml)
+- Render repartido (lo armó Claude chat): job `parte` ×10 (`--frames=A-B` + `--separate-audio-to`, `scripts/cuadros.cjs` dice cuántos cuadros hay)
+  y job `unir` (concatena el video sin recomprimir, junta el audio, −14 LUFS). Primera corrida del V7-01: 9 min de punta a punta
+  (una parte tardó 5 min en instalar porque no había caché; con caché, ~4 min). Uniones revisadas cuadro a cuadro: sin saltos ni silencios.
 - Después de renderizar, el MP4 se sube primero como respaldo (`mp4-<nombre>`, 7 días) y después se guarda en `videos/salida/`
   partiendo siempre de una copia limpia de la rama (`fetch` + `reset --hard` + `clean`), con 8 reintentos.
   Antes fallaba con "cannot pull with rebase: You have unstaged changes" (las voces bajadas dejaban el árbol sucio) y el render se perdía.
