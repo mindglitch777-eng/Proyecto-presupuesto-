@@ -4,6 +4,10 @@ Decisión del dueño: los videos hechos 100% con código (muñecos 3D, carteles,
 ningún video se produce ni se entrega si no cumple este estándar. Manda sobre los guiones viejos y sobre cualquier skill.
 Las 6 reglas de oro de `CLAUDE.md` siguen vigentes.
 
+**Presupuesto: US$0** (decisión del dueño). Todo tiene que ser gratis **y con permiso de uso comercial**: los videos venden una app paga.
+Por eso NO se usan: ElevenLabs gratis (no permite uso comercial y obliga a citarlos), ni generadores de video con IA en plan gratis
+(Kling, Dreamina/Seedance, Hailuo: marca de agua y solo uso personal). Si algún día hay presupuesto, se suman.
+
 ## 0. Autocrítica (por qué fallaron hasta el V7-01)
 
 1. **Se ve de juguete.** Kiosco y kiosquero low-poly: parece un juego para chicos, no la vida real del kiosquero. No hay con quién identificarse.
@@ -16,10 +20,10 @@ Las 6 reglas de oro de `CLAUDE.md` siguen vigentes.
 
 ## 1. Proceso nuevo (en este orden, sin saltear pasos)
 
-1. **Referencia real primero.** Cada video parte de 1 a 3 videos virales reales del nicho o del formato (los sube el dueño a `videos/referencias-virales/`).
-   Con la skill `reverse-any-video` se saca la estructura: segundos del gancho, cortes, ritmo, texto y sonido. Copiamos la **estructura**, nunca el contenido.
+1. **Formato probado primero.** Cada video usa uno de los formatos de `videos/referencia/FORMATOS-VIRALES.md` (investigados por Claude).
+   Si hay un video viral concreto en `videos/referencias-virales/`, se desarma con `reverse-any-video`. Copiamos la **estructura**, nunca el contenido.
 2. **Guion con persona y emoción** (sección 2). Siempre 3 ganchos alternativos por video.
-3. **Imagen real** (sección 3): clips generados con IA de video fotorrealista + pantalla real de la app.
+3. **Imagen real** (sección 3): video filmado de verdad (del dueño o de Pexels/Pixabay) + pantalla real de la app.
 4. **Voz humana** (sección 4).
 5. **Montaje y capa gráfica** con HyperFrames (skills `hyperframes`, `media-use`) o Remotion: solo encima de la imagen real.
 6. **Control de calidad** (sección 6). Si no aprueba, no se entrega.
@@ -35,8 +39,11 @@ Las 6 reglas de oro de `CLAUDE.md` siguen vigentes.
 
 ## 3. Imagen
 
-- **Base fotorrealista:** kiosco argentino real (vidriera con golosinas, heladera de bebidas, cartel pintado, rejas), kiosquero de 40 a 65 años, manos, caja, cuaderno, calle de barrio. Se genera con modelos de video con IA (Veo 3.1, Kling o Seedance) por API (`fal.ai`), en clips de 4 a 8 s, 9:16.
-  Prompt siempre con: lugar, persona, acción, cámara, luz y "estilo celular, realista, Argentina". Sin marcas ni caras de personas reales.
+- **Base real, filmada:** kiosco argentino real (vidriera con golosinas, heladera de bebidas, cartel pintado, rejas), manos, caja, cuaderno de fiados, billetes, calle de barrio.
+  1. **Primero, tomas del dueño** filmadas con el celular en kioscos reales de su ciudad (con permiso del kiosquero; sin caras de clientes): son las que más conectan porque son de acá.
+     Claude le pasa una **lista de tomas** por video (qué filmar, cuántos segundos, vertical, desde qué ángulo). Las sube a `videos/tomas/`.
+  2. **Relleno de Pexels / Pixabay** (gratis, uso comercial, sin citar; clave `PEXELS_API_KEY` gratis): manos contando plata, cajas registradoras, góndolas, facturas.
+     Nunca un video de stock sin tocar como plano principal: siempre recortado a 9:16, con color propio y la capa gráfica encima.
 - **Pantalla real de En Claro:** grabada de la app de verdad (Playwright a 360 px con datos de ejemplo), nunca maquetas dibujadas.
 - **La capa gráfica (código) solo suma:** subtítulos palabra por palabra, un número grande, una flecha o círculo, una comparación. **Máximo 2 elementos de texto a la vez** además del subtítulo. Texto mínimo de 48 px (en 1080 de ancho).
 - **Nunca quieto más de 0,7 s**, salvo un silencio buscado de 0,5 s como máximo antes de una revelación.
@@ -44,7 +51,9 @@ Las 6 reglas de oro de `CLAUDE.md` siguen vigentes.
 
 ## 4. Sonido
 
-- **Voz:** ElevenLabs v3 con voz de acento argentino y etiquetas de emoción (`[susurra]`, `[enojado]`, `[se ríe]`…) donde sume. Velocidad natural. La voz `es-AR-TomasNeural` queda solo como respaldo si faltan las claves.
+- **Voz:** Gemini TTS en el plan gratis de Google AI Studio (clave `GEMINI_API_KEY`, sin tarjeta), que se dirige con instrucciones de actuación en texto
+  ("decilo como un kiosquero argentino cansado, voseando, en voz baja"). Velocidad natural. Primero se prueba con 3 voces y el dueño elige.
+  Respaldo: `es-AR-TomasNeural` (acento argentino seguro), **sin acelerar**. Opción más humana de todas: la voz del dueño o de un kiosquero real, si algún día quiere.
 - **Música** con pulso marcado de fondo (−18 dB bajo la voz), que se corta en los silencios y vuelve en la descarga.
 - **Efectos** por capas: ambiente del kiosco (calle, heladera, puerta), golpes en los cortes y grave solo en los momentos grandes.
 
@@ -57,8 +66,9 @@ Las 6 reglas de oro de `CLAUDE.md` siguen vigentes.
 | `hyperframes`, `media-use` | Montaje en HTML/GSAP, música, efectos, subtítulos, color |
 | `short-form-video`, `beat-sync-editing`, `caption-animation` | Ritmo, cortes en el tiempo y subtítulos |
 | Remotion (skills `remotion-*`) | Los videos ya hechos y la capa gráfica si conviene |
-| ElevenLabs v3 (API, clave `ELEVENLABS_API_KEY`) | Voz con emoción |
-| fal.ai (API, clave `FAL_KEY`) | Clips de video realistas (Veo 3.1 Lite/Fast, Kling, Seedance) |
+| Gemini TTS (plan gratis, clave `GEMINI_API_KEY`) | Voz con emoción dirigida por texto |
+| Pexels / Pixabay (gratis, clave `PEXELS_API_KEY`) | Tomas de relleno con uso comercial |
+| Tomas del dueño (`videos/tomas/`) | La imagen principal: kioscos reales de su ciudad |
 
 Las claves van como secretos de GitHub, nunca en el código. Si faltan, el workflow falla con un mensaje claro.
 

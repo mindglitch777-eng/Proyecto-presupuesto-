@@ -33,16 +33,16 @@ cobro solo por Mercado Pago.
 ## ⚠️ Estándar de calidad de los videos (obligatorio desde el 17/11/2026)
 
 Decisión del dueño: los videos 100% hechos con código no atrapan. **Antes de escribir un guion o producir un video, leé
-`videos/referencia/ESTANDAR-CALIDAD.md` completo** y cumplilo: referencia viral real primero (`reverse-any-video`), persona y emoción
-en vez de metáforas, imagen fotorrealista generada con IA (fal.ai: Veo 3.1 / Kling / Seedance) + pantalla real de la app, código solo
-como capa gráfica, voz humana con ElevenLabs v3 a velocidad natural (**prohibido acelerar la voz**), máximo 2 textos a la vez y
+`videos/referencia/ESTANDAR-CALIDAD.md` completo** y cumplilo: presupuesto US$0 con permiso de uso comercial, formato probado
+primero (`FORMATOS-VIRALES.md`), persona y emoción en vez de metáforas, imagen filmada de verdad (tomas del dueño + Pexels) + pantalla
+real de la app, código solo como capa gráfica, voz con emoción (Gemini TTS gratis o Tomás) a velocidad natural (**prohibido acelerar la voz**), máximo 2 textos a la vez y
 control de calidad con puntaje ≥ 8 en cada punto antes de entregar. Lo que no cumple, no se entrega. Los guiones V6 y V7 pendientes
 quedan en pausa: se rehacen con este estándar antes de producirse.
 
 ## Voz de los videos
 
-Desde el estándar nuevo: **ElevenLabs v3** (clave `ELEVENLABS_API_KEY` en secretos de GitHub), voz de acento argentino, velocidad natural.
-Respaldo si falta la clave: **es-AR-TomasNeural** (Tomás) con `videos/scripts/voz.py` en GitHub Actions, también sin acelerar.
+Presupuesto US$0: **Gemini TTS** (plan gratis de Google AI Studio, clave `GEMINI_API_KEY` en secretos de GitHub), dirigida con instrucciones de actuación,
+velocidad natural. Respaldo: **es-AR-TomasNeural** (Tomás) con `videos/scripts/voz.py`, también sin acelerar. ElevenLabs gratis no sirve (no permite uso comercial).
 
 ## Skills de video
 
