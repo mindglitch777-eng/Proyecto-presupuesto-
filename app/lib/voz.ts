@@ -4,7 +4,11 @@
 // Corpus de pruebas: tests/voz-corpus.test.ts (si una frase real falla, se agrega ahí y se arregla acá).
 
 export type Categoria = "proveedor" | "flete" | "vuelto" | "otros";
-export type CierreEntendido = { ventas: number; tarjeta: number; gastos: { categoria: Categoria; monto: number }[]; productos: string[] };
+import { buscarRubros, rubroPorId } from "./rubros";
+
+/** Una línea de lo vendido: por plata ("250 mil de carne") o por cantidad ("10 cocas", "2 kilos de carne"). */
+export type ItemVenta = { rubro: string; rubroNombre: string; texto: string; monto: number | null; unidades: number | null; medida: string | null; producto: string | null };
+export type CierreEntendido = { ventas: number; tarjeta: number; gastos: { categoria: Categoria; monto: number }[]; productos: string[]; items: ItemVenta[] };
 
 const sinTildes = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
@@ -115,7 +119,7 @@ const FUERTES: [RegExp, Tipo][] = [
   [/\b(tarjetas?|qr|mercado ?pago|mp|debito|credito|posnet|point|transferencias?|transfirieron|transfiere|transferi|cuenta dni|modo|billetera|virtual|digital|celular|celu|banco)\b/, "tarjeta"],
   [/\b(flete|fletes|envio|envios|nafta|combustible|remis|taxi|uber|colectivo|transporte|cadete|delivery)\b/, "flete"],
   [/\b(vuelto|cambio|monedas)\b/, "vuelto"],
-  [/\b(proveedor|proveedores|mercaderia|distribuidor|distribuidora|reparto|repartidor|preventista|mayorista|repuse|reponer|panadero|panaderia|sodero|soderia|carnicero|carniceria|verdulero|verduleria|fiambres?|lacteos|gaseosas?|bebidas|coca|pepsi|cerveceria)\b|\bal de (la|las|los|el)\b|\bal del\b/, "proveedor"],
+  [/\b(proveedor|proveedores|mercaderia|distribuidor|distribuidora|reparto|repartidor|preventista|mayorista|repuse|reponer|panadero|sodero|soderia|carnicero|verdulero|fiambrero|cerveceria|frigorifico)\b|\bal de (la|las|los|el)\b|\bal del\b/, "proveedor"],
   [/\b(bolsas|limpieza|almuerzo|comida|luz|agua|gas|internet|telefono|alquiler|impuestos?|municipalidad|otros|otras|varios|otra cosa)\b/, "otros"],
   [/\b(vend\w*|ventas?|hice|hicimos|factur\w*|entro|entraron|recaude|recaudamos|recaudacion|caja|cerre|cerramos|junte|juntamos|saque|sacamos)\b/, "ventas"],
 ];
@@ -145,9 +149,64 @@ export function productosMencionados(texto: string, productos: string[]) {
   );
 }
 
+const MEDIDA = /^(kilos?|kg|kgs|gramos?|grs?|atados?|paquetes?|cajas?|docenas?|unidades?|botellas?|latas?|packs?|litros?|maples?|bolsas?|cajones?|sobres?|frascos?|potes?|bandejas?|rollos?|porciones?|planchas?)$/;
+const CORTE = new Set([",", ".", ";", ":", "!", "?", "y", "e", "con", "por", "en", "a", "al", "que", "pero"]);
+
+/** Número chico dicho como cantidad: "10", "dos", "una", "media" (de docena). */
+function cantidad(t: string): number | null {
+  if (/^\d{1,4}$/.test(t)) return Number(t);
+  if (t === "media" || t === "medio") return 0.5;
+  if (t === "cien") return 100;
+  const v = UNIDADES[t] ?? DECENAS[t];
+  return v !== undefined && v > 0 ? v : null;
+}
+
+/** Artículo nombrado al principio de un pedacito de frase: primero los productos del negocio, después los rubros. */
+const RELLENO = new Set(["la", "el", "los", "las", "lo", "un", "una", "unos", "unas", "de", "del", "productos", "producto", "articulos", "articulo", "cosas", "mercaderia"]);
+function articuloEn(trozo: string[], productos: string[], previo = ""): { rubro: string; rubroNombre: string; texto: string; producto: string | null; largo: number } | null {
+  const ventana: string[] = [];
+  for (const t of trozo) {
+    if (CORTE.has(t) || esNumero(t) || MIL.has(t)) break;
+    ventana.push(t);
+    if (ventana.length >= 5) break;
+  }
+  if (!ventana.length) return null;
+  const hallados = buscarRubros(ventana, previo);
+  const deProducto = productosMencionados(ventana.join(" "), productos)[0] ?? null;
+  const h = hallados[0];
+  if (!h && !deProducto) return null;
+  // Tiene que estar pegado ("10 cocas", "de carne", "en la cerveza", "de productos sin tacc").
+  if (h && !ventana.slice(0, h.desde).every((t) => RELLENO.has(t))) return null;
+  const rubroDelProducto = deProducto ? buscarRubros(sinTildes(deProducto).split(/\s+/))[0]?.rubro : undefined;
+  const rubro = h?.rubro ?? rubroDelProducto ?? rubroPorId("varios")!;
+  return { rubro: rubro.id, rubroNombre: rubro.nombre, texto: h?.texto ?? sinTildes(deProducto!), producto: deProducto, largo: h ? h.hasta : ventana.length };
+}
+
+/** "10 cocas", "dos cervezas", "2 kilos de carne", "una docena de huevos": cantidades de artículos (no son plata). */
+function unidadesVendidas(tokens: string[], productos: string[]) {
+  const items: ItemVenta[] = [];
+  const marcados = [...tokens];
+  for (let i = 0; i < tokens.length; i++) {
+    const n = cantidad(tokens[i]);
+    if (n === null) continue;
+    let j = i + 1, medida: string | null = null;
+    if (MEDIDA.test(tokens[j] ?? "")) { medida = tokens[j]; j++; if (tokens[j] === "de") j++; }
+    else if (n === 0.5 || ["de", "en", "del"].includes(tokens[j] ?? "")) continue;
+    const art = articuloEn(tokens.slice(j), productos, tokens[j - 1] ?? "");
+    if (!art) continue;
+    if (!medida && (tokens[i - 1] === "las" || tokens[i - 1] === "la")) continue; // "a las 9"
+    let unidades = n;
+    if (medida && /^docenas?$/.test(medida)) { unidades = n * 12; medida = null; }
+    items.push({ ...art, monto: null, unidades, medida: medida ? medida.replace(/s$/, "") : null });
+    for (let k = i; k < j + art.largo; k++) marcados[k] = "·";
+    i = j + art.largo - 1;
+  }
+  return { items, tokens: marcados };
+}
+
 /** Lee el cierre: ventas, cobrado con tarjeta/QR, gastos por categoría y productos que se movieron. */
 export function entenderCierre(texto: string, productos: string[] = []): CierreEntendido {
-  const tokens = tokenizar(texto);
+  const { items: porUnidades, tokens } = unidadesVendidas(tokenizar(texto), productos);
   const ms = montos(tokens);
 
   // Montos dichos sin "mil": si lo más grande es de miles, los chicos también ("vendí 186 mil, 80 por QR");
@@ -159,6 +218,7 @@ export function entenderCierre(texto: string, productos: string[] = []): CierreE
   }
 
   // Qué es cada monto: lo dicho antes manda; si antes no hay nada claro, lo que viene después.
+  const articulos: (ReturnType<typeof articuloEn>)[] = [];
   const tipos: (Tipo | undefined)[] = ms.map((m, k) => {
     let a = m.desde - 1;
     const tope = k > 0 ? ms[k - 1].hasta : 0;
@@ -169,15 +229,37 @@ export function entenderCierre(texto: string, productos: string[] = []): CierreE
     const antes = tokens.slice(a + 1, m.desde).join(" ");
     const despues = tokens.slice(m.hasta, b).join(" ");
     const clausula = `${antes} ${despues}`;
+    // Artículo vendido: "250 mil de carne", "20 mil en cerveza", "de cigarrillos 15 mil".
+    const tras = tokens.slice(m.hasta, b).filter((t) => !FIN_DE_MONTO.has(t));
+    const desdeDe = ["de", "en", "del", "a", "al"].includes(tras[0] ?? "") ? articuloEn(tras.slice(1), productos, tras[0]) : null;
+    const previo = tokens.slice(a + 1, m.desde);
+    const iDe = previo.lastIndexOf("de") >= 0 ? previo.lastIndexOf("de") : previo.lastIndexOf("en");
+    const antesDe = !desdeDe && iDe >= 0 ? articuloEn(previo.slice(iDe + 1), productos, previo[iDe]) : null;
+    articulos[k] = desdeDe ?? antesDe;
     if (FUERTES[0][0].test(clausula)) return "otros"; // lo que el dueño se llevó para él
     if (FUERTES[1][0].test(clausula)) return "efectivo";
     const deAntes = tipoDe(antes), deDespues = tipoDe(despues);
     if (deAntes) return deAntes;
     if (deDespues) return deDespues;
+    // Un artículo con "pagué/compré" es mercadería (proveedor); un artículo solo, es lo que se vendió.
+    if (articulos[k]) return DEBILES.test(clausula) ? "proveedor" : "ventas";
     if (VENTA_SUAVE.test(clausula)) return "ventas";
-    if (DEBILES.test(clausula)) return "otros";
+    if (DEBILES.test(clausula)) {
+      let c = m.desde - 1;
+      while (c >= tope && !SEPARADORES.has(tokens[c])) c--;
+      const frase = tipoDe(tokens.slice(c + 1, m.desde).join(" "));
+      return frase === "proveedor" || frase === "flete" || frase === "vuelto" ? frase : "otros";
+    }
     return undefined;
   });
+
+  // Lista de compras: "le pagué 60 al de los lácteos y 20 de pan" → el pan también es mercadería que se pagó.
+  for (let k = 1; k < ms.length; k++) {
+    const entre = tokens.slice(ms[k - 1].hasta, ms[k].desde).filter((t) => !["y", ","].includes(t));
+    const propio = tokens.slice(ms[k].desde, ms[k].hasta + 4).join(" ");
+    if (tipos[k] === "ventas" && articulos[k] && tipos[k - 1] === "proveedor" && !tipoDe(propio) && entre.every((t) => !tipoDe(t)))
+      tipos[k] = "proveedor";
+  }
 
   // Correcciones: "vendí 120 mil, no, 130 mil" → vale el segundo.
   const usar = ms.map(() => true);
@@ -190,13 +272,17 @@ export function entenderCierre(texto: string, productos: string[] = []): CierreE
     }
   }
 
-  const r: CierreEntendido = { ventas: 0, tarjeta: 0, gastos: [], productos: productosMencionados(texto, productos) };
-  let ventasDichas = 0, efectivo = 0, hayVentas = false;
+  const r: CierreEntendido = { ventas: 0, tarjeta: 0, gastos: [], productos: productosMencionados(texto, productos), items: [...porUnidades] };
+  let totales = 0, enArticulos = 0, efectivo = 0, hayVentas = false;
   ms.forEach((m, k) => {
     if (!usar[k]) return;
     let tipo = tipos[k];
     if (!tipo) tipo = !hayVentas ? "ventas" : "otros";
-    if (tipo === "ventas") { ventasDichas += m.valor; hayVentas = true; }
+    const art = articulos[k];
+    if ((tipo === "ventas" || tipo === "efectivo" || tipo === "tarjeta") && art) {
+      r.items.push({ rubro: art.rubro, rubroNombre: art.rubroNombre, texto: art.texto, monto: m.valor, unidades: null, medida: null, producto: art.producto });
+    }
+    if (tipo === "ventas") { if (art) enArticulos += m.valor; else totales += m.valor; hayVentas = true; }
     else if (tipo === "efectivo") { efectivo += m.valor; hayVentas = true; }
     else if (tipo === "tarjeta") r.tarjeta += m.valor;
     else {
@@ -205,8 +291,9 @@ export function entenderCierre(texto: string, productos: string[] = []): CierreE
       else r.gastos.push({ categoria: tipo, monto: m.valor });
     }
   });
-  // "120 en efectivo y 60 con tarjeta" suman 180; "vendí 180, 60 con tarjeta" ya incluye la tarjeta.
-  r.ventas = efectivo > 0 ? Math.max(ventasDichas, efectivo + r.tarjeta) : ventasDichas || r.tarjeta;
+  // "vendí 300 mil, 250 de carne y 20 de cerveza" → 300 (el total dicho); "250 de carne y 20 de cerveza" → 270;
+  // "120 en efectivo y 60 con tarjeta" → 180; "vendí 180, 60 con tarjeta" → 180.
+  r.ventas = Math.max(totales, enArticulos, efectivo > 0 ? efectivo + r.tarjeta : 0, totales + enArticulos > 0 ? 0 : r.tarjeta);
   if (r.tarjeta > r.ventas && r.ventas > 0) r.tarjeta = r.ventas;
   return r;
 }

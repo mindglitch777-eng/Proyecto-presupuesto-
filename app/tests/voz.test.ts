@@ -50,7 +50,7 @@ describe("casos sueltos", () => {
     expect(entenderCierre("vendí cien mil, doscientos mil con tarjeta").tarjeta).toBe(100000);
   });
   it("texto vacío", () => {
-    expect(entenderCierre("")).toEqual({ ventas: 0, tarjeta: 0, gastos: [], productos: [] });
+    expect(entenderCierre("")).toEqual({ ventas: 0, tarjeta: 0, gastos: [], productos: [], items: [] });
   });
   it("productos: sin falsos positivos con palabras cortas", () => {
     expect(productosMencionados("pagué a los proveedores", ["Pan lactal", "Yerba 1 kg"])).toEqual([]);

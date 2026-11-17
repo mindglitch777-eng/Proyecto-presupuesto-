@@ -8,7 +8,17 @@ import type { Resultado } from "@/lib/resultado";
 import { Alerta, botonPrincipal, botonSecundario, entrada } from "../auth/Marco";
 import { Plata } from "./Campos";
 
-type Producto = { id: string; nombre: string };
+type Producto = { id: string; nombre: string; precio: number | null; stock: number | null };
+type ItemUI = { clave: string; rubro: string; rubroNombre: string; texto: string; monto: string; unidades: number | null; medida: string | null; productoId: string | null; precio: number | null; stock: number | null };
+
+const mayuscula = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+/** Unidades a descontar del stock: las dichas ("10 cocas") o las que salen de la plata y el precio ("30 mil de yerba" ÷ $3.000). */
+const aDescontar = (i: ItemUI) => {
+  if (!i.productoId) return null;
+  if (i.unidades) return i.unidades;
+  const m = soloDigitos(i.monto);
+  return m && i.precio ? Math.round(m / i.precio) : null;
+};
 type Previo = { ventas: number; tarjeta: number; gastos: Gasto[]; productos: string[] } | null;
 type Fase = "elegir" | "escuchando" | "escribir" | "confirmar" | "listo";
 
@@ -33,6 +43,8 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
     return g;
   });
   const [movidos, setMovidos] = useState<string[]>(p.previo?.productos ?? []);
+  const [items, setItems] = useState<ItemUI[]>([]);
+  const [itemsTocados, setItemsTocados] = useState(false);
   const [busca, setBusca] = useState("");
   const [hayVoz, setHayVoz] = useState(true);
   const rec = useRef<Reconocedor | null>(null);
@@ -45,19 +57,28 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
 
   function aplicar(frase: string, origen: "voz" | "manual") {
     const r = entenderCierre(frase, p.productos.map((x) => x.nombre));
-    if (!r.ventas && !r.gastos.length) {
+    if (!r.ventas && !r.gastos.length && !r.items.length) {
       setError(`No encontré montos en lo que dijiste${frase.trim() ? ` (escuché: «${frase.trim().slice(0, 160)}»)` : ""}. Probá de nuevo, por ejemplo: «vendí ciento veinte mil, le pagué sesenta mil al proveedor».`);
       setFase(origen === "voz" && hayVoz ? "elegir" : "escribir");
       return;
     }
     setError(null);
     setFuente(origen);
-    setVentas(r.ventas ? conPuntos(String(r.ventas)) : "");
+    const nuevos: ItemUI[] = r.items.map((it, k) => {
+      const prod = it.producto ? p.productos.find((x) => x.nombre === it.producto) ?? null : null;
+      return { clave: `${Date.now()}-${k}`, rubro: it.rubro, rubroNombre: it.rubroNombre, texto: prod?.nombre ?? mayuscula(it.texto), monto: it.monto ? conPuntos(String(it.monto)) : "", unidades: it.unidades, medida: it.medida, productoId: prod?.id ?? null, precio: prod?.precio ?? null, stock: prod?.stock ?? null };
+    });
+    setItems(nuevos);
+    setItemsTocados(true);
+    // "10 cocas y 5 alfajores" sin decir la plata: se calcula con los precios cargados.
+    const estimado = r.ventas ? 0 : nuevos.reduce((s, i) => s + (i.unidades && i.precio ? i.unidades * i.precio : 0), 0);
+    const ventasFinal = r.ventas || estimado;
+    setVentas(ventasFinal ? conPuntos(String(Math.round(ventasFinal))) : "");
     setTarjeta(r.tarjeta ? conPuntos(String(r.tarjeta)) : "");
     const g = vacio() as Record<string, string>;
     for (const x of r.gastos) g[x.categoria] = conPuntos(String(x.monto));
     setGastos(g);
-    const ids = p.productos.filter((x) => r.productos.includes(x.nombre)).map((x) => x.id);
+    const ids = [...p.productos.filter((x) => r.productos.includes(x.nombre)).map((x) => x.id), ...nuevos.map((i) => i.productoId).filter((x): x is string => Boolean(x))];
     setMovidos((m) => Array.from(new Set([...m, ...ids])));
     setFase("confirmar");
   }
@@ -123,7 +144,10 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
     enCurso.current = true;
     setOcupado(true);
     try {
-      const r = await p.guardar({ fecha: p.fecha, ventas: nVentas, tarjeta: nTarjeta, gastos: listaGastos, productos: movidos, fuente });
+      const lineas = itemsTocados
+        ? items.map((i) => ({ rubro: i.rubro, descripcion: i.texto.slice(0, 120), monto: soloDigitos(i.monto) || null, unidades: i.unidades, productoId: i.productoId, descontar: aDescontar(i) }))
+        : undefined;
+      const r = await p.guardar({ fecha: p.fecha, ventas: nVentas, tarjeta: nTarjeta, gastos: listaGastos, productos: movidos, fuente, items: lineas });
       if (r.ok) setFase("listo");
       else setError(r.mensaje);
     } catch {
@@ -148,6 +172,16 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
           <div className="h-3 overflow-hidden rounded-full bg-white/15"><div className={`h-full rounded-full ${resultado.pasaste ? "bg-ambar" : "bg-salvia"}`} style={{ width: `${Math.max(4, resultado.progreso * 100)}%` }} /></div>
           <p className="text-[15px] font-semibold">{resultado.pasaste ? `Pasaste tu número del día (${pesos(resultado.vender)}).` : `Te faltaron ${pesos(resultado.vender - nVentas)} para tu número del día.`}</p>
         </div>
+        {items.some((i) => soloDigitos(i.monto) || i.unidades) ? (
+          <div className="flex flex-col gap-2 rounded-[20px] border border-linea bg-white p-5">
+            <p className="font-display text-[18px] font-bold">Lo que más vendiste</p>
+            {Object.entries(items.reduce<Record<string, number>>((m, i) => ((m[i.rubroNombre] = (m[i.rubroNombre] ?? 0) + (soloDigitos(i.monto) || (i.unidades && i.precio ? i.unidades * i.precio : 0))), m), {}))
+              .sort((a, b) => b[1] - a[1])
+              .map(([rubro, monto]) => (
+                <div key={rubro} className="flex items-center justify-between text-[15px]"><span>{rubro}</span><strong>{monto ? pesos(monto) : "—"}</strong></div>
+              ))}
+          </div>
+        ) : null}
         <a href="/app" className={`${botonPrincipal} text-center`}>Ver tu día</a>
       </section>
     );
@@ -202,6 +236,33 @@ export function Cierre(p: { fecha: string; hoy: string; productos: Producto[]; c
           {fuente === "voz" || texto ? <p className="rounded-xl border border-hoja/30 bg-menta px-4 py-3 text-[15px] text-verde">Esto es lo que entendí. Revisalo y corregí lo que haga falta.</p> : null}
           <Plata etiqueta="Vendiste" valor={ventas} onChange={setVentas} id="ventas" />
           <Plata etiqueta="De eso, con tarjeta o QR" valor={tarjeta} onChange={setTarjeta} id="tarjeta" ayuda={p.comisionPct ? `Te cobran ${String(p.comisionPct).replace(".", ",")}%: ${pesos(comisionDe(nTarjeta, p.comisionPct))} de comisión.` : "Cargá tu comisión en Ajustes para descontarla."} />
+          {items.length ? (
+            <fieldset className="flex min-w-0 flex-col gap-3">
+              <legend className="mb-1 font-display text-[18px] font-bold">Lo que vendiste</legend>
+              <ul className="flex flex-col gap-2">
+                {items.map((i) => {
+                  const baja = aDescontar(i);
+                  return (
+                    <li key={i.clave} className="flex min-w-0 items-center gap-2 rounded-2xl border border-linea bg-white py-3 pr-1 pl-4">
+                      <span className="flex min-w-0 flex-1 flex-col">
+                        <strong className="truncate text-[16px]">{i.unidades ? `${String(i.unidades).replace(".", ",")} ${i.medida ? `${i.medida}${i.unidades === 1 ? "" : "s"} de ` : ""}` : ""}{i.texto}</strong>
+                        <span className="text-[13px] text-g2">{i.rubroNombre}{baja !== null ? ` · ${i.stock !== null ? `baja ${baja} del stock` : "sin stock cargado"}` : ""}</span>
+                      </span>
+                      <label className="w-[104px] flex-none">
+                        <span className="sr-only">Plata de {i.texto}</span>
+                        <span className="relative block">
+                          <span className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-[15px] font-semibold text-g3">$</span>
+                          <input inputMode="numeric" value={i.monto} placeholder={i.unidades && i.precio ? conPuntos(String(Math.round(i.unidades * i.precio))) : "0"} onChange={(e) => { const v = conPuntos(e.target.value); setItems((l) => l.map((x) => (x.clave === i.clave ? { ...x, monto: v } : x))); }} className="min-h-[44px] w-full rounded-xl border border-linea2 bg-white pr-2 pl-7 text-[16px] font-semibold" />
+                        </span>
+                      </label>
+                      <button type="button" onClick={() => setItems((l) => l.filter((x) => x.clave !== i.clave))} aria-label={`Sacar ${i.texto}`} className="flex size-[44px] flex-none cursor-pointer items-center justify-center rounded-xl text-g2 hover:bg-suave">✕</button>
+                    </li>
+                  );
+                })}
+              </ul>
+              <p className="text-[13px] text-g2">Con esto te mostramos qué rubro te deja más plata. Lo que tiene producto cargado se descuenta del stock.</p>
+            </fieldset>
+          ) : null}
           <fieldset className="flex flex-col gap-3">
             <legend className="mb-1 font-display text-[18px] font-bold">Lo que pagaste hoy</legend>
             <div className="grid grid-cols-2 gap-3">

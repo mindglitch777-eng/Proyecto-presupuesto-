@@ -27,7 +27,7 @@ export default async function PaginaCierre({ searchParams }: { searchParams: Pro
     throw e;
   }
   const margenes = d.productos.map((p) => margenDe(p.precio, p.costo)).filter((m): m is number => m !== null);
-  const productos = [...d.productos].sort((a, b) => (d.uso[b.id] ?? 0) - (d.uso[a.id] ?? 0) || a.nombre.localeCompare(b.nombre)).map((p) => ({ id: p.id, nombre: p.nombre }));
+  const productos = [...d.productos].sort((a, b) => (d.uso[b.id] ?? 0) - (d.uso[a.id] ?? 0) || a.nombre.localeCompare(b.nombre)).map((p) => ({ id: p.id, nombre: p.nombre, precio: p.precio, stock: p.stock }));
   return (
     <Pantalla seccion="cierre" negocio={d.negocio.nombre}>
       <Cierre

@@ -72,6 +72,11 @@ export function datosMemoria(): Datos {
       const com = comisionDe(c.tarjeta, e.negocio.comisionPct);
       if (com) gastos.push({ categoria: "comision", monto: com });
       e.cierres = [...e.cierres.filter((x) => x.fecha !== c.fecha), { fecha: c.fecha, ventas: c.ventas, tarjeta: c.tarjeta, gastos }];
+      for (const it of c.items ?? []) {
+        const p = it.productoId ? e.productos.find((x) => x.id === it.productoId) : undefined;
+        if (p && p.stock !== null && it.descontar) p.stock = Math.max(0, p.stock - Math.min(p.stock, it.descontar));
+        if (it.productoId && !c.productos.includes(it.productoId)) c.productos.push(it.productoId);
+      }
       for (const id of c.productos) {
         if (!e.movidos.some((m) => m.id === id && m.fecha === c.fecha)) e.movidos.push({ id, fecha: c.fecha });
         const p = e.productos.find((x) => x.id === id);

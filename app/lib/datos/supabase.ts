@@ -60,6 +60,12 @@ export function datosSupabase(sb: SupabaseClient): Datos {
     },
     async guardarCierre(c) {
       ok(await sb.rpc("guardar_cierre", { p_fecha: c.fecha, p_ventas: c.ventas, p_tarjeta: c.tarjeta, p_gastos: c.gastos.filter((g) => g.categoria !== "comision"), p_productos: c.productos, p_fuente: c.fuente }));
+      if (c.items) {
+        const items = c.items.map((i) => ({ rubro: i.rubro, descripcion: i.descripcion, monto: i.monto, unidades: i.unidades, producto_id: i.productoId, descontar: i.descontar }));
+        const r = await sb.rpc("guardar_ventas_cierre", { p_fecha: c.fecha, p_items: items });
+        // Si la base todavía no tiene lo vendido (migración 20261117 sin cargar), el cierre igual queda guardado.
+        if (r.error && !/guardar_ventas_cierre|PGRST202|42883/.test(`${r.error.message} ${(r.error as { code?: string }).code ?? ""}`)) throw new Error(r.error.message);
+      }
     },
     async productos() {
       const filas = ok(await sb.from("products").select("id, name, price, cost, stock, price_updated_at, last_sold_at, created_at, dormant_action, dormant_snoozed_until").is("archived_at", null).order("name"));

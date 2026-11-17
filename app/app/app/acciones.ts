@@ -30,6 +30,19 @@ const cierreSchema = z
     gastos: z.array(z.object({ categoria: z.enum(["proveedor", "flete", "vuelto", "otros"]), monto: plata })).max(20),
     productos: z.array(id).max(200),
     fuente: z.enum(["voz", "manual"]),
+    items: z
+      .array(
+        z.object({
+          rubro: z.string().trim().min(1).max(40),
+          descripcion: z.string().trim().max(120).nullable(),
+          monto: plata.nullable(),
+          unidades: z.number().min(0).max(100_000).nullable(),
+          productoId: id.nullable(),
+          descontar: z.number().min(0).max(100_000).nullable(),
+        }),
+      )
+      .max(60)
+      .optional(),
   })
   .refine((c) => c.tarjeta <= c.ventas, { message: "Lo que cobraste con tarjeta o QR no puede ser más que lo que vendiste." })
   .refine((c) => c.fecha <= hoyArgentina() && c.fecha >= sumarDias(hoyArgentina(), -60), { message: "Podés cargar o corregir cierres de los últimos 60 días." });
