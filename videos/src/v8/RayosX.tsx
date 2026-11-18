@@ -59,9 +59,11 @@ const sumas = (T: T) => [{ en: T.ochenta, a: 86000 }, { en: T.ciento, a: 206000 
 
 /** Posición x del haz del escáner en cada momento (entra por la izquierda, va caja por caja, sale por la derecha). */
 function haz(t: number, T: T) {
+  // gancho y cierre: el haz barre de un lado a otro a la vista (en t = 0 está en −0,9, igual que el último cuadro)
+  if (t < T.l[1] || t >= T.l[9] - 0.1) return -0.9 + 0.75 * Math.sin(t * 1.5);
   const E = escaneos(T);
   const xs = CAJAS.map((c) => c.p[0]);
-  const pasos: [number, number][] = [[0, -1.9], [T.l[1], -1.7], [E[0] - 0.05, xs[0]], [E[1] - 0.05, xs[1]], [E[2] - 0.05, xs[2]], [E[3] - 0.05, xs[3]], [T.l[5], xs[1]], [T.l[6] - 0.3, 2.9]];
+  const pasos: [number, number][] = [[T.l[1], -0.9 + 0.75 * Math.sin(T.l[1] * 1.5)], [T.l[1] + 0.4, -1.7], [E[0] - 0.05, xs[0]], [E[1] - 0.05, xs[1]], [E[2] - 0.05, xs[2]], [E[3] - 0.05, xs[3]], [T.l[5], xs[1]], [T.l[6] - 0.3, 2.9]];
   for (let i = 0; i < pasos.length - 1; i++) {
     const [a, x0] = pasos[i], [b, x1] = pasos[i + 1];
     if (t < b) {
@@ -226,7 +228,7 @@ const Dia: React.FC<{ n: number; s: number }> = ({ n, s }) => {
 const Escena3D: React.FC<{ t: number; T: T; cam: ReturnType<typeof camaraClaves> }> = ({ t, T, cam }) => {
   const x = haz(t, T);
   const E = escaneos(T);
-  const encendido = t < T.l[6] - 0.2 ? 1 : 0;
+  const encendido = t < T.l[6] - 0.2 || t >= T.l[9] - 0.1 ? 1 : 0;
   const cierran = entra((t - (T.l[6] - 0.25)) / 0.3);
   const alarma = t > T.l[5] + 0.25 && t < T.l[6] - 0.2 ? 0.5 + 0.5 * Math.round((Math.sin(t * 12) + 1) / 2) : 0;
   const hormigon = useLienzo("hormigon", 512, 512, (cx, w, h) => {
