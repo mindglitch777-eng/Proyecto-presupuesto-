@@ -160,10 +160,21 @@ function appTiempo(t: number, T: T) {
 /** Cámara de cada lado (idénticas, con su x). La B hace zoom a la puerta en la revelación. */
 function camaras(t: number, T: T) {
   const { l } = T;
-  const deriva = Math.sin(t * 0.5) * 0.25;
-  const base = (x0: number) => ({ pos: [x0 + deriva, 1.45, 6.1 - Math.min(0.8, t * 0.02)], target: [x0, 1.3, 0], fov: 40 });
-  let a = base(XA), b = base(XB);
-  if (t >= l[9] - 0.05 || t >= T.LOOP) return { a: base(XA), b: base(XB) };
+  // cuadro 0 = último cuadro: base(x0, 0). En el gancho la cámara se acerca con balanceo; en el cierre vuelve a ese mismo encuadre.
+  const base = (x0: number, k: number, sw: number) => ({ pos: [x0 + Math.sin(sw) * 0.45 * k, 1.45 + 0.25 * k, 6.1 - 1.1 * k], target: [x0 + Math.sin(sw * 0.7) * 0.2 * k, 1.3, 0], fov: 40 });
+  const kG = t < l[2] ? Math.sin(Math.PI * clamp(t / l[2], 0, 1) * 0.5) : 0;
+  let a = base(XA, kG, t * 1.3), b = base(XB, kG, t * 1.3);
+  if (t >= T.LOOP) return { a: base(XA, 0, 0), b: base(XB, 0, 0) };
+  if (t >= l[2] && t < l[9] - 0.05) {
+    const d = { pos: [Math.sin(t * 0.6) * 0.35, 1.45 + Math.sin(t * 0.9) * 0.1, 5.2 + Math.cos(t * 0.5) * 0.3], target: [0, 1.3, 0], fov: 40 };
+    a = { ...d, pos: [XA + d.pos[0], d.pos[1], d.pos[2]], target: [XA, 1.3, 0] };
+    b = { ...d, pos: [XB + d.pos[0], d.pos[1], d.pos[2]], target: [XB, 1.3, 0] };
+  }
+  if (t >= l[9] - 0.05) {
+    const k = 1 - clamp((t - l[9]) / Math.max(1, T.LOOP - l[9]), 0, 1);
+    const kk = k * k * (3 - 2 * k);
+    return { a: base(XA, kk, t * 0.9), b: base(XB, kk, t * 0.9) };
+  }
   // en "estaciona" la B se abre para que entre el auto
   if (t > T.estaciona - 0.3 && t < l[7]) {
     const k = entra((t - T.estaciona + 0.3) / 0.6);
@@ -172,7 +183,7 @@ function camaras(t: number, T: T) {
   // revelación: zoom a la lucecita (el celular de la puerta)
   if (t >= l[7] - 0.1) {
     const k = entra((t - T.lucecita + 0.6) / 0.9);
-    const z = { pos: [XB + PUERTA + 0.02, 1.36, 0.34], target: [XB + PUERTA, 1.33, -0.17], fov: 36 };
+    const z = { pos: [XB + PUERTA + 0.02 + Math.sin(t * 0.8) * 0.04, 1.36 + Math.cos(t * 0.6) * 0.02, 0.34 - Math.min(0.08, Math.max(0, t - T.lucecita) * 0.008)], target: [XB + PUERTA, 1.33, -0.17], fov: 36 + Math.sin(t * 0.5) * 1.5 };
     const v = { pos: [XB + 2.4, 2.6, 9.5], target: [XB + 1.0, 1.0, 0.8], fov: 48 };
     b = { pos: v.pos.map((x, i) => x + (z.pos[i] - x) * k), target: v.target.map((x, i) => x + (z.target[i] - x) * k), fov: v.fov + (z.fov - v.fov) * k };
   }
