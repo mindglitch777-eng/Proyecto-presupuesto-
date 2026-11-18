@@ -1,0 +1,80 @@
+{
+ "id": "v8-08-cuenta-regresiva",
+ "titulo": "La cuenta regresiva",
+ "duracionSeg": 40.8,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años, con urgencia real, como alguien que corre contra el reloj; la tensión va creciendo pero hablás a velocidad natural, sin apurar las palabras; al final, alivio. Ritmo natural, sin apurarte nunca. Hacé una pausa corta en cada punto y una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "30 SEGUNDOS",
+    "PARA",
+    "SALVARLO"
+   ],
+   "voz": "Tenés treinta segundos para salvar este kiosco."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 2.69,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 3.04,
+   "hasta": 5.73,
+   "texto": "Primera fuga: el alfajor a precio viejo."
+  },
+  {
+   "desde": 6.08,
+   "hasta": 8.01,
+   "texto": "El fiado que no vuelve."
+  },
+  {
+   "desde": 8.36,
+   "hasta": 9.9,
+   "texto": "La comisión del QR."
+  },
+  {
+   "desde": 10.25,
+   "hasta": 13.32,
+   "texto": "La mercadería que se duerme en el depósito."
+  },
+  {
+   "desde": 13.67,
+   "hasta": 16.75,
+   "texto": "Va por la mitad. Y falta la peor."
+  },
+  {
+   "desde": 17.25,
+   "hasta": 23.4,
+   "texto": "La peor es no saber tu número. Cerrás el día sin saber si ganaste o perdiste.",
+   "silencio": 0.5
+  },
+  {
+   "desde": 23.75,
+   "hasta": 29.91,
+   "texto": "Con En Claro decís lo que vendiste esta noche… y te lo dice en un minuto."
+  },
+  {
+   "desde": 30.26,
+   "hasta": 32.18,
+   "texto": "Y la persiana se frena."
+  },
+  {
+   "desde": 32.53,
+   "hasta": 39.45,
+   "texto": "Los primeros cien kioscos pagan doce mil novecientos para siempre. Cuando se llenan, sube. Link en el perfil."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.6
+}

@@ -1,0 +1,80 @@
+{
+ "id": "v8-09-mismo-kiosco",
+ "titulo": "Mismo kiosco, distinto final",
+ "duracionSeg": 38.1,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años, como contando un chisme del barrio con suspenso, cómplice con quien escucha. Ritmo natural, sin apurarte nunca. Hacé una pausa corta en cada punto y una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "UNO SE COMPRÓ",
+    "UN AUTO",
+    "EL OTRO CERRÓ"
+   ],
+   "voz": "Estos dos kioscos venden exactamente lo mismo. Uno se compró un auto. El otro cerró."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 5.77,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 6.12,
+   "hasta": 7.27,
+   "texto": "Encontrá la diferencia."
+  },
+  {
+   "desde": 7.62,
+   "hasta": 8.78,
+   "texto": "Enero. Marzo. Mayo…"
+  },
+  {
+   "desde": 9.13,
+   "hasta": 12.59,
+   "texto": "Hay una sola diferencia. Ya la viste tres veces."
+  },
+  {
+   "desde": 12.94,
+   "hasta": 13.94,
+   "texto": "Agosto. Octubre…"
+  },
+  {
+   "desde": 14.44,
+   "hasta": 15.44,
+   "texto": "Noviembre.",
+   "silencio": 0.5
+  },
+  {
+   "desde": 15.79,
+   "hasta": 20.02,
+   "texto": "Uno estaciona un auto. El otro baja la persiana para siempre."
+  },
+  {
+   "desde": 20.37,
+   "hasta": 23.45,
+   "texto": "¿La diferencia? Esa lucecita. Cinco minutos por noche."
+  },
+  {
+   "desde": 23.8,
+   "hasta": 28.8,
+   "texto": "Cada noche sabía cuánto le quedaba, a quién cobrarle y qué precio subir."
+  },
+  {
+   "desde": 29.15,
+   "hasta": 36.84,
+   "texto": "Los primeros cien kioscos pagan doce mil novecientos para siempre. Cuando se llenan, sube. ¿Cuál de los dos querés ser?"
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.6
+}
