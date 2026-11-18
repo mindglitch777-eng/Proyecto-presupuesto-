@@ -51,7 +51,7 @@ function escena(t: number, T: T): Esc {
   if (t < l[3] - 0.05) return "dia";
   if (t < l[4] - 0.05) return "regancho";
   if (t < l[5] - 0.05) return "gastos";
-  if (t < e[5] + 0.3) return "deposito";
+  if (t < Math.min(e[5] + 0.12, T.revela - 0.35)) return "deposito";
   if (t < T.revela - 0.03) return "silencio";
   if (t < l[7] - 0.05) return "partida";
   if (t < l[8] - 0.05) return "truco";
@@ -128,7 +128,7 @@ const Gancho: React.FC<{ tg: number }> = ({ tg }) => {
 
 /** La caja de $210.000 partida en bloques: proveedor, gastos y lo tuyo; después cae lo dormido y aplasta lo tuyo. */
 const Partida: React.FC<{ t: number; T: T }> = ({ t, T }) => {
-  const k = 300 / ENTRO; // px por peso
+  const k = 240 / ENTRO; // px por peso
   const base = 470, x = 106, w = 148;
   const pProv = entra((t - (T.mitad - 0.1)) / 0.3), pRest = entra((t - (T.mitad + 0.35)) / 0.3), pDorm = entra((t - (T.dormido - 0.05)) / 0.4);
   const hProv = PROVEEDOR * k, hGas = (QR + FIJOS) * k, hTuyo = TUYO * k, hDorm = DORMIDO * k;
@@ -144,8 +144,8 @@ const Partida: React.FC<{ t: number; T: T }> = ({ t, T }) => {
     <div style={{ inset: 0 }}>
       <Cartel texto={label.txt} top={70} fondo={label.c} color="#fff" size={label.txt.length > 22 ? 17 : 22} s={latido(t, 0.6, 0.03)} rot={-1.5} />
       {/* contorno de la caja ($210.000) */}
-      <div style={{ left: x - 8, width: w + 16, top: base - 300 - 8, height: 316, borderRadius: 14, border: `4px dashed ${C.tinta}55` }} />
-      {bloque(base - 300, 300, "#bfe3cb", 1 - pProv)}
+      <div style={{ left: x - 8, width: w + 16, top: base - 240 - 8, height: 256, borderRadius: 14, border: `4px dashed ${C.tinta}55` }} />
+      {bloque(base - 240, 240, "#bfe3cb", 1 - pProv)}
       {bloque(base - hProv, hProv, "#d9a86c", pProv, <div style={{ transform: "scale(0.9)" }}><Camion w={110} t={t} /></div>)}
       {bloque(base - hProv - hGas, hGas, "#c3c7c0", pRest)}
       {bloque(yTuyo + hTuyo * pDorm, hTuyo * (1 - pDorm), C.hoja, pRest)}
@@ -157,7 +157,7 @@ const Partida: React.FC<{ t: number; T: T }> = ({ t, T }) => {
       {pDorm > 0.6 ? (
         <>
           <div style={{ left: x - 10, width: w + 20, top: yTuyo + hTuyo - hDorm, height: hDorm - hTuyo, borderRadius: 10, border: `4px solid ${C.rojo}`, background: `${C.rojo}26`, opacity: 0.6 + 0.4 * Math.abs(Math.sin(t * 6)) }} />
-          <div style={{ left: 0, right: 0, top: yTuyo + hTuyo - hDorm - 40, textAlign: "center", font: `800 30px ${DISP}`, color: C.rojo, transform: `scale(${latido(t, 0.5, 0.06)})` }}>{conSigno(FINAL)}</div>
+          <div style={{ left: 0, right: 0, top: yTuyo + hTuyo - hDorm - 38, textAlign: "center", font: `800 30px ${DISP}`, color: C.rojo, transform: `scale(${latido(t, 0.5, 0.06)})` }}>{conSigno(FINAL)}</div>
         </>
       ) : null}
     </div>
@@ -208,9 +208,9 @@ export const LaCajaMiente: React.FC<VideoProps> = ({ voz, palabras }) => {
     { en: T.revela, sfx: "thump", vol: 0.5 }, { en: T.mitad, sfx: "thump", vol: 0.45 }, { en: T.mitad + 0.35, sfx: "thump", vol: 0.4 }, { en: T.dormido, sfx: "slam", vol: 0.5 }, { en: T.dormido + 0.3, sfx: "buzz", vol: 0.4 },
     { en: l[7] - 0.1, sfx: "whoosh", vol: 0.45 }, { en: T.tuyo, sfx: "ding", vol: 0.45 }, { en: T.app0 + APP.tarjeta + 0.7, sfx: "click", vol: 0.45 }, { en: T.dormida, sfx: "ding", vol: 0.5 },
     { en: l[8], sfx: "caja", vol: 0.5 }, { en: T.probalo, sfx: "click", vol: 0.5 }, { en: T.LOOP - 0.12, sfx: "whoosh", vol: 0.35 }, { en: T.LOOP, sfx: "thump", vol: 0.45 },
-  ].filter((s) => !(s.en > e[5] + 0.32 && s.en < T.revela - 0.05));
+  ].filter((s) => !(s.en > Math.min(e[5] + 0.14, T.revela - 0.33) && s.en < T.revela - 0.05));
 
-  const finSil = e[5] + 0.3;
+  const finSil = Math.min(e[5] + 0.12, T.revela - 0.35);
   const musica = (
     <>
       <Sequence from={0} durationInFrames={Math.max(1, Math.round(finSil * fps))} layout="none">
