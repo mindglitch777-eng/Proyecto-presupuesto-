@@ -127,6 +127,73 @@ const RECORRIDOS = {
     await page.waitForTimeout(3000);
     marca("fin");
   },
+  async "v8-08"(page, marca) {
+    // el robot no tiene micrófono: "escribilo como lo dirías" con la misma frase que se diría
+    await page.context().addInitScript(() => { delete window.SpeechRecognition; delete window.webkitSpeechRecognition; });
+    await page.goto(BASE + "/app/cierre", { waitUntil: "networkidle" });
+    marca("cierre");
+    await page.waitForTimeout(700);
+    await page.getByRole("button", { name: "Hablar" }).click();
+    marca("hablar");
+    const caja = page.getByLabel("Escribilo como lo dirías");
+    await caja.click();
+    await caja.pressSequentially("Vendí 150 mil, 75 mil con QR, y 8 mil de fiado que no vuelve", { delay: 38 });
+    await page.waitForTimeout(300);
+    await page.getByRole("button", { name: "Entender" }).click();
+    await page.getByText("Esto es lo que entendí").waitFor();
+    marca("entendio");
+    await page.waitForTimeout(900);
+    await page.getByRole("button", { name: "Guardar cierre" }).scrollIntoViewIfNeeded();
+    await page.waitForTimeout(300);
+    await page.getByRole("button", { name: "Guardar cierre" }).click();
+    await page.getByText("Ganancia de hoy").waitFor();
+    await page.evaluate(() => window.scrollTo(0, 0));
+    marca("resultado");
+    exigir(/Ganancia de hoy\s*\$23\.500/.test(await texto(page)), "El cierre no dio $23.500");
+    await page.waitForTimeout(2600);
+    marca("fin");
+  },
+  async "v8-09"(page, marca) {
+    await page.goto(BASE + "/app", { waitUntil: "networkidle" });
+    marca("dia");
+    exigir(/Ganancia de hoy\s*\$39\.700/.test(await texto(page)), "La ganancia de hoy no da $39.700:\n" + (await texto(page)).slice(0, 300));
+    await page.waitForTimeout(2000);
+    await page.getByRole("link", { name: "Fiados" }).click();
+    await page.getByText("Te deben en total").waitFor();
+    marca("fiados");
+    await page.waitForTimeout(2000);
+    await page.getByRole("link", { name: "Precios" }).click();
+    await page.getByText("Lo que te deja cada producto").waitFor();
+    await page.waitForTimeout(700);
+    await page.getByRole("button", { name: /^Alfajor triple/ }).click();
+    await page.locator("#costo").fill("");
+    await page.locator("#costo").pressSequentially("900", { delay: 90 });
+    await page.getByText("Usar ese precio").waitFor();
+    marca("precio");
+    await page.waitForTimeout(2200);
+    marca("fin");
+  },
+  async "v8-10"(page, marca) {
+    await page.goto(BASE + "/app", { waitUntil: "networkidle" });
+    marca("dia");
+    exigir(/Ganancia de hoy\s*\$23\.500/.test(await texto(page)), "La ganancia de hoy no da $23.500");
+    await page.waitForTimeout(2000);
+    await page.getByRole("link", { name: "Fiados" }).click();
+    await page.getByText("Te deben en total").waitFor();
+    marca("fiados");
+    await page.waitForTimeout(2000);
+    await page.goto(BASE + "/app/factura", { waitUntil: "networkidle" });
+    marca("factura");
+    await page.getByRole("tab", { name: "Aumentó un %" }).click();
+    await page.getByLabel("¿Cuánto aumentó el proveedor?").pressSequentially("20", { delay: 120 });
+    await page.getByRole("button", { name: "Ninguno" }).click();
+    await page.getByLabel("Alfajor triple").check();
+    await page.getByLabel("Yerba 500 g").check();
+    await page.getByText(/Con 20% de aumento/).waitFor();
+    marca("aumento");
+    await page.waitForTimeout(2200);
+    marca("fin");
+  },
 };
 
 (async () => {

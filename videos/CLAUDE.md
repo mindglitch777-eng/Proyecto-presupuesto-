@@ -127,6 +127,15 @@
 - **Tiempos de la voz**: `voz_gemini.py` ahora hace arrancar cada línea al final de su silencio medido (whisper la adelantaba hasta 0,7 s).
   Para una voz ya generada: `python scripts/voz_gemini.py guiones/<id>.json --solo-tiempos` (no pide otra toma).
 
+- **V8-08 "La cuenta regresiva"** (`Video-v8-08-CuentaRegresiva`), **V8-09 "Mismo kiosco, distinto final"** (`Video-v8-09-MismoKiosco`) y
+  **V8-10 "Entramos a un kiosco que cerró"** (`Video-v8-10-KioscoCerrado`). Modelos nuevos en `modelos3d.tsx`: `PersianaFrente` (todo el frente, con
+  cartel CERRADO, grafiti y chispas), `Calculadora3D`, `Registradora3D` (cajón que se abre), `Papelito` (letra a mano), `FacturaClavo`, `Auto3D`
+  (sedán genérico), `HojaMes`, `Lupa3D`. V8-09: **pantalla partida de verdad** (`Partida`: dos cámaras en la misma escena con scissor/viewport).
+  V8-10: linterna (`SpotLight` que sigue a la cámara) y rótulo RECREACIÓN fijo. FOMO honesto: `CupoFundadores` en `comun.tsx` (100 casilleros
+  recorridos por un brillo, nunca lugares restantes).
+- **Voz**: `"silencio_max"` en el guion acorta los silencios largos sin acelerar la voz (Orus en voz baja hacía pausas de 1,7 s). `"aparte": "<actuación>"`
+  en una línea la graba en una toma separada con su propia actuación y la inserta en su lugar (el papelito del V8-10, quebrado). Sonido nuevo `piano_grave`.
+
 ## Guardado del MP4 en la rama (videos.yml)
 - **Varios videos por corrida**: lista `VIDEOS` (JSON con nombre, id y cuadros de control; `[]` = solo voces). Cada video se reparte en 10 máquinas
   (matriz video × parte) y `unir` verifica que las partes estén pegadas y completas antes de armar el MP4 (si una máquina falló, no sale un video cortado).

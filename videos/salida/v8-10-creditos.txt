@@ -1,0 +1,10 @@
+En Claro · V8-10 "Entramos a un kiosco que cerró" — créditos
+
+Imágenes: todas propias. Escenas 3D hechas en código (src/v8/modelos3d.tsx y estudio3d.tsx) y pantalla real de la app En Claro:
+Tu día, Fiados y el aviso de aumento del proveedor (ENCLARO_DEMO=v8-10). Es una RECREACIÓN: historia de ejemplo, no un caso real.
+No se usó ninguna foto ni video de terceros (nada CC BY-SA). Sin marcas.
+
+Voz: Gemini TTS (gemini-2.5-flash-preview-tts, voz Orus), plan gratis de Google AI Studio, a velocidad natural (solo se acortaron silencios largos, nunca se aceleró).
+Música y efectos: sintetizados por En Claro (videos/scripts/sfx.py), sin licencias de terceros.
+Tipografías: Space Grotesk, Inter y Permanent Marker (SIL Open Font License).
+Montos y nombres: de ejemplo. Cupo de socios fundadores: el real (100 lugares a $12.900 para siempre; lleno → $19.900), sin número de lugares restantes.

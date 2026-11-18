@@ -1,0 +1,11 @@
+{
+ "demo": "v8-10",
+ "marcas": {
+  "dia": 0,
+  "fiados": 2.175,
+  "factura": 4.73,
+  "aumento": 5.16,
+  "fin": 7.361
+ },
+ "cortes": []
+}

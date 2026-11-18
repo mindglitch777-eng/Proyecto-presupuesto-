@@ -161,7 +161,39 @@ function semillaVideoV8_07(): Estado {
   return e;
 }
 
-const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07 };
+/** V8-08 (ENCLARO_DEMO=v8-08): el negocio del V8-01 sin cierre hoy; el cierre por voz da $23.500. */
+const semillaVideoV8_08 = () => semillaVideoV8();
+
+/**
+ * V8-09 (ENCLARO_DEMO=v8-09): el kiosco que sí hace su cierre. Vende $150.000 ($75.000 por QR, 4% = $3.000), la mercadería deja 40%
+ * y los fijos son $519.000 al mes ($17.300 por día) → ganancia de hoy $39.700. Marta debe en rojo; el alfajor tiene precio para revisar.
+ */
+function semillaVideoV8_09(): Estado {
+  const e = semillaVideoV8();
+  const hoy = hoyArgentina();
+  e.listaFijos = [{ concepto: "Alquiler", monto: 390_000 }, { concepto: "Luz", monto: 129_000 }];
+  e.fijos = 519_000;
+  e.productos = e.productos.map((x) => ({ ...x, costo: x.precio === null ? x.costo : Math.round(x.precio * 0.6), precioActualizado: sumarDias(hoy, -3), ultimaVenta: hoy }));
+  e.cierres = [...e.cierres.slice(1), { fecha: hoy, ventas: 150000, tarjeta: 75000, gastos: [{ categoria: "comision", monto: 3000 }] }];
+  e.clientes = [
+    { id: "c1", nombre: "Marta", telefono: "3756 15 400000", diaCobro: null, nota: null, ultimoRecordatorio: sumarDias(hoy, -3), recordatoriosSinPago: 2, movimientos: [{ id: "m1", tipo: "fio", monto: 62000, fecha: sumarDias(hoy, -41), nota: null }] },
+    { id: "c2", nombre: "Carlos", telefono: null, diaCobro: null, nota: null, ultimoRecordatorio: null, recordatoriosSinPago: 0, movimientos: [{ id: "m2", tipo: "fio", monto: 9500, fecha: sumarDias(hoy, -6), nota: null }] },
+  ];
+  return e;
+}
+
+/** V8-10 (ENCLARO_DEMO=v8-10): Tu día con $23.500, Marta en rojo en Fiados y el proveedor que aumentó 20%. */
+function semillaVideoV8_10(): Estado {
+  const e = semillaVideoV8_05();
+  const hoy = hoyArgentina();
+  e.clientes = [
+    { id: "c1", nombre: "Marta", telefono: "3756 15 400000", diaCobro: null, nota: null, ultimoRecordatorio: sumarDias(hoy, -3), recordatoriosSinPago: 2, movimientos: [{ id: "m1", tipo: "fio", monto: 62000, fecha: sumarDias(hoy, -41), nota: null }] },
+    { id: "c2", nombre: "Juan", telefono: null, diaCobro: null, nota: null, ultimoRecordatorio: null, recordatoriosSinPago: 0, movimientos: [{ id: "m2", tipo: "fio", monto: 48000, fecha: sumarDias(hoy, -24), nota: null }] },
+  ];
+  return e;
+}
+
+const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07, "v8-08": semillaVideoV8_08, "v8-09": semillaVideoV8_09, "v8-10": semillaVideoV8_10 };
 const semillaActual = () => (SEMILLAS[process.env.ENCLARO_DEMO ?? ""] ?? semilla)();
 
 const g = globalThis as unknown as { __enclaroMemoria?: Estado };

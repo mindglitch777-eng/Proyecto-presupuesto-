@@ -462,3 +462,188 @@ export const PisoEstudio: React.FC<{ color?: string }> = ({ color = "#1b2420" })
     <meshStandardMaterial color={color} roughness={0.75} />
   </mesh>
 );
+
+/** Persiana metálica de todo el frente (tablillas, guías y tambor). `abierta` 1 = arriba del todo, 0 = toca el piso. */
+export const PersianaFrente: React.FC<{ ancho: number; alto?: number; abierta: number; cartel?: boolean; grafiti?: boolean; chispas?: number; t?: number }> = ({ ancho, alto = 2.25, abierta, cartel = false, grafiti = false, chispas = 0, t = 0 }) => {
+  const chapa = useLienzo(`persiana-${grafiti ? "g" : "l"}`, 512, 512, (x, w, h) => {
+    const g = x.createLinearGradient(0, 0, 0, h);
+    g.addColorStop(0, "#b9bdb7"); g.addColorStop(1, "#9ea39d");
+    x.fillStyle = g; x.fillRect(0, 0, w, h);
+    for (let y = 0; y < h; y += 16) { x.fillStyle = "rgba(60,64,60,0.55)"; x.fillRect(0, y, w, 3); x.fillStyle = "rgba(255,255,255,0.25)"; x.fillRect(0, y + 3, w, 2); }
+    for (let i = 0; i < 500; i++) { x.fillStyle = `rgba(90,70,50,${0.04 + rnd(i) * 0.06})`; x.fillRect(rnd(i + 1) * w, rnd(i + 2) * h, 2 + rnd(i + 3) * 10, 1 + rnd(i + 4) * 3); }
+    if (grafiti) {
+      x.lineCap = "round"; x.lineJoin = "round";
+      [["#2b6fd6", 14], ["#e8473b", 10], ["#1f1f1f", 7]].forEach(([c, lw], k) => {
+        x.strokeStyle = c as string; x.lineWidth = lw as number; x.beginPath();
+        for (let i = 0; i < 9; i++) { const px = 40 + i * 50 + rnd(i + k * 20) * 20, py = 300 + Math.sin(i * 1.3 + k) * 60 + k * 30; i ? x.lineTo(px, py) : x.moveTo(px, py); }
+        x.stroke();
+      });
+    }
+  }, [Math.max(1, Math.round(ancho / 2)), 1]);
+  const cartelTex = useLienzo("cartel-cerrado", 512, 220, (x, w, h) => {
+    x.fillStyle = "#f5f1e6"; x.fillRect(0, 0, w, h);
+    x.strokeStyle = "#c0261b"; x.lineWidth = 10; x.strokeRect(10, 10, w - 20, h - 20);
+    x.fillStyle = "#c0261b"; x.font = `800 ${h * 0.5}px "Space Grotesk", sans-serif`; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText("CERRADO", w / 2, h / 2 + 4);
+  });
+  const bajo = alto * (1 - clamp01(abierta));
+  return (
+    <group>
+      {/* tambor arriba y guías a los costados */}
+      <mesh position={[0, alto + 0.12, 0.02]} rotation-z={Math.PI / 2} castShadow><cylinderGeometry args={[0.13, 0.13, ancho + 0.1, 24]} /><meshStandardMaterial color="#868b85" metalness={0.75} roughness={0.4} /></mesh>
+      {[-1, 1].map((s) => (
+        <mesh key={s} position={[s * (ancho / 2 + 0.02), alto / 2, 0.02]} castShadow><boxGeometry args={[0.05, alto, 0.07]} /><meshStandardMaterial color="#5f6560" metalness={0.8} roughness={0.35} /></mesh>
+      ))}
+      {bajo > 0.01 ? (
+        <mesh position={[0, alto - bajo / 2, 0.02]} castShadow receiveShadow>
+          <boxGeometry args={[ancho, bajo, 0.03]} />
+          <meshStandardMaterial map={chapa} metalness={0.55} roughness={0.45} />
+        </mesh>
+      ) : null}
+      {bajo > 0.01 ? <mesh position={[0, alto - bajo + 0.02, 0.04]}><boxGeometry args={[ancho, 0.05, 0.05]} /><meshStandardMaterial color="#4c514d" metalness={0.8} roughness={0.3} /></mesh> : null}
+      {cartel && bajo > 1.0 ? <mesh position={[ancho * 0.18, alto - bajo + 0.7, 0.04]} rotation-z={-0.04}><planeGeometry args={[0.7, 0.3]} /><meshStandardMaterial map={cartelTex} roughness={0.7} /></mesh> : null}
+      {/* chispas en las guías cuando la persiana cae */}
+      {chispas > 0
+        ? Array.from({ length: 18 }, (_, i) => {
+            const d = ((t * 3 + rnd(i)) % 1);
+            const s = i % 2 ? 1 : -1;
+            return (
+              <mesh key={i} position={[s * (ancho / 2 + 0.02) + s * d * 0.25 * rnd(i + 3), alto - bajo + 0.02 - d * 0.4, 0.06 + d * 0.2 * rnd(i + 5)]}>
+                <sphereGeometry args={[0.008, 6, 6]} />
+                <meshBasicMaterial color="#ffd27a" toneMapped={false} transparent opacity={chispas * (1 - d)} />
+              </mesh>
+            );
+          })
+        : null}
+    </group>
+  );
+};
+const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
+
+/** Calculadora de mostrador con la pantalla en "?????" (o un número). */
+export const Calculadora3D: React.FC<{ pantalla: string }> = ({ pantalla }) => {
+  const tex = useLienzo(`calc-${pantalla}`, 512, 128, (x, w, h) => {
+    x.fillStyle = "#b8c4a8"; x.fillRect(0, 0, w, h);
+    x.fillStyle = "#1f2a1c"; x.font = `700 ${h * 0.72}px "Space Grotesk", monospace`; x.textAlign = "right"; x.textBaseline = "middle"; x.fillText(pantalla, w - 24, h / 2 + 4);
+  });
+  return (
+    <group>
+      <mesh position={[0, 0.015, 0]} geometry={cajaR(0.16, 0.03, 0.2, 0.012)} castShadow receiveShadow><meshPhysicalMaterial color="#2b2f2d" roughness={0.4} clearcoat={0.5} /></mesh>
+      <mesh position={[0, 0.0305, -0.06]} rotation-x={-Math.PI / 2}><planeGeometry args={[0.13, 0.035]} /><meshStandardMaterial map={tex} emissive="#ffffff" emissiveMap={tex} emissiveIntensity={0.25} /></mesh>
+      {Array.from({ length: 16 }, (_, k) => (
+        <mesh key={k} position={[-0.048 + (k % 4) * 0.032, 0.033, -0.015 + Math.floor(k / 4) * 0.03]} geometry={cajaR(0.024, 0.008, 0.022, 0.004, 2)} castShadow><meshStandardMaterial color={k % 4 === 3 ? "#e9a400" : "#e8e5dc"} roughness={0.5} /></mesh>
+      ))}
+    </group>
+  );
+};
+
+/** Caja registradora con cajón que se abre (`cajon` 0 → 1), brillo y lo que haya adentro (hijos, en el cajón). */
+export const Registradora3D: React.FC<{ cajon: number; brillo?: number; children?: React.ReactNode }> = ({ cajon, brillo = 0, children }) => (
+  <group>
+    <mesh position={[0, 0.16, 0]} geometry={cajaR(0.46, 0.2, 0.42, 0.03)} castShadow receiveShadow><meshPhysicalMaterial color="#25302b" roughness={0.35} clearcoat={0.7} /></mesh>
+    <mesh position={[0, 0.33, -0.08]} rotation-x={-0.5} geometry={cajaR(0.3, 0.16, 0.03, 0.01)} castShadow><meshStandardMaterial color="#1b1f1d" roughness={0.4} /></mesh>
+    {Array.from({ length: 12 }, (_, k) => (
+      <mesh key={k} position={[-0.12 + (k % 4) * 0.08, 0.265, 0.06 + Math.floor(k / 4) * 0.055]} geometry={cajaR(0.06, 0.018, 0.045, 0.006, 2)} castShadow><meshStandardMaterial color="#d8d4ca" roughness={0.6} /></mesh>
+    ))}
+    <group position={[0, 0.03, cajon * 0.3]}>
+      <mesh geometry={cajaR(0.44, 0.06, 0.4, 0.008)} castShadow receiveShadow><meshStandardMaterial color="#2f3532" roughness={0.45} metalness={0.3} /></mesh>
+      <mesh position={[0, 0.031, 0]} rotation-x={-Math.PI / 2}><planeGeometry args={[0.4, 0.36]} /><meshStandardMaterial color="#3a403c" roughness={0.6} /></mesh>
+      <group position={[0, 0.034, 0]}>{children}</group>
+    </group>
+    {brillo > 0 ? <pointLight position={[0, 0.25, 0.4]} intensity={1.6 * brillo} distance={1.2} decay={2} color="#ffd890" /> : null}
+    {brillo > 0 ? <mesh position={[0, 0.06, 0.215 + cajon * 0.3]}><boxGeometry args={[0.42, 0.004, 0.004]} /><meshBasicMaterial color="#ffe2a8" toneMapped={false} transparent opacity={brillo} /></mesh> : null}
+  </group>
+);
+
+/** Papelito escrito a mano (`lineas`: [texto, tachado]). Mide 12 × 9 cm. */
+export const Papelito: React.FC<{ lineas: [string, boolean][]; fecha: string }> = ({ lineas, fecha }) => {
+  const tex = useLienzo(`papelito-${lineas.map((l) => l[0]).join("|")}`, 512, 384, (x, w, h) => {
+    x.fillStyle = "#f6f1e2"; x.fillRect(0, 0, w, h);
+    for (let i = 0; i < 300; i++) { x.fillStyle = `rgba(120,100,60,${0.02 + rnd(i) * 0.04})`; x.fillRect(rnd(i + 1) * w, rnd(i + 2) * h, 3, 2); }
+    x.strokeStyle = "rgba(120,160,210,0.5)"; x.lineWidth = 2;
+    for (let y = 80; y < h; y += 70) { x.beginPath(); x.moveTo(0, y); x.lineTo(w, y); x.stroke(); }
+    x.fillStyle = "#1d3b8a"; x.font = `400 26px "Permanent Marker", cursive`; x.fillText(fecha, 26, 52);
+    lineas.forEach(([txt, tachado], i) => {
+      const y = 140 + i * 110;
+      x.save(); x.translate(28, y); x.rotate(-0.03 + i * 0.02);
+      x.fillStyle = "#1d3b8a"; x.font = `400 ${i ? 44 : 50}px "Permanent Marker", cursive`; x.fillText(txt, 0, 0);
+      if (tachado) { x.strokeStyle = "#1d3b8a"; x.lineWidth = 6; x.beginPath(); x.moveTo(-6, -14); x.lineTo(x.measureText(txt).width + 6, -20); x.stroke(); }
+      x.restore();
+    });
+  });
+  return (
+    <mesh rotation-x={-Math.PI / 2} rotation-z={0.08}>
+      <planeGeometry args={[0.12, 0.09]} />
+      <meshStandardMaterial map={tex} roughness={0.85} side={THREE.DoubleSide} />
+    </mesh>
+  );
+};
+
+/** Factura pinchada en un clavo, con "+20%" marcado en rojo. */
+export const FacturaClavo: React.FC<{ verde?: number }> = ({ verde = 0 }) => {
+  const tex = useLienzo(`factura-clavo-${verde > 0.5 ? "v" : "r"}`, 384, 512, (x, w, h) => {
+    x.fillStyle = "#fbfaf4"; x.fillRect(0, 0, w, h);
+    x.fillStyle = "#222"; x.font = `800 30px "Space Grotesk", monospace`; x.fillText("FACTURA B", 24, 52);
+    x.font = `600 18px "Inter", sans-serif`; x.fillText("DISTRIBUIDORA DE EJEMPLO", 24, 82);
+    for (let i = 0; i < 9; i++) { x.fillStyle = "#555"; x.fillRect(24, 120 + i * 34, 180 + rnd(i) * 80, 6); x.fillRect(w - 90, 120 + i * 34, 60, 6); }
+    const c = verde > 0.5 ? "#16794a" : "#d92d20";
+    x.strokeStyle = c; x.lineWidth = 7; x.beginPath(); x.ellipse(w - 110, 430, 90, 46, -0.1, 0, Math.PI * 2); x.stroke();
+    x.fillStyle = c; x.font = `800 64px "Permanent Marker", cursive`; x.textAlign = "center"; x.fillText(verde > 0.5 ? "✓" : "+20%", w - 110, 452);
+  });
+  return (
+    <group>
+      <mesh position={[0, 0, 0.004]} rotation-x={Math.PI / 2}><cylinderGeometry args={[0.004, 0.004, 0.04, 8]} /><meshStandardMaterial color="#888" metalness={1} roughness={0.3} /></mesh>
+      <mesh position={[0, -0.13, 0.006]} rotation-z={0.06}><planeGeometry args={[0.19, 0.25]} /><meshStandardMaterial map={tex} roughness={0.85} side={THREE.DoubleSide} /></mesh>
+    </group>
+  );
+};
+
+/** Auto usado genérico (sedán de 4,4 m, sin marca): carrocería con pintura brillante, vidrios, ruedas y faros. */
+export const Auto3D: React.FC<{ color?: string; luces?: number; rueda?: number }> = ({ color = "#7a2a2a", luces = 0, rueda = 0 }) => (
+  <group>
+    <mesh position={[0, 0.55, 0]} geometry={cajaR(4.4, 0.62, 1.74, 0.16, 4)} castShadow receiveShadow><meshPhysicalMaterial color={color} roughness={0.25} metalness={0.5} clearcoat={1} clearcoatRoughness={0.08} /></mesh>
+    <mesh position={[-0.15, 1.05, 0]} geometry={cajaR(2.3, 0.5, 1.6, 0.18, 4)} castShadow><meshPhysicalMaterial color={color} roughness={0.25} metalness={0.5} clearcoat={1} clearcoatRoughness={0.08} /></mesh>
+    {/* vidrios */}
+    <mesh position={[-0.15, 1.07, 0]} geometry={cajaR(2.2, 0.42, 1.62, 0.16, 4)}><meshPhysicalMaterial color="#1a2430" roughness={0.05} metalness={0.3} transparent opacity={0.85} /></mesh>
+    {[-1.35, 1.35].map((x) => [-0.88, 0.88].map((z) => (
+      <group key={`${x}${z}`} position={[x, 0.33, z]} rotation-x={Math.PI / 2}>
+        <group rotation-y={rueda}>
+          <mesh castShadow><cylinderGeometry args={[0.33, 0.33, 0.22, 28]} /><meshStandardMaterial color="#151515" roughness={0.85} /></mesh>
+          <mesh position={[0, z > 0 ? 0.112 : -0.112, 0]}><cylinderGeometry args={[0.2, 0.2, 0.01, 24]} /><meshStandardMaterial color="#b8bcbf" metalness={0.9} roughness={0.25} /></mesh>
+        </group>
+      </group>
+    )))}
+    {[-0.6, 0.6].map((z) => (
+      <mesh key={z} position={[2.2, 0.62, z]}><boxGeometry args={[0.02, 0.12, 0.32]} /><meshStandardMaterial color="#fff6dd" emissive="#fff3c4" emissiveIntensity={0.3 + 2 * luces} /></mesh>
+    ))}
+    {[-0.62, 0.62].map((z) => (
+      <mesh key={`t${z}`} position={[-2.2, 0.66, z]}><boxGeometry args={[0.02, 0.1, 0.3]} /><meshStandardMaterial color="#8a1010" emissive="#ff2a1f" emissiveIntensity={0.4 + luces} /></mesh>
+    ))}
+  </group>
+);
+
+/** Hoja de calendario de pared con el mes (y el año) grande. */
+export const HojaMes: React.FC<{ mes: string; anio?: string }> = ({ mes, anio = "" }) => {
+  const tex = useLienzo(`mes-${mes}-${anio}`, 384, 448, (x, w, h) => {
+    x.fillStyle = "#fbfaf6"; x.fillRect(0, 0, w, h);
+    x.fillStyle = "#d92d20"; x.fillRect(0, 0, w, 120);
+    x.fillStyle = "#fff"; x.font = `800 62px "Space Grotesk", sans-serif`; x.textAlign = "center"; x.fillText(mes, w / 2, 86);
+    x.fillStyle = "#333"; x.font = `600 24px "Inter", sans-serif`;
+    for (let i = 0; i < 30; i++) x.fillText(String(i + 1), 40 + (i % 7) * 50, 180 + Math.floor(i / 7) * 52);
+    if (anio) { x.fillStyle = "#888"; x.font = `700 26px "Inter", sans-serif`; x.fillText(anio, w / 2, h - 20); }
+  });
+  return (
+    <group>
+      <mesh geometry={cajaR(0.4, 0.47, 0.012, 0.01, 2)} castShadow><meshStandardMaterial color="#e8e6df" roughness={0.6} /></mesh>
+      <mesh position={[0, 0, 0.007]}><planeGeometry args={[0.38, 0.445]} /><meshStandardMaterial map={tex} roughness={0.7} /></mesh>
+    </group>
+  );
+};
+
+/** Lupa (aro metálico, mango y vidrio). */
+export const Lupa3D: React.FC = () => (
+  <group>
+    <mesh><torusGeometry args={[0.32, 0.035, 16, 48]} /><meshStandardMaterial color="#2b2f2d" metalness={0.8} roughness={0.3} /></mesh>
+    <mesh><circleGeometry args={[0.3, 48]} /><meshPhysicalMaterial color="#d8ecff" transparent opacity={0.18} roughness={0.02} /></mesh>
+    <mesh position={[0.32, -0.32, 0]} rotation-z={Math.PI / 4}><cylinderGeometry args={[0.04, 0.05, 0.42, 16]} /><meshStandardMaterial color="#5a3320" roughness={0.6} /></mesh>
+  </group>
+);

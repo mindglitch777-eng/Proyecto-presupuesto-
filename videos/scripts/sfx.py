@@ -373,6 +373,13 @@ def main():
     mus *= np.clip(t(dur) / 0.5, 0, 1)
     save("pulso", reverb(mus, 0.15, 0.3), -3, 0.006)
 
+    # piano: nota grave (Do2 + octava + quinta), ataque suave y cola larga (V8-10, después del papelito)
+    d = 4.5
+    f0 = 65.41
+    nota = sum(g * tone(f0 * k, d) * env(d, 0.006, 0.9 + k * 0.35) for k, g in [(1, 1.0), (2, 0.55), (3, 0.25), (4, 0.18), (6, 0.08)])
+    nota += 0.35 * tone(f0 * 1.5, d) * env(d, 0.008, 1.2)
+    save("piano_grave", reverb(nota, 0.35, 0.5), -4, 0.004)
+
     print("sonidos listos en", OUT)
 
 

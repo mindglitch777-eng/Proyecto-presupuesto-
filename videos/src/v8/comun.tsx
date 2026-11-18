@@ -181,3 +181,27 @@ export const Billetes: React.FC<{ t: number; desde: number; hasta?: number; x0: 
   }
   return <>{out}</>;
 };
+
+/**
+ * FOMO honesto (ESTANDAR-CALIDAD.md, sección 2): solo el cupo real de 100 socios fundadores a $12.900 para siempre (lleno → $19.900).
+ * Los 100 casilleros NO marcan cuántos quedan: un brillo los recorre, nada más. Nunca mostrar lugares restantes.
+ */
+export const CupoFundadores: React.FC<{ t: number; desde: number; top?: number }> = ({ t, desde, top = 92 }) => {
+  if (t < desde - 0.05) return null;
+  const s = sp(t - desde, 1.06, 15, 0.5);
+  const barrido = ((t - desde) * 40) % 130;
+  return (
+    <div style={{ left: 22, right: 22, top, padding: "14px 14px 16px", borderRadius: 18, background: "#0e3b2aee", border: `2px solid ${C.ambar}`, boxShadow: "0 10px 30px #000a", opacity: Math.min(1, s * 1.4), transform: `scale(${0.9 + 0.1 * s})` }}>
+      <div style={{ position: "static", textAlign: "center", font: `800 16px ${BODY}`, color: C.ambar, letterSpacing: ".06em" }}>SOCIOS FUNDADORES · CUPO DE 100</div>
+      <div style={{ position: "static", display: "grid", gridTemplateColumns: "repeat(20, 1fr)", gap: 3, margin: "10px 2px" }}>
+        {Array.from({ length: 100 }, (_, i) => {
+          const d = Math.abs((i % 20) * 5 + Math.floor(i / 20) * 3 - barrido);
+          const luz = Math.max(0, 1 - d / 14);
+          return <div key={i} style={{ position: "static", height: 9, borderRadius: 2, background: `rgba(245,165,36,${0.22 + 0.7 * luz})` }} />;
+        })}
+      </div>
+      <div style={{ position: "static", textAlign: "center", font: `800 22px ${DISP}`, color: "#fff" }}>$12.900 para siempre</div>
+      <div style={{ position: "static", textAlign: "center", font: `600 14px ${BODY}`, color: "#ffffffcc", marginTop: 2 }}>cuando se llena el cupo, $19.900 · link en el perfil</div>
+    </div>
+  );
+};
