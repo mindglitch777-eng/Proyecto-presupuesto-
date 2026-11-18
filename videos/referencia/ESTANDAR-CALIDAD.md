@@ -35,6 +35,7 @@ Por eso NO se usan: ElevenLabs gratis (no permite uso comercial y obliga a citar
 - **Gancho en 1 segundo, entendible sin sonido:** imagen fuerte + frase en pantalla de máximo 7 palabras. Que el kiosquero piense "eso me pasa a mí".
 - **Preguntas encadenadas** (como V7): se abre una antes de cerrar la anterior. Pero cada respuesta es una **sorpresa entendible**, no un acertijo.
 - **Duración la que pida la historia** (20 a 40 s). La voz va a velocidad natural: **prohibido acelerar la voz para meter texto**. Si no entra, se corta texto.
+- **FOMO honesto en el cierre:** la única escasez que se usa es la real (cupo de 100 socios fundadores a $12.900 para siempre; lleno → $19.900). Nunca inventar lugares restantes, usuarios, testimonios ni plazos.
 - **La app aparece como alivio**, con su pantalla real, no como logo. Cierre con una acción concreta ("probalo 14 días gratis, link en el perfil").
 
 ## 3. Imagen
