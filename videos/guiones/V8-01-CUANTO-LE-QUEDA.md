@@ -11,22 +11,20 @@ fiado que no vuelve, comisión del QR. Le quedan $23.500… y el dueño cree que
 
 **Cuenta (ejemplo):** 150.000 − 97.500 (mercadería, 65%) − 18.000 (alquiler y luz del día) − 8.000 (fiado que no vuelve) − 3.000 (4% de comisión sobre $75.000 cobrados con QR) = **$23.500**.
 
-## Imagen (todo real, sin filmar nada el dueño)
+## Imagen: estilo "explicador financiero" (decisión del dueño, 17/11)
 
-Script nuevo `videos/scripts/tomas.py` en GitHub Actions: busca en la **API de Wikimedia Commons** (sin clave) y, si está `PIXABAY_API_KEY`, en Pixabay.
-Solo licencias que permitan uso comercial (dominio público, CC0, CC BY, CC BY-SA); las que piden crédito van a `videos/salida/v8-01-creditos.txt`.
-Commons tiene sobre todo **fotos**: está bien. Cada foto se usa con movimiento de cámara (empuje lento, paneo, pequeño temblor de mano) y nunca quieta más de 0,7 s.
+Probado y descartado: las fotos de Wikimedia Commons son pocas y flojas, y la generación de imágenes de Google **no es gratis** (cuota 0 en el plan gratis).
+Entonces: **representación diseñada de calidad**, con los números como protagonistas. Usá la skill `style-sampling` (estilo *Finance Explainer*)
+y `hyperframes-registry` (bloques ya hechos: tipografía cinética, gráficos, transiciones) o su equivalente en Remotion.
 
-Búsquedas (en este orden, guardar las 3 mejores de cada una en `videos/public/tomas/v8-01/`):
-1. `kiosco Buenos Aires` · `kiosk Argentina` · `kiosco golosinas` (fachada con golosinas y rejas: es el cuadro 0)
-2. `almacén de barrio Argentina` · `góndola almacén` (mercadería)
-3. `persiana metálica local` · `medidor de luz` (alquiler y luz)
-4. `cuaderno anotaciones` · `libreta manuscrita` (fiado)
-5. `billetes pesos argentinos` · `caja registradora` (la plata)
-6. `código QR pago comercio` (comisión)
-
-Claude mira una hoja de contacto de lo bajado y elige. Si una búsqueda no trae nada usable, se reemplaza por otra palabra clave (no por un dibujo).
-**Pantalla de la app:** grabada de la app real (`app/`, `ENCLARO_MODO_PRUEBA=1`, Playwright a 360 px) mostrando el cierre del día con estos mismos números.
+- **Protagonista: el número.** Gigante, con conteo de dígitos, cambios de color (verde → amarillo → rojo) a medida que baja.
+- **Fondo:** colores de la marca En Claro (ver `marca/` y la landing), con textura de papel/grano suave, nunca negro vacío.
+- **Íconos e ilustración plana, prolija y adulta** (línea gruesa, 2–3 colores): caja, góndola, persiana, cuaderno, QR. Nada de muñecos 3D ni dibujitos infantiles.
+- **Fotos reales como recortes** (tipo collage, con borde blanco y una leve sombra, entrando con movimiento): las 7 que sirven están en
+  `videos/public/tomas/v8-01/` (kiosco del subte, kiosco de plaza, pizarrón de almacén, persiana, cuaderno a mano, 2 QR en mostrador).
+  Créditos obligatorios (CC BY / BY-SA) en `videos/public/tomas/v8-01/creditos.txt` → copiarlos a `videos/salida/v8-01-creditos.txt` para la descripción del post.
+- **Pantalla real de En Claro** grabada de la app (`app/`, `ENCLARO_MODO_PRUEBA=1`, Playwright a 360 px) para el truco.
+- Movimiento constante: cada elemento entra con golpe y rebote suave, la cámara empuja o panea siempre, nada quieto más de 0,7 s.
 
 ## Voz
 
