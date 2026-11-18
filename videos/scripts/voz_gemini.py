@@ -120,6 +120,56 @@ def alinear(guion_pal, oidas, total):
     return guion_pal
 
 
+def ajustar_pausas(pcm, guion_pal, guion):
+    marco = int(0.01 * SR)
+    energia = np.sqrt(np.convolve(pcm.astype(np.float64) ** 2, np.ones(marco) / marco, mode="same"))
+    umbral = energia.max() * 10 ** (-38 / 20)
+    pausa_max = guion.get("pausa_max", 0.6)
+    for n, l in enumerate(guion["lineas"]):
+        if n == 0:
+            continue
+        prev = [p for p in guion_pal if p["linea"] == n - 1]
+        este = [p for p in guion_pal if p["linea"] == n]
+        if not prev or not este:
+            continue
+        a, b = int(prev[-1]["desde"] * SR), int(este[0]["hasta"] * SR)
+        callado = energia[a:b] < umbral
+        # el tramo callado más largo entre la última palabra de una línea y la primera de la siguiente
+        mejor, ini, k = (0, 0, 0), None, 0
+        for k, c in enumerate(callado):
+            if c and ini is None:
+                ini = k
+            if (not c or k == len(callado) - 1) and ini is not None:
+                fin = k if not c else k + 1
+                if fin - ini > mejor[0]:
+                    mejor = (fin - ini, ini, fin)
+                ini = None
+        if mejor[0] == 0:
+            continue
+        s0, s1 = (a + mejor[1]) / SR, (a + mejor[2]) / SR
+        real = s1 - s0
+        objetivo = l["silencio"] if l.get("silencio") else min(real, pausa_max)
+        delta = objetivo - real
+        if abs(delta) < 0.03:
+            continue
+        medio = int((s0 + real / 2) * SR)
+        if delta > 0:
+            pcm = np.concatenate([pcm[:medio], np.zeros(int(delta * SR), dtype=np.float32), pcm[medio:]])
+        else:
+            quitar = int(-delta * SR)
+            pcm = np.concatenate([pcm[: medio - quitar // 2], pcm[medio - quitar // 2 + quitar :]])
+            energia = np.concatenate([energia[: medio - quitar // 2], energia[medio - quitar // 2 + quitar :]])
+        if delta > 0:
+            energia = np.concatenate([energia[:medio], np.zeros(int(delta * SR)), energia[medio:]])
+        prev[-1]["hasta"] = round(min(prev[-1]["hasta"], s0 + 0.02), 3)
+        for p in guion_pal:
+            if p["desde"] >= s0 + real / 2:
+                p["desde"] = round(p["desde"] + delta, 3)
+                p["hasta"] = round(p["hasta"] + delta, 3)
+        print(f"Línea {n}: pausa de {real:.2f} s → {objetivo:.2f} s")
+    return pcm
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("guion")
@@ -168,26 +218,10 @@ def main():
             oidas, alineado = [], False
         alinear(guion_pal, oidas, len(pcm) / SR)
 
-        # silencios mínimos garantizados antes de las líneas que lo piden
-        for n, l in enumerate(guion["lineas"]):
-            minimo = l.get("silencio")
-            if not minimo or n == 0 or not alineado:
-                continue
-            prev = [p for p in guion_pal if p["linea"] == n - 1]
-            este = [p for p in guion_pal if p["linea"] == n]
-            if not prev or not este:
-                continue
-            hueco = este[0]["desde"] - prev[-1]["hasta"]
-            if hueco >= minimo:
-                continue
-            falta = minimo - hueco + 0.05
-            corte = int((prev[-1]["hasta"] + hueco / 2) * SR)
-            pcm = np.concatenate([pcm[:corte], np.zeros(int(falta * SR), dtype=np.float32), pcm[corte:]])
-            for p in guion_pal:
-                if p["desde"] >= prev[-1]["hasta"] + hueco / 2:
-                    p["desde"] = round(p["desde"] + falta, 3)
-                    p["hasta"] = round(p["hasta"] + falta, 3)
-            print(f"Línea {n}: silencio llevado a {minimo:.2f} s (+{falta:.2f} s)")
+        # pausas entre líneas medidas en el audio real (no en los tiempos de whisper, que estiran el final de las palabras):
+        # antes de una línea con `silencio` queda exactamente ese silencio; las demás, como mucho `pausa_max` (ritmo sin baches)
+        if alineado:
+            pcm = ajustar_pausas(pcm, guion_pal, guion)
 
         guardar_wav(pcm, wav)
         destino.parent.mkdir(parents=True, exist_ok=True)

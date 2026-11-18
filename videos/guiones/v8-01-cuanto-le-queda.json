@@ -70,5 +70,6 @@
    "texto": "¿Cuánto habías dicho vos? Probalo catorce días gratis, link en el perfil."
   }
  ],
- "sonidos": []
+ "sonidos": [],
+ "pausa_max": 0.6
 }
