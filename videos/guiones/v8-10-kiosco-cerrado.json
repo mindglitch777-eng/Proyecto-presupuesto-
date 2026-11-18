@@ -8,7 +8,7 @@
   "motor": "gemini",
   "modelo": "gemini-2.5-flash-preview-tts",
   "nombre": "Orus",
-  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años, en voz baja, como entrando a un lugar abandonado, con respeto, pero con ritmo natural de charla: no arrastres las palabras ni hagas pausas largas entre frases. Solo cuando leés la frase entre comillas «Este mes sí sale», decila más despacio, emocionado y con la voz quebrada, como leyendo algo muy triste. Al final, firme y claro. Hacé una pausa corta en cada punto. Leé exactamente esto:"
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años, en voz baja, como entrando a un lugar abandonado, con respeto, pero con ritmo natural de charla: no arrastres las palabras ni hagas pausas largas entre frases. Al final, firme y claro. Hacé una pausa corta en cada punto. Leé exactamente esto:"
  },
  "ganchos": [
   {
@@ -51,8 +51,10 @@
   {
    "desde": 22.28,
    "hasta": 23.82,
-   "texto": "«Este mes sí sale.»",
-   "silencio": 0.5
+   "texto": "Este mes sí sale.",
+   "silencio": 0.5,
+   "subtitulo": "«Este mes sí sale.»",
+   "aparte": "Hablá en español rioplatense de Argentina, como un kiosquero argentino de 50 años leyendo en voz alta un papelito que dejó otro kiosquero que tuvo que cerrar: despacio, en voz baja, emocionado y con la voz quebrada, a punto de llorar. Leé exactamente esto:"
   },
   {
    "desde": 24.17,

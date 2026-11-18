@@ -36,7 +36,10 @@ def texto_linea(guion, l):
 
 
 def firma(guion):
-    datos = json.dumps([guion["voz"], [texto_linea(guion, l) for l in guion["lineas"]], [l.get("silencio") for l in guion["lineas"]]], ensure_ascii=False, sort_keys=True)
+    base = [guion["voz"], [texto_linea(guion, l) for l in guion["lineas"]], [l.get("silencio") for l in guion["lineas"]]]
+    if any(l.get("aparte") for l in guion["lineas"]):
+        base.append([l.get("aparte") for l in guion["lineas"]])
+    datos = json.dumps(base, ensure_ascii=False, sort_keys=True)
     return hashlib.sha256(datos.encode()).hexdigest()[:16]
 
 
@@ -256,6 +259,40 @@ def recortar_silencios(pcm, guion_pal, guion, maximo):
     return pcm
 
 
+def insertar_aparte(pcm, guion_pal, guion, n, texto):
+    """Línea grabada en una toma aparte, con su propia actuación (`"aparte": "<actuación>"`): se pide sola, se recortan sus bordes y
+    se mete en el silencio antes de la línea siguiente, con el `silencio` pedido antes y una pausa corta después."""
+    l = guion["lineas"][n]
+    print(f"Toma aparte para la línea {n}: {texto}")
+    ap = np.frombuffer(pedir_voz(texto, {**guion["voz"], "actuacion": l["aparte"]}), dtype=np.int16).astype(np.float32)
+    nivel = np.abs(ap) > 600
+    if nivel.any():
+        ap = ap[max(0, int(np.argmax(nivel)) - int(0.03 * SR)): len(ap) - int(np.argmax(nivel[::-1])) + int(0.05 * SR)]
+    siguiente = [p for p in guion_pal if p["linea"] > n]
+    anterior = [p for p in guion_pal if p["linea"] < n]
+    corte = (siguiente[0]["desde"] - 0.12) if siguiente else len(pcm) / SR
+    if anterior:
+        corte = max(corte, anterior[-1]["hasta"] + 0.02)
+    antes, despues = l.get("silencio", 0.4), guion.get("pausa_max", 0.45)
+    i = int(corte * SR)
+    bloque = np.concatenate([np.zeros(int(antes * SR), dtype=np.float32), ap, np.zeros(int(despues * SR), dtype=np.float32)])
+    pcm = np.concatenate([pcm[:i], bloque, pcm[i:]])
+    durac = len(bloque) / SR
+    for p in siguiente:
+        p["desde"] = round(p["desde"] + durac, 3)
+        p["hasta"] = round(p["hasta"] + durac, 3)
+    sub = [{"texto": w, "linea": n} for w in texto.split()]
+    try:
+        alinear(sub, palabras_whisper(ap), len(ap) / SR)
+    except Exception:
+        alinear(sub, [], len(ap) / SR)
+    for p in sub:
+        p["desde"] = round(p["desde"] + corte + antes, 3)
+        p["hasta"] = round(p["hasta"] + corte + antes, 3)
+    guion_pal[:] = sorted(guion_pal + sub, key=lambda p: (p["desde"], p["linea"]))
+    return pcm
+
+
 def solo_tiempos(ruta):
     """Corrige los tiempos de una voz ya generada sin pedir otra toma ni volver a usar whisper (--solo-tiempos)."""
     guion = json.loads(ruta.read_text())
@@ -302,7 +339,7 @@ def main():
         pcm = np.frombuffer(crudo, dtype=np.int16).astype(np.float32)
     else:
         # los silencios pedidos se marcan con "…" para que la actuación también pause
-        texto = " ".join(("… " if l.get("silencio") else "") + t for l, t in zip(guion["lineas"], lineas))
+        texto = " ".join(("… " if l.get("silencio") else "") + t for l, t in zip(guion["lineas"], lineas) if not l.get("aparte"))
         print("Pidiendo la voz a Gemini:", guion["voz"]["nombre"], guion["voz"]["modelo"])
         pcm = np.frombuffer(pedir_voz(texto, guion["voz"]), dtype=np.int16).astype(np.float32)
         # recortar el silencio del principio (el cuadro 0 arranca con la voz) y dejar el del final en 0,3 s
@@ -317,7 +354,8 @@ def main():
         def guardar_wav(x, p):
             subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "s16le", "-ar", str(SR), "-ac", "1", "-i", "-", str(p)], input=np.clip(x, -32768, 32767).astype(np.int16).tobytes(), check=True)
         guardar_wav(pcm, wav)
-        guion_pal = [{"texto": w, "linea": n} for n, t in enumerate(lineas) for w in t.split()]
+        aparte = [] if misma_toma else [n for n, l in enumerate(guion["lineas"]) if l.get("aparte")]
+        guion_pal = [{"texto": w, "linea": n} for n, t in enumerate(lineas) for w in t.split() if n not in aparte]
         try:
             oidas = palabras_whisper(pcm)
             alineado = len(oidas) > 0
@@ -334,6 +372,8 @@ def main():
             if guion.get("silencio_max"):
                 pcm = recortar_silencios(pcm, guion_pal, guion, guion["silencio_max"])
             ajustar_a_silencios(pcm, guion_pal)
+            for n in aparte:
+                pcm = insertar_aparte(pcm, guion_pal, guion, n, lineas[n])
 
         guardar_wav(pcm, wav)
         destino.parent.mkdir(parents=True, exist_ok=True)
