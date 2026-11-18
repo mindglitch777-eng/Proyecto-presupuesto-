@@ -1,6 +1,6 @@
 {
  "voz": "es-AR-TomasNeural",
- "firma": "603c2b127c1069fa",
+ "firma": "c00aa0ff1baccc79",
  "duracionSeg": 27.065,
  "lineas": [
   [
@@ -282,7 +282,7 @@
   {
    "texto": "abriste.",
    "desde": 12.1,
-   "hasta": 12.509,
+   "hasta": 12.51,
    "linea": 3
   },
   {
@@ -299,7 +299,7 @@
   },
   {
    "texto": "el",
-   "desde": 13.842,
+   "desde": 13.843,
    "hasta": 13.919,
    "linea": 4
   },
@@ -330,7 +330,7 @@
   {
    "texto": "pasada.",
    "desde": 14.734,
-   "hasta": 15.092,
+   "hasta": 15.093,
    "linea": 4
   },
   {
@@ -383,7 +383,7 @@
   },
   {
    "texto": "a",
-   "desde": 19.369,
+   "desde": 19.37,
    "hasta": 19.39,
    "linea": 5
   },
@@ -401,7 +401,7 @@
   },
   {
    "texto": "y",
-   "desde": 19.871,
+   "desde": 19.872,
    "hasta": 19.933,
    "linea": 5
   },
@@ -432,7 +432,7 @@
   {
    "texto": "a",
    "desde": 20.609,
-   "hasta": 20.66,
+   "hasta": 20.661,
    "linea": 5
   },
   {
@@ -449,7 +449,7 @@
   },
   {
    "texto": "hoy.",
-   "desde": 21.203,
+   "desde": 21.204,
    "hasta": 21.357,
    "linea": 5
   },

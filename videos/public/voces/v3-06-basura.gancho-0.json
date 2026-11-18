@@ -1,6 +1,6 @@
 {
  "voz": "es-AR-TomasNeural",
- "firma": "a82ece506610614d",
+ "firma": "d3d53f0a6d2d71a8",
  "duracionSeg": 20.179,
  "lineas": [
   [
@@ -222,13 +222,13 @@
   {
    "texto": "lo",
    "desde": 7.926,
-   "hasta": 8.04,
+   "hasta": 8.039,
    "linea": 3
   },
   {
    "texto": "que",
    "desde": 8.096,
-   "hasta": 8.165,
+   "hasta": 8.164,
    "linea": 3
   },
   {
@@ -275,8 +275,8 @@
   },
   {
    "texto": "pesos…",
-   "desde": 10.798,
-   "hasta": 11.173,
+   "desde": 10.799,
+   "hasta": 11.174,
    "linea": 4
   },
   {
@@ -287,7 +287,7 @@
   },
   {
    "texto": "un",
-   "desde": 11.389,
+   "desde": 11.39,
    "hasta": 11.503,
    "linea": 4
   },
@@ -299,14 +299,14 @@
   },
   {
    "texto": "mes.",
-   "desde": 11.764,
+   "desde": 11.765,
    "hasta": 12.06,
    "linea": 4
   },
   {
    "texto": "En",
    "desde": 12.581,
-   "hasta": 12.724,
+   "hasta": 12.725,
    "linea": 5
   },
   {
@@ -365,7 +365,7 @@
   },
   {
    "texto": "termine",
-   "desde": 14.517,
+   "desde": 14.518,
    "hasta": 14.804,
    "linea": 5
   },
@@ -378,7 +378,7 @@
   {
    "texto": "el",
    "desde": 14.866,
-   "hasta": 14.978,
+   "hasta": 14.979,
    "linea": 5
   },
   {
@@ -395,7 +395,7 @@
   },
   {
    "texto": "tu",
-   "desde": 16.231,
+   "desde": 16.232,
    "hasta": 16.293,
    "linea": 6
   },
@@ -413,7 +413,7 @@
   },
   {
    "texto": "Probalo",
-   "desde": 17.652,
+   "desde": 17.653,
    "hasta": 17.909,
    "linea": 6
   },

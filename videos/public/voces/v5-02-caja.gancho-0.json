@@ -1,6 +1,6 @@
 {
  "voz": "es-AR-TomasNeural",
- "firma": "aa9650646bc762cd",
+ "firma": "44ec87c090eac7de",
  "duracionSeg": 37.767,
  "lineas": [
   [
@@ -597,7 +597,7 @@
   },
   {
    "texto": "En",
-   "desde": 29.849,
+   "desde": 29.85,
    "hasta": 29.946,
    "linea": 6
   },
@@ -639,7 +639,7 @@
   },
   {
    "texto": "Mi",
-   "desde": 31.673,
+   "desde": 31.674,
    "hasta": 31.789,
    "linea": 7
   },
@@ -664,7 +664,7 @@
   {
    "texto": "te",
    "desde": 32.5,
-   "hasta": 32.548,
+   "hasta": 32.549,
    "linea": 7
   },
   {
@@ -682,7 +682,7 @@
   {
    "texto": "creés",
    "desde": 33.902,
-   "hasta": 34.123,
+   "hasta": 34.124,
    "linea": 7
   },
   {
