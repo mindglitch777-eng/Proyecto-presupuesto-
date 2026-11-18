@@ -37,7 +37,7 @@ def texto_linea(guion, l):
 
 def firma(guion):
     datos = json.dumps([guion["voz"], [texto_linea(guion, l) for l in guion["lineas"]], [l.get("silencio") for l in guion["lineas"]]], ensure_ascii=False, sort_keys=True)
-    return hashlib.sha256(datos.encode() + Path(__file__).read_bytes()).hexdigest()[:16]
+    return hashlib.sha256(datos.encode()).hexdigest()[:16]
 
 
 def pedir_voz(texto, voz):
@@ -126,21 +126,28 @@ def main():
     if guion["voz"].get("motor") != "gemini":
         return
     destino = RAIZ / "public" / "voces" / f"{guion['id']}.gancho-0"
-    if a.si_cambio and Path(f"{destino}.json").exists() and json.loads(Path(f"{destino}.json").read_text()).get("firma") == firma(guion):
+    previo = json.loads(Path(f"{destino}.json").read_text()) if Path(f"{destino}.json").exists() else {}
+    misma_toma = previo.get("firma") == firma(guion) and Path(f"{destino}.mp3").exists()
+    if a.si_cambio and misma_toma and previo.get("alineado"):
         print(f"{guion['id']}: sin cambios, se deja la voz que ya estaba")
         return
     lineas = [texto_linea(guion, l) for l in guion["lineas"]]
-    # los silencios pedidos se marcan con "…" para que la actuación también pause
-    texto = " ".join(("… " if l.get("silencio") else "") + t for l, t in zip(guion["lineas"], lineas))
-    print("Pidiendo la voz a Gemini:", guion["voz"]["nombre"], guion["voz"]["modelo"])
-    pcm = np.frombuffer(pedir_voz(texto, guion["voz"]), dtype=np.int16).astype(np.float32)
-
-    # recortar el silencio del principio (el cuadro 0 arranca con la voz) y dejar el del final en 0,3 s
-    nivel = np.abs(pcm) > 600
-    if nivel.any():
-        ini = max(0, int(np.argmax(nivel)) - int(0.04 * SR))
-        fin = min(len(pcm), len(pcm) - int(np.argmax(nivel[::-1])) + int(0.3 * SR))
-        pcm = pcm[ini:fin]
+    if misma_toma:
+        # misma toma de Gemini: solo se vuelven a sacar los tiempos (no se gasta otra consulta)
+        print("Misma toma: se recalculan los tiempos sobre la voz que ya estaba")
+        crudo = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", f"{destino}.mp3", "-f", "s16le", "-ar", str(SR), "-ac", "1", "-"], capture_output=True, check=True).stdout
+        pcm = np.frombuffer(crudo, dtype=np.int16).astype(np.float32)
+    else:
+        # los silencios pedidos se marcan con "…" para que la actuación también pause
+        texto = " ".join(("… " if l.get("silencio") else "") + t for l, t in zip(guion["lineas"], lineas))
+        print("Pidiendo la voz a Gemini:", guion["voz"]["nombre"], guion["voz"]["modelo"])
+        pcm = np.frombuffer(pedir_voz(texto, guion["voz"]), dtype=np.int16).astype(np.float32)
+        # recortar el silencio del principio (el cuadro 0 arranca con la voz) y dejar el del final en 0,3 s
+        nivel = np.abs(pcm) > 600
+        if nivel.any():
+            ini = max(0, int(np.argmax(nivel)) - int(0.04 * SR))
+            fin = min(len(pcm), len(pcm) - int(np.argmax(nivel[::-1])) + int(0.3 * SR))
+            pcm = pcm[ini:fin]
 
     with tempfile.TemporaryDirectory() as d:
         wav = Path(d) / "voz.wav"
@@ -150,10 +157,11 @@ def main():
         guion_pal = [{"texto": w, "linea": n} for n, t in enumerate(lineas) for w in t.split()]
         try:
             oidas = palabras_whisper(wav)
-            print(f"whisper oyó {len(oidas)} palabras (el guion tiene {len(guion_pal)})")
+            alineado = len(oidas) > 0
+            print(f"whisper oyó {len(oidas)} palabras (el guion tiene {len(guion_pal)}): " + " ".join(w[0] for w in oidas))
         except Exception as e:
             print("No se pudo usar whisper, se reparten los tiempos por largo de texto:", e)
-            oidas = []
+            oidas, alineado = [], False
         alinear(guion_pal, oidas, len(pcm) / SR)
 
         # silencios mínimos garantizados antes de las líneas que lo piden
@@ -187,7 +195,7 @@ def main():
         ps = [p for p in guion_pal if p["linea"] == n]
         tiempos_linea.append([ps[0]["desde"], ps[-1]["hasta"]] if ps else [0, 0])
     total = round(habla + guion.get("cola", 1.2), 3)
-    Path(f"{destino}.json").write_text(json.dumps({"voz": f"gemini {guion['voz']['nombre']}", "firma": firma(guion), "duracionSeg": total, "lineas": tiempos_linea, "palabras": guion_pal}, ensure_ascii=False, indent=1))
+    Path(f"{destino}.json").write_text(json.dumps({"voz": f"gemini {guion['voz']['nombre']}", "firma": firma(guion), "duracionSeg": total, "alineado": alineado, "lineas": tiempos_linea, "palabras": guion_pal}, ensure_ascii=False, indent=1))
     print(f"Listo: {destino}.mp3 · voz {habla:.1f} s · video {total:.1f} s")
     for n, (d, h) in enumerate(tiempos_linea):
         print(f"  línea {n}: {d:6.2f} → {h:6.2f}  {lineas[n]}")
