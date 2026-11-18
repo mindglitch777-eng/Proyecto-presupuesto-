@@ -117,3 +117,31 @@ export const Billete: React.FC<{ w: number }> = ({ w }) => (
     <rect x="61" y="26" width="10" height="5" rx="2" fill={C.hoja} />
   </svg>
 );
+
+/** El kiosquero, de medio cuerpo, plano y adulto: pelo canoso, bigote, camisa y delantal verde. `ceño` 0 tranquilo → 1 preocupado. */
+export const Kiosquero: React.FC<{ w: number; t: number; ceno?: number }> = ({ w, t, ceno = 0 }) => {
+  const parpadeo = (t % 3.1) > 2.98 ? 0.15 : 1;
+  return (
+    <svg width={w} height={w * 1.05} viewBox="0 0 120 126" style={{ overflow: "visible" }}>
+      {/* hombros y camisa */}
+      <path d="M8 126 q0 -40 52 -42 q52 2 52 42 z" fill="#9cc3e8" {...L} strokeWidth={4} />
+      {/* delantal */}
+      <path d="M34 126 v-30 q26 -10 52 0 v30 z" fill={C.hoja} stroke={C.tinta} strokeWidth="4" strokeLinejoin="round" />
+      <rect x="52" y="104" width="16" height="8" rx="2" fill={C.crema} />
+      {/* cuello y cabeza */}
+      <rect x="51" y="70" width="18" height="16" fill="#e2a77f" stroke={C.tinta} strokeWidth="3.5" />
+      <ellipse cx="60" cy="48" rx="27" ry="31" fill="#e8b48a" {...L} strokeWidth={4} />
+      {/* pelo canoso */}
+      <path d="M33 44 q2 -30 27 -30 q25 0 27 30 q-6 -14 -27 -16 q-21 2 -27 16 z" fill="#c9c9c4" stroke={C.tinta} strokeWidth="3.5" strokeLinejoin="round" />
+      {/* cejas (se juntan cuando se preocupa) */}
+      <path d={`M43 ${40 - 2 * ceno} l11 ${2 + 3 * ceno}`} stroke={C.tinta} strokeWidth="3.5" strokeLinecap="round" />
+      <path d={`M77 ${40 - 2 * ceno} l-11 ${2 + 3 * ceno}`} stroke={C.tinta} strokeWidth="3.5" strokeLinecap="round" />
+      {/* ojos */}
+      <ellipse cx="49" cy="48" rx="3.2" ry={3.6 * parpadeo} fill={C.tinta} />
+      <ellipse cx="71" cy="48" rx="3.2" ry={3.6 * parpadeo} fill={C.tinta} />
+      {/* bigote y boca */}
+      <path d="M46 62 q14 -8 28 0 q-14 5 -28 0 z" fill="#8f8f88" stroke={C.tinta} strokeWidth="2.5" strokeLinejoin="round" />
+      <path d={`M52 ${70 + ceno} q8 ${-4 * ceno + 2} 16 0`} fill="none" stroke={C.tinta} strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  );
+};

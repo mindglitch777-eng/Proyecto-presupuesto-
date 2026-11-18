@@ -6,7 +6,7 @@ import { ars } from "../lib/formato";
 import { GUION_V8_01, palabrasDeRespaldo, type Palabra } from "../lib/guion";
 import type { VideoProps } from "../Video";
 import { Celular, Marco, W, camaraBeats, lineasDeVoz, temblor, type Cam2D } from "../v6/comun";
-import { Billete, C, Gondola, Kiosco, PersianaLuz } from "./iconos";
+import { Billete, C, Gondola, Kiosco, Kiosquero, PersianaLuz } from "./iconos";
 
 // V8-01 "¿Cuánto le queda de verdad a un kiosco?" — estilo explicador financiero (videos/guiones/V8-01-CUANTO-LE-QUEDA.md).
 // El protagonista es el número: baja contando dígito por dígito y cambia de verde a rojo. Máximo 2 textos a la vez + subtítulo.
@@ -203,6 +203,7 @@ const Gancho: React.FC<{ tg: number }> = ({ tg }) => {
     <div style={{ inset: 0 }}>
       <div style={{ left: 30, top: 252, transform: `scale(${1.0 + tg * 0.035}) translateY(${Math.sin(tg * 2.2) * 2}px)`, transformOrigin: "50% 100%" }}>
         <Kiosco w={300} t={tg} />
+        <div style={{ left: 196, top: 128, transform: `translateY(${Math.sin(tg * 1.8) * 1.5}px)` }}><Kiosquero w={62} t={tg} /></div>
       </div>
       <Entrando t={tg} />
       <div style={{ left: 0, right: 0, top: 84, textAlign: "center", transform: `scale(${golpe})` }}>
@@ -290,7 +291,8 @@ export const CuantoLeQueda: React.FC<VideoProps> = ({ voz, palabras }) => {
     { en: l[5], sfx: "hoja", vol: 0.5 }, { en: T.ocho + 0.47, sfx: "thump", vol: 0.55 },
     { en: T.comision - 0.05, sfx: "lock", vol: 0.55 }, { en: T.tres + 0.47, sfx: "thump", vol: 0.6 },
     ...bajadas(T).map((a) => ({ en: a + 0.45, sfx: "click", vol: 0.5 })),
-    { en: T.quedan - 0.02, sfx: "slam", vol: 0.5 }, { en: T.cree, sfx: "marcador", vol: 0.45 }, { en: T.cree + 0.02, sfx: "thump", vol: 0.5 },
+    { en: T.quedan - 0.02, sfx: "slam", vol: 0.5 },
+    ...Array.from({ length: Math.max(0, Math.floor((T.cree - T.quedan - 0.2) / 0.55)) }, (_, i) => ({ en: T.quedan + 0.28 + i * 0.55, sfx: "heart", vol: 0.55 })), { en: T.cree, sfx: "marcador", vol: 0.45 }, { en: T.cree + 0.02, sfx: "thump", vol: 0.5 },
     { en: l[7] - 0.1, sfx: "whoosh", vol: 0.45 },
     { en: enApp(T, APP.hablar), sfx: "click", vol: 0.5 }, { en: enApp(T, APP.entendio), sfx: "ding", vol: 0.35 }, { en: tRes, sfx: "ding", vol: 0.5 }, { en: tRes + 0.18, sfx: "coins", vol: 0.35 },
     { en: T.probalo, sfx: "click", vol: 0.5 }, { en: T.LOOP - 0.12, sfx: "whoosh", vol: 0.35 },
@@ -395,7 +397,7 @@ export const CuantoLeQueda: React.FC<VideoProps> = ({ voz, palabras }) => {
 
           {esc === "cierre" ? (
             <>
-              <div style={{ left: 30, top: 252, transform: `scale(${1 + (t - l[8]) * 0.03}) translateY(${Math.sin(t * 2.2) * 2}px)`, transformOrigin: "50% 100%" }}><Kiosco w={300} t={t} /></div>
+              <div style={{ left: 30, top: 252, transform: `scale(${1 + (t - l[8]) * 0.03}) translateY(${Math.sin(t * 2.2) * 2}px)`, transformOrigin: "50% 100%" }}><Kiosco w={300} t={t} /><div style={{ left: 196, top: 128 }}><Kiosquero w={62} t={t} /></div></div>
               <Entrando t={t} desde={l[8] + 0.2} />
               <div style={{ left: 0, right: 0, top: 120, textAlign: "center", transform: `scale(${Math.min(1.05, spring(t - l[8], 15, 0.5)) * latido(t, 0.62, 0.04)}) rotate(${-2 + Math.sin(t * 4.4) * 1.6}deg)` }}>
                 <span style={{ position: "static", display: "inline-block", padding: "7px 16px", borderRadius: 12, background: C.rojo, color: "#fff", font: `800 28px ${DISP}`, boxShadow: `0 5px 0 ${C.tinta}` }}>¿CUÁNTO LE QUEDA?</span>
@@ -443,9 +445,12 @@ const Comparacion: React.FC<{ t: number; desde: number }> = ({ t, desde }) => {
     <div style={{ inset: 0 }}>
       <div style={{ left: 14, top: 120, width: 158, height: 300, borderRadius: 20, background: "#e7f3eb", border: `3px solid ${C.hoja}`, transform: `translateX(${(1 - Math.min(1, sA)) * -200}px)` }}>
         <div style={{ left: 0, right: 0, top: 22, textAlign: "center", font: `800 17px/1.15 ${BODY}`, color: C.verde }}>LO QUE CREE</div>
-        <div style={{ left: 0, right: 0, top: 120, textAlign: "center", font: `800 34px ${DISP}`, color: C.hoja, letterSpacing: "-.02em" }}>{ars(50000)}</div>
-        <div style={{ left: 18, right: 18, top: 136, height: 8, borderRadius: 4, background: C.rojo, transform: `rotate(-6deg) scaleX(${tacha})`, transformOrigin: "0 50%" }} />
-        <div style={{ left: 0, right: 0, top: 232, textAlign: "center", transform: `translateX(${t > desde + 0.35 ? Math.sin((t - desde) * 40) * 3 * Math.max(0, 1 - (t - desde - 0.35)) : 0}px) rotate(${Math.sin(t * 6) * 4}deg)` }}><span style={{ position: "static", display: "inline-block", width: 38, height: 38, borderRadius: 10, background: C.verde, font: `800 22px/38px ${DISP}`, color: C.ambar }}>B</span></div>
+        <div style={{ left: 10, right: 10, top: 64, height: 76, borderRadius: 38, background: "#fff", border: `3px solid ${C.hoja}` }} />
+        <div style={{ left: 64, top: 142, width: 14, height: 14, borderRadius: 7, background: "#fff", border: `3px solid ${C.hoja}` }} />
+        <div style={{ left: 0, right: 0, top: 82, textAlign: "center", font: `800 34px ${DISP}`, color: C.hoja, letterSpacing: "-.02em" }}>{ars(50000)}</div>
+        <div style={{ left: 22, right: 22, top: 98, height: 8, borderRadius: 4, background: C.rojo, transform: `rotate(-6deg) scaleX(${tacha})`, transformOrigin: "0 50%" }} />
+        <div style={{ left: 44, top: 170, transform: `translateY(${Math.sin(t * 2) * 2}px)` }}><Kiosquero w={70} t={t} ceno={entra((t - desde - 0.35) / 0.3)} /></div>
+        <div style={{ left: 0, right: 0, top: 254, textAlign: "center", transform: `translateX(${t > desde + 0.35 ? Math.sin((t - desde) * 40) * 3 * Math.max(0, 1 - (t - desde - 0.35)) : 0}px) rotate(${Math.sin(t * 6) * 4}deg)` }}><span style={{ position: "static", display: "inline-block", width: 38, height: 38, borderRadius: 10, background: C.verde, font: `800 22px/38px ${DISP}`, color: C.ambar }}>B</span></div>
       </div>
       <div style={{ left: 182, top: 104, width: 166, height: 332, borderRadius: 20, background: C.rojo, boxShadow: `0 8px 0 ${C.tinta}`, transform: `translateX(${(1 - Math.min(1, sB)) * 220}px) scale(${(0.9 + 0.1 * sB) * latido(t - desde, 0.55, 0.04)})` }}>
         <div style={{ left: 0, right: 0, top: 22, textAlign: "center", font: `800 17px/1.15 ${BODY}`, color: "#fff" }}>LO QUE LE QUEDA</div>
