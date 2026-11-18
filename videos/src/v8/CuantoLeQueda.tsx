@@ -5,7 +5,7 @@ import { BODY, DISP } from "../lib/fuentes";
 import { ars } from "../lib/formato";
 import { GUION_V8_01, palabrasDeRespaldo, type Palabra } from "../lib/guion";
 import type { VideoProps } from "../Video";
-import { BotonProbalo, Celular, Marco, W, camaraBeats, lineasDeVoz, temblor, type Cam2D } from "../v6/comun";
+import { Celular, Marco, W, camaraBeats, lineasDeVoz, temblor, type Cam2D } from "../v6/comun";
 import { Billete, C, Gondola, Kiosco, PersianaLuz } from "./iconos";
 
 // V8-01 "¿Cuánto le queda de verdad a un kiosco?" — estilo explicador financiero (videos/guiones/V8-01-CUANTO-LE-QUEDA.md).
@@ -13,6 +13,8 @@ import { Billete, C, Gondola, Kiosco, PersianaLuz } from "./iconos";
 // Todo sale del tiempo (determinista): el render se reparte en 10 máquinas.
 
 const g = GUION_V8_01;
+/** Pulso corto cada `periodo` segundos (algo visible pasa siempre, regla de 0,7 s). */
+const latido = (t: number, periodo = 0.6, fuerza = 0.05) => 1 + fuerza * Math.pow(Math.abs(Math.sin((t / periodo) * Math.PI)), 12) * (t >= 0 ? 1 : 0);
 const VENDE = 150000;
 const RESTAS: { monto: number; rotulo: string }[] = [
   { monto: 97500, rotulo: "mercadería" },
@@ -84,7 +86,7 @@ const Numero: React.FC<{ t: number; T: T; top: number; size: number; color?: str
   const golpe = bajadas(T).reduce((s, a) => s + (t > a + 0.47 ? Math.exp(-10 * (t - a - 0.47)) * Math.sin((t - a - 0.47) * 30) * 0.06 : 0), 0);
   const txt = ars(Math.round(v / 10) * 10);
   return (
-    <div style={{ left: 0, right: 0, top, textAlign: "center", transform: `scale(${1 + golpe + 0.012 * Math.sin(t * 2.4)})` }}>
+    <div style={{ left: 0, right: 0, top, textAlign: "center", transform: `scale(${(1 + golpe + 0.012 * Math.sin(t * 2.4)) * latido(t, 0.6, 0.035)})` }}>
       <span style={{ position: "static", font: `800 ${size}px/1 ${DISP}`, letterSpacing: "-.03em", color: color ?? colorDe(v), fontVariantNumeric: "tabular-nums", filter: rodando ? "blur(0.8px)" : undefined, textShadow: "0 3px 0 #0f1f1722" }}>
         {txt.split("").map((ch, i) => (
           <span key={i} style={{ position: "relative", display: "inline-block", transform: rodando && /\d/.test(ch) ? `translateY(${Math.sin(t * 60 + i) * 3}px)` : undefined }}>{ch}</span>
@@ -143,7 +145,7 @@ const OPCIONES: { letra: string; monto: number }[] = [
   { letra: "A", monto: 80000 },
 ];
 /** Las tres respuestas (orden mezclado). `tacha`: letra → instante del tachón; la A además sale volando. */
-const Opciones: React.FC<{ t: number; entradas: number[]; top: number; escala?: number; tachaA?: [number, number] }> = ({ t, entradas, top, escala = 1, tachaA }) => (
+const Opciones: React.FC<{ t: number; entradas: number[]; top: number; escala?: number; tachaA?: [number, number]; recorre?: boolean }> = ({ t, entradas, top, escala = 1, tachaA, recorre = false }) => (
   <div style={{ left: 40, right: 40, top, height: 230, transform: `scale(${escala})`, transformOrigin: "50% 0" }}>
     {OPCIONES.map((o, i) => {
       const s = Math.min(1.08, spring(t - entradas[i], 15, 0.48));
@@ -152,8 +154,8 @@ const Opciones: React.FC<{ t: number; entradas: number[]; top: number; escala?: 
       const tachon = esA ? entra((t - tachaA[0]) / 0.16) : 0;
       const vuela = esA ? Math.max(0, t - tachaA[1]) : 0;
       return (
-        <div key={o.letra} style={{ left: 0, right: 0, top: i * 74, height: 62, opacity: Math.min(1, s * 1.4) * (1 - clamp(vuela / 0.35, 0, 1)), transform: `translateX(${(1 - Math.min(1, s)) * (i % 2 ? 260 : -260) + vuela * 900}px) rotate(${vuela * 60}deg)` }}>
-          <div style={{ inset: 0, borderRadius: 16, background: "#fff", border: `3px solid ${C.tinta}`, boxShadow: `0 5px 0 ${C.tinta}` }} />
+        <div key={o.letra} style={{ left: 0, right: 0, top: i * 74 + Math.sin(t * 2.6 + i * 1.7) * 3, height: 62, opacity: Math.min(1, s * 1.4) * (1 - clamp(vuela / 0.35, 0, 1)), transform: `translateX(${(1 - Math.min(1, s)) * (i % 2 ? 260 : -260) + vuela * 900}px) rotate(${vuela * 60}deg) scale(${recorre && t > entradas[2] + 0.2 && Math.floor((t - entradas[2]) / 0.45) % 3 === i ? 1.05 : 1})` }}>
+          <div style={{ inset: 0, borderRadius: 16, background: recorre && t > entradas[2] + 0.2 && Math.floor((t - entradas[2]) / 0.45) % 3 === i ? "#fff6dc" : "#fff", border: `3px solid ${recorre && t > entradas[2] + 0.2 && Math.floor((t - entradas[2]) / 0.45) % 3 === i ? C.ambar : C.tinta}`, boxShadow: `0 5px 0 ${C.tinta}` }} />
           <div style={{ left: 10, top: 9, width: 44, height: 44, borderRadius: 12, background: C.verde, textAlign: "center", font: `800 26px/44px ${DISP}`, color: C.ambar }}>{o.letra}</div>
           <div style={{ left: 70, top: 10, font: `800 34px/42px ${DISP}`, color: C.tinta, fontVariantNumeric: "tabular-nums" }}>{ars(o.monto)}</div>
           {tachon > 0 ? <div style={{ left: -6, top: 26, height: 9, width: `${tachon * 104}%`, borderRadius: 5, background: C.rojo, transform: "rotate(-4deg)", boxShadow: "0 2px 0 #0003" }} /> : null}
@@ -178,20 +180,37 @@ const Fondo: React.FC<{ t: number; esc: Esc }> = ({ t, esc }) => {
 };
 
 /** Cuadro 0 (y su repetición al final): kiosco + "VENDE $150.000 POR DÍA" + "¿CUÁNTO LE QUEDA?". */
+/** Billetes que entran por la puerta del kiosco (la plata que vende). */
+const Entrando: React.FC<{ t: number; desde?: number }> = ({ t, desde = 0.3 }) => (
+  <>
+    {Array.from({ length: 12 }, (_, i) => {
+      const d = t - (desde + i * 0.42);
+      if (d < 0 || d > 0.7) return null;
+      const k = d / 0.7;
+      return (
+        <div key={i} style={{ left: -30 + k * 270 + (i % 3) * 8, top: 300 + Math.sin(k * Math.PI) * -90 + (i % 2) * 20, opacity: Math.min(1, (1 - k) * 3), transform: `rotate(${k * 260 + i * 40}deg) scale(${1 - k * 0.5})` }}>
+          <Billete w={36} />
+        </div>
+      );
+    })}
+  </>
+);
+
 const Gancho: React.FC<{ tg: number }> = ({ tg }) => {
-  const golpe = 1 + 0.16 * Math.exp(-7 * tg) * Math.cos(tg * 22);
+  const golpe = (1 + 0.16 * Math.exp(-7 * tg) * Math.cos(tg * 22)) * latido(tg, 0.62, 0.04);
   const sp = Math.min(1.1, 0.75 + spring(tg + 0.12, 15, 0.45) * 0.25);
   return (
     <div style={{ inset: 0 }}>
-      <div style={{ left: 30, top: 252, transform: `scale(${1.0 + tg * 0.02})`, transformOrigin: "50% 100%" }}>
+      <div style={{ left: 30, top: 252, transform: `scale(${1.0 + tg * 0.035}) translateY(${Math.sin(tg * 2.2) * 2}px)`, transformOrigin: "50% 100%" }}>
         <Kiosco w={300} t={tg} />
       </div>
+      <Entrando t={tg} />
       <div style={{ left: 0, right: 0, top: 84, textAlign: "center", transform: `scale(${golpe})` }}>
         <div style={{ position: "static", font: `800 21px/1.1 ${BODY}`, color: C.tinta, letterSpacing: ".03em" }}>ESTE KIOSCO VENDE</div>
         <div style={{ position: "static", font: `800 60px/1.02 ${DISP}`, color: C.hoja, letterSpacing: "-.03em", textShadow: `0 4px 0 ${C.tinta}22` }}>$150.000</div>
         <div style={{ position: "static", font: `800 21px/1.1 ${BODY}`, color: C.tinta, letterSpacing: ".03em" }}>POR DÍA</div>
       </div>
-      <div style={{ left: 0, right: 0, top: 206, textAlign: "center", transform: `scale(${sp}) rotate(-2deg)` }}>
+      <div style={{ left: 0, right: 0, top: 206, textAlign: "center", transform: `scale(${sp * latido(tg + 0.31, 0.62, 0.05)}) rotate(${-2 + Math.sin(tg * 4.4) * 1.6}deg)` }}>
         <span style={{ position: "static", display: "inline-block", padding: "7px 16px", borderRadius: 12, background: C.rojo, color: "#fff", font: `800 26px ${DISP}`, boxShadow: `0 5px 0 ${C.tinta}` }}>¿CUÁNTO LE QUEDA?</span>
       </div>
     </div>
@@ -300,16 +319,16 @@ export const CuantoLeQueda: React.FC<VideoProps> = ({ voz, palabras }) => {
 
           {esc === "opciones" ? (
             <>
-              <div style={{ left: 0, right: 0, top: 96, textAlign: "center", transform: `scale(${Math.min(1.05, spring(t - l[1], 15, 0.5))})` }}>
+              <div style={{ left: 0, right: 0, top: 96, textAlign: "center", transform: `scale(${Math.min(1.05, spring(t - l[1], 15, 0.5)) * latido(t - l[1], 0.5, 0.06)}) rotate(${Math.sin(t * 5) * 1.5}deg)` }}>
                 <span style={{ position: "static", display: "inline-block", padding: "7px 16px", borderRadius: 12, background: C.rojo, color: "#fff", font: `800 28px ${DISP}`, boxShadow: `0 5px 0 ${C.tinta}` }}>¿CUÁNTO LE QUEDA?</span>
               </div>
-              <Opciones t={t} entradas={[l[1] + 0.3, T.comentarios - 0.03, T.antes - 0.03]} top={190} />
+              <Opciones t={t} entradas={[l[1] + 0.3, T.comentarios - 0.03, T.antes - 0.03]} top={190} recorre />
             </>
           ) : null}
 
           {esc === "merc" ? (
             <>
-              <div style={{ left: 16, top: 236, transform: `rotate(-2deg) translateX(${Math.sin(t * 1.1) * 3}px)` }}><Gondola w={200} t={t} vacia={clamp((t - T.noventa) / 0.5, 0, 1) * 0.66} /></div>
+              <div style={{ left: 16, top: 236, transform: `rotate(-2deg) translateX(${Math.sin(t * 1.1) * 3}px)` }}><Gondola w={200} t={t} vacia={clamp((t - T.noventa) / 0.5, 0, 1) * 0.66 + clamp((t - T.noventa - 0.5) / 1.8, 0, 1) * 0.3} /></div>
               <Foto t={t} desde={l[2] + 0.12} src="tomas/v8-01/recorte-almacen.jpg" left={168} top={262} w={176} h={92} rot={5} />
               <Numero t={t} T={T} top={96} size={64} />
               <Rotulo t={t} desde={T.noventa} texto={`− ${ars(RESTAS[0].monto)} · ${RESTAS[0].rotulo}`} />
@@ -319,6 +338,7 @@ export const CuantoLeQueda: React.FC<VideoProps> = ({ voz, palabras }) => {
           {esc === "alq" ? (
             <>
               <div style={{ left: 42, top: 236, transform: `translateY(${Math.sin(t * 1.4) * 4}px)` }}><PersianaLuz w={270} t={t} /></div>
+              <div style={{ left: 214, top: 280, width: 120, height: 120, borderRadius: "50%", background: "radial-gradient(circle, #ffe28acc, #ffe28a00 65%)", opacity: 0.25 + 0.75 * Math.pow(Math.abs(Math.sin(((t - l[3]) / 0.5) * Math.PI)), 6) }} />
               <Numero t={t} T={T} top={96} size={64} />
               <Rotulo t={t} desde={restaVisible(1)} texto={`− ${ars(RESTAS[1].monto)} · ${RESTAS[1].rotulo}`} />
             </>
@@ -342,6 +362,7 @@ export const CuantoLeQueda: React.FC<VideoProps> = ({ voz, palabras }) => {
           {esc === "qr" ? (
             <>
               <Foto t={t} desde={T.comision - 0.1} src="tomas/v8-01/recorte-qr.jpg" left={78} top={232} w={204} h={180} rot={4} />
+              {t > T.comision + 0.15 ? <div style={{ left: 90, width: 182, top: 244 + (((t - T.comision) / 0.6) % 1) * 160, height: 4, borderRadius: 2, background: C.rojo, boxShadow: `0 0 12px ${C.rojo}`, transform: "rotate(4deg)" }} /> : null}
               <Numero t={t} T={T} top={96} size={64} />
               <Rotulo t={t} desde={restaVisible(3)} texto={`− ${ars(RESTAS[3].monto)} · ${RESTAS[3].rotulo}`} />
             </>
@@ -351,15 +372,19 @@ export const CuantoLeQueda: React.FC<VideoProps> = ({ voz, palabras }) => {
             <>
               <div style={{ left: 30, top: 252, opacity: 0.35, filter: "grayscale(0.6)" }}><Kiosco w={300} t={t} persiana={0.7} /></div>
               <div style={{ inset: 0, background: `${C.verde}e6` }} />
-              <Numero t={t} T={T} top={262} size={80} color={C.rosa} valor={QUEDA} />
+              <Numero t={t} T={T} top={266} size={70} color={C.rosa} valor={QUEDA} />
             </>
           ) : null}
 
           {esc === "revela" ? (
             t < T.cree - 0.05 ? (
               <>
-                <Numero t={t} T={T} top={200} size={92} color={C.rojo} valor={QUEDA} />
-                <Rotulo t={t} desde={T.quedan} texto="le queda por día (ejemplo)" top={310} />
+                <div style={{ inset: 0, background: `radial-gradient(circle at 50% 42%, ${C.rojo}${Math.round(20 + 18 * Math.abs(Math.sin(t * 5.2))).toString(16)} 0%, transparent 55%)` }} />
+                <Caida t={t} desde={T.quedan} />
+                <div style={{ left: 0, right: 0, top: 0, bottom: 0, transform: `scale(${latido(t - T.quedan, 0.55, 0.07)})`, transformOrigin: "50% 40%" }}>
+                  <Numero t={t} T={T} top={206} size={74} color={C.rojo} valor={QUEDA} />
+                </div>
+                <Rotulo t={t} desde={T.quedan} texto="le queda por día (ejemplo)" top={300} />
               </>
             ) : (
               <Comparacion t={t} desde={T.cree - 0.05} />
@@ -370,11 +395,12 @@ export const CuantoLeQueda: React.FC<VideoProps> = ({ voz, palabras }) => {
 
           {esc === "cierre" ? (
             <>
-              <div style={{ left: 30, top: 252, transform: `scale(${1 + (t - l[8]) * 0.02})`, transformOrigin: "50% 100%" }}><Kiosco w={300} t={t} /></div>
-              <div style={{ left: 0, right: 0, top: 120, textAlign: "center", transform: `scale(${Math.min(1.05, spring(t - l[8], 15, 0.5))}) rotate(-2deg)` }}>
+              <div style={{ left: 30, top: 252, transform: `scale(${1 + (t - l[8]) * 0.03}) translateY(${Math.sin(t * 2.2) * 2}px)`, transformOrigin: "50% 100%" }}><Kiosco w={300} t={t} /></div>
+              <Entrando t={t} desde={l[8] + 0.2} />
+              <div style={{ left: 0, right: 0, top: 120, textAlign: "center", transform: `scale(${Math.min(1.05, spring(t - l[8], 15, 0.5)) * latido(t, 0.62, 0.04)}) rotate(${-2 + Math.sin(t * 4.4) * 1.6}deg)` }}>
                 <span style={{ position: "static", display: "inline-block", padding: "7px 16px", borderRadius: 12, background: C.rojo, color: "#fff", font: `800 28px ${DISP}`, boxShadow: `0 5px 0 ${C.tinta}` }}>¿CUÁNTO LE QUEDA?</span>
               </div>
-              {t >= T.probalo - 0.1 ? <BotonProbalo s={Math.min(1.05, spring(t - (T.probalo - 0.1), 15, 0.45))} top={196} /> : null}
+              {t >= T.probalo - 0.1 ? <Probalo s={Math.min(1.05, spring(t - (T.probalo - 0.1), 15, 0.45)) * latido(t - T.probalo, 0.6, 0.05)} /> : null}
             </>
           ) : null}
 
@@ -385,6 +411,28 @@ export const CuantoLeQueda: React.FC<VideoProps> = ({ voz, palabras }) => {
     />
   );
 };
+
+/** Lluvia lenta de billetes que se escurren (lo que no queda). */
+const Caida: React.FC<{ t: number; desde: number }> = ({ t, desde }) => (
+  <>
+    {Array.from({ length: 10 }, (_, i) => {
+      const d = t - (desde + i * 0.3);
+      if (d < 0 || d > 1.6) return null;
+      return (
+        <div key={i} style={{ left: 30 + rnd(i + 3) * 280, top: 330 + d * 120, opacity: 0.55 * (1 - d / 1.6), transform: `rotate(${d * 90 + i * 30}deg)` }}>
+          <Billete w={30} />
+        </div>
+      );
+    })}
+  </>
+);
+
+/** Botón de cierre (texto de 17 px lógicos = 51 px reales). */
+const Probalo: React.FC<{ s: number }> = ({ s }) => (
+  <div style={{ left: 30, right: 30, top: 196, padding: "12px 10px", borderRadius: 999, background: C.ambar, textAlign: "center", font: `800 17px ${BODY}`, color: C.tinta, boxShadow: `0 6px 0 ${C.tinta}`, opacity: Math.min(1, s), transform: `scale(${0.85 + 0.15 * s})` }}>
+    <span style={{ position: "static" }}>Probalo 14 días gratis · link en el perfil</span>
+  </div>
+);
 
 /** Pantalla partida: lo que cree (verde, más chico) contra lo que le queda (rojo, más grande). La B se tacha. */
 const Comparacion: React.FC<{ t: number; desde: number }> = ({ t, desde }) => {
@@ -397,12 +445,12 @@ const Comparacion: React.FC<{ t: number; desde: number }> = ({ t, desde }) => {
         <div style={{ left: 0, right: 0, top: 22, textAlign: "center", font: `800 17px/1.15 ${BODY}`, color: C.verde }}>LO QUE CREE</div>
         <div style={{ left: 0, right: 0, top: 120, textAlign: "center", font: `800 34px ${DISP}`, color: C.hoja, letterSpacing: "-.02em" }}>{ars(50000)}</div>
         <div style={{ left: 18, right: 18, top: 136, height: 8, borderRadius: 4, background: C.rojo, transform: `rotate(-6deg) scaleX(${tacha})`, transformOrigin: "0 50%" }} />
-        <div style={{ left: 0, right: 0, top: 232, textAlign: "center" }}><span style={{ position: "static", display: "inline-block", width: 38, height: 38, borderRadius: 10, background: C.verde, font: `800 22px/38px ${DISP}`, color: C.ambar }}>B</span></div>
+        <div style={{ left: 0, right: 0, top: 232, textAlign: "center", transform: `translateX(${t > desde + 0.35 ? Math.sin((t - desde) * 40) * 3 * Math.max(0, 1 - (t - desde - 0.35)) : 0}px) rotate(${Math.sin(t * 6) * 4}deg)` }}><span style={{ position: "static", display: "inline-block", width: 38, height: 38, borderRadius: 10, background: C.verde, font: `800 22px/38px ${DISP}`, color: C.ambar }}>B</span></div>
       </div>
-      <div style={{ left: 182, top: 104, width: 166, height: 332, borderRadius: 20, background: C.rojo, boxShadow: `0 8px 0 ${C.tinta}`, transform: `translateX(${(1 - Math.min(1, sB)) * 220}px) scale(${0.9 + 0.1 * sB})` }}>
+      <div style={{ left: 182, top: 104, width: 166, height: 332, borderRadius: 20, background: C.rojo, boxShadow: `0 8px 0 ${C.tinta}`, transform: `translateX(${(1 - Math.min(1, sB)) * 220}px) scale(${(0.9 + 0.1 * sB) * latido(t - desde, 0.55, 0.04)})` }}>
         <div style={{ left: 0, right: 0, top: 22, textAlign: "center", font: `800 17px/1.15 ${BODY}`, color: "#fff" }}>LO QUE LE QUEDA</div>
         <div style={{ left: 0, right: 0, top: 128, textAlign: "center", font: `800 42px ${DISP}`, color: "#fff", letterSpacing: "-.03em" }}>{ars(QUEDA)}</div>
-        <div style={{ left: 0, right: 0, top: 182, textAlign: "center", font: `500 14px ${BODY}`, color: "#ffffffcc" }}>(ejemplo)</div>
+        <div style={{ left: 0, right: 0, top: 182, textAlign: "center", font: `600 16px ${BODY}`, color: "#ffffffdd" }}>(ejemplo)</div>
       </div>
     </div>
   );
