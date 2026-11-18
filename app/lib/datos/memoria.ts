@@ -117,7 +117,51 @@ function semillaVideoV8_04(): Estado {
   return e;
 }
 
-const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04 };
+/** V8-05 (ENCLARO_DEMO=v8-05): el negocio del V8-01 con el cierre de hoy ya hecho → ganancia de hoy $23.500 (× 360 = $8.460.000 al año). */
+function semillaVideoV8_05(): Estado {
+  const e = semillaVideoV8();
+  const hoy = hoyArgentina();
+  e.cierres = [...e.cierres.slice(1), { fecha: hoy, ventas: 150000, tarjeta: 75000, gastos: [{ categoria: "otros", monto: 8000 }, { categoria: "comision", monto: 3000 }] }];
+  e.clientes = [];
+  // sin avisos que distraigan: precios al día y todo vendiéndose
+  e.productos = e.productos.map((x) => ({ ...x, precioActualizado: sumarDias(hoy, -3), ultimaVenta: hoy }));
+  return e;
+}
+
+/**
+ * V8-06 (ENCLARO_DEMO=v8-06): $400.000 dormidos en el depósito (a costo): golosinas $120.000 (la más cara), limpieza $100.000,
+ * bebidas $94.000 y galletitas que vencen en 40 días $86.000. Mismo negocio del V8-01 (le quedan $23.500 por día → 17 días).
+ */
+function semillaVideoV8_06(): Estado {
+  const e = semillaVideoV8_05();
+  const hoy = hoyArgentina();
+  const d = (n: number) => sumarDias(hoy, -n);
+  const dormido = (id: string, nombre: string, precio: number, costo: number, stock: number, dias: number): ProductoMargen => ({ id, nombre, precio, costo, stock, precioActualizado: d(20), ultimaVenta: d(dias), creado: d(200), accionDormido: null, dormidoHasta: null });
+  e.productos = [
+    ...e.productos.filter((x) => ["p1", "p2", "p3", "p4", "p8"].includes(x.id)).map((x) => ({ ...x, ultimaVenta: hoy })),
+    dormido("d1", "Golosinas surtidas", 920, 600, 200, 64),
+    dormido("d2", "Artículos de limpieza", 3080, 2000, 50, 58),
+    dormido("d3", "Bebidas 2,25 L", 1810, 1175, 80, 47),
+    dormido("d4", "Galletitas (vencen en 40 días)", 2650, 1720, 50, 39),
+  ];
+  return e;
+}
+
+/** V8-07 (ENCLARO_DEMO=v8-07): Tu día con las fugas del ticket: precios viejos (alfajor, gaseosa, yerba, galletitas) y el fiado de Marta ($14.000, cobra hoy). */
+function semillaVideoV8_07(): Estado {
+  const e = semillaVideoV8_05();
+  const hoy = hoyArgentina();
+  const d = (n: number) => sumarDias(hoy, -n);
+  const viejo = (id: string, nombre: string, precio: number, costo: number): ProductoMargen => ({ id, nombre, precio, costo, stock: 30, precioActualizado: d(52), ultimaVenta: hoy, creado: d(150), accionDormido: null, dormidoHasta: null });
+  e.productos = [
+    ...e.productos.filter((x) => ["p1", "p3", "p4", "p8"].includes(x.id)).map((x) => ({ ...x, precioActualizado: d(3), ultimaVenta: hoy })),
+    viejo("v1", "Alfajor triple", 1200, 780), viejo("v2", "Gaseosa 1,5 L", 2200, 1430), viejo("v3", "Yerba 1 kg", 3900, 2535), viejo("v4", "Galletitas dulces", 1100, 715),
+  ];
+  e.clientes = [{ id: "c1", nombre: "Marta", telefono: "3756 15 400000", diaCobro: Number(hoy.slice(8, 10)), nota: null, ultimoRecordatorio: null, recordatoriosSinPago: 0, movimientos: [{ id: "m1", tipo: "fio", monto: 14000, fecha: d(20), nota: null }] }];
+  return e;
+}
+
+const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07 };
 const semillaActual = () => (SEMILLAS[process.env.ENCLARO_DEMO ?? ""] ?? semilla)();
 
 const g = globalThis as unknown as { __enclaroMemoria?: Estado };

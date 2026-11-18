@@ -170,11 +170,74 @@ def ajustar_pausas(pcm, guion_pal, guion):
     return pcm
 
 
+def ajustar_a_silencios(pcm, guion_pal, minimo=0.2):
+    """whisper suele hacer empezar una palabra adentro del silencio que la precede (hasta 0,7 s antes): cada palabra que
+    "empieza" en un silencio medido en el audio se corre al final de ese silencio, y la anterior termina donde empieza el silencio."""
+    marco = int(0.01 * SR)
+    energia = np.sqrt(np.convolve(pcm.astype(np.float64) ** 2, np.ones(marco) / marco, mode="same"))[::marco]
+    umbral = energia.max() * 10 ** (-38 / 20)
+    callado = energia < umbral
+    silencios, ini = [], None
+    for k, c in enumerate(list(callado) + [False]):
+        if c and ini is None:
+            ini = k
+        elif not c and ini is not None:
+            if (k - ini) * 0.01 >= minimo:
+                silencios.append((ini * 0.01, k * 0.01))
+            ini = None
+    corridas = 0
+    lineas = sorted({p["linea"] for p in guion_pal})
+    for n in lineas[1:]:
+        este = [p for p in guion_pal if p["linea"] == n]
+        antes = [p for p in guion_pal if p["linea"] == n - 1]
+        if not este or not antes:
+            continue
+        s0 = este[0]["desde"]
+        hueco = next(((a, b) for a, b in silencios if b - a >= 0.25 and a - 0.22 <= s0 < b - 0.03), None)
+        if not hueco:
+            continue
+        a, b = hueco
+        # la línea arranca cuando termina el silencio; lo que whisper puso antes se corre detrás
+        d = b - s0
+        for p in este:
+            p["desde"] = round(p["desde"] + d, 3) if p["desde"] < b + 0.05 else p["desde"]
+            p["hasta"] = round(max(p["hasta"], p["desde"] + 0.08), 3)
+        for i in range(1, len(este)):
+            if este[i]["desde"] <= este[i - 1]["desde"]:
+                este[i]["desde"] = round(este[i - 1]["desde"] + 0.06, 3)
+        # la línea anterior termina donde empieza el silencio (se aprieta si whisper la estiró)
+        ini, fin = antes[0]["desde"], max(antes[0]["desde"] + 0.1, a - 0.02)
+        largo = max(antes[-1]["desde"] - ini, 1e-3)
+        if antes[-1]["desde"] > fin - 0.08:
+            for p in antes:
+                p["desde"] = round(ini + (p["desde"] - ini) / largo * (fin - 0.12 - ini), 3)
+        for p in antes:
+            p["hasta"] = round(min(p["hasta"], fin), 3) if p["hasta"] > fin else p["hasta"]
+        corridas += 1
+    print(f"Líneas que arrancan al final de su silencio: {corridas} ({len(silencios)} silencios medidos)")
+
+
+def solo_tiempos(ruta):
+    """Corrige los tiempos de una voz ya generada sin pedir otra toma ni volver a usar whisper (--solo-tiempos)."""
+    guion = json.loads(ruta.read_text())
+    destino = RAIZ / "public" / "voces" / f"{guion['id']}.gancho-0"
+    datos = json.loads(Path(f"{destino}.json").read_text())
+    crudo = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", f"{destino}.mp3", "-f", "s16le", "-ar", str(SR), "-ac", "1", "-"], capture_output=True, check=True).stdout
+    pcm = np.frombuffer(crudo, dtype=np.int16).astype(np.float32)
+    ajustar_a_silencios(pcm, datos["palabras"])
+    datos["lineas"] = [[ps[0]["desde"], ps[-1]["hasta"]] if ps else [0, 0] for ps in ([p for p in datos["palabras"] if p["linea"] == n] for n in range(len(guion["lineas"])))]
+    datos["silencios_medidos"] = True
+    Path(f"{destino}.json").write_text(json.dumps(datos, ensure_ascii=False, indent=1))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("guion")
     ap.add_argument("--si-cambio", action="store_true")
+    ap.add_argument("--solo-tiempos", action="store_true")
     a = ap.parse_args()
+    if a.solo_tiempos:
+        return solo_tiempos(Path(a.guion) if Path(a.guion).is_absolute() else RAIZ / a.guion)
     ruta = Path(a.guion) if Path(a.guion).is_absolute() else RAIZ / a.guion
     guion = json.loads(ruta.read_text())
     if guion["voz"].get("motor") != "gemini":
@@ -222,6 +285,7 @@ def main():
         # antes de una línea con `silencio` queda exactamente ese silencio; las demás, como mucho `pausa_max` (ritmo sin baches)
         if alineado:
             pcm = ajustar_pausas(pcm, guion_pal, guion)
+            ajustar_a_silencios(pcm, guion_pal)
 
         guardar_wav(pcm, wav)
         destino.parent.mkdir(parents=True, exist_ok=True)
@@ -233,7 +297,7 @@ def main():
         ps = [p for p in guion_pal if p["linea"] == n]
         tiempos_linea.append([ps[0]["desde"], ps[-1]["hasta"]] if ps else [0, 0])
     total = round(habla + guion.get("cola", 1.2), 3)
-    Path(f"{destino}.json").write_text(json.dumps({"voz": f"gemini {guion['voz']['nombre']}", "firma": firma(guion), "duracionSeg": total, "alineado": alineado, "lineas": tiempos_linea, "palabras": guion_pal}, ensure_ascii=False, indent=1))
+    Path(f"{destino}.json").write_text(json.dumps({"voz": f"gemini {guion['voz']['nombre']}", "firma": firma(guion), "duracionSeg": total, "alineado": alineado, "silencios_medidos": alineado, "lineas": tiempos_linea, "palabras": guion_pal}, ensure_ascii=False, indent=1))
     print(f"Listo: {destino}.mp3 · voz {habla:.1f} s · video {total:.1f} s")
     for n, (d, h) in enumerate(tiempos_linea):
         print(f"  línea {n}: {d:6.2f} → {h:6.2f}  {lineas[n]}")

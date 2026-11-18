@@ -9,35 +9,35 @@
    4.2
   ],
   [
-   4.66,
+   4.76,
    6.2
   ],
   [
-   6.7,
-   15.88
+   6.77,
+   15.51
   ],
   [
-   15.88,
-   19.2
+   15.98,
+   18.87
   ],
   [
-   19.2,
+   19.36,
    21.0
   ],
   [
-   21.0,
-   24.625
+   21.65,
+   24.17
   ],
   [
-   24.625,
+   24.78,
    26.433
   ],
   [
-   26.853,
-   33.353
+   27.01,
+   32.84
   ],
   [
-   33.353,
+   33.41,
    36.933
   ]
  ],
@@ -117,7 +117,7 @@
   {
    "texto": "Mide",
    "linea": 1,
-   "desde": 4.66,
+   "desde": 4.76,
    "hasta": 5.04
   },
   {
@@ -135,7 +135,7 @@
   {
    "texto": "Alfajor",
    "linea": 2,
-   "desde": 6.7,
+   "desde": 6.77,
    "hasta": 7.3
   },
   {
@@ -238,12 +238,12 @@
    "texto": "cuatrocientos…",
    "linea": 2,
    "desde": 14.66,
-   "hasta": 15.88
+   "hasta": 15.51
   },
   {
    "texto": "Galletitas:",
    "linea": 3,
-   "desde": 15.88,
+   "desde": 15.98,
    "hasta": 16.56
   },
   {
@@ -262,12 +262,12 @@
    "texto": "Seis.",
    "linea": 3,
    "desde": 17.82,
-   "hasta": 19.2
+   "hasta": 18.87
   },
   {
    "texto": "Y",
    "linea": 4,
-   "desde": 19.2,
+   "desde": 19.36,
    "hasta": 19.46
   },
   {
@@ -303,49 +303,49 @@
   {
    "texto": "Cinco",
    "linea": 5,
-   "desde": 21.0,
+   "desde": 21.65,
    "hasta": 22.16
   },
   {
    "texto": "millones",
    "linea": 5,
-   "desde": 22.033,
+   "desde": 21.987,
    "hasta": 22.573
   },
   {
    "texto": "ochocientos",
    "linea": 5,
-   "desde": 22.573,
+   "desde": 22.462,
    "hasta": 23.476
   },
   {
    "texto": "treinta",
    "linea": 5,
-   "desde": 23.476,
+   "desde": 23.256,
    "hasta": 24.05
   },
   {
    "texto": "y",
    "linea": 5,
-   "desde": 24.05,
+   "desde": 23.761,
    "hasta": 24.132
   },
   {
    "texto": "dos",
    "linea": 5,
-   "desde": 24.132,
-   "hasta": 24.379
+   "desde": 23.833,
+   "hasta": 24.17
   },
   {
    "texto": "mil.",
    "linea": 5,
-   "desde": 24.379,
-   "hasta": 24.625
+   "desde": 24.05,
+   "hasta": 24.17
   },
   {
    "texto": "Tres",
    "linea": 6,
-   "desde": 24.625,
+   "desde": 24.78,
    "hasta": 24.953
   },
   {
@@ -375,7 +375,7 @@
   {
    "texto": "En",
    "linea": 7,
-   "desde": 26.853,
+   "desde": 27.01,
    "hasta": 27.153
   },
   {
@@ -394,7 +394,7 @@
    "texto": "el",
    "linea": 7,
    "desde": 28.113,
-   "hasta": 28.173
+   "hasta": 28.193
   },
   {
    "texto": "ticket:",
@@ -478,12 +478,12 @@
    "texto": "arreglar.",
    "linea": 7,
    "desde": 32.393,
-   "hasta": 33.353
+   "hasta": 32.84
   },
   {
    "texto": "¿Cuánto",
    "linea": 8,
-   "desde": 33.353,
+   "desde": 33.41,
    "hasta": 33.653
   },
   {
@@ -540,5 +540,6 @@
    "desde": 36.553,
    "hasta": 36.933
   }
- ]
+ ],
+ "silencios_medidos": true
 }

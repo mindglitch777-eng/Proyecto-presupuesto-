@@ -1,0 +1,10 @@
+En Claro · V8-05 "La torre" — créditos
+
+Imágenes: todas propias. Escenas 3D hechas en código (src/v8/modelos3d.tsx y estudio3d.tsx: kiosco, billetes genéricos de $1.000
+que no copian el diseño oficial, depósito, barrio) y pantalla real de la app En Claro: Tu día (ENCLARO_DEMO=v8-05): ganancia de hoy $23.500.
+No se usó ninguna foto ni video de terceros (nada CC BY-SA). Sin marcas.
+
+Voz: Gemini TTS (gemini-2.5-flash-preview-tts, voz Orus), plan gratis de Google AI Studio, a velocidad natural.
+Música y efectos: sintetizados por En Claro (videos/scripts/sfx.py), sin licencias de terceros.
+Tipografías: Space Grotesk, Inter y Permanent Marker (SIL Open Font License).
+Montos y nombres: de ejemplo.

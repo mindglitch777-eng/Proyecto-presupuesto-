@@ -115,6 +115,18 @@
 - **Silencios medidos**: whisper marca el arranque de una línea hasta 0,4 s antes después de un silencio. Las revelaciones usan el tiempo medido
   con `silencedetect` (constantes `REVELA_MEDIDO`/`MEDIDO`, que solo valen si la duración de la voz coincide; si se regenera la voz, se vuelve a `l[i]`).
 
+- **V8-05 "La torre"** (`Video-v8-05-LaTorre`), **V8-06 "Rayos X"** (`Video-v8-06-RayosX`) y **V8-07 "El ticket de 3 cuadras"** (`Video-v8-07-ElTicket`):
+  3D "render de producto" con `@remotion/three` dentro de `Marco`. Base en `src/v8/estudio3d.tsx`: `Estudio` (reflejos RoomEnvironment, sombras suaves,
+  ACES), `Profundidad` (BokehPass de three, foco = distancia cámara→mira), `Camara` (aire de cámara en mano), `useLienzo`, `cajaR` (cajas redondeadas),
+  `useImagen` y `PantallaApp`. Modelos en `src/v8/modelos3d.tsx`: `Kiosco3D`, `Vereda`, `PilaBilletes` (fajos de 1 cm instanciados, escala real),
+  `Silueta`, `Lona`, `Camion3D`, `Cuaderno3D`, `Celular3D`, `Marca`, `Regla`, `Polvo`, `Moneda3D`, `CartelQR3D`. Escala real: 1 unidad = 1 m.
+- **Pantalla de la app en el celular 3D**: la grabación se pasa a cuadros JPG (`public/tomas/v8-0N/cuadros/`, 15 por segundo, 720 px) y cada cuadro
+  monta su textura. Dos trampas resueltas: (1) la textura llega después de que se dibujó la escena → `useImagen` vuelve a dibujar (`advance`) antes de
+  `continueRender`; (2) en el render por software (swangle) las fotos con mipmaps salen negras → `generateMipmaps = false`. La textura de video
+  (`useOffthreadVideoTexture` dentro de `Sequence`) no salió confiable: no usarla.
+- **Tiempos de la voz**: `voz_gemini.py` ahora hace arrancar cada línea al final de su silencio medido (whisper la adelantaba hasta 0,7 s).
+  Para una voz ya generada: `python scripts/voz_gemini.py guiones/<id>.json --solo-tiempos` (no pide otra toma).
+
 ## Guardado del MP4 en la rama (videos.yml)
 - **Varios videos por corrida**: lista `VIDEOS` (JSON con nombre, id y cuadros de control; `[]` = solo voces). Cada video se reparte en 10 máquinas
   (matriz video × parte) y `unir` verifica que las partes estén pegadas y completas antes de armar el MP4 (si una máquina falló, no sale un video cortado).

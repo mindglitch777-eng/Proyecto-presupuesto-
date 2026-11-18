@@ -19,7 +19,10 @@ env:
   # Video-v4-01-NumeroTapado, Video-v5-01-Confesiones, Video-v3-06-Basura, Video-v4-02-TresErrores, Video-v5-02-Caja, Video-v7-01-Record.
   # Video-v8-01-CuantoLeQueda (v8-01-cuanto-le-queda).
   # Hechos: Video-v8-01-CuantoLeQueda, Video-v8-02-ElCuaderno, Video-v8-03-LaCajaMiente, Video-v8-04-CualTeHacePerder.
-  VIDEOS: '[]'
+  VIDEOS: >-
+    [{"nombre":"v8-05-la-torre","id":"Video-v8-05-LaTorre","control":"0 450 900"},
+     {"nombre":"v8-06-rayos-x","id":"Video-v8-06-RayosX","control":"0 400 750"},
+     {"nombre":"v8-07-el-ticket","id":"Video-v8-07-ElTicket","control":"0 340 660"}]
   PARTES: 10
 
 concurrency:

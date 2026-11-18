@@ -80,10 +80,57 @@ const RECORRIDOS = {
     await page.waitForTimeout(2600);
     marca("fin");
   },
+  async "v8-05"(page, marca) {
+    await page.goto(BASE + "/app", { waitUntil: "networkidle" });
+    marca("dia");
+    const t = await texto(page);
+    exigir(/Ganancia de hoy\s*\$23\.500/.test(t), "La ganancia de hoy no da $23.500:\n" + t.slice(0, 300));
+    await page.waitForTimeout(2600);
+    for (let i = 0; i < 9; i++) { await page.mouse.wheel(0, 70); await page.waitForTimeout(80); }
+    marca("semana");
+    await page.waitForTimeout(2000);
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+    await page.waitForTimeout(1600);
+    marca("fin");
+  },
+  async "v8-06"(page, marca) {
+    await page.goto(BASE + "/app/deposito", { waitUntil: "networkidle" });
+    marca("deposito");
+    const t = await texto(page);
+    exigir(/Plata inmovilizada en el depósito\s*\$400\.000/.test(t), "El depósito no da $400.000:\n" + t.slice(0, 300));
+    for (const n of ["Golosinas surtidas", "Artículos de limpieza", "Bebidas 2,25 L", "Galletitas (vencen en 40 días)"]) exigir(t.includes(n), "Falta " + n);
+    await page.waitForTimeout(1800);
+    const fila = page.locator("li", { hasText: "Golosinas surtidas" });
+    await fila.getByRole("button", { name: "No reponer" }).click();
+    marca("noReponer");
+    await page.waitForTimeout(1200);
+    await fila.getByRole("button", { name: "No reponer" }).last().click();
+    await page.getByText(/no reponer/).first().waitFor();
+    marca("marcado");
+    await page.waitForTimeout(2200);
+    marca("fin");
+  },
+  async "v8-07"(page, marca) {
+    await page.goto(BASE + "/app", { waitUntil: "networkidle" });
+    marca("dia");
+    const t = await texto(page);
+    exigir(/Hoy cobra Marta/.test(t) && /\$14\.000/.test(t), "Falta el aviso del fiado de Marta");
+    exigir(/4 precios para revisar/.test(t), "Falta el aviso de 4 precios viejos");
+    exigir(/Ganancia de hoy\s*\$23\.500/.test(t), "La ganancia de hoy no da $23.500");
+    await page.waitForTimeout(1500);
+    const alerta = page.getByText("Hoy cobra Marta");
+    for (let i = 0; i < 10; i++) { await page.mouse.wheel(0, 90); await page.waitForTimeout(70); }
+    await alerta.scrollIntoViewIfNeeded();
+    await page.evaluate(() => window.scrollBy({ top: 160, behavior: "smooth" }));
+    await page.waitForTimeout(700);
+    marca("alertas");
+    await page.waitForTimeout(3000);
+    marca("fin");
+  },
 };
 
 (async () => {
-  exigir(RECORRIDOS[DEMO], `Demo desconocida: ${DEMO} (v8-02, v8-03 o v8-04)`);
+  exigir(RECORRIDOS[DEMO], `Demo desconocida: ${DEMO} (v8-02 a v8-07)`);
   fs.rmSync(SAL, { recursive: true, force: true });
   fs.mkdirSync(path.join(SAL, "cuadros"), { recursive: true });
   const b = await chromium.launch();
