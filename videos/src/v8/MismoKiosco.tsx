@@ -178,7 +178,7 @@ function camaras(t: number, T: T) {
   // en "estaciona" la B se abre para que entre el auto
   if (t > T.estaciona - 0.3 && t < l[7]) {
     const k = entra((t - T.estaciona + 0.3) / 0.6);
-    b = { pos: [XB + 2.4 * k + deriva, 1.6 + 1.0 * k, 6.1 + 3.4 * k], target: [XB + 1.0 * k, 1.0, 0.8 * k], fov: 40 + 8 * k };
+    b = { pos: [XB + 2.4 * k + Math.sin(t * 0.6) * 0.35, 1.6 + 1.0 * k, 6.1 + 3.4 * k], target: [XB + 1.0 * k, 1.0, 0.8 * k], fov: 40 + 8 * k };
   }
   // revelación: zoom a la lucecita (el celular de la puerta)
   if (t >= l[7] - 0.1) {
