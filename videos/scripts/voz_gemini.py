@@ -72,11 +72,15 @@ def norm(w):
     return re.sub(r"[^a-z0-9]", "", w)
 
 
-def palabras_whisper(wav):
+def palabras_whisper(pcm):
+    """Recibe el audio ya decodificado (24 kHz) y lo pasa a 16 kHz en memoria: así whisper no depende de PyAV para leer archivos."""
     from faster_whisper import WhisperModel
 
+    crudo = subprocess.run(["ffmpeg", "-loglevel", "error", "-f", "s16le", "-ar", str(SR), "-ac", "1", "-i", "-", "-f", "f32le", "-ar", "16000", "-ac", "1", "-"],
+                           input=np.clip(pcm, -32768, 32767).astype(np.int16).tobytes(), capture_output=True, check=True).stdout
+    audio = np.frombuffer(crudo, dtype=np.float32)
     modelo = WhisperModel("small", device="cpu", compute_type="int8")
-    segs, _ = modelo.transcribe(str(wav), language="es", word_timestamps=True, vad_filter=False, beam_size=5)
+    segs, _ = modelo.transcribe(audio, language="es", word_timestamps=True, vad_filter=False, beam_size=5)
     out = []
     for s in segs:
         for w in s.words or []:
@@ -156,7 +160,7 @@ def main():
         guardar_wav(pcm, wav)
         guion_pal = [{"texto": w, "linea": n} for n, t in enumerate(lineas) for w in t.split()]
         try:
-            oidas = palabras_whisper(wav)
+            oidas = palabras_whisper(pcm)
             alineado = len(oidas) > 0
             print(f"whisper oyó {len(oidas)} palabras (el guion tiene {len(guion_pal)}): " + " ".join(w[0] for w in oidas))
         except Exception as e:
@@ -167,7 +171,7 @@ def main():
         # silencios mínimos garantizados antes de las líneas que lo piden
         for n, l in enumerate(guion["lineas"]):
             minimo = l.get("silencio")
-            if not minimo or n == 0:
+            if not minimo or n == 0 or not alineado:
                 continue
             prev = [p for p in guion_pal if p["linea"] == n - 1]
             este = [p for p in guion_pal if p["linea"] == n]
