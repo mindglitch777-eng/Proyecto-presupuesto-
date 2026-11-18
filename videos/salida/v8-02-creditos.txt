@@ -1,0 +1,11 @@
+En Claro · V8-02 "El cuaderno de los $380.000" — créditos
+
+Imágenes: todas propias. Ilustraciones planas hechas en código (src/v8/iconos.tsx) y pantalla real de la app En Claro:
+Fiados con semáforo y mensaje listo (ENCLARO_DEMO=v8-02).
+Foto real: cuaderno manuscrito (recorte de 4-cuaderno-1.jpg) · "CUADERNO MANUSCRITO POR JUAN ALFONSO CARRIZO.jpg" · autor desconocido · dominio público · https://commons.wikimedia.org/wiki/File:CUADERNO_MANUSCRITO_POR_JUAN_ALFONSO_CARRIZO.jpg
+Ninguna foto CC BY-SA.
+
+Voz: Gemini TTS (gemini-2.5-flash-preview-tts, voz Orus), plan gratis de Google AI Studio, a velocidad natural.
+Música y efectos: sintetizados por En Claro (videos/scripts/sfx.py), sin licencias de terceros.
+Tipografías: Space Grotesk, Inter y Permanent Marker (SIL Open Font License).
+Montos y nombres: de ejemplo.

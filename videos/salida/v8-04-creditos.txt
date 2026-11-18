@@ -1,0 +1,10 @@
+En Claro · V8-04 "¿Cuál de estos 4 te hace perder plata?" — créditos
+
+Imágenes: todas propias. Ilustraciones planas hechas en código (src/v8/iconos.tsx) y pantalla real de la app En Claro:
+Foto de la factura con aviso de aumento y precio sugerido (ENCLARO_DEMO=v8-04); la factura es de ejemplo, generada por En Claro (app/tests/facturas/factura-v8-04.jpg), sin marcas ni datos reales.
+No se usó ninguna foto ni video de terceros (nada CC BY-SA).
+
+Voz: Gemini TTS (gemini-2.5-flash-preview-tts, voz Orus), plan gratis de Google AI Studio, a velocidad natural.
+Música y efectos: sintetizados por En Claro (videos/scripts/sfx.py), sin licencias de terceros.
+Tipografías: Space Grotesk, Inter y Permanent Marker (SIL Open Font License).
+Montos y nombres: de ejemplo.

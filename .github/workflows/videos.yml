@@ -18,7 +18,10 @@ env:
   # Otros ids: LaPersiana, LaPersiana-ganchoB/C/D, Video01-ElDueno, Video02-Banco, Video03-SeHunde,
   # Video-v4-01-NumeroTapado, Video-v5-01-Confesiones, Video-v3-06-Basura, Video-v4-02-TresErrores, Video-v5-02-Caja, Video-v7-01-Record.
   # Video-v8-01-CuantoLeQueda (v8-01-cuanto-le-queda).
-  VIDEOS: '[]'
+  VIDEOS: >-
+    [{"nombre":"v8-02-el-cuaderno","id":"Video-v8-02-ElCuaderno","control":"0 500 900"},
+     {"nombre":"v8-03-la-caja-miente","id":"Video-v8-03-LaCajaMiente","control":"0 450 1000"},
+     {"nombre":"v8-04-cual-te-hace-perder","id":"Video-v8-04-CualTeHacePerder","control":"0 500 890"}]
   PARTES: 10
 
 concurrency:

@@ -1,7 +1,7 @@
 import React from "react";
 import { Composition, staticFile, type CalculateMetadataFunction } from "remotion";
 import { Video, videoSchema, type VideoProps } from "./Video";
-import { GUIONES, GUION_V3_01, GUION_V3_02, GUION_V3_03, GUION_V4_01, GUION_V5_01, GUION_V3_06, GUION_V4_02, GUION_V5_02, GUION_V7_01, GUION_V8_01, duracionVideo } from "./lib/guion";
+import { GUIONES, GUION_V3_01, GUION_V3_02, GUION_V3_03, GUION_V4_01, GUION_V5_01, GUION_V3_06, GUION_V4_02, GUION_V5_02, GUION_V7_01, GUION_V8_01, GUION_V8_02, GUION_V8_03, GUION_V8_04, duracionVideo } from "./lib/guion";
 import { ElDueno } from "./v3/ElDueno";
 import { ElBanco } from "./v3/ElBanco";
 import { SeHunde } from "./v3/SeHunde";
@@ -12,6 +12,9 @@ import { TresErrores } from "./v6/TresErrores";
 import { CajaRegistradora } from "./v6/CajaRegistradora";
 import { RecordDeVentas } from "./v7/RecordDeVentas";
 import { CuantoLeQueda } from "./v8/CuantoLeQueda";
+import { ElCuaderno } from "./v8/ElCuaderno";
+import { LaCajaMiente } from "./v8/LaCajaMiente";
+import { CualTeHacePerder } from "./v8/CualTeHacePerder";
 
 const FPS = 30;
 const LETRAS = ["A", "B", "C", "D"];
@@ -158,6 +161,39 @@ export const Root: React.FC = () => (
       width={1080}
       height={1920}
       defaultProps={{ guion: GUION_V8_01.id, gancho: 0, voz: null, palabras: null }}
+      calculateMetadata={calcular}
+    />
+    <Composition
+      id="Video-v8-02-ElCuaderno"
+      component={ElCuaderno}
+      schema={videoSchema}
+      durationInFrames={Math.round(GUION_V8_02.duracionSeg * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: GUION_V8_02.id, gancho: 0, voz: null, palabras: null }}
+      calculateMetadata={calcular}
+    />
+    <Composition
+      id="Video-v8-03-LaCajaMiente"
+      component={LaCajaMiente}
+      schema={videoSchema}
+      durationInFrames={Math.round(GUION_V8_03.duracionSeg * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: GUION_V8_03.id, gancho: 0, voz: null, palabras: null }}
+      calculateMetadata={calcular}
+    />
+    <Composition
+      id="Video-v8-04-CualTeHacePerder"
+      component={CualTeHacePerder}
+      schema={videoSchema}
+      durationInFrames={Math.round(GUION_V8_04.duracionSeg * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: GUION_V8_04.id, gancho: 0, voz: null, palabras: null }}
       calculateMetadata={calcular}
     />
   </>

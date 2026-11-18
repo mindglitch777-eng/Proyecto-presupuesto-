@@ -104,7 +104,20 @@
   con `ENCLARO_DEMO=v8-01` (negocio de ejemplo cuya cuenta da $23.500). Sale `public/tomas/v8-01/app-cierre.mp4` + `app-cierre.json` (tiempos).
 - Música propia con pulso (`pulso`, −18 dB, se corta en el silencio) y ambiente `calle` en `scripts/sfx.py`.
 
+- **V8-02 "El cuaderno de los $380.000"** (`Video-v8-02-ElCuaderno`, `src/v8/ElCuaderno.tsx`), **V8-03 "La caja llena miente"**
+  (`Video-v8-03-LaCajaMiente`, `src/v8/LaCajaMiente.tsx`) y **V8-04 "¿Cuál de estos 4 te hace perder plata?"** (`Video-v8-04-CualTeHacePerder`,
+  `src/v8/CualTeHacePerder.tsx`). Piezas comunes en `src/v8/comun.tsx` (`Numero` que cuenta por pasos, `Etiqueta`, `Rotulo`, `Cartel`, `Fondo`,
+  `Foto`, `Probalo`, `AppGrabada` con marcos sobre la pantalla y `aPantalla` para pasar px de la grabación a la pantalla del celular).
+  Íconos nuevos en `iconos.tsx`: `Cuaderno`, `CuadernoCerrado`, `Burbuja`, `Clienta`, `Recibo`, `CajaRegistradora`, `Reloj`, `Camion`, `CajaDeposito`, `Producto`.
+- **Pantallas reales**: `app/scripts/grabar-v8.cjs <demo> <salida>` (un recorrido por video, verifica los números y saca los tramos de espera)
+  con `ENCLARO_DEMO=v8-02|v8-03|v8-04` (`app/lib/datos/memoria.ts`). Sale `public/tomas/v8-0N/app.mp4`, `app.json` (marcas), `app-inicio.jpg`, `app-final.jpg`.
+  La factura del V8-04 es propia y sin marcas: `node scripts/facturas-ejemplo.cjs tests/facturas/v8-04.json`.
+- **Silencios medidos**: whisper marca el arranque de una línea hasta 0,4 s antes después de un silencio. Las revelaciones usan el tiempo medido
+  con `silencedetect` (constantes `REVELA_MEDIDO`/`MEDIDO`, que solo valen si la duración de la voz coincide; si se regenera la voz, se vuelve a `l[i]`).
+
 ## Guardado del MP4 en la rama (videos.yml)
+- **Varios videos por corrida**: lista `VIDEOS` (JSON con nombre, id y cuadros de control; `[]` = solo voces). Cada video se reparte en 10 máquinas
+  (matriz video × parte) y `unir` verifica que las partes estén pegadas y completas antes de armar el MP4 (si una máquina falló, no sale un video cortado).
 - Render repartido (lo armó Claude chat): job `parte` ×10 (`--frames=A-B` + `--separate-audio-to`, `scripts/cuadros.cjs` dice cuántos cuadros hay)
   y job `unir` (concatena el video sin recomprimir, junta el audio, −14 LUFS). Primera corrida del V7-01: 9 min de punta a punta
   (una parte tardó 5 min en instalar porque no había caché; con caché, ~4 min). Uniones revisadas cuadro a cuadro: sin saltos ni silencios.
