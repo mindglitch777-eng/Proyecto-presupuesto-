@@ -1,0 +1,4 @@
+
+# caché de Python (se genera solo al correr los scripts)
+__pycache__/
+*.pyc
