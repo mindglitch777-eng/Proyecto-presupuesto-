@@ -133,7 +133,7 @@ jobs:
     needs: voz
     if: needs.voz.outputs.videos != '[]'
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
@@ -176,7 +176,7 @@ jobs:
           if [ $A -gt $B ]; then echo "Esta parte no tiene cuadros ($TOTAL en total)."; exit 0; fi
           echo "Cuadros $A a $B de $TOTAL"
           npx remotion render build "$ID" "out/parte-$N.mp4" --frames=$A-$B --codec=h264 --crf=18 \
-            --separate-audio-to="out/parte-$N.wav" --concurrency=100%
+            --separate-audio-to="out/parte-$N.wav" --concurrency=2 --timeout=300000
           echo "$A $B $FPS $TOTAL" > "out/parte-$N.txt"
       - uses: actions/upload-artifact@v4
         with:
