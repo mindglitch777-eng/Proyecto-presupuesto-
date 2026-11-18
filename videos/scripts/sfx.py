@@ -339,6 +339,40 @@ def main():
     sel = mix((0, kick(0.5, 110, 35, 1.3)), (0, lp(noise(0.15), 900) * env(0.15, 0.001, 20)), (0.02, metal_hit(0.3, 0.15)))
     save("sello", reverb(sel, 0.25), -1, 0.004)
 
+    # ---------- V8 "explicador financiero" ----------
+    # ambiente de calle de barrio: rumor grave, un auto que pasa y pajaritos lejos (6 s)
+    d = 6.0
+    rumor = lp(noise(d), 350) * 0.5
+    auto = bp(noise(d), 700, 1.2) * np.exp(-((t(d) - 3.2) ** 2) / 0.9) * 1.4
+    pajaros = mix(*[(0.6 + i * 1.3, sweep(3800 + 300 * (i % 3), 4600, 0.09) * env(0.09, 0.002, 30) * 0.25) for i in range(4)])
+    pajaros = np.pad(pajaros, (0, max(0, len(rumor) - len(pajaros))))[: len(rumor)]
+    save("calle", (rumor + auto + pajaros) * np.clip(t(d) / 0.3, 0, 1) * np.clip((d - t(d)) / 0.6, 0, 1), -12, 0.004)
+
+    # música con pulso marcado (100 BPM, 48 s): bombo, contratiempo, bajo y un arpegio suave. Va a −18 dB bajo la voz.
+    bpm, dur = 100, 48.0
+    neg = 60 / bpm
+    n = int(dur * SR)
+    mus = np.zeros(n)
+    def poner(x, en, g=1.0):
+        i = int(en * SR)
+        if i >= n:
+            return
+        x = x[: n - i]
+        mus[i : i + len(x)] += g * x
+    notas_bajo = [55.0, 55.0, 65.41, 49.0]  # La – La – Do – Sol (un compás cada una)
+    arpegio = [440.0, 523.25, 659.25, 523.25, 392.0, 493.88, 587.33, 493.88]
+    for k in range(int(dur / neg)):
+        en = k * neg
+        poner(kick(0.3, 120, 42, 1.0), en, 0.9)
+        poner(hp(noise(0.05), 7000) * env(0.05, 0.001, 70), en + neg / 2, 0.35)
+        compas = (k // 4) % 4
+        poner(tone(notas_bajo[compas], neg * 0.9, "tri") * env(neg * 0.9, 0.01, 2.5), en, 0.5)
+        poner(tone(arpegio[k % 8], 0.22) * env(0.22, 0.004, 9), en + neg / 4, 0.12)
+        if k % 4 == 3:
+            poner(bp(noise(0.12), 2000, 1.5) * env(0.12, 0.002, 25), en + neg * 0.75, 0.25)
+    mus *= np.clip(t(dur) / 0.5, 0, 1)
+    save("pulso", reverb(mus, 0.15, 0.3), -3, 0.006)
+
     print("sonidos listos en", OUT)
 
 

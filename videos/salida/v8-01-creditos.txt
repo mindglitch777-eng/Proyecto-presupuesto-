@@ -1,0 +1,5 @@
+2-almacen-1.jpg: Letrero almacén de barrio, La Pintana.jpg · Monswolff · CC0 · https://commons.wikimedia.org/wiki/File:Letrero_almac%C3%A9n_de_barrio,_La_Pintana.jpg
+4-cuaderno-1.jpg: CUADERNO MANUSCRITO POR JUAN ALFONSO CARRIZO.jpg · Unknown authorUnknown author · Public domain · https://commons.wikimedia.org/wiki/File:CUADERNO_MANUSCRITO_POR_JUAN_ALFONSO_CARRIZO.jpg
+6-qr-4.jpg: SGQR NETS pay at Liho Tea in Queensway Shopping Centre, Singapore (2025).jpg · Chainwit. · CC BY 4.0 · https://commons.wikimedia.org/wiki/File:SGQR_NETS_pay_at_Liho_Tea_in_Queensway_Shopping_Centre,_Singapore_(2025).jpg
+
+Recortes usados en el video (derivados de las fotos de arriba, recortados y con color ajustado): recorte-almacen.jpg (de 2-almacen-1.jpg), recorte-cuaderno.jpg (de 4-cuaderno-1.jpg), recorte-qr.jpg (de 6-qr-4.jpg).

@@ -47,9 +47,24 @@ function semilla(): Estado {
   };
 }
 
+/**
+ * Negocio de ejemplo del video V8-01 (solo con ENCLARO_DEMO=v8-01, para grabar la pantalla): la cuenta del guion da justo $23.500.
+ * Vende $150.000 · gana 35% en promedio ($52.500) − comisión 4% de $75.000 por QR ($3.000) − fiado que no vuelve ($8.000)
+ * − alquiler y luz del día ($540.000 ÷ 30 = $18.000) = $23.500.
+ */
+function semillaVideoV8(): Estado {
+  const e = semilla();
+  e.negocio = { ...e.negocio, nombre: "Kiosco de barrio", comisionPct: 4 };
+  e.listaFijos = [{ concepto: "Alquiler", monto: 390_000 }, { concepto: "Luz", monto: 150_000 }];
+  e.fijos = 540_000;
+  e.productos = e.productos.map((p) => ({ ...p, costo: p.precio === null ? p.costo : Math.round(p.precio * 0.65) }));
+  return e;
+}
+const semillaActual = () => (process.env.ENCLARO_DEMO === "v8-01" ? semillaVideoV8() : semilla());
+
 const g = globalThis as unknown as { __enclaroMemoria?: Estado };
-const estado = () => (g.__enclaroMemoria ??= semilla());
-export const reiniciarMemoria = () => { g.__enclaroMemoria = semilla(); };
+const estado = () => (g.__enclaroMemoria ??= semillaActual());
+export const reiniciarMemoria = () => { g.__enclaroMemoria = semillaActual(); };
 const nuevoId = (pre: string) => `${pre}${++estado().sec}`;
 
 export function datosMemoria(): Datos {

@@ -15,10 +15,10 @@ on:
 env:
   # Solo el video en producción. Los entregados ya están en videos/salida/ y en la página de descargas.
   # Otros ids: LaPersiana, LaPersiana-ganchoB/C/D, Video01-ElDueno, Video02-Banco, Video03-SeHunde,
-  # Video-v4-01-NumeroTapado, Video-v5-01-Confesiones, Video-v3-06-Basura, Video-v4-02-TresErrores, Video-v5-02-Caja.
-  NOMBRE: v7-01-record-de-ventas
-  ID: Video-v7-01-Record
-  CONTROL: "0 40 440"
+  # Video-v4-01-NumeroTapado, Video-v5-01-Confesiones, Video-v3-06-Basura, Video-v4-02-TresErrores, Video-v5-02-Caja, Video-v7-01-Record.
+  NOMBRE: v8-01-cuanto-le-queda
+  ID: Video-v8-01-CuantoLeQueda
+  CONTROL: "0 300 700"
   PARTES: 10
 
 concurrency:
@@ -34,7 +34,7 @@ defaults:
 
 jobs:
   voz:
-    name: Voz de Tomás
+    name: Voz
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -42,13 +42,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Instalar ffmpeg y edge-tts
+      - name: Instalar ffmpeg, edge-tts y faster-whisper
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-          pip install edge-tts==7.3.1
+          pip install edge-tts==7.3.1 numpy faster-whisper==1.1.1
       - name: Generar la voz (solo lo que cambió)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           for f in guiones/*.json; do python scripts/voz.py "$f" --si-cambio; done
+          # guiones con "motor": "gemini" (voz humana de Gemini TTS, ESTANDAR-CALIDAD.md)
+          for f in guiones/*.json; do python scripts/voz_gemini.py "$f" --si-cambio; done
       - name: Guardar la voz en el repositorio
         run: |
           git config user.name "github-actions[bot]"
@@ -57,7 +61,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "La voz no cambió."
           else
-            git commit -m "Videos: voz generada con es-AR-TomasNeural"
+            git commit -m "Videos: voz generada"
             git push || echo "No se pudo guardar la voz en el repo (igual se usa en este render)."
           fi
       - uses: actions/upload-artifact@v4

@@ -1,0 +1,74 @@
+{
+ "id": "v8-01-cuanto-le-queda",
+ "titulo": "¿Cuánto le queda de verdad a un kiosco?",
+ "duracionSeg": 31,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años: tono de charla entre colegas, un poco indignado, ritmo natural, sin apurarte. Hacé una pausa corta en cada punto y una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "VENDE $150.000",
+    "POR DÍA",
+    "¿CUÁNTO LE QUEDA?"
+   ],
+   "voz": "Este kiosco vende ciento cincuenta mil por día."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0,
+   "hasta": 2.4,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 2.6,
+   "hasta": 5.4,
+   "texto": "¿Cuánto le queda? Decilo en los comentarios antes del final."
+  },
+  {
+   "desde": 5.8,
+   "hasta": 8.8,
+   "texto": "Primero, la mercadería: noventa y siete mil quinientos."
+  },
+  {
+   "desde": 9.2,
+   "hasta": 11.6,
+   "texto": "Alquiler y luz del día: dieciocho mil."
+  },
+  {
+   "desde": 11.9,
+   "hasta": 13.2,
+   "texto": "Y ya descartaste la A."
+  },
+  {
+   "desde": 13.6,
+   "hasta": 17.6,
+   "texto": "El fiado que no vuelve: ocho mil. La comisión del QR: tres mil."
+  },
+  {
+   "desde": 18.3,
+   "hasta": 21.4,
+   "texto": "Le quedan veintitrés mil quinientos. Y él cree que gana cincuenta.",
+   "silencio": 0.5
+  },
+  {
+   "desde": 21.8,
+   "hasta": 27.6,
+   "texto": "Esta cuenta, En Claro te la hace sola. Decís lo que vendiste esta noche y te dice cuánto te quedó de verdad."
+  },
+  {
+   "desde": 27.9,
+   "hasta": 31.0,
+   "texto": "¿Cuánto habías dicho vos? Probalo catorce días gratis, link en el perfil."
+  }
+ ],
+ "sonidos": []
+}

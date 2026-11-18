@@ -198,6 +198,9 @@ async def main():
     ap.add_argument("--si-cambio", action="store_true", help="solo regenera los ganchos cuyo texto cambió")
     a = ap.parse_args()
     guion = json.loads((RAIZ / a.guion).read_text() if not Path(a.guion).is_absolute() else Path(a.guion).read_text())
+    if guion["voz"].get("motor") == "gemini":
+        print(f"{guion['id']}: la voz la hace scripts/voz_gemini.py (Gemini TTS)")
+        return
     ganchos = [a.gancho] if a.gancho is not None else range(len(guion["ganchos"]))
     for n in ganchos:
         previo = RAIZ / "public" / "voces" / f"{guion['id']}.gancho-{n}.json"
