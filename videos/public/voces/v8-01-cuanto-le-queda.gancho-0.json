@@ -1,8 +1,8 @@
 {
  "voz": "gemini Orus",
  "firma": "169e40549cd33b7f",
- "duracionSeg": 41.159,
- "alineado": false,
+ "duracionSeg": 40.052,
+ "alineado": true,
  "lineas": [
   [
    0.0,
@@ -13,32 +13,32 @@
    7.06
   ],
   [
-   7.88,
-   11.88
+   7.713,
+   11.243
   ],
   [
-   11.88,
-   14.82
+   11.672,
+   14.652
   ],
   [
-   14.82,
-   16.18
+   14.652,
+   15.972
   ],
   [
-   16.9,
-   22.74
+   16.515,
+   21.821
   ],
   [
-   23.29,
-   28.03
+   22.073,
+   26.933
   ],
   [
-   28.03,
-   34.67
+   26.933,
+   33.553
   ],
   [
-   35.21,
-   39.75
+   34.233,
+   38.633
   ]
  ],
  "palabras": [
@@ -64,24 +64,24 @@
    "texto": "ciento",
    "linea": 0,
    "desde": 1.32,
-   "hasta": 1.536
+   "hasta": 1.753
   },
   {
    "texto": "cincuenta",
    "linea": 0,
-   "desde": 1.536,
-   "hasta": 1.86
+   "desde": 1.753,
+   "hasta": 2.403
   },
   {
    "texto": "mil",
    "linea": 0,
-   "desde": 1.86,
-   "hasta": 2.6
+   "desde": 2.403,
+   "hasta": 2.62
   },
   {
    "texto": "por",
    "linea": 0,
-   "desde": 2.6,
+   "desde": 2.62,
    "hasta": 2.82
   },
   {
@@ -111,31 +111,31 @@
   {
    "texto": "Decilo",
    "linea": 1,
-   "desde": 4.92,
+   "desde": 4.9,
    "hasta": 5.38
   },
   {
    "texto": "en",
    "linea": 1,
    "desde": 5.38,
-   "hasta": 5.46
+   "hasta": 5.44
   },
   {
    "texto": "los",
    "linea": 1,
-   "desde": 5.46,
+   "desde": 5.44,
    "hasta": 5.54
   },
   {
    "texto": "comentarios",
    "linea": 1,
    "desde": 5.54,
-   "hasta": 6.1
+   "hasta": 6.12
   },
   {
    "texto": "antes",
    "linea": 1,
-   "desde": 6.1,
+   "desde": 6.12,
    "hasta": 6.6
   },
   {
@@ -153,470 +153,470 @@
   {
    "texto": "Primero,",
    "linea": 2,
-   "desde": 7.88,
-   "hasta": 8.34
+   "desde": 7.713,
+   "hasta": 8.193
   },
   {
    "texto": "la",
    "linea": 2,
-   "desde": 8.34,
-   "hasta": 8.62
+   "desde": 8.453,
+   "hasta": 8.503
   },
   {
    "texto": "mercadería:",
    "linea": 2,
-   "desde": 8.62,
-   "hasta": 9.28
+   "desde": 8.473,
+   "hasta": 9.133
   },
   {
    "texto": "noventa",
    "linea": 2,
-   "desde": 9.28,
-   "hasta": 9.98
+   "desde": 9.133,
+   "hasta": 9.833
   },
   {
    "texto": "y",
    "linea": 2,
-   "desde": 9.98,
-   "hasta": 10.08
+   "desde": 9.833,
+   "hasta": 9.933
   },
   {
    "texto": "siete",
    "linea": 2,
-   "desde": 10.08,
-   "hasta": 10.58
+   "desde": 9.933,
+   "hasta": 10.433
   },
   {
    "texto": "mil",
    "linea": 2,
-   "desde": 10.58,
-   "hasta": 10.88
+   "desde": 10.433,
+   "hasta": 10.733
   },
   {
    "texto": "quinientos.",
    "linea": 2,
-   "desde": 10.88,
-   "hasta": 11.88
+   "desde": 10.733,
+   "hasta": 11.243
   },
   {
    "texto": "Alquiler",
    "linea": 3,
-   "desde": 11.88,
-   "hasta": 12.48
+   "desde": 11.672,
+   "hasta": 12.272
   },
   {
    "texto": "y",
    "linea": 3,
-   "desde": 12.48,
-   "hasta": 12.64
+   "desde": 12.272,
+   "hasta": 12.432
   },
   {
    "texto": "luz",
    "linea": 3,
-   "desde": 12.64,
-   "hasta": 12.78
+   "desde": 12.432,
+   "hasta": 12.572
   },
   {
    "texto": "del",
    "linea": 3,
-   "desde": 12.78,
-   "hasta": 12.96
+   "desde": 12.572,
+   "hasta": 12.752
   },
   {
    "texto": "día:",
    "linea": 3,
-   "desde": 12.96,
-   "hasta": 13.22
+   "desde": 12.752,
+   "hasta": 13.012
   },
   {
    "texto": "dieciocho",
    "linea": 3,
-   "desde": 13.22,
-   "hasta": 14.42
+   "desde": 13.012,
+   "hasta": 14.242
   },
   {
    "texto": "mil.",
    "linea": 3,
-   "desde": 14.42,
-   "hasta": 14.82
+   "desde": 14.242,
+   "hasta": 14.652
   },
   {
    "texto": "Y",
    "linea": 4,
-   "desde": 14.82,
-   "hasta": 15.08
+   "desde": 14.652,
+   "hasta": 14.872
   },
   {
    "texto": "ya",
    "linea": 4,
-   "desde": 15.08,
-   "hasta": 15.24
+   "desde": 14.872,
+   "hasta": 15.032
   },
   {
    "texto": "descartaste",
    "linea": 4,
-   "desde": 15.24,
-   "hasta": 15.84
+   "desde": 15.032,
+   "hasta": 15.632
   },
   {
    "texto": "la",
    "linea": 4,
-   "desde": 15.84,
-   "hasta": 16.02
+   "desde": 15.632,
+   "hasta": 15.812
   },
   {
    "texto": "A.",
    "linea": 4,
-   "desde": 16.02,
-   "hasta": 16.18
+   "desde": 15.812,
+   "hasta": 15.972
   },
   {
    "texto": "El",
    "linea": 5,
-   "desde": 16.9,
-   "hasta": 17.16
+   "desde": 16.515,
+   "hasta": 16.775
   },
   {
    "texto": "fiado",
    "linea": 5,
-   "desde": 17.16,
-   "hasta": 17.48
+   "desde": 16.775,
+   "hasta": 17.095
   },
   {
    "texto": "que",
    "linea": 5,
-   "desde": 17.48,
-   "hasta": 17.66
+   "desde": 17.095,
+   "hasta": 17.275
   },
   {
    "texto": "no",
    "linea": 5,
-   "desde": 17.66,
-   "hasta": 17.78
+   "desde": 17.275,
+   "hasta": 17.395
   },
   {
    "texto": "vuelve:",
    "linea": 5,
-   "desde": 17.78,
-   "hasta": 18.18
+   "desde": 17.395,
+   "hasta": 17.795
   },
   {
    "texto": "ocho",
    "linea": 5,
-   "desde": 18.18,
-   "hasta": 19.094
+   "desde": 17.795,
+   "hasta": 18.698
   },
   {
    "texto": "mil.",
    "linea": 5,
-   "desde": 19.094,
-   "hasta": 19.78
+   "desde": 18.698,
+   "hasta": 19.375
   },
   {
    "texto": "La",
    "linea": 5,
-   "desde": 19.78,
-   "hasta": 19.96
+   "desde": 19.375,
+   "hasta": 19.575
   },
   {
    "texto": "comisión",
    "linea": 5,
-   "desde": 19.96,
-   "hasta": 20.4
+   "desde": 19.575,
+   "hasta": 20.035
   },
   {
    "texto": "del",
    "linea": 5,
-   "desde": 20.4,
-   "hasta": 20.58
+   "desde": 20.035,
+   "hasta": 20.215
   },
   {
    "texto": "QR:",
    "linea": 5,
-   "desde": 20.58,
-   "hasta": 20.84
+   "desde": 20.215,
+   "hasta": 20.475
   },
   {
    "texto": "tres",
    "linea": 5,
-   "desde": 20.84,
-   "hasta": 21.926
+   "desde": 20.475,
+   "hasta": 21.801
   },
   {
    "texto": "mil.",
    "linea": 5,
-   "desde": 21.926,
-   "hasta": 22.74
+   "desde": 21.801,
+   "hasta": 21.821
   },
   {
    "texto": "Le",
    "linea": 6,
-   "desde": 23.29,
-   "hasta": 23.55
+   "desde": 22.073,
+   "hasta": 22.453
   },
   {
    "texto": "quedan",
    "linea": 6,
-   "desde": 23.55,
-   "hasta": 23.95
+   "desde": 22.453,
+   "hasta": 22.853
   },
   {
    "texto": "veintitrés",
    "linea": 6,
-   "desde": 23.95,
-   "hasta": 24.88
+   "desde": 22.853,
+   "hasta": 23.775
   },
   {
    "texto": "mil",
    "linea": 6,
-   "desde": 24.88,
-   "hasta": 25.16
+   "desde": 23.775,
+   "hasta": 24.051
   },
   {
    "texto": "quinientos.",
    "linea": 6,
-   "desde": 25.16,
-   "hasta": 26.09
+   "desde": 24.051,
+   "hasta": 24.973
   },
   {
    "texto": "Y",
    "linea": 6,
-   "desde": 26.09,
-   "hasta": 26.31
+   "desde": 24.973,
+   "hasta": 25.213
   },
   {
    "texto": "él",
    "linea": 6,
-   "desde": 26.31,
-   "hasta": 26.47
+   "desde": 25.213,
+   "hasta": 25.373
   },
   {
    "texto": "cree",
    "linea": 6,
-   "desde": 26.47,
-   "hasta": 26.69
+   "desde": 25.373,
+   "hasta": 25.573
   },
   {
    "texto": "que",
    "linea": 6,
-   "desde": 26.69,
-   "hasta": 26.85
+   "desde": 25.573,
+   "hasta": 25.753
   },
   {
    "texto": "gana",
    "linea": 6,
-   "desde": 26.85,
-   "hasta": 27.05
+   "desde": 25.753,
+   "hasta": 25.933
   },
   {
    "texto": "cincuenta.",
    "linea": 6,
-   "desde": 27.05,
-   "hasta": 28.03
+   "desde": 25.933,
+   "hasta": 26.933
   },
   {
    "texto": "Esta",
    "linea": 7,
-   "desde": 28.03,
-   "hasta": 28.59
+   "desde": 26.933,
+   "hasta": 27.493
   },
   {
    "texto": "cuenta,",
    "linea": 7,
-   "desde": 28.59,
-   "hasta": 28.99
+   "desde": 27.493,
+   "hasta": 27.873
   },
   {
    "texto": "En",
    "linea": 7,
-   "desde": 29.37,
-   "hasta": 29.51
+   "desde": 28.253,
+   "hasta": 28.393
   },
   {
    "texto": "Claro",
    "linea": 7,
-   "desde": 29.51,
-   "hasta": 29.75
+   "desde": 28.393,
+   "hasta": 28.633
   },
   {
    "texto": "te",
    "linea": 7,
-   "desde": 29.91,
-   "hasta": 29.96
+   "desde": 28.793,
+   "hasta": 28.843
   },
   {
    "texto": "la",
    "linea": 7,
-   "desde": 29.95,
-   "hasta": 30.07
+   "desde": 28.833,
+   "hasta": 28.953
   },
   {
    "texto": "hace",
    "linea": 7,
-   "desde": 30.07,
-   "hasta": 30.21
+   "desde": 28.953,
+   "hasta": 29.093
   },
   {
    "texto": "sola.",
    "linea": 7,
-   "desde": 30.21,
-   "hasta": 30.51
+   "desde": 29.093,
+   "hasta": 29.413
   },
   {
    "texto": "Decís",
    "linea": 7,
-   "desde": 30.51,
-   "hasta": 31.51
+   "desde": 29.933,
+   "hasta": 30.433
   },
   {
    "texto": "lo",
    "linea": 7,
-   "desde": 31.51,
-   "hasta": 31.63
+   "desde": 30.433,
+   "hasta": 30.513
   },
   {
    "texto": "que",
    "linea": 7,
-   "desde": 31.63,
-   "hasta": 31.73
+   "desde": 30.513,
+   "hasta": 30.633
   },
   {
    "texto": "vendiste",
    "linea": 7,
-   "desde": 31.73,
-   "hasta": 32.13
+   "desde": 30.633,
+   "hasta": 31.013
   },
   {
    "texto": "esta",
    "linea": 7,
-   "desde": 32.13,
-   "hasta": 32.29
+   "desde": 31.013,
+   "hasta": 31.173
   },
   {
    "texto": "noche",
    "linea": 7,
-   "desde": 32.29,
-   "hasta": 32.59
+   "desde": 31.173,
+   "hasta": 31.473
   },
   {
    "texto": "y",
    "linea": 7,
-   "desde": 32.59,
-   "hasta": 33.07
+   "desde": 31.473,
+   "hasta": 31.973
   },
   {
    "texto": "te",
    "linea": 7,
-   "desde": 33.07,
-   "hasta": 33.21
+   "desde": 31.973,
+   "hasta": 32.093
   },
   {
    "texto": "dice",
    "linea": 7,
-   "desde": 33.21,
-   "hasta": 33.41
+   "desde": 32.093,
+   "hasta": 32.313
   },
   {
    "texto": "cuánto",
    "linea": 7,
-   "desde": 33.41,
-   "hasta": 33.93
+   "desde": 32.313,
+   "hasta": 32.813
   },
   {
    "texto": "te",
    "linea": 7,
-   "desde": 33.93,
-   "hasta": 34.01
+   "desde": 32.813,
+   "hasta": 32.913
   },
   {
    "texto": "quedó",
    "linea": 7,
-   "desde": 34.01,
-   "hasta": 34.29
+   "desde": 32.913,
+   "hasta": 33.193
   },
   {
    "texto": "de",
    "linea": 7,
-   "desde": 34.29,
-   "hasta": 34.37
+   "desde": 33.193,
+   "hasta": 33.273
   },
   {
    "texto": "verdad.",
    "linea": 7,
-   "desde": 34.37,
-   "hasta": 34.67
+   "desde": 33.273,
+   "hasta": 33.553
   },
   {
    "texto": "¿Cuánto",
    "linea": 8,
-   "desde": 35.21,
-   "hasta": 35.63
+   "desde": 34.233,
+   "hasta": 34.513
   },
   {
    "texto": "habías",
    "linea": 8,
-   "desde": 35.63,
-   "hasta": 35.83
+   "desde": 34.513,
+   "hasta": 34.713
   },
   {
    "texto": "dicho",
    "linea": 8,
-   "desde": 35.83,
-   "hasta": 36.11
+   "desde": 34.713,
+   "hasta": 35.013
   },
   {
    "texto": "vos?",
    "linea": 8,
-   "desde": 36.11,
-   "hasta": 36.31
+   "desde": 35.013,
+   "hasta": 35.193
   },
   {
    "texto": "Probalo",
    "linea": 8,
-   "desde": 37.05,
-   "hasta": 37.51
+   "desde": 35.973,
+   "hasta": 36.393
   },
   {
    "texto": "catorce",
    "linea": 8,
-   "desde": 37.51,
-   "hasta": 37.85
+   "desde": 36.393,
+   "hasta": 36.733
   },
   {
    "texto": "días",
    "linea": 8,
-   "desde": 37.85,
-   "hasta": 38.13
+   "desde": 36.733,
+   "hasta": 37.013
   },
   {
    "texto": "gratis,",
    "linea": 8,
-   "desde": 38.13,
-   "hasta": 38.65
+   "desde": 37.013,
+   "hasta": 37.553
   },
   {
    "texto": "link",
    "linea": 8,
-   "desde": 38.83,
-   "hasta": 39.09
+   "desde": 37.713,
+   "hasta": 37.993
   },
   {
    "texto": "en",
    "linea": 8,
-   "desde": 39.09,
-   "hasta": 39.27
+   "desde": 37.993,
+   "hasta": 38.173
   },
   {
    "texto": "el",
    "linea": 8,
-   "desde": 39.27,
-   "hasta": 39.35
+   "desde": 38.173,
+   "hasta": 38.253
   },
   {
    "texto": "perfil.",
    "linea": 8,
-   "desde": 39.35,
-   "hasta": 39.75
+   "desde": 38.253,
+   "hasta": 38.633
   }
  ]
 }
