@@ -1,9 +1,10 @@
 name: Videos
 
-# Arma el video en producción de En Claro: genera la voz argentina (es-AR-TomasNeural), saca 3 imágenes de control
-# y renderiza el MP4 REPARTIDO EN 10 MÁQUINAS A LA VEZ (cada una hace una parte de los cuadros), después
-# las une sin volver a comprimir, empareja el volumen y deja el MP4 en videos/salida/ de esta misma rama.
-# Para cambiar de video: tocá solo NOMBRE, ID y CONTROL de abajo.
+# Arma los videos en producción de En Claro: genera las voces (Tomás o Gemini), saca 3 imágenes de control por video
+# y renderiza cada MP4 REPARTIDO EN 10 MÁQUINAS A LA VEZ (cada una hace una parte de los cuadros), después
+# las une sin volver a comprimir, empareja el volumen y deja cada MP4 en videos/salida/ de esta misma rama.
+# Para cambiar de videos: tocá solo la lista VIDEOS de abajo (nombre del MP4, id de la composición y cuadros de control).
+# Con la lista vacía ([]) solo se generan las voces.
 
 on:
   push:
@@ -16,9 +17,8 @@ env:
   # Solo el video en producción. Los entregados ya están en videos/salida/ y en la página de descargas.
   # Otros ids: LaPersiana, LaPersiana-ganchoB/C/D, Video01-ElDueno, Video02-Banco, Video03-SeHunde,
   # Video-v4-01-NumeroTapado, Video-v5-01-Confesiones, Video-v3-06-Basura, Video-v4-02-TresErrores, Video-v5-02-Caja, Video-v7-01-Record.
-  NOMBRE: v8-01-cuanto-le-queda
-  ID: Video-v8-01-CuantoLeQueda
-  CONTROL: "0 300 700"
+  # Video-v8-01-CuantoLeQueda (v8-01-cuanto-le-queda).
+  VIDEOS: '[]'
   PARTES: 10
 
 concurrency:
@@ -36,8 +36,14 @@ jobs:
   voz:
     name: Voz
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
+    outputs:
+      videos: ${{ steps.lista.outputs.videos }}
     steps:
+      - name: Lista de videos
+        id: lista
+        working-directory: .
+        run: echo "videos=$(echo "$VIDEOS" | jq -c .)" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
@@ -71,10 +77,19 @@ jobs:
           if-no-files-found: ignore
 
   control:
-    name: Imágenes de control
+    name: Control ${{ matrix.video.nombre }}
     needs: voz
+    if: needs.voz.outputs.videos != '[]'
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        video: ${{ fromJSON(needs.voz.outputs.videos) }}
+    env:
+      NOMBRE: ${{ matrix.video.nombre }}
+      ID: ${{ matrix.video.id }}
+      CONTROL: ${{ matrix.video.control }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -110,14 +125,19 @@ jobs:
           path: videos/out/control-*.png
 
   parte:
-    name: Parte ${{ matrix.parte }}
+    name: ${{ matrix.video.nombre }} · parte ${{ matrix.parte }}
     needs: voz
+    if: needs.voz.outputs.videos != '[]'
     runs-on: ubuntu-latest
     timeout-minutes: 40
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
+        video: ${{ fromJSON(needs.voz.outputs.videos) }}
         parte: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    env:
+      NOMBRE: ${{ matrix.video.nombre }}
+      ID: ${{ matrix.video.id }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -153,26 +173,33 @@ jobs:
           echo "Cuadros $A a $B de $TOTAL"
           npx remotion render build "$ID" "out/parte-$N.mp4" --frames=$A-$B --codec=h264 --crf=18 \
             --separate-audio-to="out/parte-$N.wav" --concurrency=100%
-          echo "$A $B $FPS" > "out/parte-$N.txt"
+          echo "$A $B $FPS $TOTAL" > "out/parte-$N.txt"
       - uses: actions/upload-artifact@v4
         with:
-          name: parte-${{ matrix.parte }}
+          name: parte-${{ matrix.video.nombre }}-${{ matrix.parte }}
           path: videos/out/parte-*
           if-no-files-found: ignore
           retention-days: 1
 
   unir:
-    name: Unir y guardar el MP4
-    needs: parte
+    name: Unir y guardar ${{ matrix.video.nombre }}
+    needs: [voz, parte]
+    if: always() && needs.voz.outputs.videos != '[]'
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        video: ${{ fromJSON(needs.voz.outputs.videos) }}
+    env:
+      NOMBRE: ${{ matrix.video.nombre }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: actions/download-artifact@v4
         with:
-          pattern: parte-*
+          pattern: parte-${{ matrix.video.nombre }}-*
           path: videos/partes
           merge-multiple: true
       - name: Unir las partes (sin volver a comprimir la imagen)
@@ -180,14 +207,19 @@ jobs:
           command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; }
           cd partes
           : > v.txt; : > a.txt
+          SIG=0; TOTAL=0
           for t in $(ls parte-*.txt | sort); do
-            N=${t%.txt}; read A B FPS < "$t"
+            N=${t%.txt}; read A B FPS TOTAL < "$t"
+            # las partes tienen que ir pegadas, sin huecos (si una máquina falló, no se arma un video cortado)
+            [ "$A" -eq "$SIG" ] || { echo "Falta la parte que empieza en el cuadro $SIG de $NOMBRE: no se arma el MP4."; exit 1; }
+            SIG=$((B + 1))
             echo "file '$N.mp4'" >> v.txt
             # Si una parte no trajo sonido, va silencio del mismo largo (para que nada se corra).
             [ -f "$N.wav" ] || ffmpeg -v error -f lavfi -i anullsrc=r=48000:cl=stereo -t "$(echo "($B - $A + 1) / $FPS" | bc -l)" "$N.wav"
             echo "file '$N.wav'" >> a.txt
           done
           cat v.txt
+          [ "$SIG" -eq "$TOTAL" ] || { echo "Faltan los últimos cuadros de $NOMBRE ($SIG de $TOTAL): no se arma el MP4."; exit 1; }
           ffmpeg -y -v error -f concat -safe 0 -i v.txt -c copy video.mp4
           ffmpeg -y -v error -f concat -safe 0 -i a.txt -ar 48000 -ac 2 audio.wav
           mkdir -p ../out

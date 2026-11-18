@@ -110,6 +110,7 @@ export function Fiados({ clientes, hoy, filtroInicial, acciones }: { clientes: C
                       <div className="grid grid-cols-2 gap-2">
                         <button type="button" onClick={() => setModo("fio")} className={botonSecundario}>Me fió</button>
                         <button type="button" onClick={() => setModo("pago")} className={botonSecundario}>Me pagó</button>
+                        {c.saldo > 0 ? <p className="col-span-2 rounded-xl bg-suave px-3 py-2 text-[14px] leading-[1.45] text-g1">Mensaje listo: «{texto}»</p> : null}
                         {c.saldo > 0 ? (
                           <a href={linkWhatsapp(c.telefono, texto)} target="_blank" rel="noopener" onClick={() => { void acciones.recordado(c.id); try { if (!c.telefono) void navigator.clipboard?.writeText(texto); } catch { /* sin portapapeles */ } }}
                             className="col-span-2 flex min-h-[52px] items-center justify-center rounded-xl bg-[#1f8f4e] px-4 text-[17px] font-semibold text-white">

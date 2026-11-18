@@ -1,0 +1,75 @@
+{
+ "id": "v8-03-la-caja-miente",
+ "titulo": "La caja llena miente",
+ "duracionSeg": 46.2,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años: contando su día con orgullo al principio y desconcierto al final, como charlando con un colega. Ritmo natural, sin apurarte. Hacé una pausa corta en cada punto y una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "CAJA: $210.000",
+    "…Y PERDÍ",
+    "PLATA"
+   ],
+   "voz": "Hoy la caja cerró con doscientos diez mil. Y perdí plata."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 4.23,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 4.58,
+   "hasta": 6.12,
+   "texto": "Te muestro el día."
+  },
+  {
+   "desde": 6.47,
+   "hasta": 11.47,
+   "texto": "Siete, abro. Ocho y cuarto, viene el proveedor: ciento cuarenta mil, en efectivo."
+  },
+  {
+   "desde": 11.82,
+   "hasta": 16.43,
+   "texto": "Y a las ocho de la noche hice algo que todos hacemos."
+  },
+  {
+   "desde": 16.78,
+   "hasta": 19.09,
+   "texto": "Comisión del QR, gastos del día…"
+  },
+  {
+   "desde": 19.44,
+   "hasta": 25.6,
+   "texto": "y a las ocho repuse noventa y cinco mil en mercadería que tarda meses en venderse."
+  },
+  {
+   "desde": 26.1,
+   "hasta": 33.4,
+   "texto": "La caja llena no era mía. La mitad era del proveedor y el resto quedó dormido en el depósito.",
+   "silencio": 0.5
+  },
+  {
+   "desde": 33.75,
+   "hasta": 39.91,
+   "texto": "En Claro te dice cada noche cuánto es tuyo de verdad, y qué plata tenés dormida."
+  },
+  {
+   "desde": 40.26,
+   "hasta": 44.87,
+   "texto": "¿Tu caja te dice la verdad? Probalo gratis, link en el perfil."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.6
+}

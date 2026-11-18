@@ -60,7 +60,65 @@ function semillaVideoV8(): Estado {
   e.productos = e.productos.map((p) => ({ ...p, costo: p.precio === null ? p.costo : Math.round(p.precio * 0.65) }));
   return e;
 }
-const semillaActual = () => (process.env.ENCLARO_DEMO === "v8-01" ? semillaVideoV8() : semilla());
+/** V8-02 (solo con ENCLARO_DEMO=v8-02): cuaderno de fiados que suma $380.000; Marta es la que más debe ($62.000, en rojo). */
+function semillaVideoV8_02(): Estado {
+  const e = semillaVideoV8();
+  const hoy = hoyArgentina();
+  const lista: [string, number, number, number][] = [
+    // nombre, monto, días de la deuda más vieja, recordatorios sin pago
+    ["Marta", 62000, 41, 2], ["Carlos", 54000, 36, 1], ["Juan", 48000, 24, 1], ["Rosa", 41500, 19, 0], ["Beto", 39000, 33, 0],
+    ["Nélida", 36500, 12, 0], ["Hugo", 33000, 9, 0], ["Sandra", 29000, 17, 0], ["Pocho", 21000, 6, 0], ["Graciela", 16000, 4, 0],
+  ];
+  e.clientes = lista.map(([nombre, monto, dias, rec], i) => ({
+    id: `c${i + 1}`, nombre, telefono: "3756 15 " + String(400000 + i * 1111), diaCobro: null, nota: null,
+    ultimoRecordatorio: rec ? sumarDias(hoy, -3) : null, recordatoriosSinPago: rec,
+    movimientos: [{ id: `m${i + 1}`, tipo: "fio" as const, monto, fecha: sumarDias(hoy, -dias), nota: null }],
+  }));
+  return e;
+}
+
+/**
+ * V8-03 (solo con ENCLARO_DEMO=v8-03): hoy entró $210.000 ($90.000 por QR, 4% = $3.600), pagó $140.000 al proveedor,
+ * la mercadería deja 1/3 ($70.000) y los fijos son $1.089.000 al mes ($36.300 por día) → ganancia de hoy $30.100.
+ * En el depósito hay $95.000 dormidos (a costo) en productos que no se venden hace meses.
+ */
+function semillaVideoV8_03(): Estado {
+  const e = semilla();
+  const hoy = hoyArgentina();
+  const d = (n: number) => sumarDias(hoy, -n);
+  e.negocio = { ...e.negocio, nombre: "Kiosco de barrio", comisionPct: 4 };
+  e.listaFijos = [{ concepto: "Alquiler", monto: 450_000 }, { concepto: "Luz y servicios", monto: 139_000 }, { concepto: "Sueldos", monto: 500_000 }];
+  e.fijos = 1_089_000;
+  const p = (id: string, nombre: string, precio: number, stock: number, ultimaVenta: string): ProductoMargen => ({ id, nombre, precio, costo: (precio * 2) / 3, stock, precioActualizado: d(5), ultimaVenta, creado: d(150), accionDormido: null, dormidoHasta: null });
+  e.productos = [
+    p("p1", "Gaseosa 500", 2160, 48, d(0)), p("p2", "Alfajor triple", 1200, 60, d(0)), p("p3", "Cigarrillos", 4500, 40, d(0)),
+    p("p4", "Agua 500", 990, 30, d(0)), p("p5", "Caramelos sueltos", 99, 400, d(0)),
+    p("p6", "Turrones surtidos", 1500, 40, d(96)), p("p7", "Yerba orgánica 1 kg", 4500, 10, d(84)),
+    p("p8", "Galletitas importadas", 2250, 10, d(71)), p("p9", "Pilas recargables", 1500, 10, d(120)),
+  ];
+  e.cierres = [...e.cierres.slice(1), { fecha: hoy, ventas: 210000, tarjeta: 90000, gastos: [{ categoria: "proveedor", monto: 140000 }, { categoria: "comision", monto: 3600 }] }];
+  e.movidos = e.productos.slice(0, 5).map((x) => ({ id: x.id, fecha: hoy }));
+  e.clientes = [];
+  return e;
+}
+
+/**
+ * V8-04 (solo con ENCLARO_DEMO=v8-04): 4 productos con el costo viejo. La factura nueva (tests/facturas/factura-v8-04.jpg)
+ * trae alfajor $1.450, gaseosa $1.600, yerba $4.300 (aumentó 21%) y galletitas $1.050.
+ */
+function semillaVideoV8_04(): Estado {
+  const e = semilla();
+  const hoy = hoyArgentina();
+  const d = (n: number) => sumarDias(hoy, -n);
+  e.negocio = { ...e.negocio, nombre: "Kiosco de barrio", comisionPct: 4 };
+  const p = (id: string, nombre: string, precio: number, costo: number): ProductoMargen => ({ id, nombre, precio, costo, stock: 30, precioActualizado: d(50), ultimaVenta: d(0), creado: d(150), accionDormido: null, dormidoHasta: null });
+  e.productos = [p("p1", "Alfajor triple", 1200, 1000), p("p2", "Gaseosa 1,5 L", 2250, 1320), p("p3", "Yerba 1 kg", 3900, 3550), p("p4", "Galletitas dulces", 1100, 870)];
+  e.movidos = [];
+  return e;
+}
+
+const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04 };
+const semillaActual = () => (SEMILLAS[process.env.ENCLARO_DEMO ?? ""] ?? semilla)();
 
 const g = globalThis as unknown as { __enclaroMemoria?: Estado };
 const estado = () => (g.__enclaroMemoria ??= semillaActual());

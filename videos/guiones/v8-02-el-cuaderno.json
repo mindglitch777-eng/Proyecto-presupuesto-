@@ -1,0 +1,70 @@
+{
+ "id": "v8-02-el-cuaderno",
+ "titulo": "El cuaderno de los $380.000",
+ "duracionSeg": 39.3,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años: entre resignado y gracioso, como contándole a un colega lo que le pasa con los fiados. Ritmo natural, sin apurarte. Hacé una pausa corta en cada punto y una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "TU CUADERNO",
+    "DE FIADOS",
+    "$???.???"
+   ],
+   "voz": "En este cuaderno hay plata. Mucha. Y no es tuya… todavía."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 4.23,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 4.58,
+   "hasta": 9.58,
+   "texto": "Te lo traigo el viernes. Se me rompió el celular. Pasa mi hermano."
+  },
+  {
+   "desde": 9.93,
+   "hasta": 11.85,
+   "texto": "Y la que más debe…"
+  },
+  {
+   "desde": 12.2,
+   "hasta": 16.82,
+   "texto": "es la que más viene. Todos los días. Con el chango lleno."
+  },
+  {
+   "desde": 17.32,
+   "hasta": 18.47,
+   "texto": "Trescientos ochenta mil.",
+   "silencio": 0.5
+  },
+  {
+   "desde": 18.82,
+   "hasta": 21.9,
+   "texto": "Eso es casi un mes de alquiler. Fiado."
+  },
+  {
+   "desde": 22.25,
+   "hasta": 31.48,
+   "texto": "En Claro te ordena los fiados por color: rojo, a cobrar ya. Y te deja el mensaje listo, con respeto, para mandar por WhatsApp."
+  },
+  {
+   "desde": 31.83,
+   "hasta": 37.98,
+   "texto": "¿Cuánto tenés vos en el cuaderno? Contalo en los comentarios. Probalo gratis, link en el perfil."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.6
+}

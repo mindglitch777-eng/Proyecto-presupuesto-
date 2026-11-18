@@ -1,0 +1,17 @@
+{
+ "nota": "Factura de ejemplo del video V8-04, sin marcas (node scripts/facturas-ejemplo.cjs tests/facturas/v8-04.json)",
+ "facturas": [
+  {
+   "archivo": "factura-v8-04.jpg",
+   "proveedor": "DISTRIBUIDORA DE EJEMPLO S.R.L.",
+   "cliente": "KIOSCO DE BARRIO",
+   "giro": -1.1,
+   "renglones": [
+    ["201", "ALFAJOR TRIPLE", 24, 1450],
+    ["202", "GASEOSA 1,5 L", 12, 1600],
+    ["203", "YERBA 1 KG", 10, 4300],
+    ["204", "GALLETITAS DULCES", 20, 1050]
+   ]
+  }
+ ]
+}
