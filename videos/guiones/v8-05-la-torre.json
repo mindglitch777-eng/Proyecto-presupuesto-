@@ -1,0 +1,80 @@
+{
+ "id": "v8-05-la-torre",
+ "titulo": "La torre",
+ "duracionSeg": 45.8,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años: primero orgulloso mostrando la torre, después cada vez más serio, como charlando con un colega. Ritmo natural, sin apurarte. Hacé una pausa corta en cada punto y una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "LO QUE VENDE",
+    "EN UN",
+    "AÑO"
+   ],
+   "voz": "Esto es lo que vende un kiosco en un año."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 3.85,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 4.2,
+   "hasta": 7.27,
+   "texto": "Cincuenta y cuatro millones. Cinco metros de billetes."
+  },
+  {
+   "desde": 7.62,
+   "hasta": 11.47,
+   "texto": "¿Cuánto de esta torre es tuyo? ¿Hasta dónde te llega?"
+  },
+  {
+   "desde": 11.82,
+   "hasta": 14.9,
+   "texto": "La mercadería se lleva treinta y cinco millones."
+  },
+  {
+   "desde": 15.25,
+   "hasta": 17.94,
+   "texto": "Alquiler y luz, seis millones y medio."
+  },
+  {
+   "desde": 18.29,
+   "hasta": 22.9,
+   "texto": "El fiado que no vuelve, casi tres millones. El QR, uno más."
+  },
+  {
+   "desde": 23.25,
+   "hasta": 27.48,
+   "texto": "Te doy una pista: no te llega ni a la cintura."
+  },
+  {
+   "desde": 27.98,
+   "hasta": 31.45,
+   "texto": "Ocho millones. Ochenta y cinco centímetros. A la rodilla.",
+   "silencio": 0.5
+  },
+  {
+   "desde": 31.8,
+   "hasta": 39.49,
+   "texto": "En Claro te dice cada noche cuánto de lo que vendiste es tuyo. Para que la torre no te engañe."
+  },
+  {
+   "desde": 39.84,
+   "hasta": 44.45,
+   "texto": "¿Hasta dónde te llega a vos? Probalo gratis, link en el perfil."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.6
+}

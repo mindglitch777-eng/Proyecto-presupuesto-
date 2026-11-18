@@ -1,0 +1,80 @@
+{
+ "id": "v8-06-rayos-x",
+ "titulo": "Rayos X",
+ "duracionSeg": 37.9,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años: en tono de revelación, como quien muestra algo que nadie vio; misterioso al principio, indignado al final. Ritmo natural, sin apurarte. Hacé una pausa corta en cada punto y una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "$400.000",
+    "ESCONDIDOS",
+    "EN TU KIOSCO"
+   ],
+   "voz": "Tenés cuatrocientos mil pesos escondidos en tu kiosco. Y no los podés gastar."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 5.0,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 5.35,
+   "hasta": 6.35,
+   "texto": "Mirá."
+  },
+  {
+   "desde": 6.7,
+   "hasta": 10.55,
+   "texto": "Galletitas que vencen en cuarenta días: ochenta y seis mil."
+  },
+  {
+   "desde": 10.9,
+   "hasta": 13.59,
+   "texto": "Golosinas que nadie lleva: ciento veinte mil."
+  },
+  {
+   "desde": 13.94,
+   "hasta": 16.25,
+   "texto": "Bebidas que no rotan. Limpieza parada."
+  },
+  {
+   "desde": 16.6,
+   "hasta": 21.21,
+   "texto": "Y la caja más cara… es la que más te gusta reponer."
+  },
+  {
+   "desde": 21.71,
+   "hasta": 23.25,
+   "texto": "¿Sabés cuánto es eso?",
+   "silencio": 0.5
+  },
+  {
+   "desde": 23.6,
+   "hasta": 26.29,
+   "texto": "Diecisiete días de trabajo. Guardados en cajas."
+  },
+  {
+   "desde": 26.64,
+   "hasta": 32.41,
+   "texto": "En Claro te muestra la plata dormida y te dice qué no volver a comprar."
+  },
+  {
+   "desde": 32.76,
+   "hasta": 36.61,
+   "texto": "¿Cuánto tenés vos escondido? Probalo gratis, link en el perfil."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.6
+}

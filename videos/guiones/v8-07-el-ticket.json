@@ -1,0 +1,75 @@
+{
+ "id": "v8-07-el-ticket",
+ "titulo": "El ticket de 3 cuadras",
+ "duracionSeg": 36.2,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años: como relatando una persecución; sube la emoción pero no la velocidad al hablar. Ritmo natural, sin apurarte. Hacé una pausa corta en cada punto y una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "TODO LO QUE",
+    "PERDISTE",
+    "ESTE AÑO"
+   ],
+   "voz": "Este ticket tiene todo lo que perdiste este año sin darte cuenta."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 4.62,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 4.97,
+   "hasta": 6.12,
+   "texto": "Mide tres cuadras."
+  },
+  {
+   "desde": 6.47,
+   "hasta": 13.39,
+   "texto": "Alfajor a precio viejo, menos doscientos cincuenta. El fiado de Marta, menos catorce mil. La yerba, menos cuatrocientos…"
+  },
+  {
+   "desde": 13.74,
+   "hasta": 15.28,
+   "texto": "Galletitas: seis pesos. Seis."
+  },
+  {
+   "desde": 15.63,
+   "hasta": 17.94,
+   "texto": "Y todavía no llegamos al total."
+  },
+  {
+   "desde": 18.44,
+   "hasta": 21.13,
+   "texto": "Cinco millones ochocientos treinta y dos mil.",
+   "silencio": 0.5
+  },
+  {
+   "desde": 21.48,
+   "hasta": 23.4,
+   "texto": "Tres cuadras de plata perdida."
+  },
+  {
+   "desde": 23.75,
+   "hasta": 30.68,
+   "texto": "En Claro corta el ticket: cada noche te muestra esto en un renglón, cuando todavía lo podés arreglar."
+  },
+  {
+   "desde": 31.03,
+   "hasta": 34.87,
+   "texto": "¿Cuánto mediría el tuyo? Probalo gratis, link en el perfil."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.6
+}
