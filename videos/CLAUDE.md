@@ -92,6 +92,18 @@
 - Sonidos nuevos: `rayon`, `rebobinado`, `vidrio`, `escudo`, `tijera`, `aspiradora`, `marcador`, `sello` (`scripts/sfx.py`, ya generados en `public/sfx/`).
 - Duración: la da la voz (~25 s con las pausas del guion: rebobinado + FIN y el truco necesitan aire; el guion decía 22 s).
 
+## V8 · estándar de calidad nuevo (`referencia/ESTANDAR-CALIDAD.md`)
+- **V8-01 "¿Cuánto le queda de verdad a un kiosco?"** (`Video-v8-01-CuantoLeQueda`, `src/v8/CuantoLeQueda.tsx`, íconos planos en `src/v8/iconos.tsx`:
+  `Kiosco`, `Gondola`, `PersianaLuz`, `Billete`, `Kiosquero`). El número es el protagonista (cuenta dígito por dígito, verde → amarillo → rojo);
+  máximo 2 textos a la vez + subtítulo; algo visible cada ≤ 0,6 s (`latido`). Fotos: solo las 3 de `public/tomas/v8-01/`, recortadas sin marcas.
+- **Voz Gemini** (`scripts/voz_gemini.py`, guion con `"motor": "gemini"`): una sola toma de Orus a velocidad natural; tiempos por palabra con
+  faster-whisper (el audio se le pasa ya decodificado: con archivo falla por PyAV); pausas medidas en el audio real (`silencio` exacto antes de la
+  revelación, `pausa_max` entre frases). Si cambia el código pero no el guion, NO pide otra toma: recalcula sobre la misma (`alineado`).
+  `voz.py` saltea los guiones con motor gemini.
+- **Pantalla real de la app**: `app/scripts/grabar-v8-01.cjs` (screencast de Chrome a 1080 px; la grabación de Playwright sale a 360 px y borrosa)
+  con `ENCLARO_DEMO=v8-01` (negocio de ejemplo cuya cuenta da $23.500). Sale `public/tomas/v8-01/app-cierre.mp4` + `app-cierre.json` (tiempos).
+- Música propia con pulso (`pulso`, −18 dB, se corta en el silencio) y ambiente `calle` en `scripts/sfx.py`.
+
 ## Guardado del MP4 en la rama (videos.yml)
 - Render repartido (lo armó Claude chat): job `parte` ×10 (`--frames=A-B` + `--separate-audio-to`, `scripts/cuadros.cjs` dice cuántos cuadros hay)
   y job `unir` (concatena el video sin recomprimir, junta el audio, −14 LUFS). Primera corrida del V7-01: 9 min de punta a punta
