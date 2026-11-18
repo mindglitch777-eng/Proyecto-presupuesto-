@@ -6,7 +6,7 @@ import { ars } from "../lib/formato";
 import { GUION_V8_03, palabrasDeRespaldo, type Palabra } from "../lib/guion";
 import type { VideoProps } from "../Video";
 import { Marco, W, camaraBeats, lineasDeVoz, temblor, type Cam2D } from "../v6/comun";
-import { AppGrabada, Cartel, Etiqueta, Fondo, Numero, Probalo, Rotulo, aPantalla, conSigno, entra, latido, mezcla, sp, valorPasos } from "./comun";
+import { AppGrabada, Billetes, Cartel, Etiqueta, Fondo, Numero, Probalo, Rotulo, aPantalla, conSigno, entra, latido, mezcla, ritmo, sp } from "./comun";
 import { C, CajaDeposito, CajaRegistradora, Camion, Kiosco, PersianaLuz, Reloj } from "./iconos";
 
 // V8-03 "La caja llena miente" (videos/guiones/V8-03-LA-CAJA-MIENTE.md). Un día del kiosco con el reloj corriendo:
@@ -111,12 +111,14 @@ const Silueta: React.FC<{ k: number; i: number }> = ({ k, i }) => {
   );
 };
 
-const Gancho: React.FC<{ tg: number }> = ({ tg }) => {
+const Gancho: React.FC<{ tg: number; hasta: number }> = ({ tg, hasta }) => {
   const golpe = (1 + 0.14 * Math.exp(-7 * tg) * Math.cos(tg * 22)) * latido(tg, 0.62, 0.04);
   return (
     <div style={{ inset: 0 }}>
       <div style={{ left: 30, top: 226, filter: "brightness(0.85)", transform: `scale(${1 + tg * 0.02})`, transformOrigin: "50% 100%" }}><Kiosco w={300} t={tg} persiana={0.5} /></div>
       <div style={{ left: 64, top: 336, transform: `scale(${golpe}) rotate(${-2 + Math.sin(tg * 1.6) * 0.8}deg)`, transformOrigin: "50% 70%" }}><CajaRegistradora w={232} t={tg} /></div>
+      {/* la plata que entra a la caja */}
+      <Billetes t={tg} desde={0.5} hasta={hasta} x0={-40} y0={330} x1={170} y1={470} cada={0.24} alto={80} />
       <div style={{ left: 0, right: 0, top: 78, textAlign: "center", transform: `scale(${golpe})` }}>
         <div style={{ position: "static", font: `800 22px/1.1 ${BODY}`, color: C.tinta, letterSpacing: ".04em" }}>CAJA DE HOY</div>
         <div style={{ position: "static", font: `800 62px/1.02 ${DISP}`, color: C.hoja, letterSpacing: "-.03em" }}>{ars(ENTRO)}</div>
@@ -145,7 +147,11 @@ const Partida: React.FC<{ t: number; T: T }> = ({ t, T }) => {
       <Cartel texto={label.txt} top={70} fondo={label.c} color="#fff" size={label.txt.length > 22 ? 17 : 22} s={latido(t, 0.6, 0.03)} rot={-1.5} />
       {/* contorno de la caja ($210.000) */}
       <div style={{ left: x - 8, width: w + 16, top: base - 240 - 8, height: 256, borderRadius: 14, border: `4px dashed ${C.tinta}55` }} />
-      {bloque(base - 240, 240, "#bfe3cb", 1 - pProv)}
+      {(() => {
+        const llena = entra((t - T.revela) / 0.9);
+        return <div style={{ left: x, width: w, top: base - 240 * llena, height: 240 * llena, borderRadius: 8, background: "#bfe3cb", border: `3px solid ${C.tinta}`, opacity: 1 - pProv }} />;
+      })()}
+      <Billetes t={t} desde={T.revela} hasta={T.mitad - 0.5} x0={-40} y0={200} x1={x + 50} y1={base - 120} cada={0.28} alto={60} />
       {bloque(base - hProv, hProv, "#d9a86c", pProv, <div style={{ transform: "scale(0.9)" }}><Camion w={110} t={t} /></div>)}
       {bloque(base - hProv - hGas, hGas, "#c3c7c0", pRest)}
       {bloque(yTuyo + hTuyo * pDorm, hTuyo * (1 - pDorm), C.hoja, pRest)}
@@ -179,7 +185,7 @@ export const LaCajaMiente: React.FC<VideoProps> = ({ voz, palabras }) => {
 
   const beats = [0.03, T.perdi, T.siete, T.ocho, T.proveedor, T.cuarenta + 0.45, T.noche, T.qr + 0.45, T.gastos + 0.45, T.noventa + 0.45, T.revela, T.mitad, T.dormido, T.tuyo, T.dormida, T.probalo];
   const cortes = [l[1], l[3], l[4], l[5], T.revela, l[7], l[8]];
-  const cam: Cam2D = esc === "silencio" ? { z: 1.03 + (t - e[5]) * 0.08, rot: 0, tx: 0, ty: 0, blur: 0 } : camaraBeats(tw, loop ? [] : beats, loop ? [] : cortes, 0.75);
+  const cam: Cam2D = esc === "silencio" ? { z: 1.03 + (t - e[5]) * 0.08, rot: 0, tx: 0, ty: 0, blur: 0 } : camaraBeats(tw, loop ? [] : ritmo(pal, beats, [[Math.min(e[5] + 0.12, T.revela - 0.35), T.revela - 0.02], [T.LOOP - 0.4, 999]]), loop ? [] : cortes, 0.75);
   const hs = loop ? 0 : temblor(t, [[0.03, 9], [T.perdi, 5], [T.cuarenta + 0.45, 8], [T.l[3], 5], [T.noventa + 0.45, 10], [T.dormido, 8]]);
   let wf = 0, red = 0;
   if (!loop) {
@@ -234,7 +240,7 @@ export const LaCajaMiente: React.FC<VideoProps> = ({ voz, palabras }) => {
       fondo={fondo}
       frente={
         <>
-          {esc === "gancho" ? <Gancho tg={loop ? 0 : t} /> : null}
+          {esc === "gancho" ? <Gancho tg={loop ? 0 : t} hasta={l[1] - 0.7} /> : null}
 
           {esc === "dia" || esc === "regancho" || esc === "gastos" || esc === "deposito" ? <Contadores t={t} T={T} /> : null}
 
@@ -311,6 +317,7 @@ export const LaCajaMiente: React.FC<VideoProps> = ({ voz, palabras }) => {
             <>
               <div style={{ left: 30, top: 226, transform: `scale(${1 + (t - l[8]) * 0.02})`, transformOrigin: "50% 100%" }}><Kiosco w={300} t={t} persiana={0.5} /></div>
               <div style={{ left: 64, top: 336, transform: `rotate(-2deg) scale(${latido(t, 0.62, 0.04)})`, transformOrigin: "50% 70%" }}><CajaRegistradora w={232} t={t} /></div>
+              <Billetes t={t} desde={l[8] + 0.2} hasta={T.LOOP - 0.8} x0={-40} y0={330} x1={170} y1={470} cada={0.24} alto={80} />
               <Cartel texto="¿TU CAJA TE DICE LA VERDAD?" top={96} fondo={C.verde} color={C.ambar} size={20} s={sp(t - l[8], 1.06) * latido(t, 0.62, 0.03)} rot={-2 + Math.sin(t * 4) * 1.2} />
               {t >= T.probalo - 0.1 ? <Probalo s={sp(t - (T.probalo - 0.1), 1.05, 15, 0.45) * latido(t - T.probalo, 0.6, 0.05)} top={170} /> : null}
             </>

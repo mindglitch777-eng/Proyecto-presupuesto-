@@ -6,7 +6,7 @@ import { ars } from "../lib/formato";
 import { GUION_V8_02, palabrasDeRespaldo, type Palabra } from "../lib/guion";
 import type { VideoProps } from "../Video";
 import { Marco, W, camaraBeats, lineasDeVoz, temblor, type Cam2D } from "../v6/comun";
-import { AppGrabada, Cartel, Etiqueta, Fondo, Foto, Numero, Probalo, Rotulo, aPantalla, entra, latido, sp, valorPasos } from "./comun";
+import { AppGrabada, Billetes, Cartel, Etiqueta, Fondo, Foto, Numero, Probalo, Rotulo, aPantalla, entra, latido, ritmo, sp, valorPasos } from "./comun";
 import { Burbuja, C, Clienta, Cuaderno, CuadernoCerrado, Kiosco, Recibo } from "./iconos";
 
 // V8-02 "El cuaderno de los $380.000" (videos/guiones/V8-02-EL-CUADERNO.md). Explicador financiero: el número DEUDA es el protagonista.
@@ -63,7 +63,7 @@ function escena(t: number, T: T): Esc {
 const pasosDeuda = (T: T) => DEUDAS.map((a, i) => ({ en: T.exc[i] + 0.15, a }));
 
 /** Cuadro 0 (y el último): de noche, el kiosco atrás y el cuaderno que se abre de golpe; "$???.???" latiendo. */
-const Gancho: React.FC<{ tg: number }> = ({ tg }) => {
+const Gancho: React.FC<{ tg: number; hasta: number }> = ({ tg, hasta }) => {
   const abre = entra(tg / 0.28);
   const golpe = (1 + 0.14 * Math.exp(-7 * tg) * Math.cos(tg * 22)) * latido(tg, 0.62, 0.04);
   return (
@@ -77,6 +77,8 @@ const Gancho: React.FC<{ tg: number }> = ({ tg }) => {
           <CuadernoCerrado w={128} />
         </div>
       </div>
+      {/* la plata que sale del cuaderno (se fue fiada) */}
+      <Billetes t={tg} desde={1.0} hasta={hasta} x0={170} y0={430} x1={330} y1={250} cada={0.24} alto={70} />
       <Cartel texto="TU CUADERNO DE FIADOS" top={92} fondo={C.verde} color={C.ambar} size={24} s={Math.min(1.08, 0.8 + sp(tg + 0.1) * 0.2) * latido(tg + 0.2, 0.62, 0.03)} rot={-2 + Math.sin(tg * 4) * 1.2} />
       <Numero t={tg} v={0} tapado top={150} size={70} color={C.rojo} />
     </div>
@@ -113,7 +115,7 @@ export const ElCuaderno: React.FC<VideoProps> = ({ voz, palabras }) => {
   const beats = [0.03, ...T.exc, T.mas, T.viene, T.todos, T.revela, T.mil, T.alquiler, T.fiado, T.rojo, T.mensaje, tPago, T.probalo];
   const cortes = [l[1], l[2], T.mas, T.revela, l[5], l[6], T.contalo];
   const enSilencio = esc === "silencio";
-  const cam: Cam2D = enSilencio ? { z: 1.03 + (t - T.lleno) * 0.08, rot: 0, tx: 0, ty: 0, blur: 0 } : camaraBeats(tw, loop ? [] : beats, loop ? [] : cortes, 0.75);
+  const cam: Cam2D = enSilencio ? { z: 1.03 + (t - T.lleno) * 0.08, rot: 0, tx: 0, ty: 0, blur: 0 } : camaraBeats(tw, loop ? [] : ritmo(pal, beats, [[T.lleno + 0.3, T.revela - 0.02], [T.LOOP - 0.4, 999]]), loop ? [] : cortes, 0.75);
   const hs = loop ? 0 : temblor(t, [[0.03, 9], ...T.exc.map((a) => [a + 0.15, 4] as [number, number]), [T.mil, 12], [T.fiado, 7]]);
   let wf = 0, red = 0;
   if (!loop) {
@@ -122,7 +124,7 @@ export const ElCuaderno: React.FC<VideoProps> = ({ voz, palabras }) => {
   }
 
   // ---------- sonido ----------
-  const visitas = Array.from({ length: 9 }, (_, i) => T.todos + 2.0 * (1 - Math.pow(0.8, i)) * 1.9);
+  const visitas = Array.from({ length: 9 }, (_, i) => T.todos + 2.0 * (1 - Math.pow(0.8, i)) * 1.9).filter((a) => a < T.lleno - 0.1);
   const sonidos: { en: number; sfx: string; vol?: number }[] = [
     { en: 0, sfx: "thump" }, { en: 0, sfx: "hoja", vol: 0.6 }, { en: 0, sfx: "calle", vol: 0.4 },
     ...T.exc.flatMap((a) => [{ en: a - 0.02, sfx: "tic", vol: 0.7 }, { en: a + 0.55, sfx: "click", vol: 0.5 }]),
@@ -165,7 +167,7 @@ export const ElCuaderno: React.FC<VideoProps> = ({ voz, palabras }) => {
       fondo={<Fondo t={t} modo={fondoModo} />}
       frente={
         <>
-          {esc === "gancho" ? <Gancho tg={loop ? 0 : t} /> : null}
+          {esc === "gancho" ? <Gancho tg={loop ? 0 : t} hasta={l[1] - 0.7} /> : null}
 
           {esc === "excusas" ? (
             <>
@@ -267,6 +269,7 @@ export const ElCuaderno: React.FC<VideoProps> = ({ voz, palabras }) => {
               <div style={{ left: 20, top: 250, transform: `scale(${1.02 + (t - T.contalo) * 0.03}) rotate(-3deg)`, transformOrigin: "50% 60%" }}>
                 <Cuaderno w={320} t={t} renglones={RENGLONES.slice(1)} />
               </div>
+              <Billetes t={t} desde={T.contalo + 0.2} hasta={T.LOOP - 0.8} x0={170} y0={400} x1={-40} y1={250} cada={0.24} alto={60} />
               <Numero t={t} v={0} tapado top={128} size={66} color={C.rojo} />
               {t >= T.probalo - 0.1 ? <Probalo s={sp(t - (T.probalo - 0.1), 1.05, 15, 0.45) * latido(t - T.probalo, 0.6, 0.05)} top={206} /> : <Cartel texto="¿CUÁNTO TENÉS VOS?" top={212} fondo={C.verde} color={C.ambar} size={24} s={sp(t - T.contalo, 1.06)} rot={-2 + Math.sin(t * 4) * 1.2} />}
             </>

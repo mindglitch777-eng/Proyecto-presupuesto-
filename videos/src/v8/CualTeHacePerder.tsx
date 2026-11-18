@@ -6,7 +6,7 @@ import { ars } from "../lib/formato";
 import { GUION_V8_04, palabrasDeRespaldo, type Palabra } from "../lib/guion";
 import type { VideoProps } from "../Video";
 import { Marco, W, camaraBeats, lineasDeVoz, temblor, type Cam2D } from "../v6/comun";
-import { AppGrabada, Cartel, Fondo, Foto, Numero, Probalo, Rotulo, aPantalla, entra, latido, sp, valorPasos } from "./comun";
+import { AppGrabada, Cartel, Fondo, Foto, Numero, Probalo, Rotulo, aPantalla, entra, latido, ritmo, sp, valorPasos } from "./comun";
 import { C, Producto } from "./iconos";
 
 // V8-04 "¿Cuál de estos 4 te hace perder plata?" (videos/guiones/V8-04-CUAL-TE-HACE-PERDER.md). Juego de 4 cartas que se dan vuelta.
@@ -77,7 +77,7 @@ const Carta: React.FC<{ t: number; i: number; giro: number; foco: number; dim: n
   const c = CARTAS[i];
   const [x, y] = POS[i];
   const ang = giro * 180;
-  const borde = verde > 0.5 ? C.hoja : rojo > 0.5 ? C.rojo : C.tinta;
+  const borde = verde > 0.5 ? C.hoja : rojo > 0.5 ? C.rojo : foco > 0 && giro < 0.5 ? C.ambar : C.tinta;
   const cara: React.CSSProperties = { inset: 0, borderRadius: 16, border: `4px solid ${borde}`, boxShadow: `0 6px 0 ${C.tinta}`, backfaceVisibility: "hidden", overflow: "hidden" };
   const pierde = c.res < 0 || c.res < 50;
   return (
@@ -147,12 +147,13 @@ export const CualTeHacePerder: React.FC<VideoProps> = ({ voz, palabras }) => {
   const tw = loop ? 0 : t;
   const { l, e } = T;
   const F = flips(T);
+  const finMus = T.regalarla + 0.6;
   const tFin = (s: number) => T.app0 + s / T.rate;
 
   const beats = [0.03, T.cual, ...T.elegi, T.alfajor, ...F.map((a) => a + 0.35), T.ojo, T.seis2, T.regalarla, T.pormes, T.doscientos, T.mil, T.factura, T.aumento, T.vender, T.probalo];
   const cortes = [l[1], l[2], T.pormes - 0.5, T.doscientos, l[9], l[10]];
   const zoomOjo = esc === "juego" && t > l[5] && t < F[3] ? clamp((t - l[5]) / Math.max(0.5, F[3] - l[5]), 0, 1) : 0;
-  const base = camaraBeats(tw, loop ? [] : beats, loop ? [] : cortes, 0.7);
+  const base = camaraBeats(tw, loop ? [] : ritmo(pal, beats, [[finMus, T.pormes - 0.02], [T.LOOP - 0.4, 999]]), loop ? [] : cortes, 0.7);
   const cam: Cam2D = zoomOjo > 0 ? { ...base, z: base.z + 0.25 * zoomOjo, tx: base.tx - 60 * zoomOjo, ty: base.ty - 70 * zoomOjo } : base;
   const hs = loop ? 0 : temblor(t, [[0.03, 8], ...F.map((a) => [a + 0.35, 5] as [number, number]), [T.regalarla, 7], [T.mil, 12]]);
   let wf = 0, red = 0;
@@ -177,7 +178,6 @@ export const CualTeHacePerder: React.FC<VideoProps> = ({ voz, palabras }) => {
     { en: T.probalo, sfx: "click", vol: 0.5 }, { en: T.LOOP - 0.12, sfx: "whoosh", vol: 0.35 }, { en: T.LOOP, sfx: "thump", vol: 0.45 },
   ].filter((s) => !(s.en > T.regalarla + 0.65 && s.en < T.pormes - 0.05));
 
-  const finMus = T.regalarla + 0.6;
   const musica = (
     <>
       <Sequence from={0} durationInFrames={Math.max(1, Math.round(finMus * fps))} layout="none">
@@ -191,11 +191,11 @@ export const CualTeHacePerder: React.FC<VideoProps> = ({ voz, palabras }) => {
 
   // estado de cada carta en el juego
   const enfocada = t < T.alfajor - 0.1 ? -1 : t < l[3] - 0.05 ? 0 : t < l[4] - 0.05 ? 1 : t < l[5] - 0.05 ? 2 : t < T.regalarla ? 3 : -1;
-  const cartas = (tt: number, juego: boolean) =>
+  const cartas = (tt: number, juego: boolean, recorre = -1) =>
     CARTAS.map((c, i) => {
       const giro = juego ? entra((tt - F[i]) / 0.35) : 0;
       const rojo = juego && (c.res < 50 ? tt > T.regalarla : false) ? 1 : 0;
-      return <Carta key={i} t={tt} i={i} giro={giro} foco={juego && enfocada === i ? 1 : 0} dim={juego && enfocada >= 0 && enfocada !== i ? 1 : 0} rojo={rojo} verde={0} temblor={juego && i === 3 && tt > T.ojo && tt < F[3] ? 0.5 + zoomOjo : 0} />;
+      return <Carta key={i} t={tt} i={i} giro={giro} foco={(juego && enfocada === i) || recorre === i ? 1 : 0} dim={juego && enfocada >= 0 && enfocada !== i ? 1 : 0} rojo={rojo} verde={0} temblor={juego && i === 3 && tt > T.ojo && tt < F[3] ? 0.5 + zoomOjo : 0} />;
     });
 
   const yerbaApp = aPantalla(8, 64, 344, 112);
@@ -211,7 +211,7 @@ export const CualTeHacePerder: React.FC<VideoProps> = ({ voz, palabras }) => {
 
           {esc === "gancho" ? (
             <>
-              {cartas(loop ? 0 : t, false).map((c, i) => {
+              {cartas(loop ? 0 : t, false, !loop && t > 0.5 && t < l[1] - 0.3 ? Math.floor((t - 0.5) / 0.42) % 4 : -1).map((c, i) => {
                 const tg = loop ? 0 : t;
                 const s = Math.min(1.08, 0.7 + sp(tg + 0.12 - i * 0.08, 1.08, 16, 0.45) * 0.3);
                 return <div key={i} style={{ inset: 0, transform: `scale(${s})`, transformOrigin: `${POS[i][0] + 75}px ${POS[i][1] + 74}px` }}>{c}</div>;
@@ -296,7 +296,7 @@ export const CualTeHacePerder: React.FC<VideoProps> = ({ voz, palabras }) => {
 
           {esc === "cierre" ? (
             <>
-              {cartas(t, false)}
+              {cartas(t, false, t > l[10] + 0.2 && t < T.LOOP - 0.5 ? Math.floor((t - l[10] - 0.2) / 0.42) % 4 : -1)}
               {t >= T.probalo - 0.1 ? <Probalo s={sp(t - (T.probalo - 0.1), 1.05, 15, 0.45) * latido(t - T.probalo, 0.6, 0.05)} top={88} /> : <Cartel texto="¿CUÁL HABÍAS ELEGIDO?" top={86} fondo={C.verde} color={C.ambar} size={22} s={sp(t - l[10], 1.06)} rot={-2 + Math.sin(t * 4) * 1.2} />}
             </>
           ) : null}

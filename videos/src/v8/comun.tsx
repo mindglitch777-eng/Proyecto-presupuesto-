@@ -149,3 +149,35 @@ export const aPantalla = (x: number, y: number, w: number, h: number) => {
   const k = 384 / 780;
   return { x: x * k - (360 * k - 174) / 2, y: y * k, w: w * k, h: h * k };
 };
+
+/**
+ * Ritmo de cámara atado a la voz: a los golpes elegidos a mano les suma el comienzo de cada palabra que caiga a más de `gap` s
+ * de cualquier otro golpe (así nunca pasan más de ~0,7 s sin un cambio visible). `fuera`: tramos sin golpes (silencios, loop).
+ */
+export function ritmo(pal: { desde: number }[], manual: number[], fuera: [number, number][], gap = 0.62) {
+  const golpes = [...manual].sort((a, b) => a - b);
+  for (const p of [...pal].sort((a, b) => a.desde - b.desde)) {
+    const s = p.desde;
+    if (fuera.some(([a, b]) => s >= a && s <= b)) continue;
+    if (golpes.every((b) => Math.abs(b - s) >= gap)) golpes.push(s);
+  }
+  return golpes.sort((a, b) => a - b);
+}
+
+/** Billetes que viajan en arco de (x0, y0) a (x1, y1), uno cada `cada` s desde `desde` (plata que entra o que se va). */
+export const Billetes: React.FC<{ t: number; desde: number; hasta?: number; x0: number; y0: number; x1: number; y1: number; cada?: number; vuelo?: number; alto?: number }> = ({ t, desde, hasta = 999, x0, y0, x1, y1, cada = 0.36, vuelo = 0.75, alto = 90 }) => {
+  const n = Math.ceil((Math.min(hasta, t) - desde) / cada) + 1;
+  const desdeK = Math.max(0, Math.floor((t - desde - vuelo) / cada));
+  const out: React.ReactNode[] = [];
+  for (let i = desdeK; i < n; i++) {
+    const d = t - (desde + i * cada);
+    if (d < 0 || d > vuelo || desde + i * cada > hasta) continue;
+    const k = d / vuelo;
+    out.push(
+      <div key={i} style={{ left: x0 + (x1 - x0) * k + (i % 3) * 6, top: y0 + (y1 - y0) * k - Math.sin(k * Math.PI) * alto + (i % 2) * 12, opacity: Math.min(1, (1 - k) * 4, k * 6), transform: `rotate(${k * 280 + i * 47}deg) scale(${1 - k * 0.35})` }}>
+        <svg width={54} height={27} viewBox="0 0 80 40"><rect x="2" y="2" width="76" height="36" rx="5" fill="#7cc79a" stroke={C.tinta} strokeWidth="3" /><circle cx="40" cy="20" r="9" fill={C.hoja} stroke={C.tinta} strokeWidth="2.5" /></svg>
+      </div>,
+    );
+  }
+  return <>{out}</>;
+};
