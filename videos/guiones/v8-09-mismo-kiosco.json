@@ -76,5 +76,6 @@
   }
  ],
  "sonidos": [],
- "pausa_max": 0.6
+ "pausa_max": 0.6,
+ "silencio_max": 0.45
 }

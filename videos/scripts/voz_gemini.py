@@ -217,6 +217,45 @@ def ajustar_a_silencios(pcm, guion_pal, minimo=0.2):
     print(f"Líneas que arrancan al final de su silencio: {corridas} ({len(silencios)} silencios medidos)")
 
 
+def recortar_silencios(pcm, guion_pal, guion, maximo):
+    """Acorta todo silencio de más de `maximo` s (también adentro de una línea) sin tocar la velocidad de la voz.
+    El silencio pedido antes de una línea con `silencio` se deja en ese valor. Corre los tiempos de las palabras."""
+    marco = int(0.01 * SR)
+    energia = np.sqrt(np.convolve(pcm.astype(np.float64) ** 2, np.ones(marco) / marco, mode="same"))[::marco]
+    umbral = energia.max() * 10 ** (-38 / 20)
+    callado = list(energia < umbral) + [False]
+    tramos, ini = [], None
+    for k, c in enumerate(callado):
+        if c and ini is None:
+            ini = k
+        elif not c and ini is not None:
+            if (k - ini) * 0.01 > maximo + 0.05:
+                tramos.append((ini * 0.01, k * 0.01))
+            ini = None
+    inicios = {n: min(p["desde"] for p in guion_pal if p["linea"] == n) for n in {p["linea"] for p in guion_pal}}
+    total = 0.0
+    for a, b in reversed(tramos):
+        objetivo = maximo
+        for n, l in enumerate(guion["lineas"]):
+            if l.get("silencio") and n in inicios and abs(inicios[n] - b) < 0.35:
+                objetivo = max(objetivo, l["silencio"])
+        quitar = (b - a) - objetivo
+        if quitar <= 0.02:
+            continue
+        medio = (a + b) / 2
+        i0, i1 = int((medio - quitar / 2) * SR), int((medio + quitar / 2) * SR)
+        pcm = np.concatenate([pcm[:i0], pcm[i1:]])
+        for p in guion_pal:
+            for clave in ("desde", "hasta"):
+                if p[clave] >= medio + quitar / 2:
+                    p[clave] = round(p[clave] - quitar, 3)
+                elif p[clave] > medio - quitar / 2:
+                    p[clave] = round(medio - quitar / 2, 3)
+        total += quitar
+    print(f"Silencios acortados a {maximo} s: {len(tramos)} ({total:.1f} s menos, la voz no se aceleró)")
+    return pcm
+
+
 def solo_tiempos(ruta):
     """Corrige los tiempos de una voz ya generada sin pedir otra toma ni volver a usar whisper (--solo-tiempos)."""
     guion = json.loads(ruta.read_text())
@@ -224,6 +263,13 @@ def solo_tiempos(ruta):
     datos = json.loads(Path(f"{destino}.json").read_text())
     crudo = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", f"{destino}.mp3", "-f", "s16le", "-ar", str(SR), "-ac", "1", "-"], capture_output=True, check=True).stdout
     pcm = np.frombuffer(crudo, dtype=np.int16).astype(np.float32)
+    if guion.get("silencio_max"):
+        pcm = recortar_silencios(pcm, datos["palabras"], guion, guion["silencio_max"])
+        with tempfile.TemporaryDirectory() as d:
+            wav = Path(d) / "voz.wav"
+            subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "s16le", "-ar", str(SR), "-ac", "1", "-i", "-", str(wav)], input=np.clip(pcm, -32768, 32767).astype(np.int16).tobytes(), check=True)
+            subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav), "-ar", "48000", "-ac", "2", "-b:a", "192k", f"{destino}.mp3"], check=True)
+        datos["duracionSeg"] = round(len(pcm) / SR + guion.get("cola", 1.2), 3)
     ajustar_a_silencios(pcm, datos["palabras"])
     datos["lineas"] = [[ps[0]["desde"], ps[-1]["hasta"]] if ps else [0, 0] for ps in ([p for p in datos["palabras"] if p["linea"] == n] for n in range(len(guion["lineas"])))]
     datos["silencios_medidos"] = True
@@ -285,6 +331,8 @@ def main():
         # antes de una línea con `silencio` queda exactamente ese silencio; las demás, como mucho `pausa_max` (ritmo sin baches)
         if alineado:
             pcm = ajustar_pausas(pcm, guion_pal, guion)
+            if guion.get("silencio_max"):
+                pcm = recortar_silencios(pcm, guion_pal, guion, guion["silencio_max"])
             ajustar_a_silencios(pcm, guion_pal)
 
         guardar_wav(pcm, wav)
