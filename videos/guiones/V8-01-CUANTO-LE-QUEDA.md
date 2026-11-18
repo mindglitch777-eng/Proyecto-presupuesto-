@@ -20,9 +20,10 @@ y `hyperframes-registry` (bloques ya hechos: tipografía cinética, gráficos, t
 - **Protagonista: el número.** Gigante, con conteo de dígitos, cambios de color (verde → amarillo → rojo) a medida que baja.
 - **Fondo:** colores de la marca En Claro (ver `marca/` y la landing), con textura de papel/grano suave, nunca negro vacío.
 - **Íconos e ilustración plana, prolija y adulta** (línea gruesa, 2–3 colores): caja, góndola, persiana, cuaderno, QR. Nada de muñecos 3D ni dibujitos infantiles.
-- **Fotos reales como recortes** (tipo collage, con borde blanco y una leve sombra, entrando con movimiento): las 7 que sirven están en
-  `videos/public/tomas/v8-01/` (kiosco del subte, kiosco de plaza, pizarrón de almacén, persiana, cuaderno a mano, 2 QR en mostrador).
-  Créditos obligatorios (CC BY / BY-SA) en `videos/public/tomas/v8-01/creditos.txt` → copiarlos a `videos/salida/v8-01-creditos.txt` para la descripción del post.
+- **Fotos reales como recortes** (tipo collage, con borde blanco y una leve sombra, entrando con movimiento): solo 3, sin licencias "SA"
+  (decisión del dueño): pizarrón de almacén (CC0), cuaderno a mano (dominio público) y QR en mostrador (CC BY, lleva crédito), en `videos/public/tomas/v8-01/`.
+  Crédito en `videos/public/tomas/v8-01/creditos.txt` → copiarlo a `videos/salida/v8-01-creditos.txt` para la descripción del post.
+  **Nunca usar fotos CC BY-SA ni NC/ND.** El kiosco, la persiana y la plata se resuelven con ilustración plana.
 - **Pantalla real de En Claro** grabada de la app (`app/`, `ENCLARO_MODO_PRUEBA=1`, Playwright a 360 px) para el truco.
 - Movimiento constante: cada elemento entra con golpe y rebote suave, la cámara empuja o panea siempre, nada quieto más de 0,7 s.
 
