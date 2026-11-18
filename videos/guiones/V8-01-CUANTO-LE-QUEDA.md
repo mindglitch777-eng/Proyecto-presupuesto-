@@ -30,7 +30,7 @@ Claude mira una hoja de contacto de lo bajado y elige. Si una búsqueda no trae 
 
 ## Voz
 
-**Gemini TTS** (`GEMINI_API_KEY`, modelo de voz del plan gratis), voz masculina adulta. Instrucción de actuación para todo el texto:
+**Gemini TTS** (`GEMINI_API_KEY`, modelo `gemini-2.5-flash-preview-tts`), **voz elegida por el dueño: Orus**. Script de referencia: `pruebas/voces.py`. Instrucción de actuación para todo el texto:
 "Hablá como un kiosquero argentino de 50 años, voseando, tono de charla entre colegas, un poco indignado, ritmo natural, sin apurarte."
 Antes de producir: generar la línea del gancho con **3 voces distintas** y dejar los 3 MP3 en `videos/salida/v8-01-pruebas-voz/` para que el dueño elija.
 Si Gemini falla o suena con acento neutro/mexicano marcado, respaldo `es-AR-TomasNeural` **sin acelerar**. Prohibido acelerar cualquier voz.
