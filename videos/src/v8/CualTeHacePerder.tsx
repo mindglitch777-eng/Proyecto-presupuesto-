@@ -260,7 +260,7 @@ export const CualTeHacePerder: React.FC<VideoProps> = ({ voz, palabras }) => {
             <>
               <div style={{ inset: 0, background: `radial-gradient(circle at 50% 30%, ${C.rojo}33 0%, transparent 55%)`, opacity: 0.6 + 0.4 * Math.abs(Math.sin(t * 5)) }} />
               <div style={{ inset: 0, transform: `scale(${latido(t - T.mil, 0.6, 0.06)})`, transformOrigin: "50% 30%" }}>
-                <Numero t={t} v={valorPasos(t, 0, [{ en: T.doscientos, a: POR_MES }], Math.max(0.4, T.mil - T.doscientos))} pasos={[{ en: T.doscientos, a: POR_MES }]} dur={Math.max(0.4, T.mil - T.doscientos)} top={130} size={70} color="#ff6b5e" />
+                <Numero t={t} v={valorPasos(t, 0, [{ en: T.doscientos, a: POR_MES }], Math.max(0.4, T.mil - T.doscientos))} pasos={[{ en: T.doscientos, a: POR_MES }]} dur={Math.max(0.4, T.mil - T.doscientos)} top={134} size={60} color="#ff6b5e" />
               </div>
               <Rotulo t={t} desde={T.mil} texto="por mes, vendiendo (ejemplo)" top={218} />
               <Pila t={t} desde={T.mil + 0.2} />
