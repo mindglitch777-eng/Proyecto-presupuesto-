@@ -1,0 +1,81 @@
+{
+ "id": "v8-12-vender-mas",
+ "titulo": "¿Vender más o ganar más?",
+ "duracionSeg": 47.4,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años, con tono serio de quien explica una estrategia de negocio con números, claro y seguro, sin exagerar. Ritmo natural, sin apurarte nunca. Hacé una pausa corta en cada punto y una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "$200.000 vs $120.000",
+    "¿CUÁL",
+    "GANA MÁS?"
+   ],
+   "voz": "Uno vende doscientos mil. El otro, ciento veinte. ¿Cuál gana más?"
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 4.23,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 4.58,
+   "hasta": 5.58,
+   "texto": "Elegí. Ya."
+  },
+  {
+   "desde": 5.93,
+   "hasta": 7.47,
+   "texto": "Si dijiste A… perdiste."
+  },
+  {
+   "desde": 7.82,
+   "hasta": 12.43,
+   "texto": "A vende mucho, pero cada producto le deja poco: veintidós por ciento."
+  },
+  {
+   "desde": 12.78,
+   "hasta": 17.02,
+   "texto": "B vende menos, pero cada venta le deja treinta y ocho."
+  },
+  {
+   "desde": 17.37,
+   "hasta": 21.6,
+   "texto": "¿Y cómo lo hace? Esto es lo que nadie te cuenta."
+  },
+  {
+   "desde": 21.95,
+   "hasta": 29.25,
+   "texto": "Dejó de reponer lo que no le deja plata. Y le puso el precio justo a lo que sí."
+  },
+  {
+   "desde": 29.65,
+   "hasta": 33.5,
+   "texto": "Al mes: cuatrocientos veinte contra cuatrocientos sesenta y ocho mil.",
+   "silencio": 0.4
+  },
+  {
+   "desde": 33.85,
+   "hasta": 39.62,
+   "texto": "En Claro te muestra el ranking: qué te deja plata y qué no. Cada noche."
+  },
+  {
+   "desde": 39.97,
+   "hasta": 46.12,
+   "texto": "Los primeros cien kioscos pagan doce mil novecientos para siempre. ¿Vos sos A o B? Comentalo."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.45,
+ "silencio_max": 0.45
+}

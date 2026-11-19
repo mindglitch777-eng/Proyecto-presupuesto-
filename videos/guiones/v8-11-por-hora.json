@@ -1,0 +1,81 @@
+{
+ "id": "v8-11-por-hora",
+ "titulo": "¿Cuánto gana por hora un kiosquero?",
+ "duracionSeg": 46.4,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años, con tono de analista de barrio: serio, claro, haciendo cuentas en voz alta, sin exagerar. Ritmo natural, sin apurarte nunca. Hacé una pausa corta en cada punto y una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "13 HORAS",
+    "¿CUÁNTO",
+    "POR HORA?"
+   ],
+   "voz": "Trece horas por día. ¿Cuánto gana por hora?"
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 3.08,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 3.43,
+   "hasta": 7.66,
+   "texto": "Vende ciento cincuenta mil. Le quedan veintitrés mil quinientos. Dividido trece…"
+  },
+  {
+   "desde": 8.01,
+   "hasta": 9.93,
+   "texto": "Mil ochocientos pesos la hora."
+  },
+  {
+   "desde": 10.28,
+   "hasta": 14.51,
+   "texto": "Y el de enfrente, mismo horario, mismas ventas… gana tres mil."
+  },
+  {
+   "desde": 14.86,
+   "hasta": 19.09,
+   "texto": "Movimiento uno: precios al día. Más ocho mil doscientos por día."
+  },
+  {
+   "desde": 19.44,
+   "hasta": 23.29,
+   "texto": "Ojo con el dos, que es el que nadie hace."
+  },
+  {
+   "desde": 23.64,
+   "hasta": 25.95,
+   "texto": "Cobrar el fiado. Más ocho mil."
+  },
+  {
+   "desde": 26.35,
+   "hasta": 31.35,
+   "texto": "Sesenta y nueve por ciento más. Por hora. Sin vender un caramelo más.",
+   "silencio": 0.4
+  },
+  {
+   "desde": 31.7,
+   "hasta": 38.62,
+   "texto": "En Claro te hace esa cuenta cada noche y te dice qué precio subir y a quién cobrarle."
+  },
+  {
+   "desde": 38.97,
+   "hasta": 45.12,
+   "texto": "Los primeros cien kioscos pagan doce mil novecientos para siempre. ¿Cuánto ganás vos por hora? Comentalo."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.45,
+ "silencio_max": 0.45
+}
