@@ -39,6 +39,8 @@ real de la app, código solo como capa gráfica, voz con emoción (Gemini TTS gr
 control de calidad con puntaje ≥ 8 en cada punto antes de entregar. Lo que no cumple, no se entrega. Los guiones V6 y V7 pendientes
 quedan en pausa: se rehacen con este estándar antes de producirse.
 
+**Qué se publica (decisión del dueño, 19/11):** solo V8-13 y V8-14 y los videos nuevos hechos con `SISTEMA-VIRAL.md` v2. Los anteriores (hasta V8-12) quedan archivados: no se publican ni se vuelven a renderizar.
+
 **Sistema viral (obligatorio desde el 19/11/2026):** antes de escribir un guion leé `videos/referencia/SISTEMA-VIRAL.md`: versión 2: esqueleto segundo a segundo, 6 ganchos, 7 disparadores de compartir, traductor de dolor, CTA fijo con precio "por mes" y chequeo de 20 puntos (< 17 no se produce).
 
 ## Voz de los videos
