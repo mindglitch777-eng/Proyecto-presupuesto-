@@ -1,0 +1,70 @@
+{
+ "id": "v9-03-plata-encerrada",
+ "titulo": "Tenés plata encerrada en tu depósito",
+ "duracionSeg": 23.4,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 45 años que descubre algo que le duele: voz firme, con impacto y tensión, natural, sin exagerar, ritmo de video de redes, sin pausas dentro de las frases. Pausa corta en cada punto. Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "$1.200.000",
+    "EN",
+    "MERCADERÍA"
+   ],
+   "voz": "Tenés un millón doscientos mil en mercadería."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 2.8,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 3.1,
+   "hasta": 5.41,
+   "texto": "Trescientos sesenta mil llevan meses sin moverse."
+  },
+  {
+   "desde": 5.71,
+   "hasta": 8.02,
+   "texto": "Son tres alquileres de ciento veinte mil."
+  },
+  {
+   "desde": 8.32,
+   "hasta": 10.96,
+   "texto": "Tenés mercadería, pero no tenés esa plata disponible."
+  },
+  {
+   "desde": 11.26,
+   "hasta": 13.57,
+   "texto": "En Claro, Depósito muestra cuánto tenés dormido."
+  },
+  {
+   "desde": 13.87,
+   "hasta": 17.83,
+   "texto": "Los primeros cien kioscos pagan doce mil novecientos por mes, para siempre."
+  },
+  {
+   "desde": 18.13,
+   "hasta": 19.78,
+   "texto": "¿Qué producto no se mueve?"
+  },
+  {
+   "desde": 20.08,
+   "hasta": 22.06,
+   "texto": "Mandáselo al kiosquero que acumula mercadería."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.35,
+ "silencio_max": 0.4
+}
