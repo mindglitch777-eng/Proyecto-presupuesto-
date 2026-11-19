@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>En Claro · Calendario de publicación</title>
+<style>
+  :root { --bg:#f6f3ee; --card:#fff; --ink:#1d1b18; --mut:#6b665e; --ok:#1f8a4c; --acc:#e8562a; --line:#e5dfd5; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); line-height:1.45; }
+  header { padding:22px 16px 10px; max-width:720px; margin:0 auto; }
+  h1 { font-size:22px; margin:0 0 6px; }
+  .sub { color:var(--mut); font-size:14px; margin:0; }
+  main { max-width:720px; margin:0 auto; padding:8px 12px 40px; }
+  .tips { background:#fff8e6; border:1px solid #f0dca8; border-radius:12px; padding:12px 14px; font-size:14px; margin:10px 0 18px; }
+  .tips b { display:block; margin-bottom:4px; }
+  .tips ul { margin:6px 0 0 18px; padding:0; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin:0 0 14px; }
+  .card.hecho { opacity:.55; }
+  .top { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .fecha { font-weight:800; font-size:17px; }
+  .hora { display:inline-block; background:var(--ink); color:#fff; border-radius:8px; padding:3px 9px; font-weight:700; font-size:15px; margin-top:4px; }
+  .num { color:var(--mut); font-size:13px; white-space:nowrap; }
+  h2 { font-size:17px; margin:10px 0 2px; }
+  .por { color:var(--mut); font-size:13px; margin:0 0 8px; }
+  a.bajar { display:inline-block; background:var(--acc); color:#fff; text-decoration:none; font-weight:700; padding:9px 12px; border-radius:10px; font-size:14px; margin:4px 0 10px; }
+  .red { border-top:1px dashed var(--line); padding-top:10px; margin-top:8px; }
+  .red-t { display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:14px; }
+  pre { white-space:pre-wrap; word-wrap:break-word; background:#faf8f4; border:1px solid var(--line); border-radius:10px; padding:10px; font:14px/1.45 system-ui,-apple-system,sans-serif; margin:6px 0 0; }
+  button { border:1px solid var(--line); background:#fff; border-radius:8px; padding:6px 10px; font-weight:700; font-size:13px; }
+  button.ok { background:var(--ok); color:#fff; border-color:var(--ok); }
+  label.chk { display:flex; gap:8px; align-items:center; font-size:14px; margin-top:10px; font-weight:600; }
+  .final { background:#eaf6ef; border:1px solid #bfe3cd; border-radius:14px; padding:14px; font-size:14px; }
+  .final h2 { margin-top:0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Calendario de publicación · En Claro</h1>
+  <p class="sub">10 videos V8 (voz de Google) · del jueves 19/11 al miércoles 2/12 · hora de Argentina</p>
+</header>
+<main>
+  <div class="tips">
+    <b>Cómo usar esto</b>
+    <ul>
+      <li>Cada día: bajá el video con el botón naranja, y subilo <b>a la misma hora</b> en TikTok, Instagram (Reels) y Facebook (Reels). Copiá el texto de cada red con su botón.</li>
+      <li>Los horarios alternan entre <b>14:00</b> (siesta, el kiosco está tranquilo) y <b>22:00</b> (después de cerrar). Así en 10 días sabemos cuál funciona mejor con tu público.</li>
+      <li>En TikTok activá la etiqueta <b>"Contenido generado por IA"</b> (la voz es de IA). En Instagram/Facebook, la etiqueta "Información de IA" si te la ofrece.</li>
+      <li>Los links de descarga son de GitHub: abrilos con la sesión de GitHub iniciada en el navegador.</li>
+      <li>Respondé los comentarios en la primera hora: el algoritmo lo premia.</li>
+      <li>Marcá cada día como hecho (se guarda en este celular).</li>
+    </ul>
+  </div>
+  <div id="lista"></div>
+  <div class="final">
+    <h2>Jueves 3/12 · Elegir qué promocionar</h2>
+    <p>Abrí TikTok Studio y anotá de cada video: vistas, <b>% que lo vio completo</b>, comentarios y <b>visitas al perfil</b>. Los 2 o 3 con mejor % completo y más visitas al perfil son los que se promocionan ("Promocionar" desde la app, objetivo <b>visitas al perfil</b> o <b>visitas al sitio</b>, Argentina, 30 a 65 años). Pasame esos números y te armo la versión "anuncio" del ganador.</p>
+  </div>
+</main>
+<script>
+const BASE = "https://github.com/mindglitch777-eng/proyecto-presupuesto-/raw/ccr-a2a72fb7-oo68gx/videos/salida/";
+const BIO = "Probalo 14 días gratis 👉 link en el perfil";
+const BIO_IG = "Probalo 14 días gratis 👉 link en la bio";
+const WEB = "Probalo 14 días gratis 👉 https://enclaroar.netlify.app";
+const FUND = "Los primeros 100 kioscos pagan $12.900 para siempre.";
+const H = "#kiosco #kiosquero #almacen #comercioargentino #emprendedoresargentinos";
+const V = [
+ { f:"Jueves 19/11 (hoy)", h:"22:00", id:"v8-01", arch:"en-claro-v8-01-cuanto-le-queda.mp4", t:"¿Cuánto le queda de verdad a un kiosco?",
+   d:"Este kiosco vende $150.000 por día. ¿Cuánto le queda? Comentá tu número ANTES de ver el final 👇", x:"#plata #negociodebarrio",
+   cred:"\n\nFoto del QR: \"SGQR NETS pay at Liho Tea…\" · Chainwit. · CC BY 4.0 · Wikimedia Commons. Montos de ejemplo." },
+ { f:"Viernes 20/11", h:"14:00", id:"v8-09", arch:"en-claro-v8-09-mismo-kiosco.mp4", t:"Mismo kiosco, distinto final",
+   d:"Venden exactamente lo mismo. Uno se compró un auto. El otro cerró. Hay UNA sola diferencia… ¿la encontraste? 👀", x:"#negociodebarrio #emprender" },
+ { f:"Lunes 23/11", h:"22:00", id:"v8-04", arch:"en-claro-v8-04-cual-te-hace-perder.mp4", t:"¿Cuál de estos 4 te hace perder plata?",
+   d:"Elegí uno antes de que se den vuelta las cartas. ¿Cuál elegiste? Comentalo 👇", x:"#precios #inflacion" },
+ { f:"Martes 24/11", h:"14:00", id:"v8-02", arch:"en-claro-v8-02-el-cuaderno.mp4", t:"El cuaderno de los $380.000",
+   d:"\"Te lo traigo el viernes.\" ¿Cuánto tenés vos en el cuaderno de fiados? Sé sincero 😅", x:"#fiado #fiados" },
+ { f:"Miércoles 25/11", h:"22:00", id:"v8-08", arch:"en-claro-v8-08-cuenta-regresiva.mp4", t:"30 segundos para salvar este kiosco",
+   d:"La persiana baja sola con cada peso que se te escapa. ¿Llega a salvarse? Miralo hasta el final ⏱️", x:"#negociodebarrio #plata" },
+ { f:"Jueves 26/11", h:"14:00", id:"v8-05", arch:"en-claro-v8-05-la-torre.mp4", t:"La torre: lo que vendés vs. lo que te queda",
+   d:"Todo lo que vende un kiosco en un año: una torre de 5 metros. Lo que le queda… ¿hasta dónde te llega a vos? 📏", x:"#plata #negociodebarrio" },
+ { f:"Viernes 27/11", h:"22:00", id:"v8-10", arch:"en-claro-v8-10-kiosco-cerrado.mp4", t:"Entramos a un kiosco que cerró",
+   d:"Cerró hace un mes. Entramos. Lo que dejó en la caja nos partió el alma. (Recreación: historia de ejemplo.)", x:"#negociodebarrio #emprender" },
+ { f:"Lunes 30/11", h:"14:00", id:"v8-03", arch:"en-claro-v8-03-la-caja-miente.mp4", t:"La caja llena miente",
+   d:"Cerró el día con $210.000 en la caja… y perdió plata. ¿Cómo puede ser? 🤔", x:"#plata #stock" },
+ { f:"Martes 1/12", h:"22:00", id:"v8-06", arch:"en-claro-v8-06-rayos-x.mp4", t:"Rayos X a un kiosco",
+   d:"Tenés $400.000 escondidos en tu kiosco y no los podés gastar. Le pasamos rayos X al depósito 🔎", x:"#stock #negociodebarrio" },
+ { f:"Miércoles 2/12", h:"14:00", id:"v8-07", arch:"en-claro-v8-07-el-ticket.mp4", t:"El ticket de 3 cuadras",
+   d:"Este ticket tiene todo lo que perdiste este año sin darte cuenta. Mide 3 cuadras. ¿Y el total? 🧾", x:"#precios #fiado" },
+];
+function textos(v){
+  const c = v.cred || "";
+  return {
+    "TikTok": `${v.t} 😳\n\n${v.d}\n\n${BIO}\n\n${H} ${v.x}${c}`,
+    "Instagram (Reels)": `${v.t}\n\n${v.d}\n\n${FUND}\n${BIO_IG}\n\n${H} ${v.x}${c}`,
+    "Facebook (Reels)": `${v.t}\n\n${v.d}\n\n${FUND}\n${WEB}\n\n${H} ${v.x}${c}`,
+  };
+}
+function guardado(id){ try { return localStorage.getItem("hecho-"+id)==="1"; } catch(e){ return false; } }
+function guardar(id,val){ try { localStorage.setItem("hecho-"+id, val?"1":"0"); } catch(e){} }
+async function copiar(btn, txt){
+  try { await navigator.clipboard.writeText(txt); }
+  catch(e){ const ta=document.createElement("textarea"); ta.value=txt; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");}catch(_){} ta.remove(); }
+  btn.textContent="¡Copiado!"; btn.classList.add("ok"); setTimeout(()=>{btn.textContent="Copiar"; btn.classList.remove("ok");},1500);
+}
+const lista = document.getElementById("lista");
+V.forEach((v,i)=>{
+  const card = document.createElement("div"); card.className="card"+(guardado(v.id)?" hecho":"");
+  const tx = textos(v);
+  let redes = "";
+  Object.entries(tx).forEach(([red,txt],j)=>{
+    redes += `<div class="red"><div class="red-t"><span>${red}</span><button data-k="${i}-${j}">Copiar</button></div><pre id="p-${i}-${j}"></pre></div>`;
+  });
+  card.innerHTML = `
+    <div class="top"><div><div class="fecha">${v.f}</div><span class="hora">${v.h}</span></div><div class="num">Video ${i+1} de 10 · ${v.id.toUpperCase()}</div></div>
+    <h2>${v.t}</h2>
+    <a class="bajar" href="${BASE+v.arch}">⬇ Bajar el video</a>
+    ${redes}
+    <label class="chk"><input type="checkbox" ${guardado(v.id)?"checked":""}> Ya lo subí en las 3 redes</label>`;
+  Object.values(tx).forEach((txt,j)=>{ card.querySelector(`#p-${i}-${j}`).textContent = txt; });
+  card.querySelectorAll("button").forEach((b,j)=> b.addEventListener("click", ()=>copiar(b, Object.values(tx)[j])));
+  card.querySelector("input").addEventListener("change", e=>{ guardar(v.id, e.target.checked); card.classList.toggle("hecho", e.target.checked); });
+  lista.appendChild(card);
+});
+</script>
+</body>
+</html>
