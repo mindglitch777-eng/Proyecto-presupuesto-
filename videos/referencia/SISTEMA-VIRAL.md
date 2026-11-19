@@ -59,3 +59,23 @@ Objetivo: que **cada video sea mejor que el anterior**, con un ciclo de medir �
 | 8 Cierre con acción + FOMO honesto | | |
 | 9 Loop | | |
 | 10 Palabra clave en pantalla, voz y descripción | | |
+
+## 7. Lo que aprendimos comparando V8-11 (antes) vs V8-13 y V8-14 (después) — 19/11/2026
+
+Medido cuadro por cuadro. El dueño confirmó que los nuevos atrapan muchísimo más.
+
+| | V8-11 (antes) | V8-13 taxímetro | V8-14 reloj |
+|---|---|---|---|
+| Duración real / guion | 47 s / 25 s | 38,5 s / 24 s | 31 s / 24 s |
+| Primer número en pantalla | seg. 3,5 | cuadro 0 | cuadro 0 |
+| Objeto principal en el cuadro 0 | reloj chico, mucho vacío | 2 taxímetros corriendo | reloj gigante que se pinta |
+| Cambios grandes por segundo | 1,25 | 1,8 | 1,6 |
+
+**Reglas nuevas (obligatorias):**
+
+11. **Objeto-dato héroe:** un solo objeto que ES el número (taxímetro, reloj por sectores, torre, barra) llena la pantalla desde el cuadro 0 y se transforma todo el video. Es lo que tienen en común los dos que ganaron.
+12. **Presupuesto de palabras:** la voz natural de Orus va a ~2,4 palabras por segundo. **Palabras de voz ≤ 2,3 × segundos objetivo** (25 s → máx. 57 palabras). Contarlas en el guion. Si no entran, se corta texto, nunca se acelera.
+13. **Una sola unidad por número a la vez** (no mezclar "ganancia de hoy" con "por hora" en el mismo cartel: en el V8-13 confundía los primeros 3 s).
+14. **Dolor traducido:** cada pérdida se traduce a algo que duela y se entienda solo: horas de vida ("58 horas por mes = 7 domingos"), meses de alquiler, cosas concretas. Siempre con su cuenta y "(ejemplo)".
+15. **Lo malo en rojo saturado, nunca gris** (el sector "GRATIS" gris del V8-14 se lee débil).
+16. **Ningún plano quieto con solo subtítulos > 1,5 s** (el final del V8-13 sostiene los dos números 3,5 s; la puerta con candado ~4 s). El cierre también se mueve.
