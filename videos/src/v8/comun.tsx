@@ -183,10 +183,10 @@ export const Billetes: React.FC<{ t: number; desde: number; hasta?: number; x0: 
 };
 
 /**
- * FOMO honesto (ESTANDAR-CALIDAD.md, sección 2): solo el cupo real de 100 socios fundadores a $12.900 para siempre (lleno → $19.900).
+ * FOMO honesto (ESTANDAR-CALIDAD.md, sección 2): solo el cupo real de 100 socios fundadores a $12.900 POR MES para siempre (lleno → $19.900 por mes). Por defecto mensual: el precio siempre dice "por mes".
  * Los 100 casilleros NO marcan cuántos quedan: un brillo los recorre, nada más. Nunca mostrar lugares restantes.
  */
-export const CupoFundadores: React.FC<{ t: number; desde: number; top?: number; mensual?: boolean }> = ({ t, desde, top = 92, mensual = false }) => {
+export const CupoFundadores: React.FC<{ t: number; desde: number; top?: number; mensual?: boolean }> = ({ t, desde, top = 92, mensual = true }) => {
   if (t < desde - 0.05) return null;
   const s = sp(t - desde, 1.06, 15, 0.5);
   const barrido = ((t - desde) * 40) % 130;

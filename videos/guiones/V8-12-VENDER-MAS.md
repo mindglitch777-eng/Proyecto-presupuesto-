@@ -19,4 +19,4 @@ B vende 40% menos y gana más. Al mes: A $420.000 · B $468.000.
 | 14–18 | "Dejó de reponer lo que no le deja plata. Y le puso el precio justo a lo que sí." | Productos con etiqueta roja salen de la góndola de B volando al depósito; los verdes se agrandan. Contador de margen 22% → 38%. | Whoosh por producto + clic |
 | 18–20 | (silencio 0,4 s) "Al mes: cuatrocientos veinte contra cuatrocientos sesenta y ocho mil." | **Comparación:** dos barras mensuales 3D **$420.000 (A)** vs **$468.000 (B)** y rótulo **"VENDIENDO 40% MENOS"**. | Silencio → golpe grave |
 | 20–23 | "En Claro te muestra el ranking: qué te deja plata y qué no. Cada noche." | Pantalla real de la app (`ENCLARO_DEMO=v8-12`): Precios con ranking y precio sugerido, en celular 3D. | Ding por producto |
-| 23–25 | "Los primeros cien kioscos pagan doce mil novecientos para siempre. ¿Vos sos A o B? Comentalo." | `CupoFundadores` + "Link en el perfil". Último cuadro = cuadro 0. | Clic que empalma |
+| 23–25 | "Los primeros cien kioscos pagan doce mil novecientos por mes, para siempre. ¿Vos sos A o B? Comentalo." | `CupoFundadores` + "Link en el perfil". Último cuadro = cuadro 0. | Clic que empalma |

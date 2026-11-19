@@ -38,7 +38,7 @@ Actuación: "Kiosquero argentino de 50 años, voseando, con urgencia real, como 
 | 18–21 | "La peor es no saber tu número. Cerrás el día sin saber si ganaste o perdiste." | Adentro del kiosco: una **calculadora 3D con la pantalla en "?????"** sobre el mostrador; la persiana cae un salto grande, queda a 30 cm. **"SIN TU NÚMERO"**. | Golpe grave + persiana larga |
 | 21–25 | "Con En Claro decís lo que vendiste esta noche… y te lo dice en un minuto." | **El truco:** un celular 3D con la pantalla real de la app (cierre por voz, `ENCLARO_DEMO=v8-08`) aparece en el mostrador; **"HOY TE QUEDARON $23.500"**. Cada dato que aparece **tapa una grieta** de las anteriores. | "Ding" por dato + grietas que se cierran |
 | 25–27 | "Y la persiana se frena." | La persiana se frena a **4 cm del piso** y **sube de golpe** hasta arriba; el reloj se congela en **0:03** y se pone verde. | Freno metálico + subida con fuerza + golpe de alivio |
-| 27–30 | "Los primeros cien kioscos pagan doce mil novecientos para siempre. Cuando se llenan, sube. Link en el perfil." | **FOMO:** contador "SOCIOS FUNDADORES · CUPO DE 100" con una barra que se va llenando + "$12.900 para siempre · después $19.900". Último cuadro = cuadro 0 (persiana arriba, reloj en 0:30). | Tic que empalma con el inicio |
+| 27–30 | "Los primeros cien kioscos pagan doce mil novecientos por mes, para siempre. Cuando se llenan, sube. Link en el perfil." | **FOMO:** contador "SOCIOS FUNDADORES · CUPO DE 100" con una barra que se va llenando + "$12.900 por mes para siempre · después $19.900 por mes". Último cuadro = cuadro 0 (persiana arriba, reloj en 0:30). | Tic que empalma con el inicio |
 
 ## Notas de producción
 

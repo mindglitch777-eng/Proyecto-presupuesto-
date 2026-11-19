@@ -18,4 +18,4 @@
 | 14–17 | "Cobrar el fiado. Más ocho mil." | El candado salta; billetes vuelven a la caja; contador **$2.438 → $3.054/h**. | Candado + billetes + ding |
 | 17–19 | (silencio 0,4 s) "Sesenta y nueve por ciento más. Por hora. Sin vender un caramelo más." | **Comparación final:** dos barras 3D por hora, **$1.808 vs $3.054**, y un rótulo **"+69% · MISMAS VENTAS"**. | Silencio → golpe |
 | 19–23 | "En Claro te hace esa cuenta cada noche y te dice qué precio subir y a quién cobrarle." | Pantalla real de la app en celular 3D (`ENCLARO_DEMO=v8-11`): Tu día + precio sugerido + fiado en rojo. | Ding por dato |
-| 23–25 | "Los primeros cien kioscos pagan doce mil novecientos para siempre. ¿Cuánto ganás vos por hora? Comentalo." | `CupoFundadores` + "Link en el perfil". Último cuadro = cuadro 0. | Tic que empalma |
+| 23–25 | "Los primeros cien kioscos pagan doce mil novecientos por mes, para siempre. ¿Cuánto ganás vos por hora? Comentalo." | `CupoFundadores` + "Link en el perfil". Último cuadro = cuadro 0. | Tic que empalma |

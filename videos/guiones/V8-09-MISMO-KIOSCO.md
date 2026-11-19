@@ -40,7 +40,7 @@ Actuación: "Kiosquero argentino de 50 años, voseando, como contando un chisme 
 | 20–22 | "Uno estaciona un auto. El otro baja la persiana para siempre." | **Comparación 3D:** a la derecha, un **auto usado** (sedán genérico) entra y estaciona en la puerta, junto a la pila de **$14.292.000**. A la izquierda, la persiana baja hasta el piso y se cuelga un cartel **"SE ALQUILA"**. | Motor que estaciona + persiana que cae + golpe grave |
 | 22–25 | "¿La diferencia? Esa lucecita. Cinco minutos por noche." | **Revelación:** zoom a la ventana del kiosco derecho: la lucecita azul es un **celular con En Claro** haciendo el cierre (pantalla real, `ENCLARO_DEMO=v8-09`). El círculo rojo del re-gancho se cierra sobre ella. | "Ding" + golpe |
 | 25–29 | "Cada noche sabía cuánto le quedaba, a quién cobrarle y qué precio subir." | La pantalla real muestra en secuencia: Tu día, Fiados en rojo, Precio sugerido. Cada dato hace crecer la pila de la derecha un escalón. | "Ding" por dato + billetes |
-| 29–32 | "Los primeros cien kioscos pagan doce mil novecientos para siempre. Cuando se llenan, sube. ¿Cuál de los dos querés ser?" | **FOMO:** barra "SOCIOS FUNDADORES · CUPO DE 100" + "$12.900 para siempre · después $19.900" + "Link en el perfil". Último cuadro = cuadro 0 (los dos kioscos idénticos de día). | Dos campanitas que empalman |
+| 29–32 | "Los primeros cien kioscos pagan doce mil novecientos por mes, para siempre. Cuando se llenan, sube. ¿Cuál de los dos querés ser?" | **FOMO:** barra "SOCIOS FUNDADORES · CUPO DE 100" + "$12.900 por mes para siempre · después $19.900 por mes" + "Link en el perfil". Último cuadro = cuadro 0 (los dos kioscos idénticos de día). | Dos campanitas que empalman |
 
 ## Notas de producción
 

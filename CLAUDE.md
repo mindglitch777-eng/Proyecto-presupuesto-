@@ -1,7 +1,7 @@
 # En Claro — instrucciones para Claude Code
 
 En Claro es una app para dueños de kioscos, almacenes y dietéticas de Argentina: les dice cuánto les quedó de verdad,
-qué producto les deja plata, a quién cobrarle los fiados y qué plata tienen dormida. Precio: $19.900/mes ($12.900 para siempre para los primeros 100 socios fundadores), 14 días gratis,
+qué producto les deja plata, a quién cobrarle los fiados y qué plata tienen dormida. Precio: $19.900/mes ($12.900 por mes, para siempre, para los primeros 100 socios fundadores; en videos SIEMPRE decir "por mes"), 14 días gratis,
 cobro solo por Mercado Pago.
 
 ## Cómo trabaja el dueño del proyecto
@@ -39,7 +39,7 @@ real de la app, código solo como capa gráfica, voz con emoción (Gemini TTS gr
 control de calidad con puntaje ≥ 8 en cada punto antes de entregar. Lo que no cumple, no se entrega. Los guiones V6 y V7 pendientes
 quedan en pausa: se rehacen con este estándar antes de producirse.
 
-**Sistema viral (obligatorio desde el 19/11/2026):** antes de escribir un guion leé `videos/referencia/SISTEMA-VIRAL.md`: 10 reglas con puntaje (< 8 no se produce), momentos de "volver a ver" y "mandáselo a…", palabra clave de búsqueda, series y ciclo semanal con `videos/METRICAS.md`.
+**Sistema viral (obligatorio desde el 19/11/2026):** antes de escribir un guion leé `videos/referencia/SISTEMA-VIRAL.md`: versión 2: esqueleto segundo a segundo, 6 ganchos, 7 disparadores de compartir, traductor de dolor, CTA fijo con precio "por mes" y chequeo de 20 puntos (< 17 no se produce).
 
 ## Voz de los videos
 
