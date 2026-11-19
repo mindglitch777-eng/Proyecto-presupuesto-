@@ -647,3 +647,42 @@ export const Lupa3D: React.FC = () => (
     <mesh position={[0.32, -0.32, 0]} rotation-z={Math.PI / 4}><cylinderGeometry args={[0.04, 0.05, 0.42, 16]} /><meshStandardMaterial color="#5a3320" roughness={0.6} /></mesh>
   </group>
 );
+
+/** Reloj de pared (esfera con números y agujas). `hora` en horas decimales (7.25 = 7:15). */
+export const Reloj3D: React.FC<{ hora: number; radio?: number }> = ({ hora, radio = 0.28 }) => {
+  const esfera = useLienzo("reloj3d", 512, 512, (x, w, h) => {
+    x.fillStyle = "#fbfaf6"; x.beginPath(); x.arc(w / 2, h / 2, w / 2, 0, Math.PI * 2); x.fill();
+    x.fillStyle = "#1c1c1c"; x.font = `700 54px "Space Grotesk", sans-serif`; x.textAlign = "center"; x.textBaseline = "middle";
+    for (let i = 1; i <= 12; i++) { const a = (i / 12) * Math.PI * 2; x.fillText(String(i), w / 2 + Math.sin(a) * 190, h / 2 - Math.cos(a) * 190); }
+    for (let i = 0; i < 60; i++) { const a = (i / 60) * Math.PI * 2; x.fillRect(w / 2 + Math.sin(a) * 236 - 2, h / 2 - Math.cos(a) * 236 - 2, i % 5 ? 3 : 6, i % 5 ? 3 : 6); }
+  });
+  const m = (hora % 1) * Math.PI * 2, hh = ((hora % 12) / 12) * Math.PI * 2;
+  return (
+    <group>
+      <mesh rotation-x={Math.PI / 2} castShadow><cylinderGeometry args={[radio * 1.08, radio * 1.08, 0.05, 48]} /><meshStandardMaterial color="#2b2f2d" metalness={0.6} roughness={0.35} /></mesh>
+      <mesh position={[0, 0, 0.026]}><circleGeometry args={[radio, 48]} /><meshStandardMaterial map={esfera} roughness={0.5} /></mesh>
+      <mesh position={[0, 0, 0.034]} rotation-z={-hh}><mesh position={[0, radio * 0.28, 0]}><boxGeometry args={[radio * 0.07, radio * 0.56, 0.008]} /><meshStandardMaterial color="#111" /></mesh></mesh>
+      <mesh position={[0, 0, 0.04]} rotation-z={-m}><mesh position={[0, radio * 0.4, 0]}><boxGeometry args={[radio * 0.04, radio * 0.8, 0.008]} /><meshStandardMaterial color="#c0261b" /></mesh></mesh>
+      <mesh position={[0, 0, 0.03]}><circleGeometry args={[radio * 1.0, 48]} /><meshPhysicalMaterial color="#ffffff" transparent opacity={0.08} roughness={0.02} /></mesh>
+    </group>
+  );
+};
+
+/** Candado de metal (`abierto` 0 → 1 levanta el arco). */
+export const Candado3D: React.FC<{ abierto?: number }> = ({ abierto = 0 }) => (
+  <group>
+    <mesh geometry={cajaR(0.08, 0.07, 0.03, 0.01, 3)} castShadow><meshStandardMaterial color="#c9a227" metalness={1} roughness={0.25} /></mesh>
+    <mesh position={[0, 0.045 + abierto * 0.03, 0]} rotation-y={abierto * 0.8}>
+      <torusGeometry args={[0.025, 0.006, 12, 24, Math.PI]} />
+      <meshStandardMaterial color="#b8bcbf" metalness={1} roughness={0.2} />
+    </mesh>
+    <mesh position={[0, -0.005, 0.0155]}><circleGeometry args={[0.007, 16]} /><meshBasicMaterial color="#222" /></mesh>
+  </group>
+);
+
+/** Barra 3D de comparación (alto en m), con brillo propio. */
+export const Barra3D: React.FC<{ alto: number; color: string; ancho?: number }> = ({ alto, color, ancho = 0.32 }) => (
+  <mesh position={[0, Math.max(0.002, alto) / 2, 0]} scale={[1, Math.max(0.004, alto), 1]} geometry={cajaR(ancho, 1, ancho, 0.02, 3)} castShadow receiveShadow>
+    <meshPhysicalMaterial color={color} roughness={0.25} metalness={0.2} clearcoat={0.8} emissive={color} emissiveIntensity={0.15} />
+  </mesh>
+);

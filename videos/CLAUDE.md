@@ -136,6 +136,11 @@
 - **Voz**: `"silencio_max"` en el guion acorta los silencios largos sin acelerar la voz (Orus en voz baja hacía pausas de 1,7 s). `"aparte": "<actuación>"`
   en una línea la graba en una toma separada con su propia actuación y la inserta en su lugar (el papelito del V8-10, quebrado). Sonido nuevo `piano_grave`.
 
+- **V8-11 "¿Cuánto gana por hora un kiosquero?"** (`Video-v8-11-PorHora`, `src/v8/PorHora.tsx`) y **V8-12 "¿Vender más o ganar más?"**
+  (`Video-v8-12-VenderMas`, `src/v8/VenderMas.tsx`): mismo sistema 3D, pantalla partida con `Partida` (exportada de `MismoKiosco.tsx`).
+  Modelos nuevos: `Reloj3D`, `Candado3D`, `Barra3D` (barras de comparación). `Numero` acepta `redondeo` (1 para mostrar $1.808 exacto).
+  Demos `v8-11` (Tu día → precio sugerido → Fiados) y `v8-12` (ranking de Precios → precio sugerido). Duran ~47 s (voz a velocidad natural).
+
 ## Guardado del MP4 en la rama (videos.yml)
 - **Varios videos por corrida**: lista `VIDEOS` (JSON con nombre, id y cuadros de control; `[]` = solo voces). Cada video se reparte en 10 máquinas
   (matriz video × parte) y `unir` verifica que las partes estén pegadas y completas antes de armar el MP4 (si una máquina falló, no sale un video cortado).

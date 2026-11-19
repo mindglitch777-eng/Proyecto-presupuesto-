@@ -194,6 +194,44 @@ const RECORRIDOS = {
     await page.waitForTimeout(2200);
     marca("fin");
   },
+  async "v8-11"(page, marca) {
+    await page.goto(BASE + "/app", { waitUntil: "networkidle" });
+    marca("dia");
+    exigir(/Ganancia de hoy\s*\$23\.500/.test(await texto(page)), "La ganancia de hoy no da $23.500");
+    await page.waitForTimeout(2000);
+    await page.getByRole("link", { name: "Precios" }).click();
+    await page.getByText("Lo que te deja cada producto").waitFor();
+    await page.waitForTimeout(500);
+    await page.getByRole("button", { name: /^Alfajor triple/ }).click();
+    await page.locator("#costo").fill("");
+    await page.locator("#costo").pressSequentially("900", { delay: 90 });
+    await page.getByText("Usar ese precio").waitFor();
+    marca("precio");
+    await page.waitForTimeout(1800);
+    await page.getByRole("link", { name: "Fiados" }).click();
+    await page.getByText("Te deben en total").waitFor();
+    marca("fiados");
+    await page.waitForTimeout(2000);
+    marca("fin");
+  },
+  async "v8-12"(page, marca) {
+    await page.goto(BASE + "/app/precios", { waitUntil: "networkidle" });
+    marca("ranking");
+    await page.getByText("Lo que te deja cada producto").waitFor();
+    await page.waitForTimeout(1500);
+    for (let i = 0; i < 8; i++) { await page.mouse.wheel(0, 80); await page.waitForTimeout(110); }
+    marca("bajos");
+    await page.waitForTimeout(1200);
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+    await page.waitForTimeout(600);
+    await page.getByRole("button", { name: /^Yerba 500 g/ }).click();
+    await page.locator("#costo").fill("");
+    await page.locator("#costo").pressSequentially("2900", { delay: 90 });
+    await page.getByText("Usar ese precio").waitFor();
+    marca("precio");
+    await page.waitForTimeout(2200);
+    marca("fin");
+  },
 };
 
 (async () => {

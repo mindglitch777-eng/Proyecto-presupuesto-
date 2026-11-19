@@ -20,7 +20,9 @@ env:
   # Video-v8-01-CuantoLeQueda (v8-01-cuanto-le-queda).
   # Hechos: Video-v8-01-CuantoLeQueda, Video-v8-02-ElCuaderno, Video-v8-03-LaCajaMiente, Video-v8-04-CualTeHacePerder,
   # Video-v8-05-LaTorre, Video-v8-06-RayosX, Video-v8-07-ElTicket, Video-v8-08-CuentaRegresiva, Video-v8-09-MismoKiosco, Video-v8-10-KioscoCerrado.
-  VIDEOS: '[]'
+  VIDEOS: >-
+    [{"nombre":"v8-11-por-hora","id":"Video-v8-11-PorHora","control":"0 300 830"},
+     {"nombre":"v8-12-vender-mas","id":"Video-v8-12-VenderMas","control":"0 250 830"}]
   PARTES: 10
 
 concurrency:

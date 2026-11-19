@@ -62,7 +62,7 @@ function noche(t: number, T: T) {
 }
 
 /** Render de pantalla partida: arriba la cámara A, abajo la B; `r` = parte de arriba (0 → solo la de abajo). */
-const Partida: React.FC<{ a: { pos: number[]; target: number[]; fov: number }; b: { pos: number[]; target: number[]; fov: number }; r: number }> = ({ a, b, r }) => {
+export const Partida: React.FC<{ a: { pos: number[]; target: number[]; fov: number }; b: { pos: number[]; target: number[]; fov: number }; r: number }> = ({ a, b, r }) => {
   const camA = useMemo(() => new THREE.PerspectiveCamera(40, 1, 0.05, 200), []);
   const camB = useMemo(() => new THREE.PerspectiveCamera(40, 1, 0.05, 200), []);
   useFrame(({ gl, scene, size }) => {

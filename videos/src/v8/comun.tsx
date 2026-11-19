@@ -32,10 +32,10 @@ export const valorPasos = (t: number, inicio: number, pasos: Paso[], dur = 0.42)
   }, inicio);
 
 /** Número protagonista que cuenta dígito por dígito, con golpe al terminar cada paso. */
-export const Numero: React.FC<{ t: number; v: number; pasos?: Paso[]; top: number; size: number; color: string; dur?: number; tapado?: boolean; left?: number; right?: number }> = ({ t, v, pasos = [], top, size, color, dur = 0.42, tapado = false, left = 0, right = 0 }) => {
+export const Numero: React.FC<{ t: number; v: number; pasos?: Paso[]; top: number; size: number; color: string; dur?: number; tapado?: boolean; left?: number; right?: number; redondeo?: number }> = ({ t, v, pasos = [], top, size, color, dur = 0.42, tapado = false, left = 0, right = 0, redondeo = 10 }) => {
   const rodando = pasos.some((p) => t > p.en && t < p.en + dur);
   const golpe = pasos.reduce((s, p) => s + (t > p.en + dur ? Math.exp(-10 * (t - p.en - dur)) * Math.sin((t - p.en - dur) * 30) * 0.07 : 0), 0);
-  const txt = tapado ? "$???.???" : conSigno(Math.round(v / 10) * 10);
+  const txt = tapado ? "$???.???" : conSigno(Math.round(v / redondeo) * redondeo);
   return (
     <div style={{ left, right, top, textAlign: "center", transform: `scale(${(1 + golpe + 0.012 * Math.sin(t * 2.4)) * latido(t, 0.6, 0.035)})` }}>
       <span style={{ position: "static", font: `800 ${size}px/1 ${DISP}`, letterSpacing: "-.03em", color, fontVariantNumeric: "tabular-nums", filter: rodando ? "blur(0.8px)" : undefined, textShadow: "0 3px 0 #0f1f1722", whiteSpace: "nowrap" }}>
