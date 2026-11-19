@@ -347,7 +347,9 @@ export const TrabajasGratis: React.FC<VideoProps> = ({ voz, palabras }) => {
       ) : null}
       {!loop && t >= l[8] - 0.05 ? (
         <>
-          {t < T.mandaselo - 0.05 ? <Cartel texto="¿A QUÉ HORA EMPEZÁS A GANAR VOS?" top={44} size={18} fondo={C.ambar} color={C.tinta} s={sp(t - l[8], 1.06) * latido(t, 0.55, 0.03)} rot={-2} />
+          {t < T.mandaselo - 0.05 ? <div style={{ left: 0, right: 0, top: 36, textAlign: "center", transform: `scale(${sp(t - l[8], 1.06) * latido(t, 0.55, 0.03)}) rotate(-2deg)` }}>
+            <span style={{ position: "static", display: "inline-block", padding: "5px 16px", borderRadius: 12, background: C.ambar, color: C.tinta, font: `800 22px/1.1 "Space Grotesk", sans-serif`, boxShadow: `0 5px 0 ${C.tinta}` }}>¿A QUÉ HORA EMPEZÁS<br />A GANAR VOS?</span>
+          </div>
             : <Cartel texto="MANDÁSELO A TU SOCIO" top={44} size={22} s={sp(t - T.mandaselo, 1.06)} rot={-2} />}
           {t >= T.mandaselo - 0.05 ? <CupoFundadores t={t} desde={T.mandaselo} top={300} mensual /> : null}
         </>

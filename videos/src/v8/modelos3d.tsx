@@ -696,7 +696,7 @@ export const Taximetro3D: React.FC<{ texto: string; sub: string; color?: string;
     x.font = `700 ${h * 0.5}px "Space Grotesk", monospace`;
     x.shadowColor = color; x.shadowBlur = 18; x.fillStyle = color;
     x.fillText(texto, w / 2, h * 0.44);
-    x.shadowBlur = 6; x.font = `700 ${h * 0.17}px "Inter", sans-serif`; x.fillStyle = "#c9d6cc";
+    x.shadowBlur = 6; x.font = `700 ${h * 0.14}px "Inter", sans-serif`; x.fillStyle = "#c9d6cc";
     x.fillText(sub, w / 2, h * 0.83);
   });
   const cartel = useLienzo("taxi-cartel", 256, 64, (x, w, h) => {

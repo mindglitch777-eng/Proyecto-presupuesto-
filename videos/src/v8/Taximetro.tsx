@@ -298,7 +298,9 @@ export const Taximetro: React.FC<VideoProps> = ({ voz, palabras }) => {
       {!loop && t >= T.cobrarle - 0.15 && t < l[8] - 0.05 ? banda("LOS DOS A $3.054/h (ejemplo)", T.cobrarle, C.verde, C.ambar, 18) : null}
       {!loop && t >= l[8] - 0.05 ? (
         <>
-          {t < T.mandaselo - 0.05 ? banda("¿CUÁNTO GANÁS VOS POR HORA?", l[8], C.ambar, C.tinta, 19) : banda("MANDÁSELO A UN KIOSQUERO", T.mandaselo, C.rojo, "#fff", 20)}
+          {t < T.mandaselo - 0.05 ? <div style={{ left: 0, right: 0, top: 282, textAlign: "center", transform: `scale(${sp(t - l[8], 1.06) * latido(t, 0.55, 0.03)}) rotate(-2deg)` }}>
+            <span style={{ position: "static", display: "inline-block", padding: "5px 16px", borderRadius: 12, background: C.ambar, color: C.tinta, font: `800 22px/1.1 "Space Grotesk", sans-serif`, boxShadow: `0 5px 0 ${C.tinta}` }}>¿CUÁNTO GANÁS VOS<br />POR HORA?</span>
+          </div> : banda("MANDÁSELO A UN KIOSQUERO", T.mandaselo, C.rojo, "#fff", 20)}
           {t >= T.mandaselo - 0.05 ? <CupoFundadores t={t} desde={T.mandaselo} top={40} mensual /> : null}
         </>
       ) : null}
