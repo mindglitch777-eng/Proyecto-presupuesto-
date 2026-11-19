@@ -1,14 +1,14 @@
 {
  "id": "v8-14-trabajas-gratis",
  "titulo": "Hasta las 14:20 trabajás gratis",
- "duracionSeg": 40.6,
+ "duracionSeg": 32.4,
  "tramos": [],
  "cola": 1.3,
  "voz": {
   "motor": "gemini",
   "modelo": "gemini-2.5-flash-preview-tts",
   "nombre": "Orus",
-  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años que habla de plata en serio: tono grave y firme de estrategia, sin exagerar, como quien te muestra algo que nadie te dijo. Ritmo natural, sin apurarte nunca. Pausa corta en cada punto y una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 45 años que habla de plata en serio en un video de redes: tono grave y firme, como quien te muestra algo que nadie te dijo, ritmo ágil y natural, sin pausas dentro de las frases. Solo hacé una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
  },
  "ganchos": [
   {
@@ -29,48 +29,48 @@
    "gancho": true
   },
   {
-   "desde": 3.3,
-   "hasta": 4.74,
+   "desde": 2.6,
+   "hasta": 3.8,
    "texto": "Te muestro para quién."
   },
   {
-   "desde": 5.09,
-   "hasta": 10.13,
-   "texto": "Cada peso que entra a la mañana ya tiene dueño. Y no sos vos."
+   "desde": 4.1,
+   "hasta": 7.7,
+   "texto": "Cada peso de la mañana ya tiene dueño. Y no sos vos."
   },
   {
-   "desde": 10.48,
-   "hasta": 14.08,
+   "desde": 8.0,
+   "hasta": 11.0,
    "texto": "A las catorce y veinte, recién ahí, empieza lo tuyo."
   },
   {
-   "desde": 14.43,
-   "hasta": 16.95,
+   "desde": 11.3,
+   "hasta": 13.4,
    "texto": "Pero si fiás… la hora se corre."
   },
   {
-   "desde": 17.3,
-   "hasta": 20.9,
-   "texto": "Casi dos horas más trabajando para otros. Todos los días."
+   "desde": 13.7,
+   "hasta": 16.4,
+   "texto": "Casi dos horas más para otros. Todos los días."
   },
   {
-   "desde": 21.25,
-   "hasta": 28.45,
-   "texto": "Comparalo: el que tiene los precios al día y cobra el fiado empieza a ganar a las… trece y diecisiete.",
+   "desde": 16.7,
+   "hasta": 22.1,
+   "texto": "El que tiene precios al día y cobra el fiado empieza a ganar a las… trece y diecisiete.",
    "silencio": 0.4
   },
   {
-   "desde": 28.8,
-   "hasta": 34.2,
-   "texto": "En Claro te hace la cuenta cada noche, y te dice cómo adelantar esa hora."
+   "desde": 22.4,
+   "hasta": 26.9,
+   "texto": "En Claro te hace la cuenta cada noche y te dice cómo adelantar esa hora."
   },
   {
-   "desde": 34.55,
-   "hasta": 39.23,
+   "desde": 27.2,
+   "hasta": 31.1,
    "texto": "¿A qué hora empezás a ganar vos? Comentalo. Y mandáselo a tu socio."
   }
  ],
  "sonidos": [],
- "pausa_max": 0.45,
- "silencio_max": 0.45
+ "pausa_max": 0.3,
+ "silencio_max": 0.35
 }
