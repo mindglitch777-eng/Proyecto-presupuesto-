@@ -1,0 +1,76 @@
+{
+ "id": "v8-13-taximetro",
+ "titulo": "El taxímetro: ¿cuánto gana un kiosco por hora?",
+ "duracionSeg": 44.2,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años, con tono de analista de barrio: serio, claro, haciendo cuentas en voz alta, sin exagerar. Ritmo natural, sin apurarte nunca. Hacé una pausa corta en cada punto y una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "¿CUÁNTO GANA",
+    "UN KIOSCO",
+    "POR HORA?"
+   ],
+   "voz": "¿Cuánto gana por hora un kiosco? Mil ochocientos. Y el de enfrente… casi el doble."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 3.0,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 3.3,
+   "hasta": 5.82,
+   "texto": "Mismo barrio. Mismas trece horas. Mismas ventas."
+  },
+  {
+   "desde": 6.17,
+   "hasta": 10.13,
+   "texto": "¿Qué hace distinto? Hay dos cosas. Y una la tenés delante."
+  },
+  {
+   "desde": 10.48,
+   "hasta": 15.52,
+   "texto": "Uno: tiene los precios al día. Cuando el proveedor aumenta, él aumenta esa noche."
+  },
+  {
+   "desde": 15.87,
+   "hasta": 19.11,
+   "texto": "Dos… es el que nadie se anima a hacer."
+  },
+  {
+   "desde": 19.46,
+   "hasta": 23.42,
+   "texto": "Cobra el fiado. Todas las semanas. Con un mensaje, sin pelear."
+  },
+  {
+   "desde": 23.77,
+   "hasta": 28.45,
+   "texto": "Sesenta y nueve por ciento más por hora. Sin vender un caramelo más.",
+   "silencio": 0.4
+  },
+  {
+   "desde": 28.8,
+   "hasta": 34.56,
+   "texto": "En Claro hace esa cuenta cada noche: te dice qué precio subir y a quién cobrarle."
+  },
+  {
+   "desde": 34.91,
+   "hasta": 42.83,
+   "texto": "Hacé tu cuenta y comentá cuánto ganás por hora. Y mandáselo al que trabaja trece horas y dice que no le alcanza."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.45,
+ "silencio_max": 0.45
+}

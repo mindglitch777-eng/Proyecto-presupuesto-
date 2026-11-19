@@ -19,10 +19,9 @@ env:
   # Video-v4-01-NumeroTapado, Video-v5-01-Confesiones, Video-v3-06-Basura, Video-v4-02-TresErrores, Video-v5-02-Caja, Video-v7-01-Record.
   # Video-v8-01-CuantoLeQueda (v8-01-cuanto-le-queda).
   # Hechos: Video-v8-01-CuantoLeQueda, Video-v8-02-ElCuaderno, Video-v8-03-LaCajaMiente, Video-v8-04-CualTeHacePerder,
-  # Video-v8-05-LaTorre, Video-v8-06-RayosX, Video-v8-07-ElTicket, Video-v8-08-CuentaRegresiva, Video-v8-09-MismoKiosco, Video-v8-10-KioscoCerrado.
-  VIDEOS: >-
-    [{"nombre":"v8-11-por-hora","id":"Video-v8-11-PorHora","control":"0 300 830"},
-     {"nombre":"v8-12-vender-mas","id":"Video-v8-12-VenderMas","control":"0 250 830"}]
+  # Video-v8-05-LaTorre, Video-v8-06-RayosX, Video-v8-07-ElTicket, Video-v8-08-CuentaRegresiva, Video-v8-09-MismoKiosco, Video-v8-10-KioscoCerrado,
+  # Video-v8-11-PorHora, Video-v8-12-VenderMas.
+  VIDEOS: '[]'
   PARTES: 10
 
 concurrency:
