@@ -39,6 +39,8 @@ real de la app, código solo como capa gráfica, voz con emoción (Gemini TTS gr
 control de calidad con puntaje ≥ 8 en cada punto antes de entregar. Lo que no cumple, no se entrega. Los guiones V6 y V7 pendientes
 quedan en pausa: se rehacen con este estándar antes de producirse.
 
+**Sistema viral (obligatorio desde el 19/11/2026):** antes de escribir un guion leé `videos/referencia/SISTEMA-VIRAL.md`: 10 reglas con puntaje (< 8 no se produce), momentos de "volver a ver" y "mandáselo a…", palabra clave de búsqueda, series y ciclo semanal con `videos/METRICAS.md`.
+
 ## Voz de los videos
 
 Presupuesto US$0: **Gemini TTS** (plan gratis de Google AI Studio, clave `GEMINI_API_KEY` en secretos de GitHub), dirigida con instrucciones de actuación,
