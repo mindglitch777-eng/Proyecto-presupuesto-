@@ -71,6 +71,24 @@ dolor → salida → alivio. Nunca dejar al kiosquero solo con el miedo.
 
 Reglas: cada traducción lleva su cuenta en el guion y "(ejemplo)" en pantalla; nunca precios de mercado inventados (si se usa un precio real, se verifica antes).
 
+## 5b. Capa humana (obligatoria): el dolor es de una persona, la plata es la prueba
+
+Lo que se comparte es lo que la persona **siente**, no una cuenta. Cada video arranca con un dolor humano que se reconoce en medio segundo
+y usa el número solo como golpe final que lo vuelve injusto. El protagonista es el kiosquero (y su gente), nunca un producto.
+
+| Dolor humano | Escena que se reconoce al instante |
+|---|---|
+| Tiempo con los hijos | La silla vacía en el acto; "papá, ¿venís?" |
+| Orgullo / vergüenza | "¿Cómo va el kiosco?" → "Bien, bien" (sin saber) |
+| Miedo a fundirse | El recibo de alquiler que no se puede pagar; bajar la persiana por última vez |
+| Cansancio sin premio | 12 horas, domingos, sin vacaciones, y no sabés si valió |
+| Soledad | No tenés quién te cubra; nadie entiende lo que cuesta |
+| Pareja / familia | "¿Para qué abrís si no queda nada?" |
+
+Reglas: la tristeza sola no se comparte; hay que convertirla en **bronca o humor** (emociones fuertes) y cerrar con **alivio**.
+Nunca fotos reales de chicos (siluetas de espaldas). Nunca testimonios inventados: se cuenta en segunda persona ("vos") o como recreación rotulada.
+La app nunca promete tiempo libre ni ganancias: promete **saber**, para decidir.
+
 ## 6. Lenguaje visual (lo que funcionó y es obligatorio)
 
 1. **Objeto-dato héroe** que llena la pantalla desde el cuadro 0 y se transforma todo el video (taxímetro, reloj por sectores, torre, ticket, barra).
