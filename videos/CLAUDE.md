@@ -148,6 +148,14 @@
   ("$12.900 por mes, para siempre"). Demos `v8-13`/`v8-14` = mismo recorrido que `v8-11`. Voz con actuación "ritmo de redes" y
   `pausa_max` 0,3: 38,5 s y 31 s sin acelerar.
 
+## V9
+- **V9-03 "Tenés plata encerrada en tu depósito"** (`Video-v9-03-PlataEncerrada`, `src/v9/PlataEncerrada.tsx`, guion `guiones/V9-03-PLATA-ENCERRADA.md`,
+  voz exacta de ChatGPT con Orus: 24 s sin acelerar). El depósito es una cárcel: pasillo de estanterías, contador 3D que cae y se parte,
+  escarcha, reja que baja, 3 llaves de alquiler, la mano que no llega, celular con Depósito real (demo `v9-03`: dormido $360.000 de
+  $1.200.000), candado que salta, billetes a la caja, cupo mensual, mota de polvo y botón de compartir. Modelos nuevos en `modelos3d.tsx`:
+  `CajaCarton`, `EstanteriaDeposito`, `Escarcha`, `Telarana`, `Barrotes3D`, `LlaveGigante`, `Contador3D`, `ManoBrazo`, `BotonCompartir`, `Avioncito3D`.
+  Ojo: los cuadros de la app tienen que empezar en `c000.jpg` (`ffmpeg -start_number 0`): si no, el celular sale en blanco al entrar.
+
 ## Guardado del MP4 en la rama (videos.yml)
 - **Varios videos por corrida**: lista `VIDEOS` (JSON con nombre, id y cuadros de control; `[]` = solo voces). Cada video se reparte en 10 máquinas
   (matriz video × parte) y `unir` verifica que las partes estén pegadas y completas antes de armar el MP4 (si una máquina falló, no sale un video cortado).

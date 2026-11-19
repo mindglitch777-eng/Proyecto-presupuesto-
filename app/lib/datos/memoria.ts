@@ -210,7 +210,33 @@ function semillaVideoV8_12(): Estado {
   return e;
 }
 
-const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07, "v8-08": semillaVideoV8_08, "v8-09": semillaVideoV8_09, "v8-10": semillaVideoV8_10, "v8-11": semillaVideoV8_11, "v8-12": semillaVideoV8_12, "v8-13": semillaVideoV8_11, "v8-14": semillaVideoV8_11 };
+/**
+ * V9-03 (ENCLARO_DEMO=v9-03): "Tenés plata encerrada en tu depósito". Mercadería total $1.200.000 (costo × stock);
+ * sin ventas hace meses $360.000 (vino, shampoo, galletitas, turrones) = 3 alquileres de $120.000.
+ */
+function semillaVideoV9_03(): Estado {
+  const e = semilla();
+  const hoy = hoyArgentina();
+  const d = (n: number) => sumarDias(hoy, -n);
+  const p = (id: string, nombre: string, precio: number, costo: number, stock: number, ultimaVenta: string) => ({ id, nombre, precio, costo, stock, precioActualizado: d(3), ultimaVenta, creado: d(150), accionDormido: null, dormidoHasta: null });
+  e.negocio = { ...e.negocio, nombre: "Kiosco de barrio", comisionPct: 4 };
+  e.productos = [
+    p("p1", "Vino tinto 750", 6000, 4000, 30, d(95)),
+    p("p2", "Shampoo 400 ml", 3900, 2700, 36, d(82)),
+    p("p3", "Galletitas rellenas", 1500, 1120, 75, d(71)),
+    p("p4", "Turrones surtidos", 1400, 980, 60, d(94)),
+    p("p5", "Cigarrillos", 4500, 3900, 60, d(1)),
+    p("p6", "Gaseosa 500", 2160, 1500, 120, d(1)),
+    p("p7", "Yerba 500 g", 3600, 2800, 60, d(2)),
+    p("p8", "Alfajor triple", 1200, 800, 150, d(1)),
+    p("p9", "Agua 500", 1000, 600, 95, d(1)),
+    p("p10", "Leche larga vida", 1400, 950, 60, d(1)),
+    p("p11", "Caramelos sueltos", 100, 60, 400, d(1)),
+  ];
+  return e;
+}
+
+const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07, "v8-08": semillaVideoV8_08, "v8-09": semillaVideoV8_09, "v8-10": semillaVideoV8_10, "v8-11": semillaVideoV8_11, "v8-12": semillaVideoV8_12, "v8-13": semillaVideoV8_11, "v8-14": semillaVideoV8_11, "v9-03": semillaVideoV9_03 };
 const semillaActual = () => (SEMILLAS[process.env.ENCLARO_DEMO ?? ""] ?? semilla)();
 
 const g = globalThis as unknown as { __enclaroMemoria?: Estado };

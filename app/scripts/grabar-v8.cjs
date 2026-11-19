@@ -216,6 +216,16 @@ const RECORRIDOS = {
   },
   async "v8-13"(page, marca) { return RECORRIDOS["v8-11"](page, marca); },
   async "v8-14"(page, marca) { return RECORRIDOS["v8-11"](page, marca); },
+  async "v9-03"(page, marca) {
+    await page.goto(BASE + "/app/deposito", { waitUntil: "networkidle" });
+    marca("total");
+    exigir(/Plata inmovilizada en el depósito\s*\$360\.000/.test(await texto(page)), "La plata dormida no da $360.000");
+    await page.waitForTimeout(2200);
+    for (let i = 0; i < 6; i++) { await page.mouse.wheel(0, 70); await page.waitForTimeout(120); }
+    marca("lista");
+    await page.waitForTimeout(2000);
+    marca("fin");
+  },
   async "v8-12"(page, marca) {
     await page.goto(BASE + "/app/precios", { waitUntil: "networkidle" });
     marca("ranking");

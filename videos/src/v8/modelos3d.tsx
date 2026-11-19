@@ -836,3 +836,206 @@ export const RelojKiosco3D: React.FC<{ hora: number; sectores: Sector[]; radio?:
     </group>
   );
 };
+
+// ---------- V9-03 "Tenés plata encerrada en tu depósito": el depósito es una cárcel ----------
+
+const RUBROS = ["GOLOSINAS", "GASEOSAS", "GALLETITAS", "YERBA", "VINO", "SHAMPOO", "TURRONES", "CARAMELOS", "ALFAJORES", "AGUA", "FIDEOS", "ACEITE"];
+const TONOS = ["#c0392b", "#2f6fb5", "#d68910", "#1e8449", "#7d3c98", "#16a085", "#b9770e", "#cb4335", "#2e86c1", "#117a65", "#a04000", "#5b2c6f"];
+
+/** Caja de cartón genérica con faja de color y rubro escrito (sin marcas). `frio` 0 → 1 la cubre de escarcha. */
+export const CajaCarton: React.FC<{ w: number; h: number; d: number; rubro: number; frio?: number }> = ({ w, h, d, rubro, frio = 0 }) => {
+  const r = ((rubro % RUBROS.length) + RUBROS.length) % RUBROS.length;
+  const cara = useLienzo(`caja|${r}`, 256, 192, (x, cw, ch) => {
+    dibujarRuido("#b88a55", "#5a3d1e", 500)(x, cw, ch);
+    x.fillStyle = TONOS[r]; x.fillRect(0, ch * 0.34, cw, ch * 0.32);
+    x.fillStyle = "#fff"; x.font = `800 ${ch * 0.2}px "Space Grotesk", sans-serif`; x.textAlign = "center"; x.textBaseline = "middle";
+    x.fillText(RUBROS[r], cw / 2, ch / 2 + 2, cw - 16);
+    x.strokeStyle = "#6b4a28"; x.lineWidth = 3; x.beginPath(); x.moveTo(0, 8); x.lineTo(cw, 8); x.stroke();
+  });
+  const helada = new THREE.Color("#b88a55").lerp(new THREE.Color("#d9ecff"), frio * 0.75);
+  return (
+    <group>
+      <mesh position={[0, h / 2, 0]} geometry={cajaR(w, h, d, 0.008, 2)} castShadow receiveShadow>
+        <meshStandardMaterial color={helada} roughness={0.85 - frio * 0.5} metalness={frio * 0.1} />
+      </mesh>
+      <mesh position={[0, h / 2, d / 2 + 0.001]}><planeGeometry args={[w * 0.96, h * 0.9]} /><meshStandardMaterial map={cara} roughness={0.8} color={new THREE.Color("#ffffff").lerp(new THREE.Color("#cfe6ff"), frio * 0.7)} /></mesh>
+    </group>
+  );
+};
+
+/** Estantería metálica de depósito: `cols` columnas × `pisos` estantes, cada hueco con 2–3 cajas. `frio(col, piso)` y `quita(col, piso)` (0 → 1: las cajas se achican). */
+export const EstanteriaDeposito: React.FC<{ cols?: number; pisos?: number; ancho?: number; alto?: number; fondo?: number; frio?: (c: number, p: number) => number; quita?: (c: number, p: number) => number; semilla?: number }> = ({
+  cols = 3, pisos = 4, ancho = 2.4, alto = 2.4, fondo = 0.55, frio = () => 0, quita = () => 0, semilla = 0,
+}) => {
+  const cw = ancho / cols, ph = alto / pisos;
+  const metal = <meshStandardMaterial color="#4a5a6a" metalness={0.7} roughness={0.4} />;
+  return (
+    <group>
+      {Array.from({ length: cols + 1 }, (_, i) => [0, 1].map((k) => (
+        <mesh key={`p${i}${k}`} position={[-ancho / 2 + i * cw, alto / 2 + 0.03, (k - 0.5) * (fondo - 0.04)]} castShadow><boxGeometry args={[0.04, alto + 0.06, 0.04]} />{metal}</mesh>
+      )))}
+      {Array.from({ length: pisos + 1 }, (_, p) => (
+        <group key={`s${p}`}>
+          <mesh position={[0, 0.04 + p * ph, 0]} castShadow receiveShadow><boxGeometry args={[ancho, 0.025, fondo]} /><meshStandardMaterial color="#6c7a86" metalness={0.5} roughness={0.5} /></mesh>
+          <mesh position={[0, 0.06 + p * ph, fondo / 2 - 0.01]}><boxGeometry args={[ancho, 0.05, 0.02]} /><meshStandardMaterial color="#e2a32a" metalness={0.3} roughness={0.5} /></mesh>
+        </group>
+      ))}
+      {Array.from({ length: cols }, (_, c) => Array.from({ length: pisos }, (_, p) => {
+        const q = clampN(quita(c, p));
+        if (q >= 1) return null;
+        const n = 2 + Math.floor(rnd(semilla + c * 7 + p * 3) * 2);
+        const f = frio(c, p);
+        return (
+          <group key={`c${c}${p}`} position={[-ancho / 2 + (c + 0.5) * cw, 0.055 + p * ph, 0]} scale={[1 - q, 1 - q, 1 - q]}>
+            {Array.from({ length: n }, (_, k) => {
+              const bw = (cw - 0.08) / n - 0.02;
+              const bh = ph * (0.6 + rnd(semilla + c * 11 + p * 5 + k) * 0.28);
+              return (
+                <group key={k} position={[-(cw - 0.08) / 2 + (k + 0.5) * (bw + 0.02), 0, (rnd(k + p) - 0.5) * 0.04]} rotation-y={(rnd(c + p + k * 3) - 0.5) * 0.08}>
+                  <CajaCarton w={bw} h={bh} d={fondo * 0.82} rubro={semilla + c * 5 + p * 3 + k} frio={f} />
+                </group>
+              );
+            })}
+          </group>
+        );
+      }))}
+    </group>
+  );
+};
+
+/** Escarcha: panel de cristales que crece desde abajo (`k` 0 → 1), con brillo frío. */
+export const Escarcha: React.FC<{ w: number; h: number; k: number }> = ({ w, h, k }) => {
+  const tex = useLienzo("escarcha", 512, 512, (x, cw, ch) => {
+    x.clearRect(0, 0, cw, ch);
+    for (let i = 0; i < 260; i++) {
+      const cx = rnd(i) * cw, cy = rnd(i + 3) * ch, L = 8 + rnd(i + 9) * 36;
+      x.strokeStyle = `rgba(230,244,255,${0.25 + rnd(i + 4) * 0.5})`; x.lineWidth = 1 + rnd(i + 6) * 2;
+      for (let a = 0; a < 6; a++) { const an = (a / 6) * Math.PI * 2 + rnd(i); x.beginPath(); x.moveTo(cx, cy); x.lineTo(cx + Math.cos(an) * L, cy + Math.sin(an) * L); x.stroke(); }
+    }
+    const g = x.createLinearGradient(0, ch, 0, 0); g.addColorStop(0, "rgba(220,240,255,0.55)"); g.addColorStop(1, "rgba(220,240,255,0.08)");
+    x.fillStyle = g; x.fillRect(0, 0, cw, ch);
+  });
+  if (k <= 0) return null;
+  return (
+    <group>
+      <mesh position={[0, (h * k) / 2, 0]} scale={[1, Math.max(0.001, k), 1]}>
+        <planeGeometry args={[w, h]} />
+        <meshStandardMaterial map={tex} transparent depthWrite={false} emissive="#9fd3ff" emissiveIntensity={0.35} roughness={0.2} />
+      </mesh>
+      <pointLight position={[0, h * k * 0.6, 0.4]} intensity={0.8 * k} distance={2} color="#9fd3ff" />
+    </group>
+  );
+};
+
+/** Telaraña (plano con hilos), para las esquinas de lo que no se mueve. */
+export const Telarana: React.FC<{ s?: number }> = ({ s = 0.35 }) => {
+  const tex = useLienzo("telarana", 256, 256, (x, w, h) => {
+    x.clearRect(0, 0, w, h); x.strokeStyle = "rgba(240,240,240,0.7)"; x.lineWidth = 1.5;
+    for (let a = 0; a <= 8; a++) { const an = (a / 8) * (Math.PI / 2); x.beginPath(); x.moveTo(0, 0); x.lineTo(Math.cos(an) * w, Math.sin(an) * h); x.stroke(); }
+    for (let r = 1; r <= 6; r++) { x.beginPath(); for (let a = 0; a <= 8; a++) { const an = (a / 8) * (Math.PI / 2), R = (r / 6) * w * (0.92 + rnd(r + a) * 0.1); a ? x.lineTo(Math.cos(an) * R, Math.sin(an) * R) : x.moveTo(Math.cos(an) * R, Math.sin(an) * R); } x.stroke(); }
+  });
+  return <mesh><planeGeometry args={[s, s]} /><meshBasicMaterial map={tex} transparent depthWrite={false} /></mesh>;
+};
+
+/** Reja de hierro: barrotes verticales y travesaños. El origen es el borde de abajo; `ancho` × `alto`. */
+export const Barrotes3D: React.FC<{ ancho: number; alto: number; n?: number }> = ({ ancho, alto, n = 7 }) => {
+  const hierro = <meshStandardMaterial color="#2d3134" metalness={0.9} roughness={0.38} />;
+  return (
+    <group>
+      {Array.from({ length: n }, (_, i) => (
+        <mesh key={i} position={[-ancho / 2 + (i + 0.5) * (ancho / n), alto / 2, 0]} castShadow><cylinderGeometry args={[0.018, 0.018, alto, 12]} />{hierro}</mesh>
+      ))}
+      {[0.06, alto * 0.5, alto - 0.06].map((y) => (
+        <mesh key={y} position={[0, y, 0]} castShadow><boxGeometry args={[ancho + 0.04, 0.05, 0.035]} />{hierro}</mesh>
+      ))}
+    </group>
+  );
+};
+
+/** Llave de alquiler gigante (dorada) con su etiqueta. Mide ~55 cm. El origen es el ojo de la llave. */
+export const LlaveGigante: React.FC<{ etiqueta: string }> = ({ etiqueta }) => {
+  const tag = useLienzo(`llave|${etiqueta}`, 256, 128, (x, w, h) => {
+    x.fillStyle = "#f7f1df"; x.fillRect(0, 0, w, h);
+    x.strokeStyle = "#b03a2e"; x.lineWidth = 6; x.strokeRect(5, 5, w - 10, h - 10);
+    x.fillStyle = "#b03a2e"; x.font = `800 ${h * 0.36}px "Space Grotesk", sans-serif`; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(etiqueta, w / 2, h * 0.42);
+    x.font = `600 ${h * 0.16}px "Inter", sans-serif`; x.fillStyle = "#5a4a3a"; x.fillText("ALQUILER · ejemplo", w / 2, h * 0.76);
+  });
+  const oro = <meshStandardMaterial color="#d4a62a" metalness={1} roughness={0.25} />;
+  return (
+    <group>
+      <mesh position={[0, -0.09, 0]} castShadow><torusGeometry args={[0.08, 0.025, 16, 36]} />{oro}</mesh>
+      <mesh position={[0, -0.38, 0]} castShadow><cylinderGeometry args={[0.02, 0.02, 0.42, 16]} />{oro}</mesh>
+      {[0, 1, 2].map((i) => <mesh key={i} position={[0.04, -0.47 + i * 0.07, 0]} castShadow><boxGeometry args={[0.06, 0.035 + (i % 2) * 0.015, 0.025]} />{oro}</mesh>)}
+      <group position={[-0.13, -0.18, 0.03]} rotation-z={0.15}>
+        <mesh position={[0.06, 0.04, 0]}><boxGeometry args={[0.005, 0.1, 0.002]} /><meshStandardMaterial color="#8a7a5a" /></mesh>
+        <mesh><planeGeometry args={[0.24, 0.12]} /><meshStandardMaterial map={tag} roughness={0.8} side={THREE.DoubleSide} /></mesh>
+      </group>
+    </group>
+  );
+};
+
+/** Contador 3D (bloque con número). */
+export const Contador3D: React.FC<{ texto: string; sub?: string; color: string; ancho?: number }> = ({ texto, sub = "", color, ancho = 1.6 }) => {
+  const tex = useLienzo(`cont|${texto}|${sub}|${color}`, 1024, 256, (x, w, h) => {
+    x.fillStyle = "#0c1410"; x.fillRect(0, 0, w, h);
+    x.fillStyle = color; x.textAlign = "center"; x.textBaseline = "middle";
+    x.shadowColor = color; x.shadowBlur = 24;
+    x.font = `800 ${h * 0.6}px "Space Grotesk", sans-serif`; x.fillText(texto, w / 2, h * (sub ? 0.42 : 0.5), w - 40);
+    if (sub) { x.shadowBlur = 0; x.font = `700 ${h * 0.16}px "Inter", sans-serif`; x.fillStyle = "#d8e2dc"; x.fillText(sub, w / 2, h * 0.84); }
+  });
+  const alto = ancho / 4;
+  return (
+    <group>
+      <mesh geometry={cajaR(ancho + 0.06, alto + 0.06, 0.16, 0.03, 3)} castShadow receiveShadow><meshPhysicalMaterial color="#141a17" metalness={0.5} roughness={0.3} clearcoat={0.8} /></mesh>
+      <mesh position={[0, 0, 0.081]}><planeGeometry args={[ancho, alto]} /><meshBasicMaterial map={tex} toneMapped={false} /></mesh>
+      <pointLight position={[0, 0, 0.6]} intensity={1.5} distance={2.5} color={color} />
+    </group>
+  );
+};
+
+/** Mano del kiosquero estirándose (manga verde de delantal + mano). Apunta hacia −x; `cierra` 0 → 1 dobla los dedos. */
+export const ManoBrazo: React.FC<{ cierra?: number }> = ({ cierra = 0 }) => {
+  const piel = <meshStandardMaterial color="#b98468" roughness={0.65} />;
+  return (
+    <group>
+      <mesh position={[0.45, 0, 0]} rotation-z={Math.PI / 2} castShadow><cylinderGeometry args={[0.055, 0.065, 0.7, 20]} /><meshStandardMaterial color="#1e5a3a" roughness={0.8} /></mesh>
+      <mesh position={[0.07, 0, 0]} rotation-z={Math.PI / 2} castShadow><cylinderGeometry args={[0.04, 0.045, 0.1, 16]} />{piel}</mesh>
+      <mesh position={[-0.03, 0, 0]} geometry={cajaR(0.1, 0.03, 0.09, 0.012, 2)} castShadow>{piel}</mesh>
+      {[0, 1, 2, 3].map((i) => (
+        <group key={i} position={[-0.08, 0, -0.033 + i * 0.022]} rotation-z={cierra * 0.9}>
+          <mesh position={[-0.035, 0, 0]} rotation-z={Math.PI / 2} castShadow><capsuleGeometry args={[0.009, 0.05 - Math.abs(i - 1.5) * 0.008, 4, 8]} />{piel}</mesh>
+        </group>
+      ))}
+      <group position={[-0.02, 0, 0.055]} rotation-y={-0.6}><mesh position={[-0.03, 0, 0]} rotation-z={Math.PI / 2}><capsuleGeometry args={[0.01, 0.035, 4, 8]} />{piel}</mesh></group>
+    </group>
+  );
+};
+
+/** Botón de compartir (avioncito de papel) en 3D. `pulsa` 0 → 1 lo hunde. */
+export const BotonCompartir: React.FC<{ pulsa?: number }> = ({ pulsa = 0 }) => {
+  const icono = useLienzo("compartir", 256, 256, (x, w, h) => {
+    x.fillStyle = "#16a34a"; x.beginPath(); x.arc(w / 2, h / 2, w / 2, 0, Math.PI * 2); x.fill();
+    x.fillStyle = "#fff"; x.beginPath(); x.moveTo(w * 0.24, h * 0.5); x.lineTo(w * 0.78, h * 0.27); x.lineTo(w * 0.6, h * 0.78); x.lineTo(w * 0.5, h * 0.56); x.closePath(); x.fill();
+    x.fillStyle = "#c9f2d6"; x.beginPath(); x.moveTo(w * 0.5, h * 0.56); x.lineTo(w * 0.78, h * 0.27); x.lineTo(w * 0.47, h * 0.7); x.closePath(); x.fill();
+  });
+  return (
+    <group>
+      <mesh rotation-x={Math.PI / 2} position={[0, 0, -0.03]} castShadow><cylinderGeometry args={[0.2, 0.22, 0.06, 48]} /><meshStandardMaterial color="#0f3d2b" metalness={0.3} roughness={0.4} /></mesh>
+      <group position={[0, 0, 0.02 - pulsa * 0.03]}>
+        <mesh rotation-x={Math.PI / 2}><cylinderGeometry args={[0.17, 0.17, 0.05, 48]} /><meshPhysicalMaterial color="#16a34a" roughness={0.25} clearcoat={0.9} /></mesh>
+        <mesh position={[0, 0, 0.026]}><circleGeometry args={[0.17, 48]} /><meshBasicMaterial map={icono} toneMapped={false} /></mesh>
+      </group>
+    </group>
+  );
+};
+
+/** Avioncito de papel (vuela al compartir). */
+export const Avioncito3D: React.FC = () => {
+  const geo = useMemo(() => {
+    const g = new THREE.BufferGeometry();
+    const v = new Float32Array([0, 0, 0.25, -0.16, 0, -0.12, 0, 0.0, -0.08, 0, 0, 0.25, 0.16, 0, -0.12, 0, 0.0, -0.08, 0, 0, 0.25, 0, -0.06, -0.1, 0, 0, -0.08]);
+    g.setAttribute("position", new THREE.BufferAttribute(v, 3)); g.computeVertexNormals();
+    return g;
+  }, []);
+  return <mesh geometry={geo} castShadow><meshStandardMaterial color="#f7f7f2" roughness={0.7} side={THREE.DoubleSide} /></mesh>;
+};
