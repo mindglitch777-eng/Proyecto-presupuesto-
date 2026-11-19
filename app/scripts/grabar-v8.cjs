@@ -214,6 +214,8 @@ const RECORRIDOS = {
     await page.waitForTimeout(2000);
     marca("fin");
   },
+  async "v8-13"(page, marca) { return RECORRIDOS["v8-11"](page, marca); },
+  async "v8-14"(page, marca) { return RECORRIDOS["v8-11"](page, marca); },
   async "v8-12"(page, marca) {
     await page.goto(BASE + "/app/precios", { waitUntil: "networkidle" });
     marca("ranking");

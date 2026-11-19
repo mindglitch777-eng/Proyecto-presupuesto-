@@ -686,3 +686,153 @@ export const Barra3D: React.FC<{ alto: number; color: string; ancho?: number }> 
     <meshPhysicalMaterial color={color} roughness={0.25} metalness={0.2} clearcoat={0.8} emissive={color} emissiveIntensity={0.15} />
   </mesh>
 );
+
+/** Taxímetro de ganancia (sin marcas): caja negra con display de dígitos verdes y cartelito "GANANCIA" iluminado. */
+export const Taximetro3D: React.FC<{ texto: string; sub: string; color?: string; brillo?: number }> = ({ texto, sub, color = "#4dff9a", brillo = 1 }) => {
+  const pantalla = useLienzo(`taxi|${texto}|${sub}|${color}`, 512, 224, (x, w, h) => {
+    x.fillStyle = "#050806"; x.fillRect(0, 0, w, h);
+    x.fillStyle = "#0d1a12"; x.fillRect(14, 14, w - 28, h - 28);
+    x.textAlign = "center"; x.textBaseline = "middle";
+    x.font = `700 ${h * 0.5}px "Space Grotesk", monospace`;
+    x.shadowColor = color; x.shadowBlur = 18; x.fillStyle = color;
+    x.fillText(texto, w / 2, h * 0.44);
+    x.shadowBlur = 6; x.font = `700 ${h * 0.17}px "Inter", sans-serif`; x.fillStyle = "#c9d6cc";
+    x.fillText(sub, w / 2, h * 0.83);
+  });
+  const cartel = useLienzo("taxi-cartel", 256, 64, (x, w, h) => {
+    x.fillStyle = "#f5a524"; x.fillRect(0, 0, w, h);
+    x.fillStyle = "#1b1206"; x.font = `800 ${h * 0.6}px "Space Grotesk", sans-serif`; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText("GANANCIA", w / 2, h / 2 + 2);
+  });
+  return (
+    <group>
+      <mesh geometry={cajaR(1.0, 0.46, 0.24, 0.04, 4)} castShadow><meshPhysicalMaterial color="#1a1d1c" roughness={0.35} metalness={0.4} clearcoat={0.8} /></mesh>
+      <mesh position={[0, -0.01, 0.121]}><planeGeometry args={[0.88, 0.385]} /><meshBasicMaterial map={pantalla} toneMapped={false} /></mesh>
+      <mesh position={[0, -0.01, 0.125]}><planeGeometry args={[0.88, 0.385]} /><meshPhysicalMaterial color="#ffffff" transparent opacity={0.06} roughness={0.02} /></mesh>
+      <mesh position={[0, 0.3, 0]} geometry={cajaR(0.42, 0.12, 0.12, 0.02, 3)}><meshStandardMaterial color="#f5a524" emissive="#f5a524" emissiveIntensity={0.6 * brillo} /></mesh>
+      <mesh position={[0, 0.3, 0.061]}><planeGeometry args={[0.38, 0.095]} /><meshBasicMaterial map={cartel} toneMapped={false} /></mesh>
+      <pointLight position={[0, 0, 0.5]} intensity={1.2 * brillo} distance={2.2} color={color} />
+    </group>
+  );
+};
+
+const PRECIOS_VIEJOS = ["$900", "$1.200", "$750", "$2.160", "$1.480", "$600", "$1.050", "$1.800", "$520", "$2.900", "$1.300", "$880"];
+const PRECIOS_NUEVOS = ["$1.080", "$1.440", "$900", "$2.590", "$1.780", "$720", "$1.260", "$2.160", "$620", "$3.480", "$1.560", "$1.060"];
+
+/** Etiqueta de góndola (precio grande, fecha chica). `vieja` = papel amarillento con fecha vieja. */
+const EtiquetaPrecio: React.FC<{ precio: string; fecha: string; vieja?: boolean }> = ({ precio, fecha, vieja = false }) => {
+  const tex = useLienzo(`etq|${precio}|${fecha}|${vieja}`, 256, 128, (x, w, h) => {
+    x.fillStyle = vieja ? "#e8d9a8" : "#ffffff"; x.fillRect(0, 0, w, h);
+    if (vieja) dibujarRuido("rgba(0,0,0,0)", "#7a5a10", 300)(x, w, h);
+    x.fillStyle = vieja ? "#a8761c" : "#16794a"; x.fillRect(0, 0, w, 14);
+    x.fillStyle = vieja ? "#5a4a2a" : "#101512"; x.textAlign = "center"; x.textBaseline = "middle";
+    x.font = `800 ${h * 0.46}px "Space Grotesk", sans-serif`; x.fillText(precio, w / 2, h * 0.5);
+    x.font = `600 ${h * 0.16}px "Inter", sans-serif`; x.fillStyle = vieja ? "#8a6a3a" : "#16794a"; x.fillText(fecha, w / 2, h * 0.85);
+  });
+  return <mesh><planeGeometry args={[0.26, 0.13]} /><meshStandardMaterial map={tex} roughness={0.7} /></mesh>;
+};
+
+/**
+ * Góndola con productos y etiquetas de precio. `giro(i)` (0 → 1) da vuelta la etiqueta i y pone el precio nuevo.
+ * `vieja`: etiquetas amarillentas con fecha vieja que nunca cambian.
+ */
+export const GondolaPrecios: React.FC<{ giro?: (i: number) => number; vieja?: boolean; brillo?: (i: number) => number }> = ({ giro = () => 0, vieja = false, brillo = () => 0 }) => {
+  const colores = ["#e94b3c", "#f2b134", "#2f8f5b", "#3d6fb5", "#f07aa8", "#8a4fbf"];
+  return (
+    <group>
+      <mesh position={[0, 0.8, -0.2]} castShadow receiveShadow><boxGeometry args={[1.3, 1.6, 0.04]} /><meshStandardMaterial color="#d8d4ca" roughness={0.8} /></mesh>
+      {[0.3, 0.8, 1.3].map((y, f) => (
+        <group key={y}>
+          <mesh position={[0, y, 0]} castShadow receiveShadow><boxGeometry args={[1.26, 0.03, 0.38]} /><meshStandardMaterial color="#9ea29c" metalness={0.5} roughness={0.45} /></mesh>
+          {Array.from({ length: 4 }, (_, k) => {
+            const i = f * 4 + k;
+            const gi = vieja ? 0 : clampN(giro(i));
+            const nuevo = gi > 0.5;
+            const b = brillo(i);
+            return (
+              <group key={k} position={[-0.45 + k * 0.3, y, 0]}>
+                <mesh position={[0, 0.11 + rnd(i) * 0.03, -0.02]} geometry={cajaR(0.18, 0.2 + rnd(i) * 0.06, 0.14, 0.012, 2)} castShadow>
+                  <meshPhysicalMaterial color={colores[i % 6]} roughness={0.35} clearcoat={0.5} />
+                </mesh>
+                <group position={[0, -0.04, 0.2]} rotation-x={gi * Math.PI * 2} scale={[1 + b * 0.25, 1 + b * 0.25, 1]}>
+                  <EtiquetaPrecio precio={vieja ? PRECIOS_VIEJOS[i] : nuevo ? PRECIOS_NUEVOS[i] : PRECIOS_VIEJOS[i]} fecha={vieja ? "12/08" : nuevo ? "HOY" : "AYER"} vieja={vieja} />
+                </group>
+              </group>
+            );
+          })}
+        </group>
+      ))}
+    </group>
+  );
+};
+const clampN = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
+
+/** Globo de mensaje genérico (sin marcas de apps). */
+export const Mensaje3D: React.FC<{ texto: string }> = ({ texto }) => {
+  const tex = useLienzo(`msg|${texto}`, 512, 160, (x, w, h) => {
+    x.fillStyle = "#dff7d6"; x.beginPath(); x.roundRect(4, 4, w - 8, h - 8, 28); x.fill();
+    x.fillStyle = "#14241a"; x.font = `600 ${h * 0.2}px "Inter", sans-serif`; x.textBaseline = "middle";
+    const pal = texto.split(" "); let lin = "", y = h * 0.32;
+    pal.forEach((p) => { const pr = lin ? lin + " " + p : p; if (x.measureText(pr).width > w - 60) { x.fillText(lin, 30, y); lin = p; y += h * 0.27; } else lin = pr; });
+    x.fillText(lin, 30, y);
+    x.fillStyle = "#4a8a5a"; x.font = `600 ${h * 0.13}px "Inter", sans-serif`; x.fillText("20:41 ✓✓", w - 140, h * 0.84);
+  });
+  return <mesh><planeGeometry args={[0.64, 0.2]} /><meshBasicMaterial map={tex} toneMapped={false} transparent /></mesh>;
+};
+
+export type Sector = { desde: number; hasta: number; color: string; texto: string };
+
+/**
+ * Reloj del kiosco: una vuelta = el día abierto (de `abre` a `cierra`, 13 h). La esfera se pinta por sectores hasta la hora `hora`
+ * (cada sector = para quién trabajás a esa hora). La aguja marca `hora`.
+ */
+export const RelojKiosco3D: React.FC<{ hora: number; sectores: Sector[]; radio?: number; abre?: number; cierra?: number; marca?: number; pinta?: number }> = ({ hora, sectores, radio = 0.9, abre = 7, cierra = 20, marca, pinta }) => {
+  const span = cierra - abre;
+  const ang = (h: number) => ((h - abre) / span) * Math.PI * 2;
+  const hq = Math.round((pinta ?? hora) * 30) / 30;
+  const clave = `rk|${hq}|${sectores.map((s) => `${s.desde.toFixed(3)}-${s.hasta.toFixed(3)}-${s.color}-${s.texto}`).join(",")}|${marca ?? ""}`;
+  const esfera = useLienzo(clave, 1024, 1024, (x, w, h) => {
+    const cx = w / 2, cy = h / 2, R = w / 2 - 6;
+    x.fillStyle = "#fbfaf6"; x.beginPath(); x.arc(cx, cy, R, 0, Math.PI * 2); x.fill();
+    sectores.forEach((s) => {
+      const fin = Math.min(s.hasta, hq);
+      if (fin <= s.desde) return;
+      x.fillStyle = s.color; x.beginPath(); x.moveTo(cx, cy);
+      x.arc(cx, cy, R * 0.86, ang(s.desde) - Math.PI / 2, ang(fin) - Math.PI / 2); x.closePath(); x.fill();
+      x.strokeStyle = "#fbfaf6"; x.lineWidth = 6; x.stroke();
+      // etiqueta del sector, en el medio del arco pintado
+      const am = (ang(s.desde) + ang(s.hasta)) / 2;
+      if (hq >= (s.desde + s.hasta) / 2) {
+        x.save(); x.translate(cx + Math.sin(am) * R * 0.5, cy - Math.cos(am) * R * 0.5);
+        const rot = am > Math.PI ? am - Math.PI * 1.5 : am - Math.PI / 2;
+        x.rotate(Math.abs(rot) > Math.PI / 2 ? rot + Math.PI : rot);
+        x.fillStyle = "#fff"; x.textAlign = "center"; x.textBaseline = "middle";
+        const lines = s.texto.split("\n");
+        x.font = `800 ${lines.length > 1 ? 50 : 60}px "Space Grotesk", sans-serif`;
+        lines.forEach((ln, i) => x.fillText(ln, 0, (i - (lines.length - 1) / 2) * 54));
+        x.restore();
+      }
+    });
+    if (marca !== undefined) {
+      x.strokeStyle = "#16794a"; x.lineWidth = 12; x.beginPath(); x.moveTo(cx, cy);
+      x.lineTo(cx + Math.sin(ang(marca)) * R * 0.98, cy - Math.cos(ang(marca)) * R * 0.98); x.stroke();
+    }
+    x.fillStyle = "#1c1c1c"; x.textAlign = "center"; x.textBaseline = "middle";
+    for (let i = 0; i < span; i++) {
+      const a = ang(abre + i);
+      x.font = `700 ${i === 0 ? 50 : 56}px "Space Grotesk", sans-serif`;
+      x.fillText(i === 0 ? `${abre}·${cierra}` : String(abre + i), cx + Math.sin(a) * R * 0.93, cy - Math.cos(a) * R * 0.93);
+    }
+  });
+  const a = ang(hora);
+  return (
+    <group>
+      <mesh rotation-x={Math.PI / 2} castShadow><cylinderGeometry args={[radio * 1.07, radio * 1.07, 0.08, 64]} /><meshStandardMaterial color="#1f2422" metalness={0.6} roughness={0.35} /></mesh>
+      <mesh position={[0, 0, 0.041]}><circleGeometry args={[radio, 64]} /><meshStandardMaterial map={esfera} roughness={0.55} /></mesh>
+      <mesh position={[0, 0, 0.06]} rotation-z={-a}>
+        <mesh position={[0, radio * 0.42, 0]}><boxGeometry args={[radio * 0.05, radio * 0.86, 0.012]} /><meshStandardMaterial color="#c0261b" /></mesh>
+      </mesh>
+      <mesh position={[0, 0, 0.068]} rotation-x={Math.PI / 2}><cylinderGeometry args={[radio * 0.05, radio * 0.05, 0.02, 24]} /><meshStandardMaterial color="#111" metalness={0.8} roughness={0.3} /></mesh>
+      <mesh position={[0, 0, 0.05]}><circleGeometry args={[radio, 64]} /><meshPhysicalMaterial color="#ffffff" transparent opacity={0.07} roughness={0.02} /></mesh>
+    </group>
+  );
+};

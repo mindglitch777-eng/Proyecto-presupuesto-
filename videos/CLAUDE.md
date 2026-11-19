@@ -141,6 +141,13 @@
   Modelos nuevos: `Reloj3D`, `Candado3D`, `Barra3D` (barras de comparación). `Numero` acepta `redondeo` (1 para mostrar $1.808 exacto).
   Demos `v8-11` (Tu día → precio sugerido → Fiados) y `v8-12` (ranking de Precios → precio sugerido). Duran ~47 s (voz a velocidad natural).
 
+- **V8-13 "El taxímetro"** (`Video-v8-13-Taximetro`, `src/v8/Taximetro.tsx`) y **V8-14 "Hasta las 14:20 trabajás gratis"**
+  (`Video-v8-14-TrabajasGratis`, `src/v8/TrabajasGratis.tsx`): primeros con `referencia/SISTEMA-VIRAL.md`. Modelos nuevos: `Taximetro3D`
+  (display redibujado por cuadro), `GondolaPrecios` (etiquetas que se dan vuelta solas: el detalle para volver a ver), `Mensaje3D`,
+  `RelojKiosco3D` (una vuelta = el día abierto, 7 a 20; se pinta por sectores, `pinta` separado de la aguja). `CupoFundadores mensual`
+  ("$12.900 por mes, para siempre"). Demos `v8-13`/`v8-14` = mismo recorrido que `v8-11`. Voz con actuación "ritmo de redes" y
+  `pausa_max` 0,3: 38,5 s y 31 s sin acelerar.
+
 ## Guardado del MP4 en la rama (videos.yml)
 - **Varios videos por corrida**: lista `VIDEOS` (JSON con nombre, id y cuadros de control; `[]` = solo voces). Cada video se reparte en 10 máquinas
   (matriz video × parte) y `unir` verifica que las partes estén pegadas y completas antes de armar el MP4 (si una máquina falló, no sale un video cortado).

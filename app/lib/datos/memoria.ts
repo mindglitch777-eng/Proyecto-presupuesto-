@@ -195,6 +195,7 @@ function semillaVideoV8_10(): Estado {
 
 /** V8-11 (ENCLARO_DEMO=v8-11): Tu día con $23.500, el alfajor con precio para revisar y Marta en rojo. */
 const semillaVideoV8_11 = () => semillaVideoV8_10();
+// V8-13 y V8-14 usan el mismo kiosco de ejemplo ($23.500 por día, 13 horas): Tu día → precio sugerido → Fiados.
 
 /**
  * V8-12 (ENCLARO_DEMO=v8-12): productos con márgenes muy distintos para que el ranking muestre qué deja plata y qué no
@@ -209,7 +210,7 @@ function semillaVideoV8_12(): Estado {
   return e;
 }
 
-const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07, "v8-08": semillaVideoV8_08, "v8-09": semillaVideoV8_09, "v8-10": semillaVideoV8_10, "v8-11": semillaVideoV8_11, "v8-12": semillaVideoV8_12 };
+const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07, "v8-08": semillaVideoV8_08, "v8-09": semillaVideoV8_09, "v8-10": semillaVideoV8_10, "v8-11": semillaVideoV8_11, "v8-12": semillaVideoV8_12, "v8-13": semillaVideoV8_11, "v8-14": semillaVideoV8_11 };
 const semillaActual = () => (SEMILLAS[process.env.ENCLARO_DEMO ?? ""] ?? semilla)();
 
 const g = globalThis as unknown as { __enclaroMemoria?: Estado };

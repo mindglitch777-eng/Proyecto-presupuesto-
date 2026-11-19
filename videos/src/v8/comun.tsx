@@ -186,7 +186,7 @@ export const Billetes: React.FC<{ t: number; desde: number; hasta?: number; x0: 
  * FOMO honesto (ESTANDAR-CALIDAD.md, sección 2): solo el cupo real de 100 socios fundadores a $12.900 para siempre (lleno → $19.900).
  * Los 100 casilleros NO marcan cuántos quedan: un brillo los recorre, nada más. Nunca mostrar lugares restantes.
  */
-export const CupoFundadores: React.FC<{ t: number; desde: number; top?: number }> = ({ t, desde, top = 92 }) => {
+export const CupoFundadores: React.FC<{ t: number; desde: number; top?: number; mensual?: boolean }> = ({ t, desde, top = 92, mensual = false }) => {
   if (t < desde - 0.05) return null;
   const s = sp(t - desde, 1.06, 15, 0.5);
   const barrido = ((t - desde) * 40) % 130;
@@ -200,8 +200,8 @@ export const CupoFundadores: React.FC<{ t: number; desde: number; top?: number }
           return <div key={i} style={{ position: "static", height: 9, borderRadius: 2, background: `rgba(245,165,36,${0.22 + 0.7 * luz})` }} />;
         })}
       </div>
-      <div style={{ position: "static", textAlign: "center", font: `800 22px ${DISP}`, color: "#fff" }}>$12.900 para siempre</div>
-      <div style={{ position: "static", textAlign: "center", font: `600 14px ${BODY}`, color: "#ffffffcc", marginTop: 2 }}>cuando se llena el cupo, $19.900 · link en el perfil</div>
+      <div style={{ position: "static", textAlign: "center", font: `800 ${mensual ? 19 : 22}px ${DISP}`, color: "#fff" }}>{mensual ? "$12.900 por mes, para siempre" : "$12.900 para siempre"}</div>
+      <div style={{ position: "static", textAlign: "center", font: `600 14px ${BODY}`, color: "#ffffffcc", marginTop: 2 }}>{mensual ? "solo los primeros 100 · después, $19.900 por mes · link en el perfil" : "cuando se llena el cupo, $19.900 · link en el perfil"}</div>
     </div>
   );
 };

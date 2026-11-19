@@ -21,7 +21,9 @@ env:
   # Hechos: Video-v8-01-CuantoLeQueda, Video-v8-02-ElCuaderno, Video-v8-03-LaCajaMiente, Video-v8-04-CualTeHacePerder,
   # Video-v8-05-LaTorre, Video-v8-06-RayosX, Video-v8-07-ElTicket, Video-v8-08-CuentaRegresiva, Video-v8-09-MismoKiosco, Video-v8-10-KioscoCerrado,
   # Video-v8-11-PorHora, Video-v8-12-VenderMas.
-  VIDEOS: '[]'
+  VIDEOS: >-
+    [{"nombre":"v8-13-taximetro","id":"Video-v8-13-Taximetro","control":"0 300 750"},
+     {"nombre":"v8-14-trabajas-gratis","id":"Video-v8-14-TrabajasGratis","control":"0 320 600"}]
   PARTES: 10
 
 concurrency:
