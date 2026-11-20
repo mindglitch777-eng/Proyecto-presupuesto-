@@ -1,0 +1,65 @@
+{
+ "id": "v9-06-billetes-caminando",
+ "titulo": "Tus billetes se fueron caminando",
+ "duracionSeg": 26.1,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 45 años que descubre algo que le duele: voz firme, con impacto y tensión, natural, sin exagerar, ritmo de video de redes, sin pausas dentro de las frases. Pausa corta en cada punto. Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "ESTOS",
+    "BILLETES",
+    "SALIERON"
+   ],
+   "voz": "Estos billetes salieron caminando de tu kiosco."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 2.6,
+   "texto": "GANCHO",
+   "gancho": true
+  },
+  {
+   "desde": 3.0,
+   "hasta": 4.08,
+   "texto": "Se llaman 'anotámelo'."
+  },
+  {
+   "desde": 4.43,
+   "hasta": 8.03,
+   "texto": "Uno debe veinte mil. Otro, treinta y cinco. Otro, cincuenta."
+  },
+  {
+   "desde": 8.38,
+   "hasta": 11.62,
+   "texto": "Ciento cinco mil pesos dando vueltas por el barrio."
+  },
+  {
+   "desde": 11.97,
+   "hasta": 14.85,
+   "texto": "Y vos, pagándole al proveedor de tu bolsillo.",
+   "silencio": 0.4
+  },
+  {
+   "desde": 15.2,
+   "hasta": 20.24,
+   "texto": "En Claro te muestra quién debe, cuánto, y le manda el recordatorio por WhatsApp."
+  },
+  {
+   "desde": 20.59,
+   "hasta": 24.91,
+   "texto": "Los primeros cien kioscos pagan doce mil novecientos por mes, para siempre."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.35,
+ "silencio_max": 0.4
+}
