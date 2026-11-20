@@ -1,0 +1,77 @@
+{
+ "id": "p2-trabajas-para-pagar",
+ "titulo": "Trabajás para pagar",
+ "duracionSeg": 30.5,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años que le explica algo serio a otro kiosquero: voz clara, firme y cercana, con peso, ritmo tranquilo y natural, sin apurarte nunca. Dejá respirar cada frase. Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "TUS",
+    "GASTOS",
+    "FIJOS"
+   ],
+   "voz": "Tus gastos fijos cobran antes que vos."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 2.8,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 3.3,
+   "hasta": 6.5,
+   "texto": "Novecientos mil al mes: treinta mil por día.",
+   "silencio": 0.6
+  },
+  {
+   "desde": 7.1,
+   "hasta": 9.9,
+   "texto": "Si quedan veinticinco para cubrirlos, faltan cinco.",
+   "silencio": 0.6
+  },
+  {
+   "desde": 10.5,
+   "hasta": 14.1,
+   "texto": "Abrís doce horas y todavía no cubriste esos gastos.",
+   "silencio": 0.6
+  },
+  {
+   "desde": 14.7,
+   "hasta": 17.9,
+   "texto": "En Claro, Tu día muestra el resultado registrado.",
+   "silencio": 0.6
+  },
+  {
+   "desde": 18.5,
+   "hasta": 23.3,
+   "texto": "Los primeros cien kioscos pagan doce mil novecientos por mes, para siempre.",
+   "silencio": 0.6
+  },
+  {
+   "desde": 23.9,
+   "hasta": 25.5,
+   "texto": "¿Cuánto tenés que cubrir?",
+   "silencio": 0.6
+  },
+  {
+   "desde": 26.1,
+   "hasta": 28.9,
+   "texto": "Mandáselo al que abre todos los días.",
+   "silencio": 0.6
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.6,
+ "silencio_max": 0.8
+}

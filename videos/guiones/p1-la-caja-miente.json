@@ -1,0 +1,77 @@
+{
+ "id": "p1-la-caja-miente",
+ "titulo": "La caja miente",
+ "duracionSeg": 31.3,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años que le explica algo serio a otro kiosquero: voz clara, firme y cercana, con peso, ritmo tranquilo y natural, sin apurarte nunca. Dejá respirar cada frase. Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "TU",
+    "CAJA",
+    "MARCA"
+   ],
+   "voz": "Tu caja marca ciento ochenta mil. ¿Cuánto quedó?"
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 2.8,
+   "texto": "GANCHO",
+   "gigante": true,
+   "gancho": true
+  },
+  {
+   "desde": 3.3,
+   "hasta": 6.5,
+   "texto": "Ciento veintiséis fueron a reposición; veintidós, a gastos.",
+   "silencio": 0.6
+  },
+  {
+   "desde": 7.1,
+   "hasta": 10.7,
+   "texto": "Quedan treinta y dos mil, antes de otros costos.",
+   "silencio": 0.6
+  },
+  {
+   "desde": 11.3,
+   "hasta": 14.5,
+   "texto": "La caja está llena. Tu bolsillo no necesariamente.",
+   "silencio": 0.6
+  },
+  {
+   "desde": 15.1,
+   "hasta": 18.3,
+   "texto": "En Claro, Tu día ordena tus números registrados.",
+   "silencio": 0.6
+  },
+  {
+   "desde": 18.9,
+   "hasta": 23.7,
+   "texto": "Los primeros cien kioscos pagan doce mil novecientos por mes, para siempre.",
+   "silencio": 0.6
+  },
+  {
+   "desde": 24.3,
+   "hasta": 25.9,
+   "texto": "¿Sabés cuánto te queda?",
+   "silencio": 0.6
+  },
+  {
+   "desde": 26.5,
+   "hasta": 29.7,
+   "texto": "Mandáselo al kiosquero que mira solo la caja.",
+   "silencio": 0.6
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.6,
+ "silencio_max": 0.8
+}
