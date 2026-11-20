@@ -8,7 +8,7 @@
   "motor": "gemini",
   "modelo": "gemini-2.5-flash-preview-tts",
   "nombre": "Orus",
-  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años que le explica algo serio a otro kiosquero: voz clara, firme y cercana, con peso, ritmo tranquilo y natural, sin apurarte nunca. Dejá respirar cada frase. Leé exactamente esto:"
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 50 años que le explica algo serio a otro kiosquero: voz clara, firme y cercana, con peso, ritmo natural, sin apurarte y sin arrastrar las palabras. Leé exactamente esto:"
  },
  "ganchos": [
   {
@@ -32,46 +32,46 @@
    "desde": 3.3,
    "hasta": 6.1,
    "texto": "Es plata fiada que todavía no cobraste.",
-   "silencio": 0.6
+   "silencio": 0.35
   },
   {
    "desde": 6.7,
    "hasta": 10.3,
    "texto": "Si te quedan veinticuatro por día, son cuatro días.",
-   "silencio": 0.6
+   "silencio": 0.35
   },
   {
    "desde": 10.9,
    "hasta": 14.1,
    "texto": "Cuatro días de resultado esperando en la calle.",
-   "silencio": 0.6
+   "silencio": 0.35
   },
   {
    "desde": 14.7,
    "hasta": 18.7,
    "texto": "En Claro, Fiados organiza deudas y recuerda cobrar por WhatsApp.",
-   "silencio": 0.6
+   "silencio": 0.35
   },
   {
    "desde": 19.3,
    "hasta": 24.1,
    "texto": "Los primeros cien kioscos pagan doce mil novecientos por mes, para siempre.",
-   "silencio": 0.6
+   "silencio": 0.35
   },
   {
    "desde": 24.7,
    "hasta": 25.9,
    "texto": "¿Cuánto tenés pendiente?",
-   "silencio": 0.6
+   "silencio": 0.35
   },
   {
    "desde": 26.5,
    "hasta": 28.5,
    "texto": "Mandáselo al que siempre fía.",
-   "silencio": 0.6
+   "silencio": 0.35
   }
  ],
  "sonidos": [],
- "pausa_max": 0.6,
- "silencio_max": 0.8
+ "pausa_max": 0.4,
+ "silencio_max": 0.45
 }
