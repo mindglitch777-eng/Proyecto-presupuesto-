@@ -333,9 +333,9 @@ export const Vidrio3D: React.FC<{ w: number; h: number; k: number }> = ({ w, h, 
   if (k <= 0) return null;
   return (
     <group scale={[1, Math.max(0.01, k), 1]} position={[0, (h * (1 - k)) / 2, 0]}>
-      <mesh><planeGeometry args={[w, h]} /><meshPhysicalMaterial color="#cfe8ff" transparent opacity={0.18} roughness={0.04} metalness={0.1} clearcoat={1} depthWrite={false} side={THREE.DoubleSide} /></mesh>
-      {[[0, h / 2], [0, -h / 2]].map(([x, y], i) => <mesh key={i} position={[x, y, 0]}><boxGeometry args={[w, 0.02, 0.02]} /><meshBasicMaterial color="#bfe3ff" toneMapped={false} /></mesh>)}
-      {[-w / 2, w / 2].map((x) => <mesh key={x} position={[x, 0, 0]}><boxGeometry args={[0.02, h, 0.02]} /><meshBasicMaterial color="#bfe3ff" toneMapped={false} /></mesh>)}
+      <mesh><planeGeometry args={[w, h]} /><meshPhysicalMaterial color="#cfe8ff" transparent opacity={0.3} roughness={0.04} metalness={0.1} clearcoat={1} emissive="#9fd3ff" emissiveIntensity={0.15} depthWrite={false} side={THREE.DoubleSide} /></mesh>
+      {[[0, h / 2], [0, -h / 2]].map(([x, y], i) => <mesh key={i} position={[x, y, 0]}><boxGeometry args={[w, 0.045, 0.03]} /><meshBasicMaterial color="#bfe3ff" toneMapped={false} /></mesh>)}
+      {[-w / 2, w / 2].map((x) => <mesh key={x} position={[x, 0, 0]}><boxGeometry args={[0.045, h, 0.03]} /><meshBasicMaterial color="#bfe3ff" toneMapped={false} /></mesh>)}
       {/* reflejo diagonal */}
       <mesh position={[-w * 0.15, h * 0.1, 0.005]} rotation-z={0.6}><planeGeometry args={[0.08, h * 0.9]} /><meshBasicMaterial color="#ffffff" transparent opacity={0.12} depthWrite={false} /></mesh>
     </group>

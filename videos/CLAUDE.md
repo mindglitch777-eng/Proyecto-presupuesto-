@@ -156,6 +156,15 @@
   `CajaCarton`, `EstanteriaDeposito`, `Escarcha`, `Telarana`, `Barrotes3D`, `LlaveGigante`, `Contador3D`, `ManoBrazo`, `BotonCompartir`, `Avioncito3D`.
   Ojo: los cuadros de la app tienen que empezar en `c000.jpg` (`ffmpeg -start_number 0`): si no, el celular sale en blanco al entrar.
 
+## Prueba piloto (3 videos, `src/piloto/`)
+- `Piloto-1-LaCajaMiente` (caja registradora gigante → conductos de vidrio a REPOSICIÓN y GASTOS → bolsillo casi vacío → la caja se aplasta y es
+  el celular con Tu día), `Piloto-2-TrabajasParaPagar` (reloj → calendario → bloque de $900.000 partido en 30 → balanza $30.000 vs $25.000 →
+  reloj de 12 horas con el kiosquero a contraluz → celular con Tu día) y `Piloto-3-PlataEnLaCalle` (billete que se va a la calle, billetes FIADO
+  que se vuelven tickets en las puertas, 4 calendarios, barrera de vidrio, celular con Fiados). Demos de la app `p1`/`p2`/`p3`, voces exactas
+  del pedido (Orus, ≤ 2,3 palabras/s), subtítulos más arriba (`subTop`, zona segura). Modelos en `src/piloto/modelos.tsx`, oferta fija en `comun.tsx`.
+- Gemini gratis permite ~10 voces por día. Si se agota, las pausas se pueden alargar sobre la toma que ya está (se insertan ceros y se corren
+  los tiempos; la firma se actualiza para que el workflow no pida otra toma). Así se hizo con la del video 3.
+
 ## Guardado del MP4 en la rama (videos.yml)
 - **Varios videos por corrida**: lista `VIDEOS` (JSON con nombre, id y cuadros de control; `[]` = solo voces). Cada video se reparte en 10 máquinas
   (matriz video × parte) y `unir` verifica que las partes estén pegadas y completas antes de armar el MP4 (si una máquina falló, no sale un video cortado).

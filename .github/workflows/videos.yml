@@ -21,7 +21,10 @@ env:
   # Hechos: Video-v8-01-CuantoLeQueda, Video-v8-02-ElCuaderno, Video-v8-03-LaCajaMiente, Video-v8-04-CualTeHacePerder,
   # Video-v8-05-LaTorre, Video-v8-06-RayosX, Video-v8-07-ElTicket, Video-v8-08-CuentaRegresiva, Video-v8-09-MismoKiosco, Video-v8-10-KioscoCerrado,
   # Video-v8-11-PorHora, Video-v8-12-VenderMas, Video-v8-13-Taximetro, Video-v8-14-TrabajasGratis, Video-v9-03-PlataEncerrada.
-  VIDEOS: '[]'
+  VIDEOS: >-
+    [{"nombre":"p1-la-caja-miente","id":"Piloto-1-LaCajaMiente","control":"0 300 520"},
+     {"nombre":"p2-trabajas-para-pagar","id":"Piloto-2-TrabajasParaPagar","control":"0 270 490"},
+     {"nombre":"p3-plata-en-la-calle","id":"Piloto-3-PlataEnLaCalle","control":"0 400 500"}]
   PARTES: 10
 
 concurrency:

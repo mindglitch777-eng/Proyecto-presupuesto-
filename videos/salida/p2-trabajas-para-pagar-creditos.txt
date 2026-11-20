@@ -1,0 +1,13 @@
+En Claro · Prueba piloto · Video 2 "Trabajás para pagar" — créditos
+
+Imágenes: todas propias. Escenas 3D hechas en código (src/v8/modelos3d.tsx y estudio3d.tsx) y pantalla real de la app En Claro:
+Tu día (demo p2: fijos del día $30.000, ganancia de hoy −$5.000).
+No se usó ninguna foto ni video de terceros (nada CC BY-SA). Sin marcas.
+
+Voz: Gemini TTS (gemini-2.5-flash-preview-tts, voz Orus), plan gratis de Google AI Studio, a velocidad natural (solo se acortaron silencios largos, nunca se aceleró).
+Música y efectos: sintetizados por En Claro (videos/scripts/sfx.py), sin licencias de terceros.
+Tipografías: Space Grotesk, Inter y Permanent Marker (SIL Open Font License).
+Montos: de ejemplo. Cupo de socios fundadores: el real (100 lugares a $12.900 para siempre; lleno → $19.900), sin número de lugares restantes.
+
+Descripción (primera línea): Gastos fijos del kiosco: cuánto tenés que cubrir por día
+Etiqueta de contenido con IA: activada al publicar.

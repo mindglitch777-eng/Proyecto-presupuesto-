@@ -58,13 +58,13 @@ function camara(t: number, T: T): Cam {
   }
   if (t < l[3] - 0.05) {
     const k = suave((t - l[2]) / 0.8);
-    return mez({ pos: [3.2, 1.6, 9.0], target: [1.5, 1.5, CASAS_Z], fov: 48 }, { pos: [0, 3.1, 3.2], target: [0, 1.5, 9.0], fov: 50 }, k);
+    return mez({ pos: [3.2, 1.6, 9.0], target: [1.5, 1.5, CASAS_Z], fov: 48 }, { pos: [0, 2.9, 1.6], target: [0, 1.4, 8.6], fov: 50 }, k);
   }
   if (t < l[4] - 0.05) {
     // adentro, detrás de la mano; después la cámara cruza la barrera y mira la plata suspendida
     const adentro: Cam = { pos: [0.8, 1.78, -0.05], target: [0.1, 1.45, 3], fov: 48 };
     const afuera: Cam = { pos: [0.5, 1.6, 3.6], target: [0.05, 1.55, VIDRIO_Z], fov: 46 };
-    const c1 = mez({ pos: [0, 3.1, 3.2], target: [0, 1.5, 9.0], fov: 50 }, adentro, suave((t - l[3] + 0.05) / 0.5));
+    const c1 = mez({ pos: [0, 2.9, 1.6], target: [0, 1.4, 8.6], fov: 50 }, adentro, suave((t - l[3] + 0.05) / 0.5));
     const cruce = suave((t - (T.esperando - 0.2)) / 0.9);
     // al cruzar, la mira gira de la calle al kiosco
     return cruce <= 0 ? c1 : mez(c1, afuera, cruce);
@@ -134,14 +134,14 @@ const Escena3D: React.FC<{ t: number; T: T }> = ({ t, T }) => {
       }) : null}
       {/* cuatro días: calendarios sobre la calle */}
       {t >= l[2] - 0.2 && t < l[3] + 0.3 ? dias.map((a, i) => (
-        <group key={i} position={[1.65 - i * 1.1, 1.0 + (1 - entra((t - (l[2] - 0.2) - i * 0.08) / 0.4)) * -1.2, 8.6]} rotation-y={Math.PI}>
+        <group key={i} position={[1.5 - i * 1.0, 1.0 + (1 - entra((t - (l[2] - 0.2) - i * 0.08) / 0.4)) * -1.2, 8.6]} rotation-y={Math.PI}>
           <mesh position={[0, -0.5, -0.05]} castShadow><boxGeometry args={[0.06, 1.0, 0.06]} /><meshStandardMaterial color="#333" metalness={0.7} /></mesh>
-          <group position={[0, 0.25, 0]}><HojaCalendario arriba="DÍA" numero={String(i + 1)} abajo="$24.000 · EJEMPLO" activo={t > a ? 1 : 0} w={0.85} h={1.0} /></group>
+          <group position={[0, 0.25, 0]}><HojaCalendario arriba="DÍA" numero={String(i + 1)} abajo="$24.000 · EJEMPLO" activo={t > a ? 1 : 0} w={0.8} h={0.95} /></group>
         </group>
       )) : null}
       {/* la plata suspendida del otro lado de la barrera */}
       {t >= l[3] - 0.1 && t < l[5] ? Array.from({ length: 9 }, (_, i) => (
-        <group key={i} position={[(r(i, 5) - 0.5) * 2.6, 1.1 + r(i, 6) * 1.1 + Math.sin(t * 1.6 + i) * 0.05, VIDRIO_Z + 0.35 + r(i, 7) * 1.3]} rotation={[Math.sin(t + i) * 0.3, Math.sin(t * 0.9 + i) * 0.45, Math.sin(t * 1.2 + i) * 0.4]} scale={[1.6 * (1 - aCel), 1.6 * (1 - aCel), 1.6 * (1 - aCel)]}>
+        <group key={i} position={[(r(i, 5) - 0.5) * 2.6, 1.1 + r(i, 6) * 1.1 + Math.sin(t * 1.6 + i) * 0.05, VIDRIO_Z + 0.35 + r(i, 7) * 1.3]} rotation={[Math.sin(t + i) * 0.3, (t < T.esperando + 0.25 ? Math.PI : 0) + Math.sin(t * 0.9 + i) * 0.45, Math.sin(t * 1.2 + i) * 0.4]} scale={[1.6 * (1 - aCel), 1.6 * (1 - aCel), 1.6 * (1 - aCel)]}>
           <BilleteFiado />
         </group>
       )) : null}
