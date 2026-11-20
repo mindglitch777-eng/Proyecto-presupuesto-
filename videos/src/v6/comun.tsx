@@ -127,17 +127,18 @@ type MarcoProps = {
   luzCalida?: number;
   sombras?: boolean;
   subTop?: number;
+  filtro?: string;
 };
 
 /** Capas de siempre: fondo 2D → 3D → frente 2D (los tres con cámara) → grano, viñeta, destellos y subtítulos (sin cámara). */
-export const Marco: React.FC<MarcoProps> = ({ g, voz, pal, cam, hs, wf, red, frame, t, sonidos, ocultos, fondo, tres, tresOpacidad = 1, frente, sobre, luzCalida = 0, sombras = true, subTop }) => {
+export const Marco: React.FC<MarcoProps> = ({ g, voz, pal, cam, hs, wf, red, frame, t, sonidos, ocultos, fondo, tres, tresOpacidad = 1, frente, sobre, luzCalida = 0, sombras = true, subTop, filtro }) => {
   const { fps } = useVideoConfig();
   const lienzo: React.CSSProperties = { position: "absolute", left: 0, top: 0, width: 360, height: 640, transform: "scale(3)", transformOrigin: "0 0", overflow: "hidden" };
   return (
     <AbsoluteFill style={{ background: "#08110d" }}>
       <style>{`.stage *{position:absolute;box-sizing:border-box} .stage{font-family:${BODY};color:#fff}`}</style>
       <div style={{ position: "absolute", inset: 0, transform: `translate(${hs * 3}px,${hs * 1.6}px)` }}>
-        <div style={{ position: "absolute", inset: 0, transformOrigin: "50% 50%", transform: `translate(${cam.tx * 3}px,${cam.ty * 3}px) rotate(${cam.rot}deg) scale(${cam.z})`, filter: cam.blur > 0.2 ? `blur(${cam.blur * 3}px)` : undefined }}>
+        <div style={{ position: "absolute", inset: 0, transformOrigin: "50% 50%", transform: `translate(${cam.tx * 3}px,${cam.ty * 3}px) rotate(${cam.rot}deg) scale(${cam.z})`, filter: [cam.blur > 0.2 ? `blur(${cam.blur * 3}px)` : "", filtro ?? ""].join(" ").trim() || undefined }}>
           <div className="stage" style={lienzo}>{fondo}</div>
           {tres ? (
             <div style={{ position: "absolute", inset: 0, opacity: tresOpacidad }}>

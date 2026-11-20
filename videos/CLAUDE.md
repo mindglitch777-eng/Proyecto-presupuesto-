@@ -165,6 +165,17 @@
 - Gemini gratis permite ~10 voces por día. Si se agota, las pausas se pueden alargar sobre la toma que ya está (se insertan ceros y se corren
   los tiempos; la firma se actualiza para que el workflow no pida otra toma). Así se hizo con la del video 3.
 
+## "Vendés, pero no cobrás" (`Video-VendesNoCobras`, `src/vnc/`) · nueva estética
+- Pedido del dueño: animaciones con agresividad, no "de juguete". Cámara subjetiva (sos el kiosquero, detrás del mostrador, de noche),
+  personas como siluetas a contraluz con estela, tubo fluorescente que titila / estroboscopio, neón, haz de luz por la puerta.
+- `src/vnc/cine.tsx`: `Cine` (posproceso: profundidad de campo → bloom → OutputPass → grado con aberración cromática, zoom radial en los golpes,
+  viñeta y grano; el grado va DESPUÉS del OutputPass, si no el grano lava la imagen) y `Texto3D` (texto extruido con la tipografía de la marca
+  vía opentype.js; `public/fuentes/SpaceGrotesk-Bold.ttf` sale de la woff2 con fontTools). El texto 3D que mira a la cámara subjetiva va con
+  `rotation-y = π` (si no, se ve espejado). `useFuente` vuelve a dibujar (`advance`) al cargar la fuente.
+- Desenfoque de movimiento en los latigazos: filtro SVG `feGaussianBlur` horizontal/vertical según lo que gira la cámara (`Marco filtro`).
+- 400 notas de fiado instanciadas (`Notas`): caen sobre el mostrador, forman "$96.000" (puntos muestreados de un canvas) y la cámara las atraviesa.
+  "ÉL NO TE ESPERA." y el sello FIADO van en 2D (con volumen por sombras) para que se lean siempre.
+
 ## Guardado del MP4 en la rama (videos.yml)
 - **Varios videos por corrida**: lista `VIDEOS` (JSON con nombre, id y cuadros de control; `[]` = solo voces). Cada video se reparte en 10 máquinas
   (matriz video × parte) y `unir` verifica que las partes estén pegadas y completas antes de armar el MP4 (si una máquina falló, no sale un video cortado).
