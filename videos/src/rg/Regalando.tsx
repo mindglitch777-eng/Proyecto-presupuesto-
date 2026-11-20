@@ -11,7 +11,7 @@ import { C } from "../v8/iconos";
 import { ManoBrazo, Polvo } from "../v8/modelos3d";
 import { Cinta } from "../piloto/modelos";
 import { SUB_TOP } from "../piloto/comun";
-import { Cine, Texto3D } from "../vnc/cine";
+import { Cine } from "../vnc/cine";
 import { Local, Mostrador, Tubo } from "../vnc/modelos";
 import { Alfajor, CajaVidrio, EtiquetaGrande, FacturaNueva, GondolaVieja, Grieta, Kiosquero, Monedas, TuboVidrio } from "./modelos";
 
@@ -63,7 +63,7 @@ function camara(t: number, T: T): Cam {
     return mez(c2, vende, latigo((t - (T.cobrando + 0.35)) / 0.28));
   }
   if (t < l[3] - 0.05) {
-    const tubos: Cam = { pos: [0.02, 1.2, 1.0], target: [0, 1.09, TUBOS[2]], fov: 40 };
+    const tubos: Cam = { pos: [0.0, 1.2, 1.25], target: [0, 1.07, TUBOS[2]], fov: 40 };
     return mez({ pos: [0.45, 1.45, 1.9], target: [0, 1.25, -0.1], fov: 46 }, tubos, latigo((t - l[2] + 0.05) / 0.32));
   }
   if (t < l[4] - 0.05) {
@@ -105,7 +105,7 @@ const Escena3D: React.FC<{ t: number; T: T; post: { zoom: number; flash: number;
   const { l, e } = T;
   const cam = camara(t, T);
   const foco = Math.hypot(cam.target[0] - cam.pos[0], cam.target[1] - cam.pos[1], cam.target[2] - cam.pos[2]);
-  const tubo = (t >= T.l[6] - 0.1 && t < T.l[7] - 0.05 ? 0.45 : 1) * (rnd(Math.floor(t * 12), 3) > 0.94 ? 0.3 : 1);
+  const tubo = (t >= T.l[6] - 0.1 && t < T.l[7] - 0.05 ? 0.45 : t >= T.l[2] - 0.1 && t < T.l[3] ? 0.35 : 1) * (rnd(Math.floor(t * 12), 3) > 0.94 ? 0.3 : 1);
 
   // pose del kiosquero (el mismo en todo el video)
   const entrega = t < 1.0 ? Math.sin(clamp(t / 0.9, 0, 1) * Math.PI) : t >= T.cobrando + 0.1 && t < l[2] ? Math.sin(clamp((t - T.cobrando - 0.1) / 0.9, 0, 1) * Math.PI) : 0;
@@ -145,7 +145,6 @@ const Escena3D: React.FC<{ t: number; T: T; post: { zoom: number; flash: number;
   const rojo = (g0: number) => (i: number) => t >= l[4] ? entra((t - (l[4] + 0.25 + (g0 * 12 + ((i * 7) % 12)) * 0.07)) / 0.2) * (t < l[5] ? 1 : t >= l[7] ? 1 : 0) : 0;
   const tagRojo = t >= l[4] ? 1 : 0;
   const verOferta = t >= l[6] - 0.1 && t < l[7] - 0.05;
-  const precio = entra((t - (T.doce - 0.25)) / 0.25);
 
   return (
     <>
@@ -186,8 +185,8 @@ const Escena3D: React.FC<{ t: number; T: T; post: { zoom: number; flash: number;
         <>
           <group position={[TUBOS[0] - 0.13, TUBOS[1], TUBOS[2]]}><TuboVidrio rotulo="ANTES $200" color="#16a34a" /></group>
           <group position={[TUBOS[0] + 0.13, TUBOS[1], TUBOS[2]]}><TuboVidrio rotulo="AHORA $50" color="#d61f1f" /></group>
-          <Monedas n={40} radio={0.038} grosor={0.02} pose={poseTubo} />
-          <pointLight position={[0, 1.35, 0.75]} intensity={2} distance={1.5} color="#ffe2a0" />
+          <Monedas n={40} radio={0.04} grosor={0.022} pose={poseTubo} />
+          <pointLight position={[0.15, 1.2, 0.8]} intensity={1.4} distance={1.2} color="#ffe2a0" />
         </>
       ) : null}
       {/* la cinta de 100 ventas y la caja de vidrio que se llena */}
@@ -204,14 +203,7 @@ const Escena3D: React.FC<{ t: number; T: T; post: { zoom: number; flash: number;
           {t > T.menos - 0.1 && t < T.menos + 1.0 ? <Polvo t={t} centro={[CAJA_V[0], 1.05, CAJA_V[2]]} radio={0.15 + (t - T.menos) * 0.5} n={120} brillo={1.5} /> : null}
         </>
       ) : null}
-      {/* oferta: $12.900 en 3D dorado */}
-      {verOferta ? (
-        <group position={[0.2, 1.58 + (1 - precio) * 0.5, 0.95]} scale={[precio, precio, precio]} rotation-y={0.12 + Math.sin(t * 0.8) * 0.04}>
-          <Texto3D texto="$12.900" size={0.078} fondo={0.045} color="#f5c542" metal={0.95} brillo={0.18} />
-        </group>
-      ) : null}
-      {verOferta && t < T.doce + 1.2 ? <Polvo t={t} centro={[0.06, 1.48, 0.95]} radio={0.15 + Math.max(0, t - T.doce) * 0.5} n={90} brillo={0.9} /> : null}
-      <Cine t={t} foco={verOferta ? 0.92 : foco} apertura={0.014} bloom={0.42} umbral={0.97} ca={0.0025 + post.zoom * 0.01} zoom={post.zoom} flash={post.flash} rojo={post.rojo} />
+      <Cine t={t} foco={foco} apertura={0.014} bloom={0.42} umbral={0.97} ca={0.0025 + post.zoom * 0.01} zoom={post.zoom} flash={post.flash} rojo={post.rojo} />
     </>
   );
 };
@@ -319,7 +311,8 @@ export const Regalando: React.FC<VideoProps> = ({ voz, palabras }) => {
         <>
           {pill("14 DÍAS GRATIS", 66, "#16a34a", "#fff", 18)}
           {pill("PRIMEROS 100 KIOSCOS", 100, C.ambar, C.tinta, 16)}
-          {t > T.doce + 0.2 ? grande(["POR MES · PARA SIEMPRE"], 300, C.ambar, 20, T.doce + 0.2) : null}
+          {t > T.doce - 0.25 ? <Golpe t={t} desde={T.doce - 0.25} lineas={["$12.900"]} size={60} color="#ffd166" sombra="#6b4a00" top={140} /> : null}
+          {t > T.doce + 0.2 ? grande(["POR MES · PARA SIEMPRE"], 222, C.ambar, 20, T.doce + 0.2) : null}
         </>
       ) : null}
       {t >= l[7] - 0.05 ? (
