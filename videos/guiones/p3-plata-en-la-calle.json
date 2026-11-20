@@ -32,19 +32,19 @@
    "desde": 3.3,
    "hasta": 6.1,
    "texto": "Es plata fiada que todavía no cobraste.",
-   "silencio": 0.35
+   "silencio": 1.7
   },
   {
    "desde": 6.7,
    "hasta": 10.3,
    "texto": "Si te quedan veinticuatro por día, son cuatro días.",
-   "silencio": 0.35
+   "silencio": 1.7
   },
   {
    "desde": 10.9,
    "hasta": 14.1,
    "texto": "Cuatro días de resultado esperando en la calle.",
-   "silencio": 0.35
+   "silencio": 1.7
   },
   {
    "desde": 14.7,
