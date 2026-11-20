@@ -1,0 +1,76 @@
+{
+ "id": "p5-regalando-ganancia",
+ "titulo": "¡Estás regalando tu ganancia!",
+ "duracionSeg": 31.0,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero argentino de 45 años que descubre que lo están estafando sin darse cuenta: la primera frase con bronca y sorpresa, fuerte, casi gritando. Después, voz firme y urgente, ritmo natural de video de redes, sin apurarte. Al final, tono cercano y seguro. Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "ESTÁS",
+    "REGALANDO",
+    "TU GANANCIA"
+   ],
+   "voz": "¡Estás regalando tu ganancia y ni te das cuenta!"
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 2.8,
+   "texto": "GANCHO",
+   "gancho": true
+  },
+  {
+   "desde": 3.0,
+   "hasta": 6.6,
+   "texto": "El proveedor te aumenta, pero vos seguís cobrando lo mismo.",
+   "silencio": 0.45
+  },
+  {
+   "desde": 7.0,
+   "hasta": 10.6,
+   "texto": "Antes te quedaban doscientos pesos. Ahora, cincuenta.",
+   "silencio": 0.45
+  },
+  {
+   "desde": 11.0,
+   "hasta": 15.0,
+   "texto": "En cien ventas, son quince mil pesos menos.",
+   "silencio": 0.45
+  },
+  {
+   "desde": 16.0,
+   "hasta": 19.6,
+   "texto": "Y capaz tenés toda la góndola llena de precios viejos.",
+   "silencio": 0.45
+  },
+  {
+   "desde": 20.0,
+   "hasta": 23.6,
+   "texto": "Con En Claro podés revisar los precios de tus productos.",
+   "silencio": 0.45
+  },
+  {
+   "desde": 24.0,
+   "hasta": 28.6,
+   "texto": "Los primeros cien kioscos pagan doce mil novecientos por mes, para siempre.",
+   "silencio": 0.45
+  },
+  {
+   "desde": 29.0,
+   "hasta": 30.4,
+   "texto": "¿Ya revisaste los tuyos?",
+   "silencio": 0.45
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.5,
+ "silencio_max": 0.6
+}
