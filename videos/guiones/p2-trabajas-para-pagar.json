@@ -25,7 +25,7 @@
    "desde": 0.0,
    "hasta": 2.8,
    "texto": "GANCHO",
-   "gigante": true,
+   "gigante": false,
    "gancho": true
   },
   {
