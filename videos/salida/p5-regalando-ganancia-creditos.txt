@@ -1,0 +1,13 @@
+En Claro · "¡Estás regalando tu ganancia!" — créditos
+
+Imágenes: todas propias. Escenas 3D hechas en código (src/v8/modelos3d.tsx y estudio3d.tsx) y pantalla real de la app En Claro:
+Precios (demo p5: alfajor a $1.000 con costo $950 → te deja $50 por unidad).
+No se usó ninguna foto ni video de terceros (nada CC BY-SA). Sin marcas.
+
+Voz: Gemini TTS (gemini-2.5-flash-preview-tts, voz Orus), plan gratis de Google AI Studio, a velocidad natural (solo se acortaron silencios largos, nunca se aceleró).
+Música y efectos: sintetizados por En Claro (videos/scripts/sfx.py), sin licencias de terceros.
+Tipografías: Space Grotesk, Inter y Permanent Marker (SIL Open Font License).
+Montos: de ejemplo. Cupo de socios fundadores: el real (100 lugares a $12.900 para siempre; lleno → $19.900), sin número de lugares restantes.
+
+Descripción (primera línea): Precios desactualizados en el kiosco: ¿cuánta ganancia estás regalando?
+Etiqueta de contenido con IA: activada al publicar.

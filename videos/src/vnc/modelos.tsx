@@ -193,7 +193,7 @@ export const Notas: React.FC<{ v: number; n: number; pose: (i: number) => [numbe
   const tex = useNotaTex(v, pendiente);
   const mesh = useMemo(() => {
     const m = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.16, 0.12), new THREE.MeshStandardMaterial({ map: tex, side: THREE.DoubleSide, roughness: 0.85 }), n);
-    m.castShadow = true; m.receiveShadow = true;
+    m.castShadow = true; m.receiveShadow = true; m.frustumCulled = false;
     return m;
   }, [tex, n]);
   const d = new THREE.Object3D();

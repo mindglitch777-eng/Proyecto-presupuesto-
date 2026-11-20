@@ -258,6 +258,22 @@ const RECORRIDOS = {
     await page.waitForTimeout(3000);
     marca("fin");
   },
+  async p5(page, marca) {
+    await page.goto(BASE + "/app/precios", { waitUntil: "networkidle" });
+    marca("lista");
+    exigir(/Alfajor triple[\s\S]*\$1\.000 · te deja \$200/.test(await texto(page)), "El alfajor no figura a $1.000 dejando $200");
+    await page.waitForTimeout(1600);
+    await page.getByRole("button", { name: /^Alfajor triple/ }).click();
+    await page.locator("#costo").waitFor();
+    marca("abre");
+    await page.waitForTimeout(700);
+    await page.locator("#costo").fill("");
+    await page.locator("#costo").pressSequentially("950", { delay: 120 });
+    await page.getByText(/Te deja \$50 por unidad/).waitFor();
+    marca("costo");
+    await page.waitForTimeout(2800);
+    marca("fin");
+  },
   async "v8-12"(page, marca) {
     await page.goto(BASE + "/app/precios", { waitUntil: "networkidle" });
     marca("ranking");

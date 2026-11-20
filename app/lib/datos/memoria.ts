@@ -270,7 +270,17 @@ function semillaPiloto(cual: "p1" | "p2" | "p3"): Estado {
   return e;
 }
 
-const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07, "v8-08": semillaVideoV8_08, "v8-09": semillaVideoV8_09, "v8-10": semillaVideoV8_10, "v8-11": semillaVideoV8_11, "v8-12": semillaVideoV8_12, "v8-13": semillaVideoV8_11, "v8-14": semillaVideoV8_11, "v9-03": semillaVideoV9_03, p1: () => semillaPiloto("p1"), p2: () => semillaPiloto("p2"), p3: () => semillaPiloto("p3") };
+/** "¡Estás regalando tu ganancia!" (ENCLARO_DEMO=p5): el alfajor costaba $800 y se vende a $1.000 (te deja $200); llega a $950 → te deja $50. */
+function semillaP5(): Estado {
+  const e = semilla();
+  const hoy = hoyArgentina();
+  e.negocio = { ...e.negocio, nombre: "Kiosco de barrio", comisionPct: null };
+  e.productos = e.productos.map((x) => (x.id === "p2" ? { ...x, nombre: "Alfajor triple", precio: 1000, costo: 800, precioActualizado: sumarDias(hoy, -40), ultimaVenta: hoy } : { ...x, ultimaVenta: hoy }));
+  e.clientes = [];
+  return e;
+}
+
+const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07, "v8-08": semillaVideoV8_08, "v8-09": semillaVideoV8_09, "v8-10": semillaVideoV8_10, "v8-11": semillaVideoV8_11, "v8-12": semillaVideoV8_12, "v8-13": semillaVideoV8_11, "v8-14": semillaVideoV8_11, "v9-03": semillaVideoV9_03, p1: () => semillaPiloto("p1"), p2: () => semillaPiloto("p2"), p3: () => semillaPiloto("p3"), p5: semillaP5 };
 const semillaActual = () => (SEMILLAS[process.env.ENCLARO_DEMO ?? ""] ?? semilla)();
 
 const g = globalThis as unknown as { __enclaroMemoria?: Estado };

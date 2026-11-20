@@ -52,10 +52,10 @@ const Grado = {
     }`,
 };
 
-export type CineProps = { t: number; foco: number; apertura?: number; bloom?: number; ca?: number; zoom?: number; flash?: number; rojo?: number };
+export type CineProps = { t: number; foco: number; apertura?: number; bloom?: number; ca?: number; zoom?: number; flash?: number; rojo?: number; umbral?: number };
 
 /** Cadena de posproceso: render → profundidad de campo → bloom → grado (CA, zoom radial, viñeta, grano) → salida. */
-export const Cine: React.FC<CineProps> = ({ t, foco, apertura = 0.012, bloom = 0.9, ca = 0.0025, zoom = 0, flash = 0, rojo = 0 }) => {
+export const Cine: React.FC<CineProps> = ({ t, foco, apertura = 0.012, bloom = 0.9, ca = 0.0025, zoom = 0, flash = 0, rojo = 0, umbral = 0.88 }) => {
   const { gl, scene, camera, size } = useThree();
   const comp = useMemo(() => {
     const c = new EffectComposer(gl);
@@ -77,6 +77,7 @@ export const Cine: React.FC<CineProps> = ({ t, foco, apertura = 0.012, bloom = 0
     const ub = comp.b.uniforms as Record<string, { value: number }>;
     ub.focus.value = foco; ub.aperture.value = apertura; ub.maxblur.value = 0.012;
     comp.u.strength = bloom;
+    comp.u.threshold = umbral;
     const ug = comp.g.uniforms as Record<string, { value: number }>;
     ug.uT.value = t; ug.uCA.value = ca; ug.uZoom.value = zoom; ug.uFlash.value = flash; ug.uRojo.value = rojo;
   };

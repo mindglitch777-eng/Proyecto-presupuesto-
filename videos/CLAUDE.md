@@ -176,6 +176,14 @@
 - 400 notas de fiado instanciadas (`Notas`): caen sobre el mostrador, forman "$96.000" (puntos muestreados de un canvas) y la cámara las atraviesa.
   "ÉL NO TE ESPERA." y el sello FIADO van en 2D (con volumen por sombras) para que se lean siempre.
 
+## "¡Estás regalando tu ganancia!" (`Video-RegalandoGanancia`, `src/rg/`)
+- Mismo sistema de cine que "Vendés, pero no cobrás", pero en tercera persona con el mismo kiosquero en todo el video (`Kiosquero` con `Pose`,
+  `Perfil` para el primer plano a contraluz), grieta en el mostrador, monedas instanciadas, tubos de vidrio ANTES $200 / AHORA $50, cinta de
+  100 ventas que llena una caja de vidrio, góndola con etiquetas viejas que se marcan en rojo. Pantalla real de Precios: demo `p5`.
+- **Trampa del render por software (swangle):** con demasiadas luces puntuales la imagen sale NEGRA (no tira error). Máximo ~6 `pointLight`
+  a la vez; los brillos chicos (grieta, etiquetas) van solo con material emisivo + bloom. Y las `InstancedMesh` llevan `frustumCulled = false`.
+- La voz salió de 26,5 s: se le insertaron silencios entre frases (sin tocar la voz) para que cada una caiga en su escena (30 s).
+
 ## Guardado del MP4 en la rama (videos.yml)
 - **Varios videos por corrida**: lista `VIDEOS` (JSON con nombre, id y cuadros de control; `[]` = solo voces). Cada video se reparte en 10 máquinas
   (matriz video × parte) y `unir` verifica que las partes estén pegadas y completas antes de armar el MP4 (si una máquina falló, no sale un video cortado).
