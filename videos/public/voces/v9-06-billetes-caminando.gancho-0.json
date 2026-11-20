@@ -1,0 +1,417 @@
+{
+ "voz": "gemini Orus",
+ "firma": "0aa6ac0d9ecea81a",
+ "duracionSeg": 25.558,
+ "alineado": true,
+ "silencios_medidos": true,
+ "lineas": [
+  [
+   0.0,
+   2.2
+  ],
+  [
+   2.55,
+   3.98
+  ],
+  [
+   4.4,
+   8.11
+  ],
+  [
+   8.48,
+   11.133
+  ],
+  [
+   11.664,
+   13.984
+  ],
+  [
+   14.471,
+   19.331
+  ],
+  [
+   19.96,
+   24.06
+  ]
+ ],
+ "palabras": [
+  {
+   "texto": "Estos",
+   "linea": 0,
+   "desde": 0.0,
+   "hasta": 0.3
+  },
+  {
+   "texto": "billetes",
+   "linea": 0,
+   "desde": 0.3,
+   "hasta": 0.66
+  },
+  {
+   "texto": "salieron",
+   "linea": 0,
+   "desde": 0.66,
+   "hasta": 1.0
+  },
+  {
+   "texto": "caminando",
+   "linea": 0,
+   "desde": 1.0,
+   "hasta": 1.48
+  },
+  {
+   "texto": "de",
+   "linea": 0,
+   "desde": 1.48,
+   "hasta": 1.64
+  },
+  {
+   "texto": "tu",
+   "linea": 0,
+   "desde": 1.64,
+   "hasta": 1.78
+  },
+  {
+   "texto": "kiosco.",
+   "linea": 0,
+   "desde": 1.78,
+   "hasta": 2.2
+  },
+  {
+   "texto": "Se",
+   "linea": 1,
+   "desde": 2.55,
+   "hasta": 2.68
+  },
+  {
+   "texto": "llaman",
+   "linea": 1,
+   "desde": 2.68,
+   "hasta": 2.96
+  },
+  {
+   "texto": "'anotámelo'.",
+   "linea": 1,
+   "desde": 2.96,
+   "hasta": 3.98
+  },
+  {
+   "texto": "Uno",
+   "linea": 2,
+   "desde": 4.4,
+   "hasta": 4.569
+  },
+  {
+   "texto": "debe",
+   "linea": 2,
+   "desde": 4.569,
+   "hasta": 4.769
+  },
+  {
+   "texto": "veinte",
+   "linea": 2,
+   "desde": 4.769,
+   "hasta": 5.462
+  },
+  {
+   "texto": "mil.",
+   "linea": 2,
+   "desde": 5.462,
+   "hasta": 5.709
+  },
+  {
+   "texto": "Otro,",
+   "linea": 2,
+   "desde": 5.709,
+   "hasta": 5.969
+  },
+  {
+   "texto": "treinta",
+   "linea": 2,
+   "desde": 5.969,
+   "hasta": 6.626
+  },
+  {
+   "texto": "y",
+   "linea": 2,
+   "desde": 6.626,
+   "hasta": 6.72
+  },
+  {
+   "texto": "cinco.",
+   "linea": 2,
+   "desde": 6.72,
+   "hasta": 7.189
+  },
+  {
+   "texto": "Otro,",
+   "linea": 2,
+   "desde": 7.189,
+   "hasta": 7.449
+  },
+  {
+   "texto": "cincuenta.",
+   "linea": 2,
+   "desde": 7.449,
+   "hasta": 8.11
+  },
+  {
+   "texto": "Ciento",
+   "linea": 3,
+   "desde": 8.48,
+   "hasta": 8.884
+  },
+  {
+   "texto": "cinco",
+   "linea": 3,
+   "desde": 8.748,
+   "hasta": 9.226
+  },
+  {
+   "texto": "mil",
+   "linea": 3,
+   "desde": 9.226,
+   "hasta": 9.513
+  },
+  {
+   "texto": "pesos",
+   "linea": 3,
+   "desde": 9.513,
+   "hasta": 9.773
+  },
+  {
+   "texto": "dando",
+   "linea": 3,
+   "desde": 9.773,
+   "hasta": 10.053
+  },
+  {
+   "texto": "vueltas",
+   "linea": 3,
+   "desde": 10.053,
+   "hasta": 10.473
+  },
+  {
+   "texto": "por",
+   "linea": 3,
+   "desde": 10.473,
+   "hasta": 10.673
+  },
+  {
+   "texto": "el",
+   "linea": 3,
+   "desde": 10.673,
+   "hasta": 10.773
+  },
+  {
+   "texto": "barrio.",
+   "linea": 3,
+   "desde": 10.773,
+   "hasta": 11.133
+  },
+  {
+   "texto": "Y",
+   "linea": 4,
+   "desde": 11.664,
+   "hasta": 11.744
+  },
+  {
+   "texto": "vos,",
+   "linea": 4,
+   "desde": 11.744,
+   "hasta": 11.924
+  },
+  {
+   "texto": "pagándole",
+   "linea": 4,
+   "desde": 11.924,
+   "hasta": 12.824
+  },
+  {
+   "texto": "al",
+   "linea": 4,
+   "desde": 12.824,
+   "hasta": 12.904
+  },
+  {
+   "texto": "proveedor",
+   "linea": 4,
+   "desde": 12.904,
+   "hasta": 13.284
+  },
+  {
+   "texto": "de",
+   "linea": 4,
+   "desde": 13.284,
+   "hasta": 13.404
+  },
+  {
+   "texto": "tu",
+   "linea": 4,
+   "desde": 13.404,
+   "hasta": 13.524
+  },
+  {
+   "texto": "bolsillo.",
+   "linea": 4,
+   "desde": 13.524,
+   "hasta": 13.984
+  },
+  {
+   "texto": "En",
+   "linea": 5,
+   "desde": 14.471,
+   "hasta": 14.671
+  },
+  {
+   "texto": "Claro",
+   "linea": 5,
+   "desde": 14.671,
+   "hasta": 15.191
+  },
+  {
+   "texto": "te",
+   "linea": 5,
+   "desde": 15.191,
+   "hasta": 15.551
+  },
+  {
+   "texto": "muestra",
+   "linea": 5,
+   "desde": 15.551,
+   "hasta": 15.911
+  },
+  {
+   "texto": "quién",
+   "linea": 5,
+   "desde": 15.911,
+   "hasta": 16.171
+  },
+  {
+   "texto": "debe,",
+   "linea": 5,
+   "desde": 16.171,
+   "hasta": 16.531
+  },
+  {
+   "texto": "cuánto,",
+   "linea": 5,
+   "desde": 16.851,
+   "hasta": 17.571
+  },
+  {
+   "texto": "y",
+   "linea": 5,
+   "desde": 17.571,
+   "hasta": 17.791
+  },
+  {
+   "texto": "le",
+   "linea": 5,
+   "desde": 17.791,
+   "hasta": 17.871
+  },
+  {
+   "texto": "manda",
+   "linea": 5,
+   "desde": 17.871,
+   "hasta": 18.131
+  },
+  {
+   "texto": "el",
+   "linea": 5,
+   "desde": 18.131,
+   "hasta": 18.191
+  },
+  {
+   "texto": "recordatorio",
+   "linea": 5,
+   "desde": 18.191,
+   "hasta": 18.771
+  },
+  {
+   "texto": "por",
+   "linea": 5,
+   "desde": 18.771,
+   "hasta": 18.991
+  },
+  {
+   "texto": "WhatsApp.",
+   "linea": 5,
+   "desde": 18.991,
+   "hasta": 19.331
+  },
+  {
+   "texto": "Los",
+   "linea": 6,
+   "desde": 19.96,
+   "hasta": 20.12
+  },
+  {
+   "texto": "primeros",
+   "linea": 6,
+   "desde": 20.12,
+   "hasta": 20.5
+  },
+  {
+   "texto": "cien",
+   "linea": 6,
+   "desde": 20.5,
+   "hasta": 20.64
+  },
+  {
+   "texto": "kioscos",
+   "linea": 6,
+   "desde": 20.64,
+   "hasta": 21.12
+  },
+  {
+   "texto": "pagan",
+   "linea": 6,
+   "desde": 21.12,
+   "hasta": 21.46
+  },
+  {
+   "texto": "doce",
+   "linea": 6,
+   "desde": 21.46,
+   "hasta": 21.647
+  },
+  {
+   "texto": "mil",
+   "linea": 6,
+   "desde": 21.647,
+   "hasta": 21.787
+  },
+  {
+   "texto": "novecientos",
+   "linea": 6,
+   "desde": 21.787,
+   "hasta": 22.3
+  },
+  {
+   "texto": "por",
+   "linea": 6,
+   "desde": 22.3,
+   "hasta": 22.88
+  },
+  {
+   "texto": "mes,",
+   "linea": 6,
+   "desde": 22.88,
+   "hasta": 23.18
+  },
+  {
+   "texto": "para",
+   "linea": 6,
+   "desde": 23.18,
+   "hasta": 23.64
+  },
+  {
+   "texto": "siempre.",
+   "linea": 6,
+   "desde": 23.64,
+   "hasta": 24.06
+  }
+ ]
+}
