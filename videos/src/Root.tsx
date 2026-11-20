@@ -29,6 +29,7 @@ import { PlataEncerrada } from "./v9/PlataEncerrada";
 import { CajaMiente } from "./piloto/CajaMiente";
 import { VendesNoCobras } from "./vnc/VendesNoCobras";
 import { Regalando } from "./rg/Regalando";
+import { Muestrario, DURACION_M, FPS_M } from "./muestrario/Muestrario";
 import { TrabajasParaPagar } from "./piloto/TrabajasParaPagar";
 import { PlataEnLaCalle } from "./piloto/PlataEnLaCalle";
 
@@ -388,5 +389,6 @@ export const Root: React.FC = () => (
       defaultProps={{ guion: GUION_P5.id, gancho: 0, voz: null, palabras: null }}
       calculateMetadata={calcular}
     />
+      <Composition id="Muestrario-Estilos" component={Muestrario} durationInFrames={DURACION_M * FPS_M} fps={FPS_M} width={1080} height={1920} />
   </>
 );

@@ -280,7 +280,24 @@ function semillaP5(): Estado {
   return e;
 }
 
-const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07, "v8-08": semillaVideoV8_08, "v8-09": semillaVideoV8_09, "v8-10": semillaVideoV8_10, "v8-11": semillaVideoV8_11, "v8-12": semillaVideoV8_12, "v8-13": semillaVideoV8_11, "v8-14": semillaVideoV8_11, "v9-03": semillaVideoV9_03, p1: () => semillaPiloto("p1"), p2: () => semillaPiloto("p2"), p3: () => semillaPiloto("p3"), p5: semillaP5 };
+/**
+ * V9-04 (ENCLARO_DEMO=v9-04) "Tu caja tiene hambre": entran $120.000; la mercadería cuesta el 55% ($66.000), fijos $1.090.000/mes
+ * ($36.333 por día: alquiler y luz) y $8.000 de comisiones → ganancia de hoy $9.667.
+ */
+function semillaV9_04(): Estado {
+  const e = semilla();
+  const hoy = hoyArgentina();
+  e.negocio = { ...e.negocio, nombre: "Kiosco de barrio", comisionPct: 4 };
+  e.listaFijos = [{ concepto: "Alquiler", monto: 700_000 }, { concepto: "Luz y servicios", monto: 390_000 }];
+  e.fijos = 1_090_000;
+  e.productos = e.productos.map((x) => ({ ...x, costo: x.precio === null ? x.costo : x.precio * 0.55, precioActualizado: sumarDias(hoy, -3), ultimaVenta: hoy }));
+  e.movidos = e.productos.map((x) => ({ id: x.id, fecha: hoy }));
+  e.cierres = [...e.cierres.slice(1), { fecha: hoy, ventas: 120000, tarjeta: 0, gastos: [{ categoria: "comision", monto: 8000 }] }];
+  e.clientes = [];
+  return e;
+}
+
+const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07, "v8-08": semillaVideoV8_08, "v8-09": semillaVideoV8_09, "v8-10": semillaVideoV8_10, "v8-11": semillaVideoV8_11, "v8-12": semillaVideoV8_12, "v8-13": semillaVideoV8_11, "v8-14": semillaVideoV8_11, "v9-03": semillaVideoV9_03, p1: () => semillaPiloto("p1"), p2: () => semillaPiloto("p2"), p3: () => semillaPiloto("p3"), p5: semillaP5, "v9-04": semillaV9_04 };
 const semillaActual = () => (SEMILLAS[process.env.ENCLARO_DEMO ?? ""] ?? semilla)();
 
 const g = globalThis as unknown as { __enclaroMemoria?: Estado };

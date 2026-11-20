@@ -274,6 +274,15 @@ const RECORRIDOS = {
     await page.waitForTimeout(2800);
     marca("fin");
   },
+  async "v9-04"(page, marca) {
+    await page.goto(BASE + "/app", { waitUntil: "networkidle" });
+    marca("dia");
+    exigir(/Ganancia de hoy\s*\$9\.667/.test(await texto(page)), "La ganancia de hoy no da $9.667");
+    await page.waitForTimeout(3500);
+    for (let i = 0; i < 4; i++) { await page.mouse.wheel(0, 60); await page.waitForTimeout(120); }
+    await page.waitForTimeout(1500);
+    marca("fin");
+  },
   async "v8-12"(page, marca) {
     await page.goto(BASE + "/app/precios", { waitUntil: "networkidle" });
     marca("ranking");
