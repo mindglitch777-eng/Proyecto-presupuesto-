@@ -1,7 +1,7 @@
 import React from "react";
 import { Composition, staticFile, type CalculateMetadataFunction } from "remotion";
 import { Video, videoSchema, type VideoProps } from "./Video";
-import { GUIONES, GUION_V3_01, GUION_V3_02, GUION_V3_03, GUION_V4_01, GUION_V5_01, GUION_V3_06, GUION_V4_02, GUION_V5_02, GUION_V7_01, GUION_V8_01, GUION_V8_02, GUION_V8_03, GUION_V8_04, GUION_V8_05, GUION_V8_06, GUION_V8_07, GUION_V8_08, GUION_V8_09, GUION_V8_10, GUION_V8_11, GUION_V8_12, GUION_V8_13, GUION_V8_14, GUION_V9_03, duracionVideo } from "./lib/guion";
+import { GUIONES, GUION_V3_01, GUION_V3_02, GUION_V3_03, GUION_V4_01, GUION_V5_01, GUION_V3_06, GUION_V4_02, GUION_V5_02, GUION_V7_01, GUION_V8_01, GUION_V8_02, GUION_V8_03, GUION_V8_04, GUION_V8_05, GUION_V8_06, GUION_V8_07, GUION_V8_08, GUION_V8_09, GUION_V8_10, GUION_V8_11, GUION_V8_12, GUION_V8_13, GUION_V8_14, GUION_V9_03, GUION_P1, GUION_P2, GUION_P3, duracionVideo } from "./lib/guion";
 import { ElDueno } from "./v3/ElDueno";
 import { ElBanco } from "./v3/ElBanco";
 import { SeHunde } from "./v3/SeHunde";
@@ -26,6 +26,9 @@ import { VenderMas } from "./v8/VenderMas";
 import { Taximetro } from "./v8/Taximetro";
 import { TrabajasGratis } from "./v8/TrabajasGratis";
 import { PlataEncerrada } from "./v9/PlataEncerrada";
+import { CajaMiente } from "./piloto/CajaMiente";
+import { TrabajasParaPagar } from "./piloto/TrabajasParaPagar";
+import { PlataEnLaCalle } from "./piloto/PlataEnLaCalle";
 
 const FPS = 30;
 const LETRAS = ["A", "B", "C", "D"];
@@ -326,6 +329,39 @@ export const Root: React.FC = () => (
       width={1080}
       height={1920}
       defaultProps={{ guion: GUION_V9_03.id, gancho: 0, voz: null, palabras: null }}
+      calculateMetadata={calcular}
+    />
+    <Composition
+      id="Piloto-1-LaCajaMiente"
+      component={CajaMiente}
+      schema={videoSchema}
+      durationInFrames={Math.round(GUION_P1.duracionSeg * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: GUION_P1.id, gancho: 0, voz: null, palabras: null }}
+      calculateMetadata={calcular}
+    />
+    <Composition
+      id="Piloto-2-TrabajasParaPagar"
+      component={TrabajasParaPagar}
+      schema={videoSchema}
+      durationInFrames={Math.round(GUION_P2.duracionSeg * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: GUION_P2.id, gancho: 0, voz: null, palabras: null }}
+      calculateMetadata={calcular}
+    />
+    <Composition
+      id="Piloto-3-PlataEnLaCalle"
+      component={PlataEnLaCalle}
+      schema={videoSchema}
+      durationInFrames={Math.round(GUION_P3.duracionSeg * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: GUION_P3.id, gancho: 0, voz: null, palabras: null }}
       calculateMetadata={calcular}
     />
   </>

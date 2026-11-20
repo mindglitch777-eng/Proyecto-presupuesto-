@@ -226,6 +226,38 @@ const RECORRIDOS = {
     await page.waitForTimeout(2000);
     marca("fin");
   },
+  async p1(page, marca) {
+    await page.goto(BASE + "/app", { waitUntil: "networkidle" });
+    marca("dia");
+    const t = await texto(page);
+    exigir(/Ganancia de hoy\s*\$14\.000/.test(t), "La ganancia de hoy no da $14.000");
+    exigir(/Entró a la caja:\s*\$32\.000/.test(t), "Lo que entró a la caja no da $32.000");
+    await page.waitForTimeout(3500);
+    for (let i = 0; i < 4; i++) { await page.mouse.wheel(0, 60); await page.waitForTimeout(120); }
+    await page.waitForTimeout(1500);
+    marca("fin");
+  },
+  async p2(page, marca) {
+    await page.goto(BASE + "/app", { waitUntil: "networkidle" });
+    marca("dia");
+    const t = await texto(page);
+    exigir(/Ganancia de hoy\s*−?-?\$5\.000/.test(t), "La ganancia de hoy no da −$5.000: " + t.slice(0, 300));
+    await page.waitForTimeout(3500);
+    for (let i = 0; i < 4; i++) { await page.mouse.wheel(0, 60); await page.waitForTimeout(120); }
+    await page.waitForTimeout(1500);
+    marca("fin");
+  },
+  async p3(page, marca) {
+    await page.goto(BASE + "/app/fiados", { waitUntil: "networkidle" });
+    marca("lista");
+    exigir(/Te deben en total\s*\$96\.000/.test(await texto(page)), "El total de fiados no da $96.000");
+    await page.waitForTimeout(1800);
+    await page.getByRole("button", { name: /Marta/ }).click();
+    await page.getByText("Recordale por WhatsApp").waitFor();
+    marca("whatsapp");
+    await page.waitForTimeout(3000);
+    marca("fin");
+  },
   async "v8-12"(page, marca) {
     await page.goto(BASE + "/app/precios", { waitUntil: "networkidle" });
     marca("ranking");

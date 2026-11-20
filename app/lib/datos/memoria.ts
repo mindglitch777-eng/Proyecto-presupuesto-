@@ -236,7 +236,41 @@ function semillaVideoV9_03(): Estado {
   return e;
 }
 
-const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07, "v8-08": semillaVideoV8_08, "v8-09": semillaVideoV8_09, "v8-10": semillaVideoV8_10, "v8-11": semillaVideoV8_11, "v8-12": semillaVideoV8_12, "v8-13": semillaVideoV8_11, "v8-14": semillaVideoV8_11, "v9-03": semillaVideoV9_03 };
+/**
+ * Prueba piloto (ENCLARO_DEMO=p1 | p2 | p3). Productos con 30% de margen promedio.
+ * p1 "La caja miente": vendió $180.000, pagó $126.000 de reposición y $22.000 de gastos → entró a la caja $32.000;
+ *    fijos $540.000/mes ($18.000 por día) → ganancia de hoy $14.000.
+ * p2 "Trabajás para pagar": fijos $900.000/mes ($30.000 por día); vendió $90.000 (le dejan $27.000), comisión $2.000 → quedan
+ *    $25.000 para cubrir los $30.000 → ganancia de hoy −$5.000.
+ * p3 "Tu plata está en la calle": le deben $96.000 entre 5 clientes.
+ */
+function semillaPiloto(cual: "p1" | "p2" | "p3"): Estado {
+  const e = semilla();
+  const hoy = hoyArgentina();
+  e.negocio = { ...e.negocio, nombre: "Kiosco de barrio", comisionPct: 4 };
+  e.productos = e.productos.map((x) => ({ ...x, costo: x.precio === null ? x.costo : x.precio * 0.7, precioActualizado: sumarDias(hoy, -3), ultimaVenta: hoy }));
+  e.movidos = e.productos.map((x) => ({ id: x.id, fecha: hoy }));
+  if (cual === "p1") {
+    e.listaFijos = [{ concepto: "Alquiler", monto: 390_000 }, { concepto: "Luz", monto: 150_000 }];
+    e.fijos = 540_000;
+    e.cierres = [...e.cierres.slice(1), { fecha: hoy, ventas: 180000, tarjeta: 0, gastos: [{ categoria: "proveedor", monto: 126000 }, { categoria: "otros", monto: 22000 }] }];
+    e.clientes = [];
+  } else if (cual === "p2") {
+    e.listaFijos = [{ concepto: "Alquiler", monto: 450_000 }, { concepto: "Luz y servicios", monto: 150_000 }, { concepto: "Sueldos", monto: 300_000 }];
+    e.fijos = 900_000;
+    e.cierres = [...e.cierres.slice(1), { fecha: hoy, ventas: 90000, tarjeta: 50000, gastos: [{ categoria: "comision", monto: 2000 }] }];
+    e.clientes = [];
+  } else {
+    const lista: [string, number, number][] = [["Marta", 32000, 34], ["Juan", 24000, 21], ["Rosa", 18000, 15], ["Carlos", 14000, 9], ["Beto", 8000, 5]];
+    e.clientes = lista.map(([nombre, monto, dias], i) => ({
+      id: `c${i + 1}`, nombre, telefono: "3756 15 " + String(400000 + i * 1111), diaCobro: null, nota: null, ultimoRecordatorio: null, recordatoriosSinPago: 0,
+      movimientos: [{ id: `m${i + 1}`, tipo: "fio" as const, monto, fecha: sumarDias(hoy, -dias), nota: null }],
+    }));
+  }
+  return e;
+}
+
+const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07, "v8-08": semillaVideoV8_08, "v8-09": semillaVideoV8_09, "v8-10": semillaVideoV8_10, "v8-11": semillaVideoV8_11, "v8-12": semillaVideoV8_12, "v8-13": semillaVideoV8_11, "v8-14": semillaVideoV8_11, "v9-03": semillaVideoV9_03, p1: () => semillaPiloto("p1"), p2: () => semillaPiloto("p2"), p3: () => semillaPiloto("p3") };
 const semillaActual = () => (SEMILLAS[process.env.ENCLARO_DEMO ?? ""] ?? semilla)();
 
 const g = globalThis as unknown as { __enclaroMemoria?: Estado };

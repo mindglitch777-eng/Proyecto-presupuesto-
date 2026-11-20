@@ -32,14 +32,14 @@ export function armarPaginas(g: Guion, palabras: Palabra[]): TikTokPage[] {
   return pages;
 }
 
-export const Subtitulos: React.FC<{ t: number; tv: number; g: Guion; palabras: Palabra[]; ocultos?: [number, number][] }> = ({ t, tv, g, palabras, ocultos = OCULTOS }) => {
+export const Subtitulos: React.FC<{ t: number; tv: number; g: Guion; palabras: Palabra[]; ocultos?: [number, number][]; top?: number }> = ({ t, tv, g, palabras, ocultos = OCULTOS, top = 486 }) => {
   const pages = useMemo(() => armarPaginas(g, palabras), [g, palabras]);
   if (ocultos.some(([a, b]) => t > a && t < b)) return null;
   const ms = tv * 1000;
   const page = pages.find((p) => ms >= p.startMs && ms < p.startMs + p.durationMs + 150);
   if (!page) return null;
   return (
-    <div style={{ left: 16, right: 16, top: 486, textAlign: "center" }}>
+    <div style={{ left: 16, right: 16, top, textAlign: "center" }}>
       <span style={{ position: "relative", display: "inline-block", padding: "6px 12px", borderRadius: 10, background: "#000c", font: `900 23px/1.15 ${BODY}`, color: "#fff", textShadow: "0 3px 0 #000" }}>
         {page.tokens.map((tk, j) => {
           const on = ms >= tk.fromMs && ms < tk.toMs + 60;

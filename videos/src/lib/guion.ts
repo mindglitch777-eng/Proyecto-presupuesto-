@@ -24,6 +24,9 @@ import guionV8_12 from "../../guiones/v8-12-vender-mas.json";
 import guionV8_13 from "../../guiones/v8-13-taximetro.json";
 import guionV8_14 from "../../guiones/v8-14-trabajas-gratis.json";
 import guionV9_03 from "../../guiones/v9-03-plata-encerrada.json";
+import guionP1 from "../../guiones/p1-la-caja-miente.json";
+import guionP2 from "../../guiones/p2-trabajas-para-pagar.json";
+import guionP3 from "../../guiones/p3-plata-en-la-calle.json";
 
 export const lineaSchema = z.object({
   desde: z.number(),
@@ -80,6 +83,9 @@ export const GUION_V8_12: Guion = guionSchema.parse(guionV8_12);
 export const GUION_V8_13: Guion = guionSchema.parse(guionV8_13);
 export const GUION_V8_14: Guion = guionSchema.parse(guionV8_14);
 export const GUION_V9_03: Guion = guionSchema.parse(guionV9_03);
+export const GUION_P1: Guion = guionSchema.parse(guionP1);
+export const GUION_P2: Guion = guionSchema.parse(guionP2);
+export const GUION_P3: Guion = guionSchema.parse(guionP3);
 
 /** Una palabra con su tiempo, en segundos (sale de voces/<id>.gancho-N.json o del respaldo). */
 export type Palabra = { texto: string; desde: number; hasta: number; linea: number };

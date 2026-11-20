@@ -126,10 +126,11 @@ type MarcoProps = {
   sobre?: React.ReactNode;
   luzCalida?: number;
   sombras?: boolean;
+  subTop?: number;
 };
 
 /** Capas de siempre: fondo 2D → 3D → frente 2D (los tres con cámara) → grano, viñeta, destellos y subtítulos (sin cámara). */
-export const Marco: React.FC<MarcoProps> = ({ g, voz, pal, cam, hs, wf, red, frame, t, sonidos, ocultos, fondo, tres, tresOpacidad = 1, frente, sobre, luzCalida = 0, sombras = true }) => {
+export const Marco: React.FC<MarcoProps> = ({ g, voz, pal, cam, hs, wf, red, frame, t, sonidos, ocultos, fondo, tres, tresOpacidad = 1, frente, sobre, luzCalida = 0, sombras = true, subTop }) => {
   const { fps } = useVideoConfig();
   const lienzo: React.CSSProperties = { position: "absolute", left: 0, top: 0, width: 360, height: 640, transform: "scale(3)", transformOrigin: "0 0", overflow: "hidden" };
   return (
@@ -153,7 +154,7 @@ export const Marco: React.FC<MarcoProps> = ({ g, voz, pal, cam, hs, wf, red, fra
           {luzCalida > 0 ? <div style={{ inset: -40, mixBlendMode: "screen", opacity: luzCalida, background: "radial-gradient(circle at 50% 100%, #FFB703ee, #FF7A00aa 30%, transparent 65%)" }} /> : null}
           <div style={{ inset: 0, background: "#FF4D5A", opacity: Math.min(0.28, red * 0.25) }} />
           <div style={{ inset: 0, background: "#fff", opacity: clamp(wf, 0, 0.6) }} />
-          <Subtitulos t={t} tv={t} g={g} palabras={pal} ocultos={ocultos} />
+          <Subtitulos t={t} tv={t} g={g} palabras={pal} ocultos={ocultos} top={subTop} />
           {sobre}
         </div>
       </div>
