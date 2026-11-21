@@ -17,6 +17,9 @@ env:
   CUADROS: 180
   # Cuadros ya renderizados en una corrida anterior (partes 0,1,2,3,7,8): se reusan y solo se renderiza lo que falta.
   PREVIO: "44861407781"
+  PREVIO2: "44871689818"
+  # 1 = los 180 cuadros ya están en las corridas anteriores: no se renderiza nada, solo se une y se compara.
+  SOLO_UNIR: "1"
 
 concurrency:
   group: blender-${{ github.ref }}
@@ -40,6 +43,7 @@ jobs:
   parte:
     name: Cycles cuadros ${{ matrix.rango }}
     needs: assets
+    if: false  # SOLO_UNIR: los cuadros ya están; para volver a renderizar, sacá esta línea
     runs-on: ubuntu-latest
     timeout-minutes: 300
     strategy:
@@ -75,12 +79,17 @@ jobs:
 
   unir:
     name: Unir y comparar
-    needs: parte
+    needs: [assets, parte]
+    if: ${{ !cancelled() && !failure() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - if: ${{ env.SOLO_UNIR != '1' }}
+        uses: actions/download-artifact@v4
         with: { pattern: "cuadros-*", path: cuadros, merge-multiple: true }
+      - name: Cuadros de la corrida 2
+        uses: actions/download-artifact@v4
+        with: { pattern: "cuadros-*", path: cuadros, merge-multiple: true, run-id: "${{ env.PREVIO2 }}", github-token: "${{ github.token }}" }
       - name: Cuadros de la corrida anterior
         uses: actions/download-artifact@v4
         with: { pattern: "cuadros-*", path: cuadros, merge-multiple: true, run-id: "${{ env.PREVIO }}", github-token: "${{ github.token }}" }
@@ -111,7 +120,7 @@ jobs:
           tr -d '\n' < filtro.txt > f2.txt && cat f2.txt
           ffmpeg -y -v error -i out/three.mp4 -i out/blender.mp4 -f lavfi -t 18 -i anullsrc=r=48000:cl=stereo \
             -filter_complex_script f2.txt -map "[v]" -map 2:a -c:v libx264 -crf 18 -preset slow -c:a aac -shortest -movflags +faststart out/comparativa.mp4
-          ffprobe -v error -show_entries stream=width,height,nb_frames -show_entries format=duration -of compact out/comparativa.mp4 out/blender.mp4
+          for m in out/comparativa.mp4 out/blender.mp4; do ffprobe -v error -show_entries stream=width,height,nb_frames -show_entries format=duration -of compact "$m"; done
           {
             echo 'En Claro · prueba de Blender (Cycles) del V9-03 "Plata encerrada" — créditos'
             echo
