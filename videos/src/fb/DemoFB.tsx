@@ -56,6 +56,8 @@ function anclasDictado(pal: Palabra[], linea: number, m: Marcas): Ancla[] {
     return [v, m[`w${k}`] - 0.1] as Ancla; // la palabra se ve ~0,05 s antes de su marca (cuadros de 1/30 s)
   });
 }
+/** Toque: la grabación espera justo antes del toque y el dedo toca cuando lo dice la voz (`r` = marca tomada después del toque). */
+const toqueEn = (v: number, r: number): Ancla[] => [[v - 0.25, r - 0.45], [v + 0.12, r]];
 const lineas = (pal: Palabra[], g: Guion) => g.lineas.map((_, i) => {
   const w = pal.filter((p) => p.linea === i);
   return w.length ? [w[0].desde, w[w.length - 1].hasta] : [g.lineas[i].desde, g.lineas[i].hasta];
@@ -168,9 +170,9 @@ export const DemoFb01: React.FC<VideoProps> = ({ voz, palabras }) => {
   const w = (linea: number, p: string, d: number) => tPalabra(pal, linea, p, d);
   const tMic = w(1, "micr", L[1][0] + 0.8), tListo = w(3, "listo", L[3][0] + 0.3), tMe = w(3, "Me", L[3][0] + 1.0), tCuanto = w(3, "cuánto", L[3][0] + 1.4), tNo = w(3, "No", L[3][0] + 2.6);
   const anclas: Ancla[] = [
-    [0, 0], [L[0][1] - 0.35, m.cierre - 0.45], [L[0][1] + 0.1, m.cierre],
-    [tMic, m.mic - 0.05], ...anclasDictado(pal, 2, m), [L[2][1] + 0.1, m.listo - 0.3],
-    [tListo, m.listo - 0.05], [tMe, m.guardar - 0.05], [tCuanto, m.resultado + 0.2], [L[3][1], m.resultado + 1.5],
+    [0, 0], [L[0][1] - 0.5, m.cierre - 0.75], [L[0][1] + 0.1, m.cierre],
+    ...toqueEn(tMic, m.mic), ...anclasDictado(pal, 2, m), [L[2][1] + 0.1, m.listo - 0.5],
+    ...toqueEn(tListo, m.listo), ...toqueEn(tMe, m.guardar), [tCuanto, m.resultado + 0.2], [L[3][1], m.resultado + 1.5],
   ];
   const r = aGrabacion(t, anclas, m.fin);
   const z = 1 + 0.32 * ease((t - tNo) / 1.2) * (t < L[4][0] ? 1 : 1 - ease((t - L[4][0]) / 0.4));
@@ -222,7 +224,7 @@ export const DemoFb02: React.FC<VideoProps> = ({ voz, palabras }) => {
   const tHablando = w(2, "hablando", L[2][0] + 1.2), tCuanto = w(4, "cuánto", L[4][0] + 0.6), tQuien = w(4, "quién", L[4][0] + 1.6), tPrecio = w(4, "precio", L[4][0] + 2.6);
   const tApp = L[2][0] - 0.05;
   const anclas: Ancla[] = [
-    [tApp, 0], [tHablando, m.mic - 0.05], ...anclasDictado(pal, 3, m), [L[3][1] + 0.1, m.listo - 0.05], [L[4][0], m.resultado - 0.05],
+    [tApp, 0], ...toqueEn(tHablando, m.mic), ...anclasDictado(pal, 3, m), ...toqueEn(L[3][1] + 0.2, m.listo), [L[4][0] + 0.05, m.resultado - 0.05],
     [tCuanto, m.resultado + 0.4], [tQuien - 0.1, m.fiados], [tPrecio - 0.15, m.precio - 0.2], [L[4][1], m.precio + 0.4],
   ];
   const r = aGrabacion(t, anclas, m.fin);
@@ -254,7 +256,7 @@ export const DemoFb03: React.FC<VideoProps> = ({ voz, palabras }) => {
   const w = (linea: number, p: string, d: number) => tPalabra(pal, linea, p, d);
   const tFoto = w(1, "foto", L[1][0] + 0.7), tSubio = w(2, "subió", L[2][0] + 0.8), tCada = w(2, "cada", L[2][1] - 0.6), tMargen = w(3, "margen", L[3][1] - 0.8);
   const anclas: Ancla[] = [
-    [0, 0], [tFoto, m.foto - 0.05], [L[2][0], m.leido - 0.2], [tSubio, m.lista - 0.6], [tCada, m.aumentaron - 0.2],
+    [0, 0], ...toqueEn(tFoto, m.foto), [L[2][0], m.leido - 0.2], [tSubio, m.lista - 0.6], [tCada, m.aumentaron - 0.2],
     [L[3][0] + 0.3, m.aumentaron + 0.9], [tMargen, m.aplicado], [L[3][1] + 0.2, m.carteles],
   ];
   const r = aGrabacion(t, anclas, m.fin);
