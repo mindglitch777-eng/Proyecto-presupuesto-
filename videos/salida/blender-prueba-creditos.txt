@@ -1,0 +1,13 @@
+En Claro · prueba de Blender (Cycles) del V9-03 "Plata encerrada" — créditos
+
+Render: Blender 4.2.3 (GPL, portable, sin interfaz) en GitHub Actions, Cycles por CPU en 10 máquinas.
+Assets de Poly Haven (CC0, dominio público: no exigen crédito, igual se anotan):
+- caja: «Cardboard Box 01» (cardboard_box_01) de Rahul Chaudhary · https://polyhaven.com/a/cardboard_box_01 · CC0
+- cajon: «Wooden Crate 01» (wooden_crate_01) de James Ray Cock · https://polyhaven.com/a/wooden_crate_01 · CC0
+- fondo: «Empty Warehouse 01» (empty_warehouse_01) de Sergej Majboroda · https://polyhaven.com/a/empty_warehouse_01 · CC0
+- piso: «Concrete Floor Worn 001» (concrete_floor_worn_001) de Dimitrios Savva, Rico Cilliers · https://polyhaven.com/a/concrete_floor_worn_001 · CC0
+- pared: «Painted Concrete» (painted_concrete) de Dario Barresi, Dimitrios Savva · https://polyhaven.com/a/painted_concrete · CC0
+- metal: «Rusty Metal 02» (rusty_metal_02) de Rob Tuytel · https://polyhaven.com/a/rusty_metal_02 · CC0
+- estante: «Plywood» (plywood) de Rob Tuytel · https://polyhaven.com/a/plywood · CC0
+Estanterías, reja, billetes (genéricos, sin diseño de ninguna moneda real) y fajos: hechos en código (videos/blender/escena_v903.py).
+Tipografía: Space Grotesk (SIL Open Font License). Montos de ejemplo. Sin marcas.
