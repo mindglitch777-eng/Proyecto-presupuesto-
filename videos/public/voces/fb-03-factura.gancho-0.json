@@ -1,0 +1,343 @@
+{
+ "voz": "gemini Orus",
+ "firma": "ce103a181864a46b",
+ "duracionSeg": 21.97,
+ "alineado": true,
+ "silencios_medidos": true,
+ "lineas": [
+  [
+   0.0,
+   5.01
+  ],
+  [
+   5.43,
+   7.025
+  ],
+  [
+   7.54,
+   11.005
+  ],
+  [
+   11.52,
+   14.885
+  ],
+  [
+   15.32,
+   20.062
+  ]
+ ],
+ "palabras": [
+  {
+   "texto": "Llegó",
+   "linea": 0,
+   "desde": 0.0,
+   "hasta": 0.38
+  },
+  {
+   "texto": "la",
+   "linea": 0,
+   "desde": 0.38,
+   "hasta": 0.48
+  },
+  {
+   "texto": "factura",
+   "linea": 0,
+   "desde": 0.48,
+   "hasta": 0.92
+  },
+  {
+   "texto": "del",
+   "linea": 0,
+   "desde": 0.92,
+   "hasta": 1.1
+  },
+  {
+   "texto": "proveedor.",
+   "linea": 0,
+   "desde": 1.1,
+   "hasta": 1.7
+  },
+  {
+   "texto": "Antes",
+   "linea": 0,
+   "desde": 2.2,
+   "hasta": 2.6
+  },
+  {
+   "texto": "la",
+   "linea": 0,
+   "desde": 2.6,
+   "hasta": 3.14
+  },
+  {
+   "texto": "revisaba",
+   "linea": 0,
+   "desde": 3.14,
+   "hasta": 3.66
+  },
+  {
+   "texto": "renglón",
+   "linea": 0,
+   "desde": 3.66,
+   "hasta": 4.24
+  },
+  {
+   "texto": "por",
+   "linea": 0,
+   "desde": 4.24,
+   "hasta": 4.44
+  },
+  {
+   "texto": "renglón.",
+   "linea": 0,
+   "desde": 4.44,
+   "hasta": 5.01
+  },
+  {
+   "texto": "Ahora",
+   "linea": 1,
+   "desde": 5.43,
+   "hasta": 5.725
+  },
+  {
+   "texto": "le",
+   "linea": 1,
+   "desde": 5.725,
+   "hasta": 6.245
+  },
+  {
+   "texto": "saco",
+   "linea": 1,
+   "desde": 6.245,
+   "hasta": 6.545
+  },
+  {
+   "texto": "una",
+   "linea": 1,
+   "desde": 6.545,
+   "hasta": 6.665
+  },
+  {
+   "texto": "foto…",
+   "linea": 1,
+   "desde": 6.665,
+   "hasta": 7.025
+  },
+  {
+   "texto": "…y",
+   "linea": 2,
+   "desde": 7.54,
+   "hasta": 7.745
+  },
+  {
+   "texto": "me",
+   "linea": 2,
+   "desde": 7.605,
+   "hasta": 7.725
+  },
+  {
+   "texto": "dice",
+   "linea": 2,
+   "desde": 7.725,
+   "hasta": 7.945
+  },
+  {
+   "texto": "qué",
+   "linea": 2,
+   "desde": 7.945,
+   "hasta": 8.185
+  },
+  {
+   "texto": "subió",
+   "linea": 2,
+   "desde": 8.185,
+   "hasta": 8.705
+  },
+  {
+   "texto": "y",
+   "linea": 2,
+   "desde": 8.705,
+   "hasta": 9.185
+  },
+  {
+   "texto": "a",
+   "linea": 2,
+   "desde": 9.185,
+   "hasta": 9.285
+  },
+  {
+   "texto": "cuánto",
+   "linea": 2,
+   "desde": 9.285,
+   "hasta": 9.685
+  },
+  {
+   "texto": "tengo",
+   "linea": 2,
+   "desde": 9.685,
+   "hasta": 9.865
+  },
+  {
+   "texto": "que",
+   "linea": 2,
+   "desde": 9.865,
+   "hasta": 10.005
+  },
+  {
+   "texto": "poner",
+   "linea": 2,
+   "desde": 10.005,
+   "hasta": 10.265
+  },
+  {
+   "texto": "cada",
+   "linea": 2,
+   "desde": 10.265,
+   "hasta": 10.545
+  },
+  {
+   "texto": "cosa.",
+   "linea": 2,
+   "desde": 10.545,
+   "hasta": 11.005
+  },
+  {
+   "texto": "Sin",
+   "linea": 3,
+   "desde": 11.52,
+   "hasta": 11.725
+  },
+  {
+   "texto": "cargar",
+   "linea": 3,
+   "desde": 11.725,
+   "hasta": 12.185
+  },
+  {
+   "texto": "nada",
+   "linea": 3,
+   "desde": 12.185,
+   "hasta": 12.465
+  },
+  {
+   "texto": "a",
+   "linea": 3,
+   "desde": 12.465,
+   "hasta": 12.605
+  },
+  {
+   "texto": "mano.",
+   "linea": 3,
+   "desde": 12.605,
+   "hasta": 12.885
+  },
+  {
+   "texto": "Y",
+   "linea": 3,
+   "desde": 12.885,
+   "hasta": 13.405
+  },
+  {
+   "texto": "mi",
+   "linea": 3,
+   "desde": 13.405,
+   "hasta": 13.505
+  },
+  {
+   "texto": "margen",
+   "linea": 3,
+   "desde": 13.505,
+   "hasta": 13.945
+  },
+  {
+   "texto": "no",
+   "linea": 3,
+   "desde": 13.945,
+   "hasta": 14.325
+  },
+  {
+   "texto": "se",
+   "linea": 3,
+   "desde": 14.325,
+   "hasta": 14.465
+  },
+  {
+   "texto": "pierde.",
+   "linea": 3,
+   "desde": 14.465,
+   "hasta": 14.885
+  },
+  {
+   "texto": "Los",
+   "linea": 4,
+   "desde": 15.32,
+   "hasta": 15.442
+  },
+  {
+   "texto": "primeros",
+   "linea": 4,
+   "desde": 15.442,
+   "hasta": 15.902
+  },
+  {
+   "texto": "cien",
+   "linea": 4,
+   "desde": 15.902,
+   "hasta": 16.062
+  },
+  {
+   "texto": "kioscos",
+   "linea": 4,
+   "desde": 16.062,
+   "hasta": 16.702
+  },
+  {
+   "texto": "pagan",
+   "linea": 4,
+   "desde": 16.702,
+   "hasta": 17.282
+  },
+  {
+   "texto": "doce",
+   "linea": 4,
+   "desde": 17.282,
+   "hasta": 17.504
+  },
+  {
+   "texto": "mil",
+   "linea": 4,
+   "desde": 17.504,
+   "hasta": 17.671
+  },
+  {
+   "texto": "novecientos",
+   "linea": 4,
+   "desde": 17.671,
+   "hasta": 18.282
+  },
+  {
+   "texto": "por",
+   "linea": 4,
+   "desde": 18.282,
+   "hasta": 18.842
+  },
+  {
+   "texto": "mes,",
+   "linea": 4,
+   "desde": 18.842,
+   "hasta": 19.142
+  },
+  {
+   "texto": "para",
+   "linea": 4,
+   "desde": 19.382,
+   "hasta": 19.702
+  },
+  {
+   "texto": "siempre.",
+   "linea": 4,
+   "desde": 19.702,
+   "hasta": 20.062
+  }
+ ]
+}
