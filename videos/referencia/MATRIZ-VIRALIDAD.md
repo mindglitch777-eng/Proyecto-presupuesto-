@@ -30,3 +30,12 @@ Regla: todos terminan con el dolor de plata y la app como salida; humor sin vent
 ## 4. Pendiente (trabajo en equipo)
 El dueño graba pantalla / captura los 5 videos con más "me gusta" de cada búsqueda en TikTok y Facebook (lista en el chat del 21/11).
 Con eso se completa la columna "video original → vistas → por qué funcionó → nuestra versión" y sale la v2 de esta matriz.
+
+## 5. Estrategia por red (decisión del dueño, 21/11, después de revisar Facebook y TikTok)
+- **Facebook = donde se vende.** Ahí está el público que pregunta "¿qué sistema usan?" y está dispuesto a pagar. Los competidores cobran
+  parecido pero son sistemas donde hay que cargar todo; ninguno de los que vio el dueño se maneja hablando.
+  → Mensaje central: **"No cargás venta por venta: le hablás 20 segundos y te dice cuánto te quedó."** Mucha demo real de la app (voz, factura por foto, fiados).
+  → Grupos de kiosqueros: aportar valor (calculadora "tu número del día" de la landing), respetar reglas, decir siempre que sos el creador.
+  → Publicidad paga: empieza acá.
+- **TikTok = alcance.** Casi todo es humor o curiosidad ("cuánto gana un kiosco"); nadie hace el ángulo de estrategia de plata para kioscos.
+  → Ser "el que te explica la plata del kiosco": curiosidad + estrategia + humor del mostrador como gancho.
