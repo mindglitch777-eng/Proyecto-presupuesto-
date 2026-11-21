@@ -184,6 +184,19 @@
   a la vez; los brillos chicos (grieta, etiquetas) van solo con material emisivo + bloom. Y las `InstancedMesh` llevan `frustumCulled = false`.
 - La voz salió de 26,5 s: se le insertaron silencios entre frases (sin tocar la voz) para que cada una caiga en su escena (30 s).
 
+## Demos de Facebook FB-01 a FB-03 (`src/fb/DemoFB.tsx`, guion `guiones/FB-DEMOS-01-03.md`)
+- `Video-fb-01-Voz`, `Video-fb-02-CargarTodo`, `Video-fb-03-Factura`: "grabar pantalla" del celular, sin 3D. Pantalla completa = grabación real
+  (`app/scripts/grabar-v8.cjs fb-0N`, viewport 360 × 616 + barra de estado de 24 px dibujada en el video = 9:16 justo), con toques de dedo
+  (círculo gris inyectado en la página), scroll con el dedo y fecha en formato argentino (`LANG=es_AR`).
+- Cierre por voz: el robot no tiene micrófono, así que en la grabación el reconocedor del navegador se reemplaza por uno que "escucha" la frase
+  exacta de `app/tests/voz.json` palabra por palabra y marca cada palabra (`w0`, `w1`, …). FB-01 usa la frase 1 y FB-02 la frase 4.
+- La grabación se acomoda a la voz con anclas (segundo del video ↔ segundo de la grabación, `aGrabacion`): entre anclas corre a velocidad
+  normal y espera, o se apura. Cada palabra dictada es un ancla (la palabra se ve ~0,05 s antes de su marca: ancla en marca − 0,1 s).
+  La pantalla se dibuja con `<Freeze>` + `OffthreadVideo` (cuadro exacto de `public/tomas/fb-0N/app.mp4`).
+- Voz Orus, primera persona, tono kiosquero; la frase dictada va en toma aparte (`"aparte"`, tono de dictarle al celular). Un solo texto
+  grande (franja arriba con "MONTOS DE EJEMPLO") + subtítulo; cartel final con "$12.900 por mes, para siempre · 14 días gratis".
+- FB-02 empieza con un formulario genérico dibujado ("Cargar venta", sin marca ni copia de ningún sistema real).
+
 ## Guardado del MP4 en la rama (videos.yml)
 - **Varios videos por corrida**: lista `VIDEOS` (JSON con nombre, id y cuadros de control; `[]` = solo voces). Cada video se reparte en 10 máquinas
   (matriz video × parte) y `unir` verifica que las partes estén pegadas y completas antes de armar el MP4 (si una máquina falló, no sale un video cortado).

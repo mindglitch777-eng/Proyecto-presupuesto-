@@ -21,7 +21,7 @@ env:
   # Hechos: Video-v8-01-CuantoLeQueda, Video-v8-02-ElCuaderno, Video-v8-03-LaCajaMiente, Video-v8-04-CualTeHacePerder,
   # Video-v8-05-LaTorre, Video-v8-06-RayosX, Video-v8-07-ElTicket, Video-v8-08-CuentaRegresiva, Video-v8-09-MismoKiosco, Video-v8-10-KioscoCerrado,
   # Video-v8-11-PorHora, Video-v8-12-VenderMas, Video-v8-13-Taximetro, Video-v8-14-TrabajasGratis, Video-v9-03-PlataEncerrada.
-  VIDEOS: '[]'
+  VIDEOS: '[{"nombre":"fb-01-voz","id":"Video-fb-01-Voz","control":"0 220 500"},{"nombre":"fb-02-cargar-todo","id":"Video-fb-02-CargarTodo","control":"60 450 640"},{"nombre":"fb-03-factura","id":"Video-fb-03-Factura","control":"0 330 380"}]'
   PARTES: 10
 
 concurrency:

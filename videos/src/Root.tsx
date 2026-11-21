@@ -1,7 +1,7 @@
 import React from "react";
 import { Composition, staticFile, type CalculateMetadataFunction } from "remotion";
 import { Video, videoSchema, type VideoProps } from "./Video";
-import { GUIONES, GUION_V3_01, GUION_V3_02, GUION_V3_03, GUION_V4_01, GUION_V5_01, GUION_V3_06, GUION_V4_02, GUION_V5_02, GUION_V7_01, GUION_V8_01, GUION_V8_02, GUION_V8_03, GUION_V8_04, GUION_V8_05, GUION_V8_06, GUION_V8_07, GUION_V8_08, GUION_V8_09, GUION_V8_10, GUION_V8_11, GUION_V8_12, GUION_V8_13, GUION_V8_14, GUION_V9_03, GUION_P1, GUION_P2, GUION_P3, GUION_P4, GUION_P5, duracionVideo } from "./lib/guion";
+import { GUIONES, GUION_V3_01, GUION_V3_02, GUION_V3_03, GUION_V4_01, GUION_V5_01, GUION_V3_06, GUION_V4_02, GUION_V5_02, GUION_V7_01, GUION_V8_01, GUION_V8_02, GUION_V8_03, GUION_V8_04, GUION_V8_05, GUION_V8_06, GUION_V8_07, GUION_V8_08, GUION_V8_09, GUION_V8_10, GUION_V8_11, GUION_V8_12, GUION_V8_13, GUION_V8_14, GUION_V9_03, GUION_P1, GUION_P2, GUION_P3, GUION_P4, GUION_P5, GUION_FB_01, GUION_FB_02, GUION_FB_03, duracionVideo } from "./lib/guion";
 import { ElDueno } from "./v3/ElDueno";
 import { ElBanco } from "./v3/ElBanco";
 import { SeHunde } from "./v3/SeHunde";
@@ -29,6 +29,7 @@ import { PlataEncerrada } from "./v9/PlataEncerrada";
 import { CajaMiente } from "./piloto/CajaMiente";
 import { VendesNoCobras } from "./vnc/VendesNoCobras";
 import { Regalando } from "./rg/Regalando";
+import { DemoFb01, DemoFb02, DemoFb03 } from "./fb/DemoFB";
 import { Muestrario, DURACION_M, FPS_M } from "./muestrario/Muestrario";
 import { TrabajasParaPagar } from "./piloto/TrabajasParaPagar";
 import { PlataEnLaCalle } from "./piloto/PlataEnLaCalle";
@@ -390,5 +391,38 @@ export const Root: React.FC = () => (
       calculateMetadata={calcular}
     />
       <Composition id="Muestrario-Estilos" component={Muestrario} durationInFrames={DURACION_M * FPS_M} fps={FPS_M} width={1080} height={1920} />
+      <Composition
+      id="Video-fb-01-Voz"
+      component={DemoFb01}
+      schema={videoSchema}
+      durationInFrames={Math.round(duracionVideo(GUION_FB_01) * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: GUION_FB_01.id, gancho: 0, voz: null, palabras: null }}
+      calculateMetadata={calcular}
+    />
+    <Composition
+      id="Video-fb-02-CargarTodo"
+      component={DemoFb02}
+      schema={videoSchema}
+      durationInFrames={Math.round(duracionVideo(GUION_FB_02) * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: GUION_FB_02.id, gancho: 0, voz: null, palabras: null }}
+      calculateMetadata={calcular}
+    />
+    <Composition
+      id="Video-fb-03-Factura"
+      component={DemoFb03}
+      schema={videoSchema}
+      durationInFrames={Math.round(duracionVideo(GUION_FB_03) * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: GUION_FB_03.id, gancho: 0, voz: null, palabras: null }}
+      calculateMetadata={calcular}
+    />
   </>
 );

@@ -29,6 +29,9 @@ import guionP2 from "../../guiones/p2-trabajas-para-pagar.json";
 import guionP3 from "../../guiones/p3-plata-en-la-calle.json";
 import guionP4 from "../../guiones/p4-vendes-no-cobras.json";
 import guionP5 from "../../guiones/p5-regalando-ganancia.json";
+import guionFb01 from "../../guiones/fb-01-voz.json";
+import guionFb02 from "../../guiones/fb-02-cargar-todo.json";
+import guionFb03 from "../../guiones/fb-03-factura.json";
 
 export const lineaSchema = z.object({
   desde: z.number(),
@@ -90,6 +93,9 @@ export const GUION_P2: Guion = guionSchema.parse(guionP2);
 export const GUION_P3: Guion = guionSchema.parse(guionP3);
 export const GUION_P4: Guion = guionSchema.parse(guionP4);
 export const GUION_P5: Guion = guionSchema.parse(guionP5);
+export const GUION_FB_01: Guion = guionSchema.parse(guionFb01);
+export const GUION_FB_02: Guion = guionSchema.parse(guionFb02);
+export const GUION_FB_03: Guion = guionSchema.parse(guionFb03);
 
 /** Una palabra con su tiempo, en segundos (sale de voces/<id>.gancho-N.json o del respaldo). */
 export type Palabra = { texto: string; desde: number; hasta: number; linea: number };
