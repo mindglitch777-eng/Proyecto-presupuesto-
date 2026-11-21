@@ -112,10 +112,10 @@ def mat_textura(nombre, rol, escala=1.0, tinte=None, rug=0.8, metal=0.0):
             mx = nt.nodes.new("ShaderNodeMix")
             mx.data_type = "RGBA"
             mx.blend_type = "MULTIPLY"
-            mx.inputs["Factor"].default_value = 0.6
-            nt.links.new(c.outputs["Color"], mx.inputs["A"])
-            mx.inputs["B"].default_value = (*tinte, 1)
-            nt.links.new(mx.outputs["Result"], bsdf.inputs["Base Color"])
+            mx.inputs[0].default_value = 0.6
+            nt.links.new(c.outputs["Color"], mx.inputs[6])
+            mx.inputs[7].default_value = (*tinte, 1)
+            nt.links.new(mx.outputs[2], bsdf.inputs["Base Color"])
         else:
             nt.links.new(c.outputs["Color"], bsdf.inputs["Base Color"])
     if "rugosidad" in d:
@@ -175,10 +175,10 @@ def mat_billete():
     lt = nt.nodes.new("ShaderNodeMath"); lt.operation = "LESS_THAN"; lt.inputs[1].default_value = 0.06
     nt.links.new(mn.outputs[0], lt.inputs[0])
     mx = nt.nodes.new("ShaderNodeMix"); mx.data_type = "RGBA"
-    nt.links.new(lt.outputs[0], mx.inputs["Factor"])
-    nt.links.new(rampa.outputs["Color"], mx.inputs["A"])
-    mx.inputs["B"].default_value = (0.85, 0.9, 0.8, 1)
-    nt.links.new(mx.outputs["Result"], b.inputs["Base Color"])
+    nt.links.new(lt.outputs[0], mx.inputs[0])
+    nt.links.new(rampa.outputs["Color"], mx.inputs[6])
+    mx.inputs[7].default_value = (0.85, 0.9, 0.8, 1)
+    nt.links.new(mx.outputs[2], b.inputs["Base Color"])
     return m
 
 
@@ -224,17 +224,19 @@ def importar_modelo(rol, alto_max):
     mallas = [o for o in nuevos if o.type == "MESH"]
     if not mallas:
         return None
+    nombres = [x.name for x in nuevos]
     bpy.ops.object.select_all(action="DESELECT")
     for o in mallas:
         o.select_set(True)
     bpy.context.view_layer.objects.active = mallas[0]
+    bpy.ops.object.parent_clear(type="CLEAR_KEEP_TRANSFORM")
     if len(mallas) > 1:
         bpy.ops.object.join()
     o = bpy.context.view_layer.objects.active
-    o.parent = None
     bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
-    for x in nuevos:
-        if x != o and x.name in bpy.data.objects:
+    for n in nombres:
+        x = bpy.data.objects.get(n)
+        if x is not None and x != o:
             bpy.data.objects.remove(x, do_unlink=True)
     vs = [v.co for v in o.data.vertices]
     mn = Vector((min(v.x for v in vs), min(v.y for v in vs), min(v.z for v in vs)))
