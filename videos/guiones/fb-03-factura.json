@@ -1,0 +1,54 @@
+{
+ "id": "fb-03-factura",
+ "titulo": "Le saqué foto a la factura y me dijo qué precio cambiar",
+ "duracionSeg": 25.1,
+ "tramos": [],
+ "cola": 1.5,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, en primera persona, como un kiosquero argentino de 45 años que le cuenta a otro kiosquero cómo hace las cosas en su negocio: tranquilo, cercano, convencido, natural, a velocidad normal (sin apurarte), sin tono de publicidad. Pausa corta en cada punto. Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "LLEGÓ",
+    "LA",
+    "FACTURA"
+   ],
+   "voz": "Llegó la factura del proveedor. Antes la revisaba renglón por renglón."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 4.62,
+   "texto": "GANCHO",
+   "gancho": true
+  },
+  {
+   "desde": 4.97,
+   "hasta": 7.07,
+   "texto": "Ahora le saco una foto…"
+  },
+  {
+   "desde": 7.42,
+   "hasta": 12.88,
+   "texto": "…y me dice qué subió y a cuánto tengo que poner cada cosa."
+  },
+  {
+   "desde": 13.23,
+   "hasta": 17.85,
+   "texto": "Sin cargar nada a mano. Y mi margen no se pierde."
+  },
+  {
+   "desde": 18.2,
+   "hasta": 23.24,
+   "texto": "Los primeros cien kioscos pagan doce mil novecientos por mes, para siempre."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.4,
+ "silencio_max": 0.5
+}

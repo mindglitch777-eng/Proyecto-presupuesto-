@@ -1,0 +1,61 @@
+{
+ "id": "fb-02-cargar-todo",
+ "titulo": "Los otros sistemas te hacen cargar todo",
+ "duracionSeg": 34.7,
+ "tramos": [],
+ "cola": 1.5,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, en primera persona, como un kiosquero argentino de 45 años que le cuenta a otro kiosquero cómo hace las cosas en su negocio: tranquilo, cercano, convencido, natural, a velocidad normal (sin apurarte), sin tono de publicidad. Pausa corta en cada punto. Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "¿TU",
+    "SISTEMA",
+    "TE"
+   ],
+   "voz": "¿Tu sistema te hace cargar cada venta, cada producto, cada precio?"
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 4.62,
+   "texto": "GANCHO",
+   "gancho": true
+  },
+  {
+   "desde": 4.97,
+   "hasta": 8.33,
+   "texto": "Si un día no cargás, ya no sirve."
+  },
+  {
+   "desde": 8.68,
+   "hasta": 13.3,
+   "texto": "Con En Claro le contás tu día hablando, en veinte segundos,"
+  },
+  {
+   "desde": 13.65,
+   "hasta": 21.63,
+   "texto": "Entraron doscientos treinta mil pesos, cien mil con tarjeta. Al distribuidor de bebidas le di setenta y ocho mil",
+   "aparte": "Hablá en español rioplatense de Argentina, con acento porteño, en primera persona: sos un kiosquero que le dicta su día al micrófono del celular, claro y a ritmo normal, sin apurarte, como quien le habla al teléfono. Decí exactamente esto:",
+   "silencio": 0.35
+  },
+  {
+   "desde": 21.98,
+   "hasta": 27.44,
+   "texto": "y te dice cuánto te quedó, a quién cobrarle y qué precio subir."
+  },
+  {
+   "desde": 27.79,
+   "hasta": 32.83,
+   "texto": "Los primeros cien kioscos pagan doce mil novecientos por mes, para siempre."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.4,
+ "silencio_max": 0.5
+}

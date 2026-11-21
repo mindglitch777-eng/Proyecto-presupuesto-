@@ -12,6 +12,79 @@ const SAL = path.resolve(process.argv[3] || `grabacion-${DEMO}`);
 const texto = (page) => page.locator("main").innerText();
 const exigir = (cond, msg) => { if (!cond) throw new Error(msg); };
 
+
+// ---------- demos de Facebook: "grabar pantalla" del celular ----------
+// Toques de dedo (círculo gris, como "mostrar toques" de Android), dedo que arrastra al hacer scroll y micrófono simulado:
+// el robot no tiene micrófono, así que el reconocedor de voz del navegador se reemplaza por uno que "escucha" la frase
+// exacta de tests/voz.json palabra por palabra (window.__frase, una palabra cada window.__paso ms) y avisa cada palabra.
+const FRASES = require("../tests/voz.json").frases.map((f) => f.texto);
+const INIT_FB = () => {
+  const css = "position:fixed;z-index:99999;pointer-events:none;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(120,120,120,.45);border:2px solid rgba(255,255,255,.7);box-shadow:0 2px 8px rgba(0,0,0,.25)";
+  const toque = (x, y) => {
+    const d = document.createElement("div");
+    d.style.cssText = css + `;left:${x}px;top:${y}px;transition:transform .35s ease-out,opacity .35s ease-out`;
+    document.documentElement.appendChild(d);
+    requestAnimationFrame(() => requestAnimationFrame(() => { d.style.transform = "scale(1.35)"; d.style.opacity = "0"; }));
+    setTimeout(() => d.remove(), 500);
+  };
+  addEventListener("pointerdown", (e) => toque(e.clientX, e.clientY), true);
+  window.__dedo = (x, y) => {
+    let d = document.getElementById("__dedo");
+    if (x === null) { d?.remove(); return; }
+    if (!d) { d = document.createElement("div"); d.id = "__dedo"; d.style.cssText = css; document.documentElement.appendChild(d); }
+    d.style.left = x + "px"; d.style.top = y + "px";
+  };
+  class Rec {
+    constructor() { this.onresult = null; this.onerror = null; this.onend = null; this.t = []; }
+    start() {
+      const pal = String(window.__frase || "").split(/\s+/).filter(Boolean);
+      const paso = window.__paso || 330;
+      pal.forEach((_, k) => this.t.push(setTimeout(() => {
+        const fin = k === pal.length - 1;
+        this.onresult?.({ resultIndex: 0, results: [{ isFinal: fin, 0: { transcript: pal.slice(0, k + 1).join(" ") } }] });
+        window.__palabra?.(k);
+      }, 450 + k * paso)));
+    }
+    stop() { this.t.forEach(clearTimeout); this.onend?.(); }
+    abort() { this.stop(); }
+  }
+  window.SpeechRecognition = Rec;
+  window.webkitSpeechRecognition = Rec;
+};
+/** Scroll con el dedo: el círculo arrastra hacia arriba mientras la página baja. */
+async function deslizar(page, total, pasos = 10, x = 200, y = 430) {
+  for (let i = 0; i <= pasos; i++) {
+    await page.evaluate(([a, b]) => window.__dedo(a, b), [x, y - (i / pasos) * Math.min(260, total * 0.6)]);
+    if (i < pasos) await page.mouse.wheel(0, total / pasos);
+    await page.waitForTimeout(45);
+  }
+  await page.waitForTimeout(120);
+  await page.evaluate(() => window.__dedo(null));
+}
+/** Toque "humano": el dedo baja sobre el elemento, pausa y suelta. */
+async function tocar(page, loc) {
+  await loc.scrollIntoViewIfNeeded();
+  const b = await loc.boundingBox();
+  await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 4 });
+  await page.mouse.down();
+  await page.waitForTimeout(90);
+  await page.mouse.up();
+}
+/** Cierre por voz: toca el micrófono, "dice" la frase (cada palabra queda marcada w0, w1, …) y toca Listo. */
+async function cierrePorVoz(page, marca, frase) {
+  exigir(FRASES.includes(frase), "La frase no está exacta en tests/voz.json: " + frase);
+  await page.evaluate((f) => { window.__frase = f; window.__paso = 330; }, frase);
+  await tocar(page, page.getByRole("button", { name: "Hablar" }));
+  marca("mic");
+  await page.getByText("Te escucho…").waitFor();
+  const n = frase.split(/\s+/).filter(Boolean).length;
+  await page.waitForFunction((k) => (window.__dichas || 0) >= k, n, { timeout: 30000 });
+  await page.waitForTimeout(500);
+  await tocar(page, page.getByRole("button", { name: "Listo" }));
+  marca("listo");
+  await page.getByText("Esto es lo que entendí").waitFor();
+}
+
 // Cada recorrido recibe la página y `marca(nombre)`; `corte(desde, hasta)` saca un tramo de espera (ej.: mientras se lee la foto).
 const RECORRIDOS = {
   async "v8-02"(page, marca) {
@@ -283,6 +356,98 @@ const RECORRIDOS = {
     await page.waitForTimeout(1500);
     marca("fin");
   },
+
+  async "fb-01"(page, marca) {
+    await page.goto(BASE + "/app", { waitUntil: "networkidle" });
+    marca("dia");
+    await page.waitForTimeout(1600);
+    await tocar(page, page.getByRole("link", { name: "Cierre", exact: true }));
+    await page.getByRole("button", { name: "Hablar" }).waitFor();
+    await page.waitForTimeout(300);
+    marca("cierre");
+    await page.waitForTimeout(1400);
+    await cierrePorVoz(page, marca, FRASES[0]);
+    marca("entendio");
+    await page.waitForTimeout(900);
+    await deslizar(page, 520, 12);
+    await page.waitForTimeout(400);
+    await tocar(page, page.getByRole("button", { name: "Guardar cierre" }));
+    marca("guardar");
+    await page.getByText("Ganancia de hoy").waitFor();
+    await page.evaluate(() => window.scrollTo(0, 0));
+    marca("resultado");
+    const t = await texto(page);
+    exigir(/Ganancia de hoy\s*\$19\.000/.test(t), "El cierre no dio $19.000:\n" + t.slice(0, 400));
+    await page.waitForTimeout(4000);
+    marca("fin");
+  },
+  async "fb-02"(page, marca) {
+    await page.goto(BASE + "/app/cierre", { waitUntil: "networkidle" });
+    marca("cierre");
+    await page.waitForTimeout(900);
+    await cierrePorVoz(page, marca, FRASES[3]);
+    marca("entendio");
+    await page.waitForTimeout(700);
+    await tocar(page, page.getByRole("button", { name: "Guardar cierre" }));
+    await page.getByText("Ganancia de hoy").waitFor();
+    await page.evaluate(() => window.scrollTo(0, 0));
+    marca("resultado");
+    exigir(/Ganancia de hoy\s*\$58\.500/.test(await texto(page)), "El cierre no dio $58.500:\n" + (await texto(page)).slice(0, 400));
+    await page.waitForTimeout(1200);
+    await tocar(page, page.getByRole("link", { name: "Ver tu día" }));
+    await page.getByText("Ganancia de hoy").waitFor();
+    await page.waitForLoadState("networkidle");
+    marca("dia");
+    await page.waitForTimeout(1600);
+    await tocar(page, page.getByRole("link", { name: "Fiados", exact: true }));
+    await page.getByText("Te deben en total").waitFor();
+    marca("fiados");
+    await page.waitForTimeout(1600);
+    await tocar(page, page.getByRole("link", { name: "Precios", exact: true }));
+    await page.getByText("Lo que te deja cada producto").waitFor();
+    marca("precios");
+    await page.waitForTimeout(700);
+    await tocar(page, page.getByRole("button", { name: /^Alfajor triple/ }));
+    await page.locator("#costo").fill("");
+    await page.locator("#costo").pressSequentially("900", { delay: 110 });
+    await page.getByText("Usar ese precio").waitFor();
+    marca("precio");
+    await page.waitForTimeout(2600);
+    marca("fin");
+  },
+  async "fb-03"(page, marca, corte) {
+    await page.goto(BASE + "/app/factura", { waitUntil: "networkidle" });
+    marca("factura");
+    await page.waitForTimeout(2200);
+    const [chooser] = await Promise.all([page.waitForEvent("filechooser"), tocar(page, page.getByText("Sacale foto a la factura"))]);
+    marca("foto");
+    await chooser.setFiles(path.join(__dirname, "../tests/facturas/factura-v8-04.jpg"));
+    await page.waitForTimeout(1200);
+    const a = marca("leyendo");
+    await page.getByText("Esto es lo que encontré").waitFor({ timeout: 120000 });
+    const b = marca("leido");
+    corte(a + 1.2, b - 0.5);
+    const t = await texto(page);
+    for (const r of ["Aumentó $750 (21%)", "Aumentó $450 (45%)"]) exigir(t.includes(r), `Falta "${r}" en la factura leída:\n` + t.slice(0, 600));
+    await page.waitForTimeout(1200);
+    await deslizar(page, 420, 12);
+    marca("lista");
+    await page.waitForTimeout(1300);
+    await deslizar(page, 520, 12);
+    await page.waitForTimeout(900);
+    await deslizar(page, 900, 14);
+    marca("aumentaron");
+    await page.waitForTimeout(1200);
+    await tocar(page, page.getByRole("button", { name: /^Aplicar/ }));
+    await page.getByText(/Precios actualizados/).waitFor();
+    await page.evaluate(() => window.scrollTo(0, 0));
+    marca("aplicado");
+    await page.waitForTimeout(1500);
+    await deslizar(page, 380, 12);
+    marca("carteles");
+    await page.waitForTimeout(2500);
+    marca("fin");
+  },
   async "v8-12"(page, marca) {
     await page.goto(BASE + "/app/precios", { waitUntil: "networkidle" });
     marca("ranking");
@@ -307,10 +472,19 @@ const RECORRIDOS = {
   exigir(RECORRIDOS[DEMO], `Demo desconocida: ${DEMO} (v8-02 a v8-07)`);
   fs.rmSync(SAL, { recursive: true, force: true });
   fs.mkdirSync(path.join(SAL, "cuadros"), { recursive: true });
-  const b = await chromium.launch();
-  const ctx = await b.newContext({ viewport: { width: 360, height: 780 }, deviceScaleFactor: 3, locale: "es-AR" });
+  // FB: el campo de fecha en formato argentino (21/11/2026), como en un celular configurado en español
+  const b = await chromium.launch(DEMO.startsWith("fb-") ? { args: ["--lang=es-AR"], env: { ...process.env, LANG: "es_AR.UTF-8", LANGUAGE: "es_AR" } } : {});
+  let t0 = 0;
+  const marcas = {}, cortes = [];
+  const FB = DEMO.startsWith("fb-");
+  // FB: pantalla de 360 × 616 (+ barra de estado de 24 px que pone el video) = 9:16 justo, a 1080 × 1848 px.
+  const ctx = await b.newContext({ viewport: { width: 360, height: FB ? 616 : 780 }, deviceScaleFactor: 3, locale: "es-AR", hasTouch: false });
   await ctx.addCookies([{ name: "enclaro_prueba", value: "1", url: BASE }]);
   const page = await ctx.newPage();
+  if (FB) {
+    await page.addInitScript(INIT_FB);
+    await page.exposeFunction("__palabra", (k) => { marcas[`w${k}`] = Date.now() / 1000 - t0; return page.evaluate((n) => { window.__dichas = n; }, k + 1).catch(() => {}); });
+  }
   const cuadros = [];
   const cdp = await ctx.newCDPSession(page);
   cdp.on("Page.screencastFrame", async (f) => {
@@ -323,8 +497,7 @@ const RECORRIDOS = {
   // pantalla en blanco del mismo color mientras carga la primera página
   await page.goto(BASE + "/app/ajustes", { waitUntil: "networkidle" });
   await cdp.send("Page.startScreencast", { format: "jpeg", quality: 92, maxWidth: 1080, maxHeight: 2340, everyNthFrame: 1 });
-  const t0 = Date.now() / 1000;
-  const marcas = {}, cortes = [];
+  t0 = Date.now() / 1000;
   const marca = (n) => (marcas[n] = Date.now() / 1000 - t0);
   await RECORRIDOS[DEMO](page, marca, (a, c) => cortes.push([a, c]));
   await cdp.send("Page.stopScreencast");

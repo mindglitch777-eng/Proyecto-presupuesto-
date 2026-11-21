@@ -297,7 +297,24 @@ function semillaV9_04(): Estado {
   return e;
 }
 
-const SEMILLAS: Record<string, () => Estado> = { "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07, "v8-08": semillaVideoV8_08, "v8-09": semillaVideoV8_09, "v8-10": semillaVideoV8_10, "v8-11": semillaVideoV8_11, "v8-12": semillaVideoV8_12, "v8-13": semillaVideoV8_11, "v8-14": semillaVideoV8_11, "v9-03": semillaVideoV9_03, p1: () => semillaPiloto("p1"), p2: () => semillaPiloto("p2"), p3: () => semillaPiloto("p3"), p5: semillaP5, "v9-04": semillaV9_04 };
+/**
+ * Demos de Facebook (ENCLARO_DEMO=fb-01 | fb-02 | fb-03), grabación de pantalla "de celular".
+ * fb-01: el kiosco del V8-01 sin cierre hoy; se cierra por voz con la frase 1 de tests/voz.json
+ *        (vende $120.000, deja 35% = $42.000 − flete $5.000 − fijos del día $18.000 → ganancia $19.000).
+ * fb-02: mismo kiosco con Marta en rojo en Fiados y el alfajor para revisar; se cierra por voz con la frase 4 de tests/voz.json
+ *        ($230.000, $100.000 con tarjeta 4% = $4.000; deja $80.500 − $4.000 − $18.000 → ganancia $58.500).
+ * fb-03: la factura del V8-04 (4 productos con el costo viejo).
+ */
+const semillaFb01 = () => semillaVideoV8();
+function semillaFb02(): Estado {
+  const e = semillaVideoV8_10();
+  const hoy = hoyArgentina();
+  e.cierres = e.cierres.filter((c) => c.fecha !== hoy);
+  return e;
+}
+const semillaFb03 = () => semillaVideoV8_04();
+
+const SEMILLAS: Record<string, () => Estado> = { "fb-01": semillaFb01, "fb-02": semillaFb02, "fb-03": semillaFb03, "v8-01": semillaVideoV8, "v8-02": semillaVideoV8_02, "v8-03": semillaVideoV8_03, "v8-04": semillaVideoV8_04, "v8-05": semillaVideoV8_05, "v8-06": semillaVideoV8_06, "v8-07": semillaVideoV8_07, "v8-08": semillaVideoV8_08, "v8-09": semillaVideoV8_09, "v8-10": semillaVideoV8_10, "v8-11": semillaVideoV8_11, "v8-12": semillaVideoV8_12, "v8-13": semillaVideoV8_11, "v8-14": semillaVideoV8_11, "v9-03": semillaVideoV9_03, p1: () => semillaPiloto("p1"), p2: () => semillaPiloto("p2"), p3: () => semillaPiloto("p3"), p5: semillaP5, "v9-04": semillaV9_04 };
 const semillaActual = () => (SEMILLAS[process.env.ENCLARO_DEMO ?? ""] ?? semilla)();
 
 const g = globalThis as unknown as { __enclaroMemoria?: Estado };

@@ -1,0 +1,20 @@
+{
+ "demo": "fb-03",
+ "marcas": {
+  "factura": 0,
+  "foto": 2.452,
+  "leyendo": 3.667,
+  "leido": 3.671,
+  "lista": 5.666,
+  "aumentaron": 9.598,
+  "aplicado": 11.029,
+  "carteles": 13.332,
+  "fin": 15.834
+ },
+ "cortes": [
+  [
+   5.436000061035156,
+   3.740000009536743
+  ]
+ ]
+}

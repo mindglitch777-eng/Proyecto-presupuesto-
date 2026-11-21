@@ -1,0 +1,56 @@
+{
+ "id": "fb-01-voz",
+ "titulo": "Cerré mi kiosco en 20 segundos, hablando",
+ "duracionSeg": 32.2,
+ "tramos": [],
+ "cola": 1.5,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, en primera persona, como un kiosquero argentino de 45 años que le cuenta a otro kiosquero cómo hace las cosas en su negocio: tranquilo, cercano, convencido, natural, a velocidad normal (sin apurarte), sin tono de publicidad. Pausa corta en cada punto. Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": [
+    "ASÍ",
+    "CIERRO",
+    "MI"
+   ],
+   "voz": "Así cierro mi kiosco a la noche. No cargo venta por venta."
+  }
+ ],
+ "lineas": [
+  {
+   "desde": 0.0,
+   "hasta": 5.04,
+   "texto": "GANCHO",
+   "gancho": true
+  },
+  {
+   "desde": 5.39,
+   "hasta": 8.75,
+   "texto": "Toco el micrófono y le cuento mi día:"
+  },
+  {
+   "desde": 9.1,
+   "hasta": 15.82,
+   "texto": "Hoy vendí ciento veinte mil, le pagué sesenta mil al proveedor y cinco mil de flete",
+   "aparte": "Hablá en español rioplatense de Argentina, con acento porteño, en primera persona: sos un kiosquero que le dicta su día al micrófono del celular, claro y a ritmo normal, sin apurarte, como quien le habla al teléfono. Decí exactamente esto:",
+   "silencio": 0.35
+  },
+  {
+   "desde": 16.17,
+   "hasta": 23.31,
+   "texto": "Y listo. Me dice cuánto me quedó de verdad. No lo que entró: lo que me quedó."
+  },
+  {
+   "desde": 23.66,
+   "hasta": 30.38,
+   "texto": "Los primeros cien kioscos pagan doce mil novecientos por mes, para siempre. Probalo catorce días gratis."
+  }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.4,
+ "silencio_max": 0.5
+}
