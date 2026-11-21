@@ -15,6 +15,8 @@ env:
   BLENDER: "4.2.3"
   PARTES: 10
   CUADROS: 180
+  # Cuadros ya renderizados en una corrida anterior (partes 0,1,2,3,7,8): se reusan y solo se renderiza lo que falta.
+  PREVIO: "44861407781"
 
 concurrency:
   group: blender-${{ github.ref }}
@@ -22,6 +24,7 @@ concurrency:
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   assets:
@@ -35,14 +38,14 @@ jobs:
         with: { name: ph-assets, path: ph, retention-days: 3 }
 
   parte:
-    name: Cycles parte ${{ matrix.parte }}
+    name: Cycles cuadros ${{ matrix.rango }}
     needs: assets
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 300
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        parte: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        rango: ["73-77", "78-82", "83-86", "87-90", "91-95", "96-100", "101-104", "105-108", "109-113", "114-118", "119-122", "123-126", "163-167", "168-172", "173-176", "177-180"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -63,14 +66,12 @@ jobs:
           ~/blender/blender --version | head -1
       - name: Render de la parte
         run: |
-          P=${{ matrix.parte }}
-          N=$((CUADROS / PARTES))
-          DESDE=$((P * N + 1)); HASTA=$(((P + 1) * N))
+          R="${{ matrix.rango }}"; DESDE=${R%-*}; HASTA=${R#*-}; N=$((HASTA - DESDE + 1))
           ~/blender/blender -b -noaudio -P videos/blender/escena_v903.py -- "$PWD/ph" "$PWD/cuadros" $DESDE $HASTA 2>&1 | grep -v "^Fra:.*Sample" | tail -n 80
           ls cuadros | wc -l
           [ "$(ls cuadros/*.png | wc -l)" -eq "$N" ] || { echo "Faltan cuadros"; exit 1; }
       - uses: actions/upload-artifact@v4
-        with: { name: "cuadros-${{ matrix.parte }}", path: cuadros, retention-days: 3 }
+        with: { name: "cuadros-r${{ matrix.rango }}", path: cuadros, retention-days: 3 }
 
   unir:
     name: Unir y comparar
@@ -80,6 +81,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with: { pattern: "cuadros-*", path: cuadros, merge-multiple: true }
+      - name: Cuadros de la corrida anterior
+        uses: actions/download-artifact@v4
+        with: { pattern: "cuadros-*", path: cuadros, merge-multiple: true, run-id: "${{ env.PREVIO }}", github-token: "${{ github.token }}" }
       - uses: actions/download-artifact@v4
         with: { name: ph-assets, path: ph }
       - run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg >/dev/null
