@@ -1,0 +1,140 @@
+name: Blender (prueba)
+
+# Prueba de Blender en Cycles: 6 s del V9-03 "Plata encerrada" con modelos, texturas y HDRI de Poly Haven (CC0).
+# Blender portable sin interfaz, render repartido en 10 máquinas (18 cuadros cada una), después se une y se compara
+# lado a lado con el mismo tramo del video en three.js. Deja los MP4 en videos/salida/ de esta misma rama.
+
+on:
+  push:
+    paths:
+      - "videos/blender/**"
+      - ".github/workflows/blender.yml"
+  workflow_dispatch:
+
+env:
+  BLENDER: "4.2.3"
+  PARTES: 10
+  CUADROS: 180
+
+concurrency:
+  group: blender-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  assets:
+    name: Assets de Poly Haven
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 videos/blender/bajar_assets.py ph
+      - run: cat ph/assets.json ph/creditos.txt
+      - uses: actions/upload-artifact@v4
+        with: { name: ph-assets, path: ph, retention-days: 3 }
+
+  parte:
+    name: Cycles parte ${{ matrix.parte }}
+    needs: assets
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: true
+      matrix:
+        parte: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: ph-assets, path: ph }
+      - name: Bibliotecas que pide Blender sin interfaz
+        run: sudo apt-get update -q && sudo apt-get install -y -q libxi6 libxkbcommon0 libxrender1 libgl1 libsm6 libxxf86vm1 libxfixes3 libegl1 >/dev/null
+      - uses: actions/cache@v4
+        with:
+          path: ~/blender
+          key: blender-${{ env.BLENDER }}
+      - name: Blender portable
+        run: |
+          if [ ! -x ~/blender/blender ]; then
+            V="${BLENDER%.*}"
+            curl -fsSL "https://download.blender.org/release/Blender$V/blender-$BLENDER-linux-x64.tar.xz" -o b.tar.xz
+            mkdir -p ~/blender && tar -xJf b.tar.xz -C ~/blender --strip-components=1 && rm b.tar.xz
+          fi
+          ~/blender/blender --version | head -1
+      - name: Render de la parte
+        run: |
+          P=${{ matrix.parte }}
+          N=$((CUADROS / PARTES))
+          DESDE=$((P * N + 1)); HASTA=$(((P + 1) * N))
+          ~/blender/blender -b -noaudio -P videos/blender/escena_v903.py -- "$PWD/ph" "$PWD/cuadros" $DESDE $HASTA 2>&1 | grep -v "^Fra:.*Sample" | tail -n 80
+          ls cuadros | wc -l
+          [ "$(ls cuadros/*.png | wc -l)" -eq "$N" ] || { echo "Faltan cuadros"; exit 1; }
+      - uses: actions/upload-artifact@v4
+        with: { name: "cuadros-${{ matrix.parte }}", path: cuadros, retention-days: 3 }
+
+  unir:
+    name: Unir y comparar
+    needs: parte
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { pattern: "cuadros-*", path: cuadros, merge-multiple: true }
+      - uses: actions/download-artifact@v4
+        with: { name: ph-assets, path: ph }
+      - run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg >/dev/null
+      - name: MP4 de Blender y comparación
+        run: |
+          [ "$(ls cuadros/*.png | wc -l)" -eq "$CUADROS" ] || { echo "Faltan cuadros"; exit 1; }
+          F=videos/public/fuentes/SpaceGrotesk-Bold.ttf
+          mkdir -p out
+          ffmpeg -y -v error -framerate 30 -start_number 1 -i cuadros/c%04d.png -f lavfi -i anullsrc=r=48000:cl=stereo \
+            -c:v libx264 -crf 17 -preset slow -pix_fmt yuv420p -c:a aac -shortest -movflags +faststart out/blender.mp4
+          ffmpeg -y -v error -ss 2.58 -t 6 -i videos/salida/en-claro-v9-03-plata-encerrada.mp4 -an -vf "fps=30,scale=1080:1920" -c:v libx264 -crf 17 -pix_fmt yuv420p out/three.mp4
+          cat > filtro.txt <<EOF
+          [0:v]split=2[t1][t2];[1:v]split=2[b1][b2];
+          [t1]scale=540:960,setsar=1[a];[b1]scale=540:960,setsar=1[b];
+          [a][b]hstack=inputs=2[ab];
+          [ab]pad=1080:1920:0:480:color=0x0b0b0b,
+          drawtext=fontfile=$F:text='Misma escena, dos motores':fontcolor=white:fontsize=58:x=(w-tw)/2:y=200,
+          drawtext=fontfile=$F:text='three.js (actual)':fontcolor=0xffd166:fontsize=40:x=270-tw/2:y=400,
+          drawtext=fontfile=$F:text='Blender Cycles':fontcolor=0x7dffb0:fontsize=40:x=810-tw/2:y=400,
+          drawtext=fontfile=$F:text='Prueba · no se publica':fontcolor=0x888888:fontsize=34:x=(w-tw)/2:y=1520[lado];
+          [b2]drawtext=fontfile=$F:text='Blender Cycles':fontcolor=0x7dffb0:fontsize=44:box=1:boxcolor=0x000000aa:boxborderw=16:x=(w-tw)/2:y=90[bl];
+          [t2]drawtext=fontfile=$F:text='three.js (actual)':fontcolor=0xffd166:fontsize=44:box=1:boxcolor=0x000000aa:boxborderw=16:x=(w-tw)/2:y=90[th];
+          [lado][bl][th]concat=n=3:v=1:a=0,format=yuv420p[v]
+          EOF
+          tr -d '\n' < filtro.txt > f2.txt && cat f2.txt
+          ffmpeg -y -v error -i out/three.mp4 -i out/blender.mp4 -f lavfi -t 18 -i anullsrc=r=48000:cl=stereo \
+            -filter_complex_script f2.txt -map "[v]" -map 2:a -c:v libx264 -crf 18 -preset slow -c:a aac -shortest -movflags +faststart out/comparativa.mp4
+          ffprobe -v error -show_entries stream=width,height,nb_frames -show_entries format=duration -of compact out/comparativa.mp4 out/blender.mp4
+          {
+            echo 'En Claro · prueba de Blender (Cycles) del V9-03 "Plata encerrada" — créditos'
+            echo
+            echo "Render: Blender $BLENDER (GPL, portable, sin interfaz) en GitHub Actions, Cycles por CPU en 10 máquinas."
+            echo "Assets de Poly Haven (CC0, dominio público: no exigen crédito, igual se anotan):"
+            cat ph/creditos.txt
+            echo "Estanterías, reja, billetes (genéricos, sin diseño de ninguna moneda real) y fajos: hechos en código (videos/blender/escena_v903.py)."
+            echo "Tipografía: Space Grotesk (SIL Open Font License). Montos de ejemplo. Sin marcas."
+          } > out/creditos.txt
+          cat out/creditos.txt
+      - uses: actions/upload-artifact@v4
+        with: { name: blender-mp4, path: out, retention-days: 7 }
+      - name: Dejar los MP4 en la misma rama (videos/salida/)
+        run: |
+          RAMA="${{ github.ref_name }}"
+          cp out/blender.mp4 "$RUNNER_TEMP/b.mp4"; cp out/comparativa.mp4 "$RUNNER_TEMP/c.mp4"; cp out/creditos.txt "$RUNNER_TEMP/c.txt"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          ok=0
+          for i in 1 2 3 4 5 6 7 8; do
+            git fetch -q origin "$RAMA" && git reset -q --hard "origin/$RAMA" && git clean -qfd \
+              && cp "$RUNNER_TEMP/b.mp4" videos/salida/blender-v9-03-prueba.mp4 \
+              && cp "$RUNNER_TEMP/c.mp4" videos/salida/comparativa-blender-threejs.mp4 \
+              && cp "$RUNNER_TEMP/c.txt" videos/salida/blender-prueba-creditos.txt \
+              && git add videos/salida/blender-v9-03-prueba.mp4 videos/salida/comparativa-blender-threejs.mp4 videos/salida/blender-prueba-creditos.txt \
+              && { git diff --cached --quiet || git commit -q -m "MP4 listo: prueba de Blender"; } \
+              && git push -q origin "HEAD:$RAMA" && { ok=1; break; }
+            sleep $((i * 5))
+          done
+          [ "$ok" = 1 ]
