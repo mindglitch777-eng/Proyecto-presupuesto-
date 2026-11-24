@@ -44,7 +44,7 @@ export const Subtitulos: React.FC<{ t: number; tv: number; g: Guion; palabras: P
         {page.tokens.map((tk, j) => {
           const on = ms >= tk.fromMs && ms < tk.toMs + 60;
           return (
-            <span key={j} style={{ position: "relative", display: "inline-block", margin: "0 4px", color: on ? "#FFB703" : "#fff", transform: on ? "scale(1.12)" : undefined }}>
+            <span key={j} style={{ position: "relative", display: "inline-block", margin: "0 8px", color: on ? "#FFB703" : "#fff", transform: on ? "scale(1.12)" : undefined }}>
               {tk.text.trim()}
             </span>
           );
