@@ -310,7 +310,7 @@ const Final: React.FC<{ t: number; T: T }> = ({ t, T }) => {
   const l9 = T.l[9];
   const persiana = entra((t - l9) / 1.2);
   const cel = sp(t - T.contarle + 0.3, 1.04, 12, 0.55);
-  const desde = 9.6; // segundo de la grabación fb-01 donde la app ya entendió la frase (marca "listo")
+  const desde = 11.0; // segundo de la grabación fb-01 donde la app ya entendió la frase (marca "listo")
   return (
     <>
       <div style={{ inset: 0, background: "linear-gradient(#0b1220, #151b26)" }} />
@@ -392,7 +392,7 @@ export const DondeEstaLaPlata: React.FC<VideoProps> = ({ voz, palabras }) => {
   const tg = tw;
   const textos = (
     <>
-      <div style={{ left: 0, right: 0, top: 0, height: 150, background: "linear-gradient(#000d 55%, #0000)" }} />
+      {tg >= l[1] - 0.05 && tg < l[8] - 0.05 ? <div style={{ left: 0, right: 0, top: 0, height: 150, background: "linear-gradient(#000d 55%, #0000)" }} /> : null}
       <div style={{ left: 0, right: 0, top: 8, textAlign: "center", font: `700 10px ${BODY}`, color: "#ffffffaa", letterSpacing: ".1em" }}>HISTORIA RECREADA · MONTOS DE EJEMPLO</div>
       {!loop && tg >= l[1] - 0.05 && tg < l[2] - 0.05 ? (tg < T.tres ? <Etiqueta texto="EXPEDIENTE ABIERTO" top={30} size={18} fondo={C.tinta} color={C.ambar} /> : <Cartel texto="3 SOSPECHOSOS" top={34} size={30} fondo={C.ambar} color={C.tinta} s={sp(tg - T.tres, 1.1)} />) : null}
       {!loop && tg >= l[2] - 0.05 && tg < l[3] - 0.05 ? <Cartel texto="EL 3° LO TENÉS VOS" top={34} size={28} fondo={ROJO} s={sp(tg - T.tercero, 1.12) * latido(tg, 0.5, 0.04)} /> : null}
