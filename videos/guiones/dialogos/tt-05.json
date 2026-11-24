@@ -4,18 +4,55 @@
  "personajes": {
   "narrador": {
    "nombre": "Orus",
-   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero de 45 años que cuenta cómo cambió su kiosco en diez años, con nostalgia e ironía, medio en broma y medio en serio: voz grave, ritmo ágil de redes y natural, frases cortas. Decí cada frase por separado, con un silencio largo de dos segundos entre una y otra donde aparecen los tres puntos solos (…). No digas los tres puntos. Leé exactamente esto:"
+   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero de 45 años que cuenta cómo cambió su kiosco en diez años, con nostalgia e ironía, medio en broma y medio en serio: voz grave, ritmo ágil de redes y natural, frases cortas. Decí cada frase por separado y hacé SIEMPRE un silencio largo de dos segundos entre una y otra donde aparecen los tres puntos solos (…). No digas los tres puntos. Leé exactamente esto:",
+   "respaldo": "es-AR-TomasNeural"
   }
  },
  "frases": [
-  { "id": "n1", "quien": "narrador", "texto": "2026 es el nuevo 2016, menos para tu kiosco." },
-  { "id": "n2", "quien": "narrador", "texto": "Antes te pagaban con billete. Hoy con QR, y el QR se queda una parte." },
-  { "id": "n3", "quien": "narrador", "texto": "Antes vendías golosinas. Hoy vendés de todo, y no sabés qué te deja plata." },
-  { "id": "n4", "quien": "narrador", "texto": "Antes llevaban tres cosas. Hoy, una." },
-  { "id": "n5", "quien": "narrador", "texto": "Y la quinta es la que más duele." },
-  { "id": "n6", "quien": "narrador", "texto": "Antes fiabas a dos. Hoy, volvió el fiado." },
-  { "id": "n7", "quien": "narrador", "texto": "En diez años, si abrís doce horas por día, pasaste más tiempo en el kiosco que durmiendo." },
-  { "id": "n8", "quien": "narrador", "texto": "Y lo único que no cambió en diez años es el cuaderno." },
-  { "id": "n9", "quien": "narrador", "texto": "En 2026, le hablás." }
+  {
+   "id": "n1",
+   "quien": "narrador",
+   "texto": "2026 es el nuevo 2016, menos para tu kiosco."
+  },
+  {
+   "id": "n2",
+   "quien": "narrador",
+   "texto": "Antes te pagaban con billete. Hoy con QR, y el QR se queda una parte."
+  },
+  {
+   "id": "n3",
+   "quien": "narrador",
+   "texto": "Antes vendías golosinas. Hoy vendés de todo, y no sabés qué te deja plata."
+  },
+  {
+   "id": "n4",
+   "quien": "narrador",
+   "texto": "Antes llevaban tres cosas. Hoy, una."
+  },
+  {
+   "id": "n5",
+   "quien": "narrador",
+   "texto": "Y la quinta es la que más duele."
+  },
+  {
+   "id": "n6",
+   "quien": "narrador",
+   "texto": "Antes fiabas a dos. Hoy, volvió el fiado."
+  },
+  {
+   "id": "n7",
+   "quien": "narrador",
+   "texto": "En diez años, si abrís doce horas por día, pasaste más tiempo en el kiosco que durmiendo."
+  },
+  {
+   "id": "n8",
+   "quien": "narrador",
+   "texto": "Y lo único que no cambió en diez años es el cuaderno."
+  },
+  {
+   "id": "n9",
+   "quien": "narrador",
+   "texto": "En 2026, le hablás."
+  }
  ]
 }

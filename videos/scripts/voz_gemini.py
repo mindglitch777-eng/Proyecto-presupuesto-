@@ -43,7 +43,7 @@ def firma(guion):
     return hashlib.sha256(datos.encode()).hexdigest()[:16]
 
 
-def pedir_voz(texto, voz):
+def pedir_voz(texto, voz, intentos=5):
     key = os.environ.get("GEMINI_API_KEY", "")
     if not key:
         sys.exit("FALTA GEMINI_API_KEY: cargala en GitHub → Settings → Secrets and variables → Actions.")
@@ -53,7 +53,7 @@ def pedir_voz(texto, voz):
     }
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{voz['modelo']}:generateContent"
     ultimo = None
-    for intento in range(5):
+    for intento in range(intentos):
         req = urllib.request.Request(url, data=json.dumps(cuerpo).encode(), headers={"Content-Type": "application/json", "x-goog-api-key": key})
         try:
             with urllib.request.urlopen(req, timeout=300) as r:

@@ -26,3 +26,5 @@ videojuego), `Cuaderno`, `App` (pantalla real). En `DondeEstaLaPlata.tsx`: `Cajo
 - **Si no cambió ningún guion de voz, no se instala nada de voz** (ffmpeg + whisper ≈ 2 min) y se usan las voces del repo.
 - Queda: voz (≈ 20 s sin cambios / ≈ 2 min con voces nuevas) → 10 partes en paralelo (≈ 1,5–2 min) → unir (≈ 40 s).
 - Los ajustes chicos (tiempos, colores, textos) no regeneran voces: la voz se pide solo cuando cambia su texto.
+- Cuota de Gemini: 10 voces por día. Si se agota, `voces_dialogo.py` usa la voz de respaldo (Tomás, edge-tts) y al día siguiente, con
+  cualquier render, vuelve a pedir la voz buena sola. Si la toma sale sin pausas, corta las frases por las palabras (whisper), sin gastar cuota.
