@@ -1,0 +1,14 @@
+{
+ "firmas": {},
+ "frases": {
+  "n1": { "quien": "narrador", "texto": "estimado", "dur": 2.6 },
+  "n2": { "quien": "narrador", "texto": "estimado", "dur": 3.9 },
+  "n3": { "quien": "narrador", "texto": "estimado", "dur": 4.0 },
+  "n4": { "quien": "narrador", "texto": "estimado", "dur": 2.2 },
+  "n5": { "quien": "narrador", "texto": "estimado", "dur": 1.7 },
+  "n6": { "quien": "narrador", "texto": "estimado", "dur": 2.4 },
+  "n7": { "quien": "narrador", "texto": "estimado", "dur": 4.6 },
+  "n8": { "quien": "narrador", "texto": "estimado", "dur": 2.8 },
+  "n9": { "quien": "narrador", "texto": "estimado", "dur": 1.2 }
+ }
+}
