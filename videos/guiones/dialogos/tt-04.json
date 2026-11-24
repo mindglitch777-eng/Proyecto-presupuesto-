@@ -1,0 +1,27 @@
+{
+ "id": "tt-04",
+ "modelo": "gemini-2.5-flash-preview-tts",
+ "personajes": {
+  "conductor": {
+   "nombre": "Fenrir",
+   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como el conductor de un programa de juegos de la tele argentina: entusiasta, con suspenso y picardía, ritmo rápido de redes, frases cortas con mucha energía. Decí cada frase por separado, con un silencio largo de dos segundos entre una y otra donde aparecen los tres puntos solos (…). No digas los tres puntos. Leé exactamente esto:"
+  },
+  "concursante": {
+   "nombre": "Orus",
+   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero de 45 años que participa de un programa de juegos: la primera frase muy canchero y seguro, la segunda frase descolocado y medio indignado. Frases cortas, ritmo natural. Decí cada frase por separado, con un silencio largo de dos segundos entre una y otra donde aparecen los tres puntos solos (…). No digas los tres puntos. Leé exactamente esto:"
+  }
+ },
+ "frases": [
+  { "id": "h1", "quien": "conductor", "texto": "¡Este kiosco vende un palo por día!" },
+  { "id": "h2", "quien": "conductor", "texto": "¿Cuánto le queda? Elegí antes que él." },
+  { "id": "h3", "quien": "conductor", "texto": "¿Seguro?" },
+  { "id": "h4", "quien": "conductor", "texto": "¡Uh, casi la B!" },
+  { "id": "h5", "quien": "conductor", "texto": "Y falta la que nadie cuenta." },
+  { "id": "h6", "quien": "conductor", "texto": "¡La C! ¡Ganaste!" },
+  { "id": "h7", "quien": "conductor", "texto": "Pará. Falta la D." },
+  { "id": "h8", "quien": "conductor", "texto": "Sesenta y cuatro mil. Menos de siete de cada cien." },
+  { "id": "h9", "quien": "conductor", "texto": "Hablándole al celular, veinte segundos." },
+  { "id": "c1", "quien": "concursante", "texto": "¡La A! Trescientas lucas." },
+  { "id": "c2", "quien": "concursante", "texto": "¿Y cómo iba a saber?" }
+ ]
+}
