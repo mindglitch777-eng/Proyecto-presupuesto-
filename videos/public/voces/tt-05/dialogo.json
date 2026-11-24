@@ -1,14 +1,52 @@
 {
- "firmas": {},
+ "firmas": {
+  "narrador": "b2b46aa044b0ddf7"
+ },
  "frases": {
-  "n1": { "quien": "narrador", "texto": "estimado", "dur": 2.6 },
-  "n2": { "quien": "narrador", "texto": "estimado", "dur": 3.9 },
-  "n3": { "quien": "narrador", "texto": "estimado", "dur": 4.0 },
-  "n4": { "quien": "narrador", "texto": "estimado", "dur": 2.2 },
-  "n5": { "quien": "narrador", "texto": "estimado", "dur": 1.7 },
-  "n6": { "quien": "narrador", "texto": "estimado", "dur": 2.4 },
-  "n7": { "quien": "narrador", "texto": "estimado", "dur": 4.6 },
-  "n8": { "quien": "narrador", "texto": "estimado", "dur": 2.8 },
-  "n9": { "quien": "narrador", "texto": "estimado", "dur": 1.2 }
+  "n1": {
+   "quien": "narrador",
+   "texto": "2026 es el nuevo 2016, menos para tu kiosco.",
+   "dur": 4.8
+  },
+  "n2": {
+   "quien": "narrador",
+   "texto": "Antes te pagaban con billete. Hoy con QR, y el QR se queda una parte.",
+   "dur": 5.14
+  },
+  "n3": {
+   "quien": "narrador",
+   "texto": "Antes vendías golosinas. Hoy vendés de todo, y no sabés qué te deja plata.",
+   "dur": 4.98
+  },
+  "n4": {
+   "quien": "narrador",
+   "texto": "Antes llevaban tres cosas. Hoy, una.",
+   "dur": 3.0
+  },
+  "n5": {
+   "quien": "narrador",
+   "texto": "Y la quinta es la que más duele.",
+   "dur": 1.92
+  },
+  "n6": {
+   "quien": "narrador",
+   "texto": "Antes fiabas a dos. Hoy, volvió el fiado.",
+   "dur": 3.48
+  },
+  "n7": {
+   "quien": "narrador",
+   "texto": "En diez años, si abrís doce horas por día, pasaste más tiempo en el kiosco que durmiendo.",
+   "dur": 5.32
+  },
+  "n8": {
+   "quien": "narrador",
+   "texto": "Y lo único que no cambió en diez años es el cuaderno.",
+   "dur": 3.38
+  },
+  "n9": {
+   "quien": "narrador",
+   "texto": "En 2026, le hablás.",
+   "dur": 2.34
+  }
  }
 }
