@@ -7,6 +7,7 @@ import type { VideoProps } from "../Video";
 import { Celular, Marco, camaraBeats, temblor, type Cam2D } from "../v6/comun";
 import { entra, latido, sp } from "../v8/comun";
 import { C } from "../v8/iconos";
+import dialogo from "../../public/voces/tt-03/dialogo.json";
 
 // TT-03 "POV: te piden fiado" (videos/guiones/TT-03-POV-FIADO.md). Formato POV de humor (el más fuerte del nicho kiosco),
 // todo 2D, con DOS voces de Gemini en frases cortas (cliente: Puck, kiosquero: Orus; guiones/dialogos/tt-03.json). Paciencia tipo videojuego que baja con cada excusa,
@@ -16,18 +17,22 @@ export const DUR_TT03 = 24;
 const g = guionSchema.parse({ id: "tt-03-pov-fiado", titulo: "POV: te piden fiado", duracionSeg: DUR_TT03, voz: null, ganchos: [{ lineas: ["", "", ""], voz: "" }], lineas: [], sonidos: [] });
 
 const K = { e1: 1.6, e2: 4.8, e3: 8.0, rem: 11.2, rehook: 14.6, cuad: 16.2, app: 20.4, cierre: 22.4, LOOP: DUR_TT03 - 0.27 };
+/** Duración real de cada frase (sale de voces_dialogo.py): el kiosquero contesta cuando el cliente termina, sin pisarse. */
+const dur = (id: string) => (dialogo.frases as Record<string, { dur: number }>)[id]?.dur ?? 1.3;
+const kEn = (e: number, c: string) => Math.max(e + 1.45, e + 0.1 + dur(c) + 0.08);
+const KV = { k1: kEn(K.e1, "c1"), k2: kEn(K.e2, "c2"), k3: kEn(K.e3, "c3"), k4: Math.max(K.rem + 1.4, K.rem + 0.1 + dur("c4") + 0.1) };
 /** Voces: [frase, segundo]. c = cliente, k = kiosquero (vos). */
-const VOCES: [string, number][] = [["c1", K.e1 + 0.1], ["k1", K.e1 + 1.45], ["c2", K.e2 + 0.1], ["k2", K.e2 + 1.45], ["c3", K.e3 + 0.1], ["k3", K.e3 + 1.45], ["c4", K.rem + 0.1], ["k4", K.rem + 1.5], ["c5", K.cierre + 0.15]];
+const VOCES: [string, number][] = [["c1", K.e1 + 0.1], ["k1", KV.k1], ["c2", K.e2 + 0.1], ["k2", KV.k2], ["c3", K.e3 + 0.1], ["k3", KV.k3], ["c4", K.rem + 0.1], ["k4", KV.k4], ["c5", K.cierre + 0.15]];
 const ROJO = "#ff3b30";
 const AMARILLO = "#ffcc00";
 const VERDE = "#34c759";
 
 /** Golpes de paciencia: [segundo, valor que queda, daño, crítico]. */
 const GOLPES: [number, number, string, boolean][] = [
-  [K.e1 + 2.3, 80, "-20", false],
-  [K.e2 + 2.3, 60, "-20", false],
-  [K.e3 + 2.3, 40, "-20", false],
-  [K.rem + 2.4, 5, "-35 CRÍTICO", true],
+  [Math.min(K.e2 - 0.5, KV.k1 + dur("k1") * 0.6), 80, "-20", false],
+  [Math.min(K.e3 - 0.5, KV.k2 + dur("k2") * 0.6), 60, "-20", false],
+  [Math.min(K.rem - 0.5, KV.k3 + dur("k3") * 0.6), 40, "-20", false],
+  [Math.min(K.rehook - 0.6, KV.k4 + dur("k4") + 0.15), 5, "-35 CRÍTICO", true],
 ];
 function paciencia(t: number) {
   let v = 100, fant = 100;
@@ -375,7 +380,7 @@ export const PovFiado: React.FC<VideoProps> = () => {
   const tecleo = (desde: number, n: number) => Array.from({ length: Math.ceil(n / 3) }, (_, i) => ({ en: desde + 0.08 + i * (3 / 34), sfx: "tic", vol: 0.12 }));
   const sonidos: { en: number; sfx: string; vol?: number }[] = [
     { en: 0, sfx: "ding", vol: 0.7 }, { en: 0.02, sfx: "whoosh", vol: 0.5 }, { en: 0.05, sfx: "thump", vol: 0.5 },
-    ...tecleo(K.e1, 30), { en: K.e1 + 0.5, sfx: "papel", vol: 0.4 }, ...[0, 1, 2].map((i) => ({ en: K.e1 + 0.5 + i * 0.35, sfx: "hoja", vol: 0.35 })), { en: K.e1 + 2.3, sfx: "marcador", vol: 0.4 },
+    ...tecleo(K.e1, 30), { en: K.e1 + 0.5, sfx: "papel", vol: 0.4 }, ...[0, 1, 2].map((i) => ({ en: K.e1 + 0.5 + i * 0.35, sfx: "hoja", vol: 0.35 })), { en: GOLPES[0][0], sfx: "marcador", vol: 0.4 },
     ...tecleo(K.e2, 33), { en: K.e2 + 0.45, sfx: "ukelele", vol: 0.35 },
     ...tecleo(K.e3, 32), { en: K.e3 + 0.45, sfx: "papel", vol: 0.4 }, { en: K.e3 + 1.35, sfx: "caja", vol: 0.4 },
     ...tecleo(K.rem, 16), { en: K.rem + 0.9, sfx: "riser", vol: 0.45 }, { en: K.rem + 1.25, sfx: "ding", vol: 0.5 },
@@ -444,10 +449,10 @@ export const PovFiado: React.FC<VideoProps> = () => {
       <Globo t={tw} desde={K.e2} hasta={K.e3 - 0.08} texto="¡Si mi vieja te compraba!" />
       <Globo t={tw} desde={K.e3} hasta={K.rem - 0.08} texto="No tengo cambio, anotámelo" />
       <Globo t={tw} desde={K.rem} hasta={K.rehook - 0.05} texto="No tengo un peso…" />
-      <GloboVos t={tw} desde={K.e1 + 1.45} hasta={K.e2 - 0.08} texto="¿Qué viernes?" />
-      <GloboVos t={tw} desde={K.e2 + 1.45} hasta={K.e3 - 0.08} texto="Tu vieja también me debe." />
-      <GloboVos t={tw} desde={K.e3 + 1.45} hasta={K.rem - 0.08} texto="Es una gaseosa, flaco." />
-      <GloboVos t={tw} desde={K.rem + 1.5} hasta={K.rehook - 0.05} texto="¿Y ese celular?" />
+      <GloboVos t={tw} desde={KV.k1} hasta={K.e2 - 0.08} texto="¿Qué viernes?" />
+      <GloboVos t={tw} desde={KV.k2} hasta={K.e3 - 0.08} texto="Tu vieja también me debe." />
+      <GloboVos t={tw} desde={KV.k3} hasta={K.rem - 0.08} texto="Es una gaseosa, flaco." />
+      <GloboVos t={tw} desde={KV.k4} hasta={K.rehook - 0.05} texto="¿Y ese celular?" />
       {freeze ? (
         <>
           <div style={{ inset: 0, background: "#000", opacity: 0.55 }} />
