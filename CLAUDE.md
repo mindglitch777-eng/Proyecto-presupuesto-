@@ -15,7 +15,8 @@ cobro solo por Mercado Pago.
   (le resultan incómodos). Todo va en **la misma rama de trabajo**, sin ramas extra: el workflow arma el video y deja el MP4
   en `videos/salida/` de esa rama; hacé `git pull` y mandalo con `SendUserFile`. `videos.yml` arma solo el video en producción:
   para cambiarlo tocá `NOMBRE`, `ID` y `CONTROL` arriba del archivo. El render se reparte en 10 máquinas a la vez (cada una hace
-  una parte de los cuadros, `scripts/cuadros.cjs`) y el job `unir` las junta sin recomprimir: tarda ~4-5 min en vez de 10-20.
+  una parte de los cuadros, `scripts/cuadros.cjs`) y el job `unir` las junta sin recomprimir. Las máquinas no bajan `videos/salida/` (checkout parcial) y la voz
+  solo se instala si cambió un guion de voz: ~3-4 min por video.
   Por eso todo tiene que ser determinista (cada cuadro sale solo de `useCurrentFrame()`, nada que dependa del cuadro anterior).
 - Página con todos los videos para bajar: https://claude.ai/artifact/D2yvc4fKGKJHRoN7DDW1gV (los MP4 son assets de esa página; para sumar uno, subirlo con `Artifact` `asset: true` y agregarlo a `VIDEOS`).
   Los assets tienen tope de 20 MiB: los videos con mucha cámara pesan 34–76 MB, así que para la página se comprimen en 2 pasadas
@@ -40,6 +41,8 @@ control de calidad con puntaje ≥ 8 en cada punto antes de entregar. Lo que no 
 quedan en pausa: se rehacen con este estándar antes de producirse.
 
 **Qué se publica (decisión del dueño, 19/11):** solo V8-13 y V8-14 y los videos nuevos hechos con `SISTEMA-VIRAL.md` v2. Los anteriores (hasta V8-12) quedan archivados: no se publican ni se vuelven a renderizar.
+
+**Videos de TikTok (desde 24/11/2026):** antes de hacer uno nuevo leé `videos/referencia/FABRICA-TT.md` (plantillas 2D listas, voces, pasos y tiempos de render). Revisá con imágenes acá antes de subir: un solo push por video.
 
 **Sistema viral (obligatorio desde el 19/11/2026):** antes de escribir un guion leé `videos/referencia/SISTEMA-VIRAL.md`: versión 2: esqueleto segundo a segundo, 6 ganchos, 7 disparadores de compartir, traductor de dolor, CTA fijo con precio "por mes" y chequeo de 20 puntos (< 17 no se produce).
 

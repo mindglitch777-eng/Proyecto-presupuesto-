@@ -48,14 +48,36 @@ jobs:
         working-directory: .
         run: echo "videos=$(echo "$VIDEOS" | jq -c .)" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+        with:
+          sparse-checkout: |
+            /*
+            !/videos/salida/
+          sparse-checkout-cone-mode: false
+      - name: ¿Hay voces nuevas? (si no, se saltea la instalación)
+        id: cambios
+        working-directory: .
+        run: |
+          ANTES="${{ github.event.before }}"
+          if [ "${{ github.event_name }}" != "push" ] || [ -z "$ANTES" ] || [ "$ANTES" = "0000000000000000000000000000000000000000" ] \
+             || ! git fetch -q --depth=1 origin "$ANTES" 2>/dev/null; then
+            echo "voz=si" >> "$GITHUB_OUTPUT"; echo "No se pudo comparar: se generan las voces por las dudas."; exit 0
+          fi
+          if git diff --name-only "$ANTES" HEAD -- 'videos/guiones/*.json' videos/guiones/dialogos videos/scripts/voz.py videos/scripts/voz_gemini.py videos/scripts/voces_dialogo.py | grep -q .; then
+            echo "voz=si" >> "$GITHUB_OUTPUT"; echo "Cambió un guion de voz: se generan."
+          else
+            echo "voz=no" >> "$GITHUB_OUTPUT"; echo "Sin voces nuevas: se usan las que ya están en el repo."
+          fi
+      - if: steps.cambios.outputs.voz == 'si'
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Instalar ffmpeg, edge-tts y faster-whisper
+        if: steps.cambios.outputs.voz == 'si'
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           pip install edge-tts==7.3.1 numpy requests faster-whisper==1.1.1
       - name: Generar la voz (solo lo que cambió)
+        if: steps.cambios.outputs.voz == 'si'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
@@ -65,6 +87,7 @@ jobs:
           # diálogos de varios personajes en frases cortas (POV): una toma por personaje
           for f in guiones/dialogos/*.json; do python scripts/voces_dialogo.py "$f"; done
       - name: Guardar la voz en el repositorio
+        if: steps.cambios.outputs.voz == 'si'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -75,7 +98,8 @@ jobs:
             git commit -m "Videos: voz generada"
             git push || echo "No se pudo guardar la voz en el repo (igual se usa en este render)."
           fi
-      - uses: actions/upload-artifact@v4
+      - if: steps.cambios.outputs.voz == 'si'
+        uses: actions/upload-artifact@v4
         with:
           name: voces
           path: videos/public/voces
@@ -97,6 +121,11 @@ jobs:
       CONTROL: ${{ matrix.video.control }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            /*
+            !/videos/salida/
+          sparse-checkout-cone-mode: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -145,6 +174,11 @@ jobs:
       ID: ${{ matrix.video.id }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            /*
+            !/videos/salida/
+          sparse-checkout-cone-mode: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -201,7 +235,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          sparse-checkout: |
+            /.github/
+            /videos/scripts/
+          sparse-checkout-cone-mode: false
       - uses: actions/download-artifact@v4
         with:
           pattern: parte-${{ matrix.video.nombre }}-*
@@ -248,12 +285,12 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           ok=0
           for i in 1 2 3 4 5 6 7 8; do
-            git fetch -q origin "$RAMA" \
+            git fetch -q --depth=1 origin "$RAMA" \
               && git reset -q --hard "origin/$RAMA" \
               && git clean -qfd \
               && mkdir -p videos/salida \
               && cp "$RUNNER_TEMP/$MP4" "videos/salida/$MP4" \
-              && git add "videos/salida/$MP4" \
+              && git add --sparse "videos/salida/$MP4" \
               && { git diff --cached --quiet || git commit -q -m "MP4 listo: $NOMBRE"; } \
               && git push -q origin "HEAD:$RAMA" \
               && { ok=1; break; }
