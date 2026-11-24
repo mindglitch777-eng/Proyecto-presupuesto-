@@ -1,5 +1,5 @@
 import React from "react";
-import { Html5Audio, OffthreadVideo, Sequence, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { Html5Audio, OffthreadVideo, Sequence, getStaticFiles, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { clamp } from "../lib/anim";
 import { BODY, DISP } from "../lib/fuentes";
 import { guionSchema } from "../lib/guion";
@@ -9,23 +9,25 @@ import { entra, latido, sp } from "../v8/comun";
 import { C } from "../v8/iconos";
 
 // TT-03 "POV: te piden fiado" (videos/guiones/TT-03-POV-FIADO.md). Formato POV de humor (el más fuerte del nicho kiosco),
-// todo 2D y SIN voz: el dueño le pone un sonido en tendencia al subirlo. Paciencia tipo videojuego que baja con cada excusa,
+// todo 2D, con DOS voces de Gemini en frases cortas (cliente: Puck, kiosquero: Orus; guiones/dialogos/tt-03.json). Paciencia tipo videojuego que baja con cada excusa,
 // crítico en el remate, giro al cuaderno de fiados y la app 2 s. Todo sale de t (render repartido).
 
-export const DUR_TT03 = 22.5;
+export const DUR_TT03 = 24;
 const g = guionSchema.parse({ id: "tt-03-pov-fiado", titulo: "POV: te piden fiado", duracionSeg: DUR_TT03, voz: null, ganchos: [{ lineas: ["", "", ""], voz: "" }], lineas: [], sonidos: [] });
 
-const K = { e1: 1.6, e2: 4.4, e3: 7.2, rem: 10.0, rehook: 13.2, cuad: 14.8, app: 19.0, cierre: 21.0, LOOP: DUR_TT03 - 0.27 };
+const K = { e1: 1.6, e2: 4.8, e3: 8.0, rem: 11.2, rehook: 14.6, cuad: 16.2, app: 20.4, cierre: 22.4, LOOP: DUR_TT03 - 0.27 };
+/** Voces: [frase, segundo]. c = cliente, k = kiosquero (vos). */
+const VOCES: [string, number][] = [["c1", K.e1 + 0.1], ["k1", K.e1 + 1.45], ["c2", K.e2 + 0.1], ["k2", K.e2 + 1.45], ["c3", K.e3 + 0.1], ["k3", K.e3 + 1.45], ["c4", K.rem + 0.1], ["k4", K.rem + 1.5], ["c5", K.cierre + 0.15]];
 const ROJO = "#ff3b30";
 const AMARILLO = "#ffcc00";
 const VERDE = "#34c759";
 
 /** Golpes de paciencia: [segundo, valor que queda, daño, crítico]. */
 const GOLPES: [number, number, string, boolean][] = [
-  [K.e1 + 1.55, 80, "-20", false],
-  [K.e2 + 1.6, 60, "-20", false],
-  [K.e3 + 1.6, 40, "-20", false],
-  [K.rem + 1.5, 5, "-35 CRÍTICO", true],
+  [K.e1 + 2.3, 80, "-20", false],
+  [K.e2 + 2.3, 60, "-20", false],
+  [K.e3 + 2.3, 40, "-20", false],
+  [K.rem + 2.4, 5, "-35 CRÍTICO", true],
 ];
 function paciencia(t: number) {
   let v = 100, fant = 100;
@@ -157,6 +159,20 @@ const Globo: React.FC<{ t: number; desde: number; hasta: number; texto: string; 
   );
 };
 
+/** Lo que contestás vos (el kiosquero): globo oscuro abajo, sobre el mostrador. */
+const GloboVos: React.FC<{ t: number; desde: number; hasta: number; texto: string }> = ({ t, desde, hasta, texto }) => {
+  if (t < desde || t > hasta) return null;
+  const s = sp(t - desde, 1.14, 18, 0.45);
+  const sale = clamp((hasta - t) / 0.12, 0, 1);
+  return (
+    <div style={{ left: 40, right: 40, top: 400, textAlign: "center", transform: `scale(${s * (0.9 + 0.1 * sale)}) rotate(${2 + Math.sin(t * 3) * 0.8}deg)`, opacity: sale }}>
+      <span style={{ position: "static", display: "inline-block", padding: "9px 14px", borderRadius: 18, background: C.tinta, border: `3px solid ${AMARILLO}`, boxShadow: "0 5px 0 #000", font: `900 21px/1.15 ${DISP}`, color: "#fff" }}>
+        <span style={{ position: "static", color: AMARILLO, font: `900 13px ${BODY}`, letterSpacing: ".1em", marginRight: 8 }}>VOS:</span>{texto}
+      </span>
+    </div>
+  );
+};
+
 /** Barra de paciencia tipo videojuego (con la barra "fantasma" blanca que baja después). */
 const Paciencia: React.FC<{ t: number }> = ({ t }) => {
   const { v, fant } = paciencia(t);
@@ -249,7 +265,7 @@ const SinCambio: React.FC<{ t: number }> = ({ t }) => {
     <div style={{ left: 218, top: 312, width: 120, height: 60, transform: `rotate(${-8 + Math.sin(t * 9) * 6}deg) scale(${sp(d, 1.12)})` }}>
       <div style={{ inset: 0, borderRadius: 6, background: "#a8d5a2", border: `3px solid ${C.tinta}`, boxShadow: "0 5px 0 #0006" }} />
       <div style={{ left: 0, right: 0, top: 14, textAlign: "center", font: `900 24px ${DISP}`, color: "#1e5631" }}>$20.000</div>
-      {d > 0.9 ? <div style={{ left: -20, top: 64, width: 160, textAlign: "center", font: `900 15px ${BODY}`, color: "#fff", background: ROJO, borderRadius: 6, padding: "3px 0", transform: `scale(${sp(d - 0.9, 1.15)})` }}>¿Y LA COCA DE $1.500?</div> : null}
+      {d > 0.9 ? <div style={{ left: -20, top: 64, width: 160, textAlign: "center", font: `900 15px ${BODY}`, color: "#fff", background: ROJO, borderRadius: 6, padding: "3px 0", transform: `scale(${sp(d - 0.9, 1.15)})` }}>¿Y LA GASEOSA DE $1.500?</div> : null}
     </div>
   );
 };
@@ -345,7 +361,7 @@ export const PovFiado: React.FC<VideoProps> = () => {
   // el cliente entra desde la puerta (cuadro 0 ya con la puerta abriéndose)
   const camina = entra(tw / 1.1);
   const cara: Cara = tw < K.e1 ? "sonrisa" : tw < K.e2 ? "canchero" : tw < K.e3 ? "puchero" : tw < K.rem ? "sonrisa" : "canchero";
-  const celu = entra((tw - K.rem - 0.6) / 0.35);
+  const celu = entra((tw - K.rem - 0.9) / 0.35);
   const saliendo = tw >= K.cierre ? entra((tw - K.cierre - 0.6) / 0.8) : 0;
 
   const beats = [0.02, 0.6, 1.1, K.e1, K.e1 + 0.6, ...GOLPES.map(([a]) => a), K.e2, K.e2 + 0.7, K.e3, K.e3 + 0.7, K.rem, K.rem + 0.6, K.rehook, K.cuad, K.cuad + 0.9, K.cuad + 1.6, K.cuad + 2.2, K.cuad + 2.6, K.cuad + 3.4, K.app, K.app + 0.9, K.cierre, K.cierre + 0.8, K.cierre + 1.2];
@@ -356,13 +372,13 @@ export const PovFiado: React.FC<VideoProps> = () => {
   const red = !loop && t >= crit && t < crit + 0.5 ? 1 - (t - crit) / 0.5 : 0;
 
   // ---------- sonido ----------
-  const tecleo = (desde: number, n: number) => Array.from({ length: Math.ceil(n / 3) }, (_, i) => ({ en: desde + 0.08 + i * (3 / 34), sfx: "tic", vol: 0.25 }));
+  const tecleo = (desde: number, n: number) => Array.from({ length: Math.ceil(n / 3) }, (_, i) => ({ en: desde + 0.08 + i * (3 / 34), sfx: "tic", vol: 0.12 }));
   const sonidos: { en: number; sfx: string; vol?: number }[] = [
     { en: 0, sfx: "ding", vol: 0.7 }, { en: 0.02, sfx: "whoosh", vol: 0.5 }, { en: 0.05, sfx: "thump", vol: 0.5 },
-    ...tecleo(K.e1, 30), { en: K.e1 + 0.5, sfx: "papel", vol: 0.4 }, ...[0, 1, 2].map((i) => ({ en: K.e1 + 0.5 + i * 0.35, sfx: "hoja", vol: 0.35 })), { en: K.e1 + 1.55, sfx: "marcador", vol: 0.4 },
+    ...tecleo(K.e1, 30), { en: K.e1 + 0.5, sfx: "papel", vol: 0.4 }, ...[0, 1, 2].map((i) => ({ en: K.e1 + 0.5 + i * 0.35, sfx: "hoja", vol: 0.35 })), { en: K.e1 + 2.3, sfx: "marcador", vol: 0.4 },
     ...tecleo(K.e2, 33), { en: K.e2 + 0.45, sfx: "ukelele", vol: 0.35 },
     ...tecleo(K.e3, 32), { en: K.e3 + 0.45, sfx: "papel", vol: 0.4 }, { en: K.e3 + 1.35, sfx: "caja", vol: 0.4 },
-    ...tecleo(K.rem, 16), { en: K.rem + 0.6, sfx: "riser", vol: 0.45 }, { en: K.rem + 0.95, sfx: "ding", vol: 0.5 },
+    ...tecleo(K.rem, 16), { en: K.rem + 0.9, sfx: "riser", vol: 0.45 }, { en: K.rem + 1.25, sfx: "ding", vol: 0.5 },
     ...GOLPES.map(([a, , , c]) => ({ en: a, sfx: c ? "vidrio" : "slam", vol: c ? 0.7 : 0.55 })), ...GOLPES.map(([a]) => ({ en: a + 0.02, sfx: "thump", vol: 0.6 })),
     { en: crit + 0.05, sfx: "glitch", vol: 0.5 }, ...[0.5, 0.9, 1.3].map((d) => ({ en: crit + d, sfx: "heart", vol: 0.45 })),
     { en: K.rehook, sfx: "rebobinado", vol: 0.55 }, { en: K.rehook + 0.3, sfx: "piano_grave", vol: 0.5 },
@@ -372,13 +388,19 @@ export const PovFiado: React.FC<VideoProps> = () => {
     { en: K.app - 0.1, sfx: "whoosh", vol: 0.45 }, { en: K.app + 0.3, sfx: "click", vol: 0.45 }, { en: K.app + 1.1, sfx: "ding", vol: 0.5 },
     { en: K.cierre, sfx: "whoosh", vol: 0.4 }, ...tecleo(K.cierre + 0.2, 22), { en: K.cierre + 1.2, sfx: "ding", vol: 0.5 },
   ];
+  const archivos = getStaticFiles().map((f) => f.name);
   const musica = (
     <>
+      {VOCES.filter(([id]) => archivos.includes(`voces/tt-03/${id}.mp3`)).map(([id, en]) => (
+        <Sequence key={id} from={Math.round(en * fps)} durationInFrames={Math.round(3 * fps)} layout="none">
+          <Html5Audio src={staticFile(`voces/tt-03/${id}.mp3`)} volume={1} />
+        </Sequence>
+      ))}
       <Sequence from={0} durationInFrames={Math.round(K.rehook * fps)} layout="none">
-        <Html5Audio src={staticFile("sfx/pulso.wav")} loop volume={(f) => 0.16 * Math.min(1, Math.max(0, K.rehook * fps - f) / 4)} />
+        <Html5Audio src={staticFile("sfx/pulso.wav")} loop volume={(f) => 0.11 * Math.min(1, Math.max(0, K.rehook * fps - f) / 4)} />
       </Sequence>
       <Sequence from={Math.round(K.cuad * fps)} durationInFrames={Math.max(1, durationInFrames - Math.round(K.cuad * fps))} layout="none">
-        <Html5Audio src={staticFile("sfx/pulso.wav")} loop volume={(f) => 0.16 * Math.min(1, f / 6)} />
+        <Html5Audio src={staticFile("sfx/pulso.wav")} loop volume={(f) => 0.11 * Math.min(1, f / 6)} />
       </Sequence>
     </>
   );
@@ -418,10 +440,14 @@ export const PovFiado: React.FC<VideoProps> = () => {
       ) : null}
       {enKiosco && tw < K.cierre && tw >= 0.35 ? <Paciencia t={tw} /> : null}
       {enKiosco && tw < K.cierre ? <Danio t={tw} /> : null}
-      <Globo t={tw} desde={K.e1} hasta={K.e2 - 0.08} texto="Anotámelo que el viernes cobro" />
-      <Globo t={tw} desde={K.e2} hasta={K.e3 - 0.08} texto="Dale, si mi vieja te compraba a vos" />
-      <Globo t={tw} desde={K.e3} hasta={K.rem - 0.08} texto="No tengo cambio, ¿me lo anotás?" />
+      <Globo t={tw} desde={K.e1} hasta={K.e2 - 0.08} texto="Anotámelo, el viernes cobro" />
+      <Globo t={tw} desde={K.e2} hasta={K.e3 - 0.08} texto="¡Si mi vieja te compraba!" />
+      <Globo t={tw} desde={K.e3} hasta={K.rem - 0.08} texto="No tengo cambio, anotámelo" />
       <Globo t={tw} desde={K.rem} hasta={K.rehook - 0.05} texto="No tengo un peso…" />
+      <GloboVos t={tw} desde={K.e1 + 1.45} hasta={K.e2 - 0.08} texto="¿Qué viernes?" />
+      <GloboVos t={tw} desde={K.e2 + 1.45} hasta={K.e3 - 0.08} texto="Tu vieja también me debe." />
+      <GloboVos t={tw} desde={K.e3 + 1.45} hasta={K.rem - 0.08} texto="Es una gaseosa, flaco." />
+      <GloboVos t={tw} desde={K.rem + 1.5} hasta={K.rehook - 0.05} texto="¿Y ese celular?" />
       {freeze ? (
         <>
           <div style={{ inset: 0, background: "#000", opacity: 0.55 }} />

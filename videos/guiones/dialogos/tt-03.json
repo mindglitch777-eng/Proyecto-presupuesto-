@@ -1,0 +1,25 @@
+{
+ "id": "tt-03",
+ "modelo": "gemini-2.5-flash-preview-tts",
+ "personajes": {
+  "cliente": {
+   "nombre": "Puck",
+   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un pibe de barrio de 30 años, canchero, caradura y simpático, que le pide fiado al kiosquero: tono pícaro, ritmo rápido y natural, frases cortas. Decí cada frase por separado, con un silencio largo de dos segundos entre una y otra donde aparecen los tres puntos (…). No digas los tres puntos. Leé exactamente esto:"
+  },
+  "kiosquero": {
+   "nombre": "Orus",
+   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un kiosquero de 45 años cansado y harto, que contesta seco y con ironía, medio resignado: voz grave, frases cortas y secas, ritmo natural. Decí cada frase por separado, con un silencio largo de dos segundos entre una y otra donde aparecen los tres puntos (…). No digas los tres puntos. Leé exactamente esto:"
+  }
+ },
+ "frases": [
+  { "id": "c1", "quien": "cliente", "texto": "Anotámelo, el viernes cobro." },
+  { "id": "c2", "quien": "cliente", "texto": "¡Si mi vieja te compraba!" },
+  { "id": "c3", "quien": "cliente", "texto": "No tengo cambio, anotámelo." },
+  { "id": "c4", "quien": "cliente", "texto": "No tengo un peso." },
+  { "id": "c5", "quien": "cliente", "texto": "¡El viernes te paso!" },
+  { "id": "k1", "quien": "kiosquero", "texto": "¿Qué viernes?" },
+  { "id": "k2", "quien": "kiosquero", "texto": "Tu vieja también me debe." },
+  { "id": "k3", "quien": "kiosquero", "texto": "Es una gaseosa, flaco." },
+  { "id": "k4", "quien": "kiosquero", "texto": "¿Y ese celular?" }
+ ]
+}

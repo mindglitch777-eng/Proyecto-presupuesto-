@@ -1,4 +1,4 @@
-# TT-03 · "POV: te piden fiado" (TikTok, 22,5 s, 2D, sin voz)
+# TT-03 · "POV: te piden fiado" (TikTok, 24 s, 2D, dos voces cortas: cliente Puck y kiosquero Orus, `guiones/dialogos/tt-03.json`)
 
 Base: el formato más fuerte del nicho kiosco en TikTok es el POV de humor ("POV: Kiosqueros en Argentina", @benja_paso1, ~525 mil me gusta: el cliente que pide fiado).
 Nuestra versión: humor de identidad → plata que duele → la app 2 s. Sin voz: al subirlo se elige un sonido en tendencia en TikTok.
