@@ -1,0 +1,34 @@
+{
+ "id": "tt-02-donde-esta-la-plata",
+ "titulo": "¿Dónde está la plata?",
+ "duracionSeg": 40.2,
+ "tramos": [],
+ "cola": 1.3,
+ "voz": {
+  "motor": "gemini",
+  "modelo": "gemini-2.5-flash-preview-tts",
+  "nombre": "Orus",
+  "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como el narrador de un caso policial de TikTok que cuenta un misterio de plata: voz grave, intrigante y con tensión, como quien cuenta un secreto, ritmo ágil de redes y natural, sin pausas dentro de las frases. Las frases cortas (\"Era la de ella.\") con golpe seco. Solo hacé una pausa larga donde aparecen los tres puntos (…). Leé exactamente esto:"
+ },
+ "ganchos": [
+  {
+   "lineas": ["VENDE $300.000", "POR DÍA", "¿Y LA PLATA?"],
+   "voz": "Vendía trescientos mil por día y no le alcanzaba para el alquiler."
+  }
+ ],
+ "lineas": [
+  { "desde": 0.0, "hasta": 4.6, "texto": "GANCHO", "gigante": true, "gancho": true },
+  { "desde": 4.9, "hasta": 7.6, "texto": "Alguien le sacaba la plata. Tres sospechosos." },
+  { "desde": 7.9, "hasta": 10.3, "texto": "Y el tercero… lo tenés vos también." },
+  { "desde": 10.6, "hasta": 14.2, "texto": "Uno: el cuaderno. Después te pago. Trescientos ochenta mil." },
+  { "desde": 14.5, "hasta": 19.6, "texto": "Dos: el proveedor aumentó siete por ciento, y ella cobraba el precio viejo." },
+  { "desde": 19.9, "hasta": 21.6, "texto": "Pero el peor es otro." },
+  { "desde": 21.9, "hasta": 28.4, "texto": "La mano que abre la caja todos los días. Diez mil para la casa, después lo pongo." },
+  { "desde": 28.9, "hasta": 30.3, "texto": "Era la de ella.", "silencio": 0.4 },
+  { "desde": 30.6, "hasta": 34.0, "texto": "¿Y vos? ¿Cuánto sacaste de la caja esta semana?" },
+  { "desde": 34.3, "hasta": 38.8, "texto": "Ella tampoco sabía. Hasta que empezó a contarle el día al celular." }
+ ],
+ "sonidos": [],
+ "pausa_max": 0.3,
+ "silencio_max": 0.5
+}
