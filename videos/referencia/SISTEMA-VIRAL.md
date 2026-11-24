@@ -69,7 +69,7 @@ dolor → salida → alivio. Nunca dejar al kiosquero solo con el miedo.
 | $400.000 de plata dormida | "17 días de trabajo guardados en cajas" |
 | $5.832.000 por año | "Lo que vale un auto usado, perdido en renglones de $6" (solo como comparación de ejemplo) |
 
-Reglas: cada traducción lleva su cuenta en el guion y "(ejemplo)" en pantalla; nunca precios de mercado inventados (si se usa un precio real, se verifica antes).
+Reglas: cada traducción lleva su cuenta en el guion. **Desde el 24/11/2026 (decisión del dueño) no se escribe "(ejemplo)" en pantalla** en ningún video; los datos con fuente (UKRA, precios reales) se siguen verificando antes.
 
 ## 5b. Capa humana (obligatoria): el dolor es de una persona, la plata es la prueba
 
@@ -164,4 +164,4 @@ Nosotros nunca hablamos de funciones: hablamos de **cuánto te queda, a qué hor
 | 17 | Palabras de voz ≤ 2,3 × segundos (anotar el conteo) | |
 | 18 | Una sola unidad por número; rojo/verde, nunca gris | |
 | 19 | Ningún plano quieto > 1,5 s | |
-| 20 | Montos "(ejemplo)", sin marcas, sin datos inventados | |
+| 20 | Sin "(ejemplo)" en pantalla (24/11), sin marcas; datos con fuente verificados | |

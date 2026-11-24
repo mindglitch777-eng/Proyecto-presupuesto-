@@ -31,6 +31,7 @@ import { VendesNoCobras } from "./vnc/VendesNoCobras";
 import { Regalando } from "./rg/Regalando";
 import { DemoFb01, DemoFb02, DemoFb03 } from "./fb/DemoFB";
 import { DondeEstaLaPlata } from "./tt/DondeEstaLaPlata";
+import { PovFiado, DUR_TT03 } from "./tt/PovFiado";
 import { Muestrario, DURACION_M, FPS_M } from "./muestrario/Muestrario";
 import { TrabajasParaPagar } from "./piloto/TrabajasParaPagar";
 import { PlataEnLaCalle } from "./piloto/PlataEnLaCalle";
@@ -313,6 +314,16 @@ export const Root: React.FC = () => (
       height={1920}
       defaultProps={{ guion: GUION_V8_13.id, gancho: 0, voz: null, palabras: null }}
       calculateMetadata={calcular}
+    />
+    <Composition
+      id="Video-tt-03-PovFiado"
+      component={PovFiado}
+      schema={videoSchema}
+      durationInFrames={Math.round(DUR_TT03 * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-03-pov-fiado", gancho: 0, voz: null, palabras: null }}
     />
     <Composition
       id="Video-tt-02-DondeEstaLaPlata"
