@@ -5,7 +5,7 @@ import { BODY, DISP } from "../lib/fuentes";
 import { GUION_TT_02, palabrasDeRespaldo, type Palabra } from "../lib/guion";
 import type { VideoProps } from "../Video";
 import { BotonProbalo, Celular, Marco, W, camaraBeats, lineasDeVoz, temblor, type Cam2D } from "../v6/comun";
-import { Cartel, Etiqueta, Numero, Rotulo, entra, latido, ritmo, sp } from "../v8/comun";
+import { Billetes, Cartel, Etiqueta, Numero, Rotulo, entra, latido, ritmo, sp } from "../v8/comun";
 import { C } from "../v8/iconos";
 
 // TT-02 "¿Dónde está la plata?" (videos/guiones/TT-02-DONDE-ESTA-LA-PLATA.md). Todo 2D: tablero de detective de corcho,
@@ -14,6 +14,8 @@ import { C } from "../v8/iconos";
 const g = GUION_TT_02;
 const ROJO = "#ff3b30";
 const VERDE = "#22c55e";
+/** Segundo del golpe del gancho: el cajón se abre de un portazo y está VACÍO. */
+const SLAM = 1.25;
 
 function tiempos(pal: Palabra[], dur: number) {
   const { l, e } = lineasDeVoz(g, pal);
@@ -38,11 +40,11 @@ type T = ReturnType<typeof tiempos>;
 // ---------- piezas dibujadas ----------
 
 /** Caja registradora vista de frente con el cajón abierto `o` (0..1) y `billetes` billetes adentro. */
-const Cajon: React.FC<{ w: number; o: number; billetes: number; t: number }> = ({ w, o, billetes, t }) => (
+const Cajon: React.FC<{ w: number; o: number; billetes: number; t: number; pantalla?: string; colorPantalla?: string }> = ({ w, o, billetes, t, pantalla, colorPantalla = "#7cf2a8" }) => (
   <svg width={w} height={w * 0.8} viewBox="0 0 300 240" style={{ overflow: "visible" }}>
     <rect x="40" y="10" width="220" height="110" rx="14" fill="#2b2f2c" stroke="#0b0d0c" strokeWidth="5" />
     <rect x="70" y="26" width="160" height="40" rx="6" fill="#103d26" stroke="#0b0d0c" strokeWidth="4" />
-    <text x="150" y="56" textAnchor="middle" fill="#7cf2a8" style={{ font: `800 26px ${DISP}` }}>{billetes > 0 ? "$ ---" : "$ 0"}</text>
+    <text x="150" y="56" textAnchor="middle" fill={colorPantalla} style={{ font: `800 26px ${DISP}` }}>{pantalla ?? (billetes > 0 ? "$ ---" : "$ 0")}</text>
     {[0, 1, 2, 3].map((i) => <rect key={i} x={78 + i * 38} y="78" width="28" height="22" rx="5" fill="#cfd5d1" stroke="#0b0d0c" strokeWidth="3" />)}
     {/* cajón */}
     <g transform={`translate(0 ${o * 62})`}>
@@ -146,7 +148,7 @@ const Polaroid: React.FC<{ p: Pol; t: number; clavo: number; revela: number; tie
   const giro = Math.cos(Math.PI * clamp(revela, 0, 1));
   const frente = revela > 0.5;
   return (
-    <div style={{ left: p.x, top: p.y, width: p.w, height: p.h, transform: `rotate(${p.rot + Math.sin(t * 30) * tiembla}deg) scale(${s * (0.92 + 0.08 * Math.abs(giro)) }) scaleX(${Math.max(0.04, Math.abs(giro))})`, opacity: Math.min(1, s * 1.5) }}>
+    <div style={{ left: p.x, top: p.y, width: p.w, height: p.h, transform: `rotate(${p.rot + Math.sin(t * 30) * tiembla + Math.sin(t * 1.6 + n) * 0.9}deg) scale(${s * (0.92 + 0.08 * Math.abs(giro)) }) scaleX(${Math.max(0.04, Math.abs(giro))})`, opacity: Math.min(1, s * 1.5) }}>
       <div style={{ inset: 0, background: "#fbfaf6", boxShadow: `0 10px 22px #0008${brillo > 0 ? `, 0 0 ${30 * brillo}px ${ROJO}` : ""}` }} />
       <div style={{ left: 8, top: 8, right: 8, bottom: 30, overflow: "hidden", background: frente ? "#222" : "#1b1b1b" }}>
         {frente ? children : (
@@ -202,7 +204,8 @@ function vista(t: number, T: T) {
   let prev = todo, cur = todo, t0 = 0;
   for (const [a, v] of claves) if (t >= a) { prev = cur; cur = v; t0 = a; }
   const k = entra((t - t0) / 0.45);
-  return { x: prev.x + (cur.x - prev.x) * k, y: prev.y + (cur.y - prev.y) * k, z: prev.z + (cur.z - prev.z) * k };
+  const punch = 1 + 0.07 * Math.exp(-7 * Math.max(0, t - t0)) * (t >= t0 ? 1 : 0);
+  return { x: prev.x + (cur.x - prev.x) * k + Math.sin(t * 0.9) * 5, y: prev.y + (cur.y - prev.y) * k + Math.cos(t * 0.7) * 4, z: (prev.z + (cur.z - prev.z) * k) * punch };
 }
 
 /** Momentos en que la mano saca un billete (cada vez más rápido). */
@@ -215,27 +218,53 @@ function manotazos(T: T) {
 
 // ---------- escenas ----------
 
-const Gancho: React.FC<{ t: number; T: T }> = ({ t, T }) => {
-  const tachado = entra((t - T.alquiler) / 0.3);
+const Gancho: React.FC<{ t: number; T: T }> = ({ t }) => {
+  // 0 → SLAM: entran billetes a la caja y el visor cuenta hasta $300.000. SLAM: el cajón se abre de golpe… VACÍO.
+  const cuenta = Math.round((300000 * entra(t / (SLAM - 0.1))) / 1000) * 1000;
+  const abierto = t >= SLAM;
+  const o = abierto ? Math.min(1, entra((t - SLAM) / 0.12) + Math.exp(-9 * (t - SLAM)) * Math.sin((t - SLAM) * 40) * 0.08) : Math.sin(t * 50) * 0.03;
+  const tachado = entra((t - SLAM) / 0.25);
+  const zoom = abierto ? 1.12 - 0.08 * entra((t - SLAM) / 0.6) : 1 + t * 0.06;
   return (
     <>
       <div style={{ inset: 0, background: "#0d0b09" }} />
-      <Img src={staticFile("tomas/v8-01/recorte-almacen.jpg")} style={{ position: "absolute", inset: -20, width: 400, height: 680, objectFit: "cover", filter: "blur(5px) brightness(.35) saturate(.6)", transform: `scale(${1.05 + t * 0.02})` }} />
-      <div style={{ inset: 0, background: "radial-gradient(circle at 50% 55%, #0000 20%, #000c 75%)" }} />
-      <div style={{ left: 30, top: 250, transform: `scale(${latido(t, 0.55, 0.02)})` }}><Cajon w={300} o={entra((t - 0.02) / 0.25)} billetes={0} t={t} /></div>
-      {/* la mano descansa sobre el mostrador con el anillo a la vista (se entiende recién al final) */}
-      <div style={{ left: 70, top: 380 }}><Mano w={280} p={0.3} billete={false} /></div>
-      {t < 2.4 ? <Polilla t={t} /> : null}
-      <div style={{ left: 0, right: 0, top: 70, textAlign: "center", transform: `scale(${Math.min(1.08, sp(t + 0.12, 1.1)) * latido(t, 0.6, 0.03)}) rotate(-3deg)` }}>
+      <Img src={staticFile("tomas/v8-01/recorte-almacen.jpg")} style={{ position: "absolute", inset: -20, width: 400, height: 680, objectFit: "cover", filter: `blur(4px) brightness(${abierto ? 0.3 : 0.45}) saturate(.7)`, transform: `scale(${1.08 + t * 0.03}) translateX(${Math.sin(t * 0.8) * 6}px)` }} />
+      <div style={{ inset: 0, background: abierto ? "radial-gradient(circle at 50% 55%, #ff3b3022 10%, #000d 70%)" : "radial-gradient(circle at 50% 55%, #ffb70022 10%, #000c 72%)" }} />
+      <div style={{ left: 0, top: 0, width: 360, height: 640, transformOrigin: "50% 60%", transform: `scale(${zoom})` }}>
+        {!abierto ? <Billetes t={t} desde={-0.35} hasta={SLAM - 0.3} x0={-40} y0={200} x1={170} y1={300} cada={0.09} vuelo={0.45} alto={70} /> : null}
+        {!abierto ? <Billetes t={t} desde={-0.3} hasta={SLAM - 0.3} x0={380} y0={230} x1={180} y1={300} cada={0.11} vuelo={0.45} alto={60} /> : null}
+        <div style={{ left: 30, top: 250, transform: `scale(${latido(t, 0.45, 0.03)})` }}>
+          <Cajon w={300} o={o} billetes={0} t={t} pantalla={abierto ? "$ 0" : `$ ${cuenta.toLocaleString("es-AR")}`} colorPantalla={abierto ? (Math.sin(t * 18) > 0 ? ROJO : "#5a1a16") : "#7cf2a8"} />
+        </div>
+        {/* la mano descansa sobre el mostrador con el anillo a la vista (se entiende recién al final) */}
+        <div style={{ left: 70, top: 380 }}><Mano w={280} p={0.3} billete={false} /></div>
+        {abierto && t < SLAM + 2.4 ? <Polilla t={t - SLAM} /> : null}
+      </div>
+      <div style={{ left: 0, right: 0, top: 34, textAlign: "center" }}>
+        <span style={{ position: "static", display: "inline-block", padding: "3px 12px", borderRadius: 999, background: C.ambar, color: C.tinta, font: `900 14px ${BODY}`, letterSpacing: ".08em" }}>EL CASO DEL KIOSCO</span>
+      </div>
+      <div style={{ left: 0, right: 0, top: 70, textAlign: "center", transform: `scale(${(abierto ? 0.9 : 1) * latido(t, 0.5, 0.04)}) rotate(${-3 + Math.sin(t * 5) * 0.8}deg)` }}>
         <span style={{ position: "static", display: "inline-block", padding: "6px 16px", borderRadius: 12, background: "#fff", color: C.tinta, font: `900 32px/1.05 ${DISP}`, boxShadow: `0 6px 0 ${C.tinta}` }}>
           VENDE $300.000<br />POR DÍA
           {tachado > 0 ? <span style={{ position: "absolute", left: 8, top: "50%", height: 6, width: `${tachado * 92}%`, background: ROJO, borderRadius: 3, transform: "rotate(-8deg)" }} /> : null}
         </span>
       </div>
-      {t > T.alquiler + 0.15 ? <Cartel texto="¿Y LA PLATA?" top={176} size={44} fondo={ROJO} s={sp(t - T.alquiler - 0.15, 1.12)} rot={3} /> : null}
+      {abierto ? <Cartel texto="¿Y LA PLATA?" top={176} size={46} fondo={ROJO} s={sp(t - SLAM - 0.08, 1.15) * latido(t, 0.5, 0.05)} rot={3 + Math.sin(t * 6) * 1.5} /> : null}
     </>
   );
 };
+
+/** Polvo que flota delante de todo (siempre hay algo moviéndose). */
+const Polvo: React.FC<{ t: number }> = ({ t }) => (
+  <>
+    {Array.from({ length: 22 }, (_, i) => {
+      const x = ((i * 53.7 + t * (6 + (i % 5) * 3)) % 400) - 20;
+      const y = ((i * 97.3 + t * (10 + (i % 4) * 4)) % 680) - 20;
+      const r = 1 + (i % 3);
+      return <div key={i} style={{ left: x + Math.sin(t * 1.3 + i) * 8, top: 640 - y, width: r * 2, height: r * 2, borderRadius: r, background: "#ffe9b8", opacity: 0.18 + 0.12 * Math.sin(t * 2 + i) }} />;
+    })}
+  </>
+);
 
 const Tablero: React.FC<{ t: number; T: T }> = ({ t, T }) => {
   const { l } = T;
@@ -249,7 +278,7 @@ const Tablero: React.FC<{ t: number; T: T }> = ({ t, T }) => {
   return (
     <>
       <div style={{ inset: 0, background: "#1a120b" }} />
-      <div style={{ left: 0, top: 0, width: 360, height: 640, transformOrigin: "0 0", transform: `translate(${180 - v.x * v.z}px, ${320 - v.y * v.z}px) scale(${v.z})` }}>
+      <div style={{ left: 0, top: 0, width: 360, height: 640, transformOrigin: "0 0", transform: `translate(${180 - v.x * v.z}px, ${320 - v.y * v.z}px) scale(${v.z}) rotate(${Math.sin(t * 0.6) * 0.8}deg)` }}>
         {/* corcho con marco de madera */}
         <div style={{ left: -60, top: 60, width: 480, height: 460, background: "#6b4423" }} />
         <div style={{ left: -48, top: 72, width: 456, height: 436, background: "radial-gradient(#a0703f 1.2px, #0000 1.6px) 0 0/7px 7px, radial-gradient(#7a4f27 1px, #0000 1.4px) 3px 4px/9px 9px, #b9844f" }} />
@@ -268,6 +297,11 @@ const Tablero: React.FC<{ t: number; T: T }> = ({ t, T }) => {
           <div style={{ left: -6, top: 6 }}><Cajon w={172} o={0.85} billetes={Math.max(0, 5 - Math.floor(n / 3))} t={t} /></div>
           <div style={{ left: -4, top: 30 }}><Mano w={172} p={p} billete /></div>
         </Polaroid>
+        {mz.map((a, i) => {
+          const d = (t - a - 0.3) / 0.6;
+          if (d < 0 || d > 1) return null;
+          return <div key={i} style={{ left: 250 + d * 170, top: 410 - Math.sin(d * Math.PI) * 90 - d * 60, transform: `rotate(${d * 300 + i * 40}deg) scale(${1 - d * 0.3})` }}><svg width={44} height={22} viewBox="0 0 80 40"><rect x="2" y="2" width="76" height="36" rx="5" fill="#7cc79a" stroke={C.tinta} strokeWidth="3" /><circle cx="40" cy="20" r="9" fill={C.hoja} stroke={C.tinta} strokeWidth="2.5" /></svg></div>;
+        })}
         {/* lupa sobre el anillo */}
         {t >= l[7] - 0.05 && t < l[8] ? (
           <div style={{ left: 220, top: 394, width: 48, height: 48, borderRadius: 24, border: "4px solid #2b2b2b", boxShadow: "0 0 0 2px #888, 0 6px 14px #000a", background: "radial-gradient(circle, #fff2 30%, #fff1 70%)", transform: `scale(${sp(t - l[7] + 0.05, 1.1)})` }}>
@@ -291,7 +325,7 @@ const Espejo: React.FC<{ t: number; T: T }> = ({ t, T }) => {
   return (
     <>
       <div style={{ inset: 0, background: "#1a120b" }} />
-      <div style={{ left: 40, top: 110, width: 280, height: 360, borderRadius: 140, background: "linear-gradient(160deg, #d9dee2, #8e979e 45%, #c5ccd2 70%, #7b848b)", border: "10px solid #6b4423", boxShadow: "0 20px 40px #000c", overflow: "hidden", transform: `scale(${0.9 + 0.1 * s}) rotateY(${(1 - s) * 80}deg)` }}>
+      <div style={{ left: 40, top: 110, width: 280, height: 360, borderRadius: 140, background: "linear-gradient(160deg, #d9dee2, #8e979e 45%, #c5ccd2 70%, #7b848b)", border: "10px solid #6b4423", boxShadow: "0 20px 40px #000c", overflow: "hidden", transform: `scale(${(0.9 + 0.1 * s) * (1 + 0.08 * Math.exp(-6 * Math.max(0, t - T.vos)) * (t >= T.vos ? 1 : 0)) * latido(t, 0.6, 0.02)}) rotateY(${(1 - s) * 80}deg) rotate(${Math.sin(t * 1.2) * 1.2}deg)` }}>
         <div style={{ left: brillo, top: -40, width: 60, height: 460, background: "linear-gradient(90deg, #fff0, #fff9, #fff0)", transform: "rotate(18deg)" }} />
         {/* silueta reflejada: sos vos */}
         <svg width="260" height="340" viewBox="0 0 260 340" style={{ left: 0, top: 30, opacity: 0.55 }}>
@@ -350,17 +384,17 @@ export const DondeEstaLaPlata: React.FC<VideoProps> = ({ voz, palabras }) => {
   const sil0 = e[6] + 0.05;
   const mz = manotazos(T);
 
-  const manual = [0.03, T.alquiler, T.tres, T.tercero, T.cuaderno, T.pago, T.ochenta, T.proveedor, T.siete, T.viejo, T.peor, T.mano, T.casa, T.pongo, T.ella, T.vos, T.semana, T.contarle, T.celular];
+  const manual = [0.03, 0.45, 0.9, SLAM, SLAM + 0.5, T.alquiler, T.tres, T.tercero, T.cuaderno, T.pago, T.ochenta, T.proveedor, T.siete, T.viejo, T.peor, T.mano, T.casa, T.pongo, T.ella, T.vos, T.semana, T.contarle, T.celular];
   const cortes = [l[1], l[8], l[9]];
-  const cam: Cam2D = t > sil0 && t < T.ella ? { z: 1.02, rot: 0, tx: 0, ty: 0, blur: 0 } : camaraBeats(tw, loop ? [] : ritmo(pal, manual, [[sil0, T.ella - 0.02], [T.LOOP - 0.4, 999]], 0.5), loop ? [] : cortes, 0.5);
-  const hs = loop ? 0 : temblor(t, [[0.03, 9], [T.alquiler + 0.15, 9], [T.tres + 0.44, 4], [T.ochenta, 7], [T.viejo + 0.3, 7], [l[5] + 0.1, 6], [T.ella, 12], [T.vos, 6]]);
+  const cam: Cam2D = t > sil0 && t < T.ella ? { z: 1.02, rot: 0, tx: 0, ty: 0, blur: 0 } : camaraBeats(tw, loop ? [] : ritmo(pal, manual, [[sil0, T.ella - 0.02], [T.LOOP - 0.4, 999]], 0.4), loop ? [] : cortes, 0.8);
+  const hs = loop ? 0 : temblor(t, [[0.03, 9], [SLAM, 14], [T.tres + 0.44, 4], [T.ochenta, 7], [T.viejo + 0.3, 7], [l[5] + 0.1, 6], [T.ella, 12], [T.vos, 6]]);
   let wf = 0;
-  if (!loop) [[0.03, 0.25], [T.ella, 0.3], [l[8], 0.15]].forEach(([a, f]) => { const d = t - a; if (d >= 0 && d < 0.15) wf += f * (1 - d / 0.15); });
+  if (!loop) [[0.03, 0.25], [SLAM, 0.4], [T.ella, 0.3], [l[8], 0.15]].forEach(([a, f]) => { const d = t - a; if (d >= 0 && d < 0.15) wf += f * (1 - d / 0.15); });
 
   const tics = (desde: number, hasta: number, cada: number, vol: number) => Array.from({ length: Math.max(0, Math.floor((hasta - desde) / cada)) }, (_, i) => ({ en: desde + i * cada, sfx: "tic", vol }));
   const sonidos: { en: number; sfx: string; vol?: number }[] = [
-    { en: 0, sfx: "cajon", vol: 0.7 }, { en: 0.02, sfx: "thump", vol: 0.7 }, { en: 0.3, sfx: "viento", vol: 0.25 },
-    { en: T.alquiler, sfx: "rayon", vol: 0.5 }, { en: T.alquiler + 0.15, sfx: "slam", vol: 0.5 },
+    { en: 0, sfx: "thump", vol: 0.7 }, ...Array.from({ length: 8 }, (_, i) => ({ en: i * 0.12, sfx: i % 2 ? "coins" : "caja", vol: 0.28 })),
+    { en: SLAM, sfx: "cajon", vol: 0.8 }, { en: SLAM, sfx: "slam", vol: 0.6 }, { en: SLAM + 0.05, sfx: "rayon", vol: 0.45 }, { en: SLAM + 0.3, sfx: "viento", vol: 0.25 },
     { en: l[1] - 0.12, sfx: "whoosh", vol: 0.4 },
     ...[0, 0.22, 0.44].map((d) => ({ en: T.tres + d, sfx: "click", vol: 0.6 })),
     { en: T.tercero, sfx: "heart", vol: 0.6 }, { en: T.tercero + 0.55, sfx: "heart", vol: 0.6 },
@@ -379,6 +413,7 @@ export const DondeEstaLaPlata: React.FC<VideoProps> = ({ voz, palabras }) => {
 
   const musica = (
     <>
+      <div className="stage" style={{ position: "absolute", inset: 0 }}><Polvo t={tw} /></div>
       <Sequence from={0} durationInFrames={Math.max(1, Math.round(sil0 * fps))} layout="none">
         <Html5Audio src={staticFile("sfx/pulso.wav")} volume={(f) => 0.1 * Math.min(1, Math.max(0, sil0 * fps - f) / 4)} />
       </Sequence>
