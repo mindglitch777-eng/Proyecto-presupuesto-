@@ -1,16 +1,63 @@
 {
- "firmas": {},
+ "firmas": {
+  "conductor": "88cf43c143f274f6",
+  "concursante": "d0c692873f13657c"
+ },
  "frases": {
-  "h1": { "quien": "conductor", "texto": "estimado", "dur": 2.6 },
-  "h2": { "quien": "conductor", "texto": "estimado", "dur": 2.6 },
-  "h3": { "quien": "conductor", "texto": "estimado", "dur": 0.8 },
-  "h4": { "quien": "conductor", "texto": "estimado", "dur": 1.3 },
-  "h5": { "quien": "conductor", "texto": "estimado", "dur": 1.8 },
-  "h6": { "quien": "conductor", "texto": "estimado", "dur": 1.4 },
-  "h7": { "quien": "conductor", "texto": "estimado", "dur": 1.5 },
-  "h8": { "quien": "conductor", "texto": "estimado", "dur": 3.4 },
-  "h9": { "quien": "conductor", "texto": "estimado", "dur": 2.2 },
-  "c1": { "quien": "concursante", "texto": "estimado", "dur": 1.8 },
-  "c2": { "quien": "concursante", "texto": "estimado", "dur": 1.4 }
+  "h1": {
+   "quien": "conductor",
+   "texto": "¡Este kiosco vende un palo por día!",
+   "dur": 2.5
+  },
+  "h2": {
+   "quien": "conductor",
+   "texto": "¿Cuánto le queda? Elegí antes que él.",
+   "dur": 2.34
+  },
+  "h3": {
+   "quien": "conductor",
+   "texto": "¿Seguro?",
+   "dur": 0.62
+  },
+  "h4": {
+   "quien": "conductor",
+   "texto": "¡Uh, casi la B!",
+   "dur": 1.26
+  },
+  "h5": {
+   "quien": "conductor",
+   "texto": "Y falta la que nadie cuenta.",
+   "dur": 1.74
+  },
+  "h6": {
+   "quien": "conductor",
+   "texto": "¡La C! ¡Ganaste!",
+   "dur": 1.7
+  },
+  "h7": {
+   "quien": "conductor",
+   "texto": "Pará. Falta la D.",
+   "dur": 1.36
+  },
+  "h8": {
+   "quien": "conductor",
+   "texto": "Sesenta y cuatro mil. Menos de siete de cada cien.",
+   "dur": 3.16
+  },
+  "h9": {
+   "quien": "conductor",
+   "texto": "Hablándole al celular, veinte segundos.",
+   "dur": 2.56
+  },
+  "c1": {
+   "quien": "concursante",
+   "texto": "¡La A! Trescientas lucas.",
+   "dur": 2.16
+  },
+  "c2": {
+   "quien": "concursante",
+   "texto": "¿Y cómo iba a saber?",
+   "dur": 1.0
+  }
  }
 }
