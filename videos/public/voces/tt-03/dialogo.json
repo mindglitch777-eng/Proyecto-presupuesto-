@@ -1,0 +1,53 @@
+{
+ "firmas": {
+  "cliente": "642e32d37ba4ffd3",
+  "kiosquero": "e7a832f017eb82f2"
+ },
+ "frases": {
+  "c1": {
+   "quien": "cliente",
+   "texto": "Anotámelo, el viernes cobro.",
+   "dur": 1.92
+  },
+  "c2": {
+   "quien": "cliente",
+   "texto": "¡Si mi vieja te compraba!",
+   "dur": 1.46
+  },
+  "c3": {
+   "quien": "cliente",
+   "texto": "No tengo cambio, anotámelo.",
+   "dur": 1.58
+  },
+  "c4": {
+   "quien": "cliente",
+   "texto": "No tengo un peso.",
+   "dur": 1.18
+  },
+  "c5": {
+   "quien": "cliente",
+   "texto": "¡El viernes te paso!",
+   "dur": 1.36
+  },
+  "k1": {
+   "quien": "kiosquero",
+   "texto": "¿Qué viernes?",
+   "dur": 0.84
+  },
+  "k2": {
+   "quien": "kiosquero",
+   "texto": "Tu vieja también me debe.",
+   "dur": 1.2
+  },
+  "k3": {
+   "quien": "kiosquero",
+   "texto": "Es una gaseosa, flaco.",
+   "dur": 1.32
+  },
+  "k4": {
+   "quien": "kiosquero",
+   "texto": "¿Y ese celular?",
+   "dur": 0.76
+  }
+ }
+}
