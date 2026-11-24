@@ -90,9 +90,24 @@ def voz_respaldo(texto, nombre):
     return np.frombuffer(crudo, dtype=np.int16).astype(np.int32)
 
 
+def acortar_silencios(p, maximo=0.2, min_sil=0.22):
+    """Pausas dentro de una frase más largas que `maximo` quedan en `maximo` (no se acelera la voz: solo se saca silencio)."""
+    t = tramos_con_voz(p, min_sil=min_sil)
+    if len(t) < 2:
+        return p
+    partes = [p[: int(t[0][1] * SR)]]
+    for (a0, b0), (a1, b1) in zip(t, t[1:]):
+        hueco = a1 - b0
+        partes.append(p[int(b0 * SR): int(b0 * SR) + int(min(hueco, maximo) * SR)])
+        partes.append(p[int(a1 * SR): int(b1 * SR)])
+    partes.append(p[int(t[-1][1] * SR):])
+    return np.concatenate(partes)
+
+
 def recortar(p, aire):
     t = tramos_con_voz(p)
-    return p[max(0, int(t[0][0] * SR) - aire): int(t[-1][1] * SR) + aire] if t else p
+    p = p[max(0, int(t[0][0] * SR) - aire): int(t[-1][1] * SR) + aire] if t else p
+    return acortar_silencios(p)
 
 
 def a_mp3(pcm, ruta):

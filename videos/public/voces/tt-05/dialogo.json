@@ -6,22 +6,22 @@
   "n1": {
    "quien": "narrador",
    "texto": "2026 es el nuevo 2016, menos para tu kiosco.",
-   "dur": 4.8
+   "dur": 4.62
   },
   "n2": {
    "quien": "narrador",
    "texto": "Antes te pagaban con billete. Hoy con QR, y el QR se queda una parte.",
-   "dur": 5.14
+   "dur": 4.46
   },
   "n3": {
    "quien": "narrador",
    "texto": "Antes vendías golosinas. Hoy vendés de todo, y no sabés qué te deja plata.",
-   "dur": 4.98
+   "dur": 4.4
   },
   "n4": {
    "quien": "narrador",
    "texto": "Antes llevaban tres cosas. Hoy, una.",
-   "dur": 3.0
+   "dur": 2.58
   },
   "n5": {
    "quien": "narrador",
@@ -31,22 +31,22 @@
   "n6": {
    "quien": "narrador",
    "texto": "Antes fiabas a dos. Hoy, volvió el fiado.",
-   "dur": 3.48
+   "dur": 3.06
   },
   "n7": {
    "quien": "narrador",
    "texto": "En diez años, si abrís doce horas por día, pasaste más tiempo en el kiosco que durmiendo.",
-   "dur": 5.32
+   "dur": 5.2
   },
   "n8": {
    "quien": "narrador",
    "texto": "Y lo único que no cambió en diez años es el cuaderno.",
-   "dur": 3.38
+   "dur": 3.3
   },
   "n9": {
    "quien": "narrador",
    "texto": "En 2026, le hablás.",
-   "dur": 2.34
+   "dur": 2.1
   }
  }
 }

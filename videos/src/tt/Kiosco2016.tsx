@@ -27,14 +27,14 @@ const VOCES = ["n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9"];
 function armar() {
   const T: Record<string, number> = {};
   let c = 0.1;
-  const at = (id: string, min = 0, aire = 0.28) => { const s = Math.max(min, c); T[id] = s; c = s + d(id) + aire; return s; };
-  at("n1", 0.1, 0.35);
+  const at = (id: string, min = 0, aire = 0.12) => { const s = Math.max(min, c); T[id] = s; c = s + d(id) + aire; return s; };
+  at("n1", 0.1, 0.2);
   T.tacha = T.n1 + d("n1") * 0.5;
-  for (const id of ["n2", "n3", "n4", "n5", "n6", "n7", "n8"]) at(id, 0, id === "n7" ? 0.45 : 0.3);
+  for (const id of ["n2", "n3", "n4", "n5", "n6", "n7", "n8"]) at(id, 0, id === "n7" ? 0.3 : id === "n4" ? 0.2 : 0.12);
   at("n9", 0, 0.2);
   T.app = T.n9 - 0.25;
-  T.cierre = Math.max(c + 1.3, T.app + 2.4);
-  T.fin = T.cierre + 2.8;
+  T.cierre = Math.max(c + 0.8, T.app + 2.0);
+  T.fin = T.cierre + 2.4;
   // segunda mitad de cada comparación ("Hoy…")
   T.hoy2 = T.n2 + d("n2") * 0.42; T.hoy3 = T.n3 + d("n3") * 0.42; T.hoy4 = T.n4 + d("n4") * 0.6; T.hoy6 = T.n6 + d("n6") * 0.5;
   return T;
