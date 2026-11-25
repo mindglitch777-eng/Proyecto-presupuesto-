@@ -1,0 +1,50 @@
+{
+ "firmas": {},
+ "frases": {
+  "b1": {
+   "quien": "narrador",
+   "texto": "estimado",
+   "dur": 2.0
+  },
+  "b1ad": {
+   "quien": "narrador",
+   "texto": "estimado",
+   "dur": 2.4
+  },
+  "b2": {
+   "quien": "narrador",
+   "texto": "estimado",
+   "dur": 3.0
+  },
+  "b3": {
+   "quien": "narrador",
+   "texto": "estimado",
+   "dur": 3.2
+  },
+  "b4": {
+   "quien": "narrador",
+   "texto": "estimado",
+   "dur": 2.0
+  },
+  "b5": {
+   "quien": "narrador",
+   "texto": "estimado",
+   "dur": 0.7
+  },
+  "b6": {
+   "quien": "narrador",
+   "texto": "estimado",
+   "dur": 3.4
+  },
+  "b7": {
+   "quien": "narrador",
+   "texto": "estimado",
+   "dur": 3.6
+  },
+  "b8ad": {
+   "quien": "narrador",
+   "texto": "estimado",
+   "dur": 2.2
+  }
+ }
+}

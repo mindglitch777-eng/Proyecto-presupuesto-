@@ -1,0 +1,58 @@
+{
+ "id": "tt-06",
+ "modelo": "gemini-2.5-flash-preview-tts",
+ "personajes": {
+  "narrador": {
+   "nombre": "Charon",
+   "respaldo": "es-AR-TomasNeural",
+   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un mentor de negocios exitoso, un gurú que sabe de plata y le habla de frente a un kiosquero: voz grave, seria, segura y con autoridad, contundente, sin sonreír, ritmo firme de redes sin apurarte. Decí cada frase por separado y hacé SIEMPRE un silencio largo de dos segundos donde aparecen los tres puntos solos (…). No digas los tres puntos. Leé exactamente esto:"
+  }
+ },
+ "frases": [
+  {
+   "id": "a1",
+   "quien": "narrador",
+   "texto": "Estás matando a tu kiosco."
+  },
+  {
+   "id": "a1ad",
+   "quien": "narrador",
+   "texto": "Así se están muriendo los kioscos."
+  },
+  {
+   "id": "a2",
+   "quien": "narrador",
+   "texto": "Y lo hacés de tres formas. Contá cuántas hacés vos."
+  },
+  {
+   "id": "a3",
+   "quien": "narrador",
+   "texto": "Tres: contás la caja y creés que ganaste. Lo que entró no es lo que te quedó."
+  },
+  {
+   "id": "a4",
+   "quien": "narrador",
+   "texto": "Dos: el proveedor te aumentó, y vos seguís cobrando el precio viejo."
+  },
+  {
+   "id": "a5",
+   "quien": "narrador",
+   "texto": "Y la uno, es la que te mata."
+  },
+  {
+   "id": "a6",
+   "quien": "narrador",
+   "texto": "No saber cuánto te quedó. Así se funden sin darse cuenta."
+  },
+  {
+   "id": "a7",
+   "quien": "narrador",
+   "texto": "Le hablás veinte segundos al celular, y sabés el número todas las noches."
+  },
+  {
+   "id": "a8ad",
+   "quien": "narrador",
+   "texto": "Escribime por WhatsApp y te muestro cómo."
+  }
+ ]
+}

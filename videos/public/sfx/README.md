@@ -39,3 +39,4 @@ ni muestras de terceros, así que no tienen restricciones de licencia: se pueden
 | `cajon.wav` | cajón de madera que se cierra |
 
 Para reemplazar alguno por un archivo con licencia comercial, dejalo con el mismo nombre y anotá acá su origen.
+- beep, flatline, desfibrilador: monitor cardíaco del TT-06 (generados con numpy, propios).

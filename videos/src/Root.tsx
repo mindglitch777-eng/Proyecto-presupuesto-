@@ -34,6 +34,8 @@ import { DondeEstaLaPlata } from "./tt/DondeEstaLaPlata";
 import { PovFiado, DUR_TT03 } from "./tt/PovFiado";
 import { JuegoCuantoQueda, DUR_TT04 } from "./tt/JuegoCuantoQueda";
 import { Kiosco2016, DUR_TT05 } from "./tt/Kiosco2016";
+import { MatandoKiosco, durTT06 } from "./tt/MatandoKiosco";
+import { MejorCliente, durTT07 } from "./tt/MejorCliente";
 import { Muestrario, DURACION_M, FPS_M } from "./muestrario/Muestrario";
 import { TrabajasParaPagar } from "./piloto/TrabajasParaPagar";
 import { PlataEnLaCalle } from "./piloto/PlataEnLaCalle";
@@ -316,6 +318,42 @@ export const Root: React.FC = () => (
       height={1920}
       defaultProps={{ guion: GUION_V8_13.id, gancho: 0, voz: null, palabras: null }}
       calculateMetadata={calcular}
+    />
+    <Composition
+      id="Video-tt-06-Matando"
+      component={MatandoKiosco}
+      durationInFrames={Math.round(durTT06(false) * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-06", gancho: 0, voz: null, palabras: null, ad: false }}
+    />
+    <Composition
+      id="Video-tt-06-Matando-Anuncio"
+      component={MatandoKiosco}
+      durationInFrames={Math.round(durTT06(true) * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-06", gancho: 0, voz: null, palabras: null, ad: true }}
+    />
+    <Composition
+      id="Video-tt-07-MejorCliente"
+      component={MejorCliente}
+      durationInFrames={Math.round(durTT07(false) * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-07", gancho: 0, voz: null, palabras: null, ad: false }}
+    />
+    <Composition
+      id="Video-tt-07-MejorCliente-Anuncio"
+      component={MejorCliente}
+      durationInFrames={Math.round(durTT07(true) * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-07", gancho: 0, voz: null, palabras: null, ad: true }}
     />
     <Composition
       id="Video-tt-05-2016vs2026"

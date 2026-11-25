@@ -1,0 +1,58 @@
+{
+ "id": "tt-07",
+ "modelo": "gemini-2.5-flash-preview-tts",
+ "personajes": {
+  "narrador": {
+   "nombre": "Charon",
+   "respaldo": "es-AR-TomasNeural",
+   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un mentor de negocios exitoso, un gurú que sabe de plata y le habla de frente a un kiosquero: voz grave, seria, segura y con autoridad, contundente, sin sonreír, ritmo firme de redes sin apurarte. Decí cada frase por separado y hacé SIEMPRE un silencio largo de dos segundos donde aparecen los tres puntos solos (…). No digas los tres puntos. Leé exactamente esto:"
+  }
+ },
+ "frases": [
+  {
+   "id": "b1",
+   "quien": "narrador",
+   "texto": "Tu mejor cliente te está fundiendo."
+  },
+  {
+   "id": "b1ad",
+   "quien": "narrador",
+   "texto": "Este cliente funde kioscos todos los días."
+  },
+  {
+   "id": "b2",
+   "quien": "narrador",
+   "texto": "El que más viene. El más simpático. Mirá su ficha."
+  },
+  {
+   "id": "b3",
+   "quien": "narrador",
+   "texto": "Compra todos los días. Y debe, ciento ochenta mil."
+  },
+  {
+   "id": "b4",
+   "quien": "narrador",
+   "texto": "¿Adivinás cuánto pagó este mes?"
+  },
+  {
+   "id": "b5",
+   "quien": "narrador",
+   "texto": "Cero."
+  },
+  {
+   "id": "b6",
+   "quien": "narrador",
+   "texto": "Ciento ochenta mil. Con tu plata. Y vos le seguís fiando."
+  },
+  {
+   "id": "b7",
+   "quien": "narrador",
+   "texto": "La app te dice quién te debe, y le manda el recordatorio por vos."
+  },
+  {
+   "id": "b8ad",
+   "quien": "narrador",
+   "texto": "Escribime por WhatsApp y te muestro cómo."
+  }
+ ]
+}
