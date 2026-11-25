@@ -1,49 +1,51 @@
 {
- "firmas": {},
+ "firmas": {
+  "narrador": "97cb2bff683f5bd9"
+ },
  "frases": {
   "a1": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 1.6
+   "texto": "Estás matando a tu kiosco.",
+   "dur": 1.84
   },
   "a1ad": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 2.0
+   "texto": "Así se están muriendo los kioscos.",
+   "dur": 2.12
   },
   "a2": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 2.8
+   "texto": "Y lo hacés de tres formas. Contá cuántas hacés vos.",
+   "dur": 3.22
   },
   "a3": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 4.4
+   "texto": "Tres: contás la caja y creés que ganaste. Lo que entró no es lo que te quedó.",
+   "dur": 5.06
   },
   "a4": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 3.8
+   "texto": "Dos: el proveedor te aumentó, y vos seguís cobrando el precio viejo.",
+   "dur": 4.1
   },
   "a5": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 2.0
+   "texto": "Y la uno, es la que te mata.",
+   "dur": 1.86
   },
   "a6": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 3.4
+   "texto": "No saber cuánto te quedó. Así se funden sin darse cuenta.",
+   "dur": 3.7
   },
   "a7": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 4.0
+   "texto": "Le hablás veinte segundos al celular, y sabés el número todas las noches.",
+   "dur": 3.94
   },
   "a8ad": {
    "quien": "narrador",
-   "texto": "estimado",
+   "texto": "Escribime por WhatsApp y te muestro cómo.",
    "dur": 2.2
   }
  }

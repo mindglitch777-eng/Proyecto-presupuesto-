@@ -1,50 +1,52 @@
 {
- "firmas": {},
+ "firmas": {
+  "narrador": "c849b173b5915049"
+ },
  "frases": {
   "b1": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 2.0
+   "texto": "Tu mejor cliente te está fundiendo.",
+   "dur": 2.56
   },
   "b1ad": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 2.4
+   "texto": "Este cliente funde kioscos todos los días.",
+   "dur": 3.48
   },
   "b2": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 3.0
+   "texto": "El que más viene. El más simpático. Mirá su ficha.",
+   "dur": 3.46
   },
   "b3": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 3.2
+   "texto": "Compra todos los días. Y debe, ciento ochenta mil.",
+   "dur": 3.64
   },
   "b4": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 2.0
+   "texto": "¿Adivinás cuánto pagó este mes?",
+   "dur": 2.08
   },
   "b5": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 0.7
+   "texto": "Cero.",
+   "dur": 0.74
   },
   "b6": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 3.4
+   "texto": "Ciento ochenta mil. Con tu plata. Y vos le seguís fiando.",
+   "dur": 27.94
   },
   "b7": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 3.6
+   "texto": "La app te dice quién te debe, y le manda el recordatorio por vos.",
+   "dur": 5.28
   },
   "b8ad": {
    "quien": "narrador",
-   "texto": "estimado",
-   "dur": 2.2
+   "texto": "Escribime por WhatsApp y te muestro cómo.",
+   "dur": 1.64
   }
  }
 }
