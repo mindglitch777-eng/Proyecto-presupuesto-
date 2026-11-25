@@ -22,7 +22,7 @@ const TXT: Record<string, string> = {
   a8ad: "Escribime por WhatsApp y te muestro cómo.",
 };
 
-function armar(ad: boolean) {
+export function armar(ad: boolean) {
   const ids = [ad ? "a1ad" : "a1", "a2", "a3", "a4", "a5", "a6", "a7", ...(ad ? ["a8ad"] : [])];
   const { T, fin, d } = lineaDeVoz(FR, ids, { a5: 0.25, a6: 0.7, a7: 0.25 });
   const h = ad ? "a1ad" : "a1";

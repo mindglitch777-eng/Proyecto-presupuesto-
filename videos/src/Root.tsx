@@ -35,6 +35,7 @@ import { PovFiado, DUR_TT03 } from "./tt/PovFiado";
 import { JuegoCuantoQueda, DUR_TT04 } from "./tt/JuegoCuantoQueda";
 import { Kiosco2016, DUR_TT05 } from "./tt/Kiosco2016";
 import { MatandoKiosco, durTT06 } from "./tt/MatandoKiosco";
+import { MatandoExplicado } from "./tt/MatandoExplicado";
 import { MejorCliente, durTT07 } from "./tt/MejorCliente";
 import { Muestrario, DURACION_M, FPS_M } from "./muestrario/Muestrario";
 import { TrabajasParaPagar } from "./piloto/TrabajasParaPagar";
@@ -331,6 +332,24 @@ export const Root: React.FC = () => (
     <Composition
       id="Video-tt-06-Matando-Anuncio"
       component={MatandoKiosco}
+      durationInFrames={Math.round(durTT06(true) * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-06", gancho: 0, voz: null, palabras: null, ad: true }}
+    />
+    <Composition
+      id="Video-tt-06b-Explicado"
+      component={MatandoExplicado}
+      durationInFrames={Math.round(durTT06(false) * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-06", gancho: 0, voz: null, palabras: null, ad: false }}
+    />
+    <Composition
+      id="Video-tt-06b-Explicado-Anuncio"
+      component={MatandoExplicado}
       durationInFrames={Math.round(durTT06(true) * FPS)}
       fps={FPS}
       width={1080}
