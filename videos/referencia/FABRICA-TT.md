@@ -28,3 +28,11 @@ videojuego), `Cuaderno`, `App` (pantalla real). En `DondeEstaLaPlata.tsx`: `Cajo
 - Los ajustes chicos (tiempos, colores, textos) no regeneran voces: la voz se pide solo cuando cambia su texto.
 - Cuota de Gemini: 10 voces por día. Si se agota, `voces_dialogo.py` usa la voz de respaldo (Tomás, edge-tts) y al día siguiente, con
   cualquier render, vuelve a pedir la voz buena sola. Si la toma sale sin pausas, corta las frases por las palabras (whisper), sin gastar cuota.
+
+## Decisiones del dueño (25/11/2026)
+- **Voz más enérgica en todos los videos nuevos.** Narrador por defecto: Gemini **Fenrir** (o **Puck**), actuación "energía alta, ritmo de
+  redes, sonrisa en la voz, remates con fuerza", siempre a velocidad natural (nunca acelerada). Charon (grave, gurú) solo si se pide.
+- **Estilo visual por defecto: "explicado premium"** (`src/tt/MatandoExplicado.tsx`): papel crema + tinta azul, ilustración plana con sombras
+  suaves, diagramas que explican el dolor (cascada, barras, margen), cámara que viaja entre paneles y barra de estado (loop abierto).
+- **Los guiones salen de videos que ya pegaron**, no de cero: ver `referencia/VIRALES-A-RECREAR.md`. Se copia la estructura probada
+  (gancho, ritmo, giro) y se cambia el ángulo a la plata del kiosco con la marca.
