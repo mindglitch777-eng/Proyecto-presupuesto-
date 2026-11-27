@@ -1,65 +1,109 @@
 {
- "firmas": {},
+ "firmas": {
+  "demo": "813644772493dba3",
+  "dif": "2e37dcf1ac8ec895",
+  "rank": "respaldo"
+ },
  "frases": {
   "d1": {
-   "dur": 5.44
+   "quien": "demo",
+   "texto": "Esta es la app para tu kiosco que te dice cuánto ganaste de verdad.",
+   "dur": 4.16
   },
   "d2": {
-   "dur": 4.0
+   "quien": "demo",
+   "texto": "Le hablás veinte segundos, y hace el cierre del día.",
+   "dur": 2.82
   },
   "d3": {
-   "dur": 4.72
+   "quien": "demo",
+   "texto": "Te muestra tu ganancia real, no lo que entró a la caja.",
+   "dur": 2.88
   },
   "d4": {
-   "dur": 4.36
+   "quien": "demo",
+   "texto": "Quién te debe, y le recordás por WhatsApp en un toque.",
+   "dur": 3.0
   },
   "d5": {
-   "dur": 4.36
+   "quien": "demo",
+   "texto": "Qué te aumentó el proveedor, con una foto de la factura.",
+   "dur": 2.54
   },
   "d6": {
-   "dur": 3.28
+   "quien": "demo",
+   "texto": "Y qué mercadería está quieta en el depósito.",
+   "dur": 2.42
   },
   "dm": {
-   "dur": 4.72
+   "quien": "demo",
+   "texto": "Catorce días gratis. Tocá Enviar mensaje y te lo dejo andando hoy.",
+   "dur": 4.22
   },
   "x1": {
-   "dur": 2.56
+   "quien": "dif",
+   "texto": "¿Tu sistema te hace cargar todo?",
+   "dur": 1.9
   },
   "x2": {
-   "dur": 3.64
+   "quien": "dif",
+   "texto": "Cada producto, cada código, cada precio. Horas y horas.",
+   "dur": 4.8
   },
   "x3": {
-   "dur": 4.0
+   "quien": "dif",
+   "texto": "Y al final del día, igual no sabés cuánto ganaste.",
+   "dur": 3.16
   },
   "x4": {
-   "dur": 5.44
+   "quien": "dif",
+   "texto": "En Claro es al revés: le hablás veinte segundos, y te dice tu ganancia.",
+   "dur": 4.72
   },
   "x5": {
+   "quien": "dif",
+   "texto": "Sin cargar productos uno por uno. Sin computadora. Desde el celular.",
    "dur": 4.36
   },
   "xm": {
-   "dur": 4.0
+   "quien": "dif",
+   "texto": "Probalo catorce días gratis. Escribime y te lo dejo andando.",
+   "dur": 3.58
   },
   "r0": {
-   "dur": 6.88
+   "quien": "rank",
+   "texto": "Las cuatro cosas que más plata le hacen perder a tu kiosco. La uno te va a doler.",
+   "dur": 4.16
   },
   "r4": {
-   "dur": 6.16
+   "quien": "rank",
+   "texto": "Cuatro: el precio viejo. Es como pagarle vos al cliente para que se lleve la yerba.",
+   "dur": 4.5
   },
   "r3": {
-   "dur": 4.72
+   "quien": "rank",
+   "texto": "Tres: la mercadería quieta. Es tener tu plata congelada en el estante.",
+   "dur": 4.04
   },
   "r2": {
-   "dur": 5.8
+   "quien": "rank",
+   "texto": "Dos: el fiado. Sos un banco que presta sin interés, y encima no te devuelven.",
+   "dur": 4.6
   },
   "r1": {
-   "dur": 5.8
+   "quien": "rank",
+   "texto": "Y la uno: no saber cuánto ganaste. Es manejar de noche con las luces apagadas.",
+   "dur": 4.44
   },
   "ra": {
-   "dur": 5.8
+   "quien": "rank",
+   "texto": "En Claro te prende las luces: le hablás veinte segundos y te muestra las cuatro.",
+   "dur": 4.08
   },
   "rt": {
-   "dur": 3.28
+   "quien": "rank",
+   "texto": "¿Cuántas te pasan a vos? Comentá el número.",
+   "dur": 2.34
   }
  }
 }
