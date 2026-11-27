@@ -1,59 +1,98 @@
 {
- "firmas": {},
+ "firmas": {
+  "narrador": "91253715f6be85a8",
+  "cliente": "3a0118ad0900dc67"
+ },
  "frases": {
   "p1": {
-   "dur": 1.3
+   "quien": "narrador",
+   "texto": "¿Dónde está tu plata?",
+   "dur": 1.06
   },
   "p2": {
-   "dur": 2.4
+   "quien": "narrador",
+   "texto": "Vendiste todo el día, y en la caja, nada.",
+   "dur": 2.84
   },
   "p3": {
-   "dur": 2.5
+   "quien": "narrador",
+   "texto": "Una parte está acá: en el cuaderno de fiados.",
+   "dur": 2.86
   },
   "p4": {
-   "dur": 2.7
+   "quien": "narrador",
+   "texto": "Otra, acá: mercadería que hace meses no se vende.",
+   "dur": 3.18
   },
   "p5": {
-   "dur": 3.3
+   "quien": "narrador",
+   "texto": "Y otra se la llevó el proveedor: subió, y vos cobrás lo de antes.",
+   "dur": 4.02
   },
   "p6": {
-   "dur": 3.1
+   "quien": "narrador",
+   "texto": "En Claro te muestra las tres. En el celular. Todas las noches.",
+   "dur": 3.68
   },
   "f1": {
-   "dur": 1.8
+   "quien": "narrador",
+   "texto": "La frase más cara de tu kiosco.",
+   "dur": 1.94
   },
   "f2": {
-   "dur": 2.8
+   "quien": "narrador",
+   "texto": "Y vos anotás, y anotás. ¿Y cuándo es después?",
+   "dur": 2.98
   },
   "f3": {
-   "dur": 2.9
+   "quien": "narrador",
+   "texto": "En Claro te dice quién te debe, cuánto, y desde cuándo.",
+   "dur": 3.56
   },
   "f4": {
-   "dur": 3.0
+   "quien": "narrador",
+   "texto": "Y le mandás el recordatorio por WhatsApp. Sin pasar vergüenza.",
+   "dur": 3.34
   },
   "g1": {
-   "dur": 3.6
+   "quien": "narrador",
+   "texto": "Cerraste con ciento veinte mil. ¿Ganaste ciento veinte mil?",
+   "dur": 3.38
   },
   "g2": {
-   "dur": 1.6
+   "quien": "narrador",
+   "texto": "No. Esto es del proveedor.",
+   "dur": 1.38
   },
   "g3": {
-   "dur": 2.8
+   "quien": "narrador",
+   "texto": "Esto, gastos del día. Esto, alquiler y luz.",
+   "dur": 2.9
   },
   "g4": {
-   "dur": 1.2
+   "quien": "narrador",
+   "texto": "Y esto es tuyo.",
+   "dur": 1.32
   },
   "g5": {
-   "dur": 3.5
+   "quien": "narrador",
+   "texto": "Le hablás veinte segundos al celular, y te lo dice. Todas las noches.",
+   "dur": 3.86
   },
   "cm": {
-   "dur": 3.6
+   "quien": "narrador",
+   "texto": "Probalo catorce días gratis. Tocá Enviar mensaje y te lo dejo andando.",
+   "dur": 4.02
   },
   "ct": {
-   "dur": 2.8
+   "quien": "narrador",
+   "texto": "¿Y la tuya dónde está? Escribime, link en el perfil.",
+   "dur": 2.88
   },
   "c1": {
-   "dur": 1.1
+   "quien": "cliente",
+   "texto": "¡Después te lo dejo!",
+   "dur": 1.24
   }
  }
 }
