@@ -11,6 +11,7 @@ cobro solo por Mercado Pago.
   que se pueda hacer desde el navegador del teléfono.
 - Una tarea grande por sesión. Al terminar: commit claro y push. Nunca dejes trabajo sin commitear.
 - Todo el producto, los textos y los videos van en **español argentino con voseo**, sin jerga técnica.
+- **Regla fija: siempre pasar también el link directo de GitHub** de cada archivo entregado: `https://github.com/mindglitch777-eng/Proyecto-presupuesto-/raw/<rama>/videos/salida/<archivo>.mp4`.
 - **Los videos se le entregan como MP4 directo en el chat** (`SendUserFile`), nunca como .zip ni artifacts de Actions
   (le resultan incómodos). Todo va en **la misma rama de trabajo**, sin ramas extra: el workflow arma el video y deja el MP4
   en `videos/salida/` de esa rama; hacé `git pull` y mandalo con `SendUserFile`. `videos.yml` arma solo el video en producción:
