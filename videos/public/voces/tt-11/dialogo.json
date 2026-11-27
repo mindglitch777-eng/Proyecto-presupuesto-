@@ -1,38 +1,62 @@
 {
- "firmas": {},
+ "firmas": {
+  "narrador": "ad95cbbf084f8464"
+ },
  "frases": {
   "z1": {
-   "dur": 2.6
+   "quien": "narrador",
+   "texto": "Vendiste un alfajor a mil. ¿Cuánto ganaste?",
+   "dur": 2.5
   },
   "z2": {
-   "dur": 2.6
+   "quien": "narrador",
+   "texto": "Casi todos dicen trescientos cincuenta. Error.",
+   "dur": 2.72
   },
   "z3": {
-   "dur": 2.2
+   "quien": "narrador",
+   "texto": "Mirá tu billete como si fuera una pizza.",
+   "dur": 1.92
   },
   "z4": {
-   "dur": 2.4
+   "quien": "narrador",
+   "texto": "El proveedor se come más de cinco porciones.",
+   "dur": 2.36
   },
   "z5": {
-   "dur": 1.4
+   "quien": "narrador",
+   "texto": "Alquiler y luz, una.",
+   "dur": 1.38
   },
   "z6": {
-   "dur": 2.2
+   "quien": "narrador",
+   "texto": "La comisión y los gastos, un mordisco.",
+   "dur": 2.1
   },
   "z7": {
-   "dur": 3.0
+   "quien": "narrador",
+   "texto": "Y vos, una porción. Ciento cincuenta y siete pesos.",
+   "dur": 3.22
   },
   "z8": {
-   "dur": 2.6
+   "quien": "narrador",
+   "texto": "Y si encima era fiado, te quedaste sin pizza.",
+   "dur": 2.42
   },
   "z9": {
-   "dur": 2.9
+   "quien": "narrador",
+   "texto": "En Claro te dice tu porción real. Todas las noches.",
+   "dur": 3.1
   },
   "zt": {
-   "dur": 1.8
+   "quien": "narrador",
+   "texto": "¿Cuál dijiste vos? Comentá.",
+   "dur": 1.46
   },
   "zm": {
-   "dur": 3.6
+   "quien": "narrador",
+   "texto": "Escribime por WhatsApp y te lo dejo andando. Catorce días gratis.",
+   "dur": 3.54
   }
  }
 }
