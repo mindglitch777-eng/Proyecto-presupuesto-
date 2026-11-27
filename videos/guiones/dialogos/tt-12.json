@@ -1,0 +1,123 @@
+{
+ "id": "tt-12",
+ "modelo": "gemini-2.5-flash-preview-tts",
+ "personajes": {
+  "demo": {
+   "nombre": "Fenrir",
+   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un conductor de redes de 35 años, enérgico y entrador, que le habla a un kiosquero de igual a igual: mucha energía, sonrisa en la voz, remates con fuerza, ritmo ágil pero a velocidad natural, sin apurarte. Decí cada frase por separado, con un silencio largo de dos segundos entre una y otra donde aparecen los tres puntos (…). No digas los tres puntos. Leé exactamente esto:",
+   "respaldo": "es-AR-TomasNeural"
+  },
+  "dif": {
+   "nombre": "Fenrir",
+   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un conductor de redes de 35 años, enérgico y entrador, que le habla a un kiosquero de igual a igual: mucha energía, sonrisa en la voz, remates con fuerza, ritmo ágil pero a velocidad natural, sin apurarte. Decí cada frase por separado, con un silencio largo de dos segundos entre una y otra donde aparecen los tres puntos (…). No digas los tres puntos. Leé exactamente esto:",
+   "respaldo": "es-AR-TomasNeural"
+  },
+  "rank": {
+   "nombre": "Fenrir",
+   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un conductor de redes de 35 años, enérgico y entrador, que le habla a un kiosquero de igual a igual: mucha energía, sonrisa en la voz, remates con fuerza, ritmo ágil pero a velocidad natural, sin apurarte. Decí cada frase por separado, con un silencio largo de dos segundos entre una y otra donde aparecen los tres puntos (…). No digas los tres puntos. Leé exactamente esto:",
+   "respaldo": "es-AR-TomasNeural"
+  }
+ },
+ "frases": [
+  {
+   "id": "d1",
+   "quien": "demo",
+   "texto": "Esta es la app para tu kiosco que te dice cuánto ganaste de verdad."
+  },
+  {
+   "id": "d2",
+   "quien": "demo",
+   "texto": "Le hablás veinte segundos, y hace el cierre del día."
+  },
+  {
+   "id": "d3",
+   "quien": "demo",
+   "texto": "Te muestra tu ganancia real, no lo que entró a la caja."
+  },
+  {
+   "id": "d4",
+   "quien": "demo",
+   "texto": "Quién te debe, y le recordás por WhatsApp en un toque."
+  },
+  {
+   "id": "d5",
+   "quien": "demo",
+   "texto": "Qué te aumentó el proveedor, con una foto de la factura."
+  },
+  {
+   "id": "d6",
+   "quien": "demo",
+   "texto": "Y qué mercadería está quieta en el depósito."
+  },
+  {
+   "id": "dm",
+   "quien": "demo",
+   "texto": "Catorce días gratis. Tocá Enviar mensaje y te lo dejo andando hoy."
+  },
+  {
+   "id": "x1",
+   "quien": "dif",
+   "texto": "¿Tu sistema te hace cargar todo?"
+  },
+  {
+   "id": "x2",
+   "quien": "dif",
+   "texto": "Cada producto, cada código, cada precio. Horas y horas."
+  },
+  {
+   "id": "x3",
+   "quien": "dif",
+   "texto": "Y al final del día, igual no sabés cuánto ganaste."
+  },
+  {
+   "id": "x4",
+   "quien": "dif",
+   "texto": "En Claro es al revés: le hablás veinte segundos, y te dice tu ganancia."
+  },
+  {
+   "id": "x5",
+   "quien": "dif",
+   "texto": "Sin cargar productos uno por uno. Sin computadora. Desde el celular."
+  },
+  {
+   "id": "xm",
+   "quien": "dif",
+   "texto": "Probalo catorce días gratis. Escribime y te lo dejo andando."
+  },
+  {
+   "id": "r0",
+   "quien": "rank",
+   "texto": "Las cuatro cosas que más plata le hacen perder a tu kiosco. La uno te va a doler."
+  },
+  {
+   "id": "r4",
+   "quien": "rank",
+   "texto": "Cuatro: el precio viejo. Es como pagarle vos al cliente para que se lleve la yerba."
+  },
+  {
+   "id": "r3",
+   "quien": "rank",
+   "texto": "Tres: la mercadería quieta. Es tener tu plata congelada en el estante."
+  },
+  {
+   "id": "r2",
+   "quien": "rank",
+   "texto": "Dos: el fiado. Sos un banco que presta sin interés, y encima no te devuelven."
+  },
+  {
+   "id": "r1",
+   "quien": "rank",
+   "texto": "Y la uno: no saber cuánto ganaste. Es manejar de noche con las luces apagadas."
+  },
+  {
+   "id": "ra",
+   "quien": "rank",
+   "texto": "En Claro te prende las luces: le hablás veinte segundos y te muestra las cuatro."
+  },
+  {
+   "id": "rt",
+   "quien": "rank",
+   "texto": "¿Cuántas te pasan a vos? Comentá el número."
+  }
+ ]
+}

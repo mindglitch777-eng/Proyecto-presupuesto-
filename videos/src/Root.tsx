@@ -38,6 +38,7 @@ import { MatandoKiosco, durTT06 } from "./tt/MatandoKiosco";
 import { MatandoExplicado } from "./tt/MatandoExplicado";
 import { DondeEstaTuPlata, durTT08 } from "./tt/DondeEstaTuPlata";
 import { LaPizza, durTT11 } from "./tt/LaPizza";
+import { Campana, durTT12 } from "./tt/Campana";
 import { MejorCliente, durTT07 } from "./tt/MejorCliente";
 import { Muestrario, DURACION_M, FPS_M } from "./muestrario/Muestrario";
 import { TrabajasParaPagar } from "./piloto/TrabajasParaPagar";
@@ -339,6 +340,33 @@ export const Root: React.FC = () => (
       width={1080}
       height={1920}
       defaultProps={{ guion: "tt-06", gancho: 0, voz: null, palabras: null, ad: true }}
+    />
+    <Composition
+      id="Video-tt-12-Demo"
+      component={Campana}
+      durationInFrames={Math.round(durTT12("demo") * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-12", gancho: 0, voz: null, palabras: null, pieza: "demo" as const }}
+    />
+    <Composition
+      id="Video-tt-12-Dif"
+      component={Campana}
+      durationInFrames={Math.round(durTT12("dif") * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-12", gancho: 0, voz: null, palabras: null, pieza: "dif" as const }}
+    />
+    <Composition
+      id="Video-tt-12-Ranking"
+      component={Campana}
+      durationInFrames={Math.round(durTT12("rank") * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-12", gancho: 0, voz: null, palabras: null, pieza: "rank" as const }}
     />
     <Composition
       id="Video-tt-11-Pizza"

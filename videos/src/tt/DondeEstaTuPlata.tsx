@@ -58,14 +58,14 @@ export const Escena: React.FC<{ t: number; desde: number; hasta: number; childre
 };
 
 /** Celular de frente (sin girar): captura nítida con zoom a un punto y un marco que la señala. */
-export const Telefono: React.FC<{ t: number; desde: number; src?: string; video?: { src: string; desde: number; vel: number }; foco?: [number, number, number]; marco?: [number, number, number, number]; aspecto?: number; fps: number; top?: number }> = ({ t, desde, src, video, foco = [0.5, 0.3, 1], marco, aspecto = 2340 / 1080, fps, top = 86 }) => {
-  const W = 244, H = W * aspecto > 520 ? 520 : W * aspecto, w = H / aspecto;
+export const Telefono: React.FC<{ t: number; desde: number; src?: string; video?: { src: string; desde: number; vel: number }; foco?: [number, number, number]; marco?: [number, number, number, number]; aspecto?: number; fps: number; top?: number; ancho?: number; altoMax?: number; cx?: number }> = ({ t, desde, src, video, foco = [0.5, 0.3, 1], marco, aspecto = 2340 / 1080, fps, top = 86, ancho = 244, altoMax = 520, cx = 180 }) => {
+  const W = ancho, H = W * aspecto > altoMax ? altoMax : W * aspecto, w = H / aspecto;
   const s = sp(t - desde, 1.02, 14, 0.62);
   const kz = ap(t, desde + 0.5, 0.9);
   const z = 1 + (Math.min(foco[2], 1.18) - 1) * kz;
   const ox = (0.5 - foco[0]) * w * (z - 1), oy = (0.5 - foco[1]) * H * (z - 1);
   return (
-    <div style={{ left: 180 - w / 2 - 9, top, width: w + 18, height: H + 18, borderRadius: 30, background: "#101418", boxShadow: "0 24px 50px rgba(27,35,51,.35), inset 0 0 0 2px #2b3138", transform: `translateY(${(1 - s) * 420}px)` }}>
+    <div style={{ left: cx - w / 2 - 9, top, width: w + 18, height: H + 18, borderRadius: 30, background: "#101418", boxShadow: "0 24px 50px rgba(27,35,51,.35), inset 0 0 0 2px #2b3138", transform: `translateY(${(1 - s) * 420}px)` }}>
       <div style={{ left: 9, top: 9, width: w, height: H, borderRadius: 22, overflow: "hidden", background: "#fff" }}>
         <div style={{ inset: 0, transform: `translate(${ox}px, ${oy}px) scale(${z})` }}>
           {src ? <Img src={staticFile(src)} style={{ position: "absolute", left: 0, top: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "50% 0" }} /> : null}
