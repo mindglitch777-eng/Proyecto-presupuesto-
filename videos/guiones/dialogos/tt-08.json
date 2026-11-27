@@ -1,0 +1,36 @@
+{
+ "id": "tt-08",
+ "modelo": "gemini-2.5-flash-preview-tts",
+ "personajes": {
+  "narrador": {
+   "nombre": "Fenrir",
+   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un conductor de redes de 35 años, enérgico y entrador, que le habla a un kiosquero de igual a igual: mucha energía, sonrisa en la voz, remates con fuerza, ritmo ágil pero a velocidad natural, sin apurarte. Decí cada frase por separado, con un silencio largo de dos segundos entre una y otra donde aparecen los tres puntos (…). No digas los tres puntos. Leé exactamente esto:",
+   "respaldo": "es-AR-TomasNeural"
+  },
+  "cliente": {
+   "nombre": "Puck",
+   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un cliente de barrio de 30 años, canchero y caradura, que se va del kiosco sin pagar: tono pícaro y alegre, ritmo rápido. Leé exactamente esto:",
+   "respaldo": "es-AR-TomasNeural"
+  }
+ },
+ "frases": [
+  { "id": "p1", "quien": "narrador", "texto": "¿Dónde está tu plata?" },
+  { "id": "p2", "quien": "narrador", "texto": "Vendiste todo el día, y en la caja, nada." },
+  { "id": "p3", "quien": "narrador", "texto": "Una parte está acá: en el cuaderno de fiados." },
+  { "id": "p4", "quien": "narrador", "texto": "Otra, acá: mercadería que hace meses no se vende." },
+  { "id": "p5", "quien": "narrador", "texto": "Y otra se la llevó el proveedor: subió, y vos cobrás lo de antes." },
+  { "id": "p6", "quien": "narrador", "texto": "En Claro te muestra las tres. En el celular. Todas las noches." },
+  { "id": "f1", "quien": "narrador", "texto": "La frase más cara de tu kiosco." },
+  { "id": "f2", "quien": "narrador", "texto": "Y vos anotás, y anotás. ¿Y cuándo es después?" },
+  { "id": "f3", "quien": "narrador", "texto": "En Claro te dice quién te debe, cuánto, y desde cuándo." },
+  { "id": "f4", "quien": "narrador", "texto": "Y le mandás el recordatorio por WhatsApp. Sin pasar vergüenza." },
+  { "id": "g1", "quien": "narrador", "texto": "Cerraste con ciento veinte mil. ¿Ganaste ciento veinte mil?" },
+  { "id": "g2", "quien": "narrador", "texto": "No. Esto es del proveedor." },
+  { "id": "g3", "quien": "narrador", "texto": "Esto, gastos del día. Esto, alquiler y luz." },
+  { "id": "g4", "quien": "narrador", "texto": "Y esto es tuyo." },
+  { "id": "g5", "quien": "narrador", "texto": "Le hablás veinte segundos al celular, y te lo dice. Todas las noches." },
+  { "id": "cm", "quien": "narrador", "texto": "Probalo catorce días gratis. Tocá Enviar mensaje y te lo dejo andando." },
+  { "id": "ct", "quien": "narrador", "texto": "¿Y la tuya dónde está? Escribime, link en el perfil." },
+  { "id": "c1", "quien": "cliente", "texto": "¡Después te lo dejo!" }
+ ]
+}

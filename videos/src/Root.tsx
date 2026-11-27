@@ -36,6 +36,7 @@ import { JuegoCuantoQueda, DUR_TT04 } from "./tt/JuegoCuantoQueda";
 import { Kiosco2016, DUR_TT05 } from "./tt/Kiosco2016";
 import { MatandoKiosco, durTT06 } from "./tt/MatandoKiosco";
 import { MatandoExplicado } from "./tt/MatandoExplicado";
+import { DondeEstaTuPlata, durTT08 } from "./tt/DondeEstaTuPlata";
 import { MejorCliente, durTT07 } from "./tt/MejorCliente";
 import { Muestrario, DURACION_M, FPS_M } from "./muestrario/Muestrario";
 import { TrabajasParaPagar } from "./piloto/TrabajasParaPagar";
@@ -337,6 +338,42 @@ export const Root: React.FC = () => (
       width={1080}
       height={1920}
       defaultProps={{ guion: "tt-06", gancho: 0, voz: null, palabras: null, ad: true }}
+    />
+    <Composition
+      id="Video-tt-08-Plata"
+      component={DondeEstaTuPlata}
+      durationInFrames={Math.round(durTT08("plata", "meta") * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-08", gancho: 0, voz: null, palabras: null, variante: "plata" as const, canal: "meta" as const }}
+    />
+    <Composition
+      id="Video-tt-08-Plata-TikTok"
+      component={DondeEstaTuPlata}
+      durationInFrames={Math.round(durTT08("plata", "tiktok") * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-08", gancho: 0, voz: null, palabras: null, variante: "plata" as const, canal: "tiktok" as const }}
+    />
+    <Composition
+      id="Video-tt-09-Fiado"
+      component={DondeEstaTuPlata}
+      durationInFrames={Math.round(durTT08("fiado", "meta") * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-08", gancho: 0, voz: null, palabras: null, variante: "fiado" as const, canal: "meta" as const }}
+    />
+    <Composition
+      id="Video-tt-10-Cerraste"
+      component={DondeEstaTuPlata}
+      durationInFrames={Math.round(durTT08("cerraste", "meta") * FPS)}
+      fps={FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{ guion: "tt-08", gancho: 0, voz: null, palabras: null, variante: "cerraste" as const, canal: "meta" as const }}
     />
     <Composition
       id="Video-tt-06b-Explicado"

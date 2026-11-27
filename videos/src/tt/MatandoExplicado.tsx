@@ -15,8 +15,8 @@ import { Pulso, Voces, bips } from "./motion";
 
 const g = guionSchema.parse({ id: "tt-06", titulo: "Estás matando a tu kiosco", duracionSeg: 30, voz: null, ganchos: [{ lineas: ["", "", ""], voz: "" }], lineas: [], sonidos: [] });
 
-const PAPEL = "#F4EEE3", TINTA = "#1B2333", MOSTAZA = "#E9A621", CORAL = "#D9483B", VERDE = "#2F8F5B", CELESTE = "#DCEBEF", GRIS = "#8E98A4";
-const SOMBRA = "0 10px 24px rgba(27,35,51,.14), 0 2px 4px rgba(27,35,51,.08)";
+export const PAPEL = "#F4EEE3", TINTA = "#1B2333", MOSTAZA = "#E9A621", CORAL = "#D9483B", VERDE = "#2F8F5B", CELESTE = "#DCEBEF", GRIS = "#8E98A4";
+export const SOMBRA = "0 10px 24px rgba(27,35,51,.14), 0 2px 4px rgba(27,35,51,.08)";
 
 const TXT: Record<string, string> = {
   a2: "Y lo hacés de 3 formas. Contá cuántas hacés vos.",
@@ -47,7 +47,7 @@ const aparece = (t: number, desde: number, dur = 0.35) => entra((t - desde) / du
 const pesos = (v: number) => "$" + Math.round(v).toLocaleString("es-AR");
 
 // ---------- piezas ----------
-const Titulo: React.FC<{ t: number; desde: number; lineas: [string, string][]; top: number; size?: number; left?: number }> = ({ t, desde, lineas, top, size = 44, left = 24 }) => (
+export const Titulo: React.FC<{ t: number; desde: number; lineas: [string, string][]; top: number; size?: number; left?: number }> = ({ t, desde, lineas, top, size = 44, left = 24 }) => (
   <>
     {lineas.map(([txt, color], i) => {
       const k = aparece(t, desde + i * 0.14, 0.45);
@@ -60,7 +60,7 @@ const Titulo: React.FC<{ t: number; desde: number; lineas: [string, string][]; t
   </>
 );
 
-const Pildora: React.FC<{ t: number; desde: number; texto: string; top: number; left?: number; fondo?: string; color?: string; size?: number; centro?: boolean }> = ({ t, desde, texto, top, left = 24, fondo = TINTA, color = PAPEL, size = 12, centro }) => {
+export const Pildora: React.FC<{ t: number; desde: number; texto: string; top: number; left?: number; fondo?: string; color?: string; size?: number; centro?: boolean }> = ({ t, desde, texto, top, left = 24, fondo = TINTA, color = PAPEL, size = 12, centro }) => {
   if (t < desde) return null;
   const s = sp(t - desde, 1.04, 16, 0.6);
   return (
@@ -70,7 +70,7 @@ const Pildora: React.FC<{ t: number; desde: number; texto: string; top: number; 
   );
 };
 
-const Kiosco: React.FC<{ t: number; cierre: number; vida: number; luz: number; peligro: number }> = ({ t, cierre, vida, luz, peligro }) => {
+export const Kiosco: React.FC<{ t: number; cierre: number; vida: number; luz: number; peligro: number }> = ({ t, cierre, vida, luz, peligro }) => {
   const k = clamp(cierre, 0, 1);
   const gris = 1 - vida;
   const latido = 0.5 + 0.5 * Math.sin(t * 7);
