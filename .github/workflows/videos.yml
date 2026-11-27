@@ -21,7 +21,7 @@ env:
   # Hechos: Video-v8-01-CuantoLeQueda, Video-v8-02-ElCuaderno, Video-v8-03-LaCajaMiente, Video-v8-04-CualTeHacePerder,
   # Video-v8-05-LaTorre, Video-v8-06-RayosX, Video-v8-07-ElTicket, Video-v8-08-CuentaRegresiva, Video-v8-09-MismoKiosco, Video-v8-10-KioscoCerrado,
   # Video-v8-11-PorHora, Video-v8-12-VenderMas, Video-v8-13-Taximetro, Video-v8-14-TrabajasGratis, Video-v9-03-PlataEncerrada.
-  VIDEOS: '[{"nombre":"tt-08-donde-esta-tu-plata-meta","id":"Video-tt-08-Plata","control":"0"},{"nombre":"tt-08-donde-esta-tu-plata-tiktok","id":"Video-tt-08-Plata-TikTok","control":"0"},{"nombre":"tt-09-despues-te-lo-dejo-meta","id":"Video-tt-09-Fiado","control":"0"},{"nombre":"tt-10-cerraste-ganaste-meta","id":"Video-tt-10-Cerraste","control":"0"}]'
+  VIDEOS: '[{"nombre":"tt-11-la-pizza-tiktok","id":"Video-tt-11-Pizza","control":"0"},{"nombre":"tt-11-la-pizza-meta","id":"Video-tt-11-Pizza-Meta","control":"0"}]'
   PARTES: 10
 
 concurrency:

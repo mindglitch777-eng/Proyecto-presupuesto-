@@ -49,7 +49,7 @@ const ap = (t: number, desde: number, dd = 0.35) => entra((t - desde) / dd);
 const pesos = (n: number) => "$" + Math.round(n).toLocaleString("es-AR");
 
 // ---------- piezas ----------
-const Escena: React.FC<{ t: number; desde: number; hasta: number; children: React.ReactNode; zoom?: [number, number] }> = ({ t, desde, hasta, children, zoom = [1.04, 1] }) => {
+export const Escena: React.FC<{ t: number; desde: number; hasta: number; children: React.ReactNode; zoom?: [number, number] }> = ({ t, desde, hasta, children, zoom = [1.04, 1] }) => {
   if (t < desde - 0.01 || t >= hasta + 0.3) return null;
   const kin = clamp((t - desde) / 0.32, 0, 1), kout = clamp((t - hasta) / 0.3, 0, 1);
   const z = zoom[0] + (zoom[1] - zoom[0]) * clamp((t - desde) / Math.max(0.5, hasta - desde), 0, 1);
@@ -58,7 +58,7 @@ const Escena: React.FC<{ t: number; desde: number; hasta: number; children: Reac
 };
 
 /** Celular de frente (sin girar): captura nítida con zoom a un punto y un marco que la señala. */
-const Telefono: React.FC<{ t: number; desde: number; src?: string; video?: { src: string; desde: number; vel: number }; foco?: [number, number, number]; marco?: [number, number, number, number]; aspecto?: number; fps: number; top?: number }> = ({ t, desde, src, video, foco = [0.5, 0.3, 1], marco, aspecto = 2340 / 1080, fps, top = 86 }) => {
+export const Telefono: React.FC<{ t: number; desde: number; src?: string; video?: { src: string; desde: number; vel: number }; foco?: [number, number, number]; marco?: [number, number, number, number]; aspecto?: number; fps: number; top?: number }> = ({ t, desde, src, video, foco = [0.5, 0.3, 1], marco, aspecto = 2340 / 1080, fps, top = 86 }) => {
   const W = 244, H = W * aspecto > 520 ? 520 : W * aspecto, w = H / aspecto;
   const s = sp(t - desde, 1.02, 14, 0.62);
   const kz = ap(t, desde + 0.5, 0.9);
@@ -210,7 +210,7 @@ const Pilas: React.FC<{ t: number; T: Record<string, number>; d: (k: string) => 
   );
 };
 
-const Burbuja: React.FC<{ t: number; desde: number; texto: string; left: number; top: number; cola?: "izq" | "der"; color?: string; size?: number }> = ({ t, desde, texto, left, top, cola = "izq", color = "#fff", size = 22 }) => {
+export const Burbuja: React.FC<{ t: number; desde: number; texto: string; left: number; top: number; cola?: "izq" | "der"; color?: string; size?: number }> = ({ t, desde, texto, left, top, cola = "izq", color = "#fff", size = 22 }) => {
   if (t < desde) return null;
   const s = sp(t - desde, 1.1, 17, 0.5);
   return (

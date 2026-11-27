@@ -1,0 +1,68 @@
+{
+ "id": "tt-11",
+ "modelo": "gemini-2.5-flash-preview-tts",
+ "personajes": {
+  "narrador": {
+   "nombre": "Fenrir",
+   "actuacion": "Hablá en español rioplatense de Argentina, con voseo y acento porteño, como un conductor de redes de 35 años, enérgico y entrador, que le habla a un kiosquero de igual a igual: mucha energía, sonrisa en la voz, remates con fuerza, ritmo ágil pero a velocidad natural, sin apurarte. Decí cada frase por separado, con un silencio largo de dos segundos entre una y otra donde aparecen los tres puntos (…). No digas los tres puntos. Leé exactamente esto:",
+   "respaldo": "es-AR-TomasNeural"
+  }
+ },
+ "frases": [
+  {
+   "id": "z1",
+   "quien": "narrador",
+   "texto": "Vendiste un alfajor a mil. ¿Cuánto ganaste?"
+  },
+  {
+   "id": "z2",
+   "quien": "narrador",
+   "texto": "Casi todos dicen trescientos cincuenta. Error."
+  },
+  {
+   "id": "z3",
+   "quien": "narrador",
+   "texto": "Mirá tu billete como si fuera una pizza."
+  },
+  {
+   "id": "z4",
+   "quien": "narrador",
+   "texto": "El proveedor se come más de cinco porciones."
+  },
+  {
+   "id": "z5",
+   "quien": "narrador",
+   "texto": "Alquiler y luz, una."
+  },
+  {
+   "id": "z6",
+   "quien": "narrador",
+   "texto": "La comisión y los gastos, un mordisco."
+  },
+  {
+   "id": "z7",
+   "quien": "narrador",
+   "texto": "Y vos, una porción. Ciento cincuenta y siete pesos."
+  },
+  {
+   "id": "z8",
+   "quien": "narrador",
+   "texto": "Y si encima era fiado, te quedaste sin pizza."
+  },
+  {
+   "id": "z9",
+   "quien": "narrador",
+   "texto": "En Claro te dice tu porción real. Todas las noches."
+  },
+  {
+   "id": "zt",
+   "quien": "narrador",
+   "texto": "¿Cuál dijiste vos? Comentá."
+  },
+  {
+   "id": "zm",
+   "quien": "narrador",
+   "texto": "Escribime por WhatsApp y te lo dejo andando. Catorce días gratis."
+  }
+ ]
+}
